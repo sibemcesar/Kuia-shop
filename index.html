@@ -2,71 +2,380 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Kuia+ Shop — Login</title>
+  <title>Kuia+ Shop -- Login</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+    
     body {
-      margin:0; font-family:Inter, sans-serif; color:#e5e7eb;
-      display:flex; justify-content:center; align-items:center; height:100vh;
-      background:linear-gradient(135deg,#0f172a,#1e293b);
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      color: #e5e7eb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+      background-attachment: fixed;
+      padding: 20px;
     }
-    .card {
-      width:360px; background:rgba(255,255,255,.08); border-radius:16px;
-      padding:20px; backdrop-filter:blur(12px);
-      box-shadow:0 20px 40px rgba(0,0,0,.35);
-      animation:fadeIn .5s ease both;
+
+    .login-container {
+      width: 100%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 24px;
+      padding: 32px;
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+      animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    @keyframes fadeIn {from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:translateY(0)}}
-    h2{text-align:center;margin:0 0 12px}
-    input,button {
-      width:100%; padding:10px; margin:6px 0; border-radius:10px; border:none;
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
-    input {
-      background:rgba(255,255,255,.1); color:#fff; border:1px solid rgba(255,255,255,.2);
+
+    .logo {
+      text-align: center;
+      margin-bottom: 32px;
     }
-    button {
-      background:linear-gradient(135deg,#2563eb,#22d3ee); color:#fff; font-weight:600;
-      cursor:pointer; transition:transform .1s, filter .2s;
+
+    .logo h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #3b82f6, #22d3ee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    button:hover{filter:brightness(1.1); transform:translateY(-1px)}
-    #userInfo{text-align:center; margin-top:15px; display:none}
-    #userAvatar{width:60px;height:60px;border-radius:50%}
+
+    .logo p {
+      margin: 4px 0 0 0;
+      font-size: 14px;
+      color: #9ca3af;
+      font-weight: 300;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #d1d5db;
+    }
+
+    .input-container {
+      position: relative;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-size: 16px;
+      font-family: inherit;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      border-color: #3b82f6;
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    input::placeholder {
+      color: #9ca3af;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      margin-bottom: 12px;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: #e5e7eb;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      margin-bottom: 8px;
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-1px);
+    }
+
+    .btn-google {
+      background: #fff;
+      color: #374151;
+    }
+
+    .btn-google:hover:not(:disabled) {
+      background: #f9fafb;
+      transform: translateY(-1px);
+    }
+
+    .btn-facebook {
+      background: #1877f2;
+      color: white;
+    }
+
+    .btn-facebook:hover:not(:disabled) {
+      background: #166fe5;
+      transform: translateY(-1px);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 24px 0;
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .divider span {
+      padding: 0 16px;
+    }
+
+    .user-profile {
+      display: none;
+      text-align: center;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .user-profile.show {
+      display: block;
+    }
+
+    .avatar-container {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+
+    .user-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid rgba(255, 255, 255, 0.2);
+      object-fit: cover;
+    }
+
+    .online-indicator {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 20px;
+      height: 20px;
+      background: #10b981;
+      border: 3px solid rgba(15, 23, 42, 0.8);
+      border-radius: 50%;
+    }
+
+    .user-name {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 0 0 4px 0;
+      color: #f3f4f6;
+    }
+
+    .user-email {
+      font-size: 14px;
+      color: #9ca3af;
+      margin: 0 0 20px 0;
+    }
+
+    .loading {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
     .toast {
-      position:fixed; bottom:20px; left:50%; transform:translateX(-50%) translateY(30px);
-      background:rgba(16,185,129,.95); color:#fff; padding:10px 14px; border-radius:10px;
-      opacity:0; transition:opacity .3s, transform .3s; z-index:50;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(16, 185, 129, 0.95);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 500;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
-    .toast.error{background:rgba(239,68,68,.95)}
-    .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+
+    .toast.error {
+      background: rgba(239, 68, 68, 0.95);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 24px;
+        margin: 20px;
+      }
+      
+      .logo h1 {
+        font-size: 24px;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h2>Login Kuia+ Shop</h2>
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Senha">
-    <button id="emailLogin">Entrar com Email</button>
-    <button id="emailSignup">Criar Conta com Email</button>
-    <hr>
-    <button id="googleLogin">Entrar com Google</button>
-    <button id="facebookLogin">Entrar com Facebook</button>
-    <button id="anonLogin">Entrar como Anônimo</button>
-    <div id="userInfo">
-      <img id="userAvatar" src="" alt="Avatar">
-      <p id="userName"></p>
-      <p id="userEmail"></p>
-      <button id="logout">Sair</button>
+  <div class="login-container">
+    <div class="logo">
+      <h1>Kuia+ Shop</h1>
+      <p>Faça login para continuar</p>
+    </div>
+
+    <div id="loginForm">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="seu@email.com" />
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <input type="password" id="password" placeholder="••••••••" />
+      </div>
+
+      <button class="btn btn-primary" id="emailLogin">
+        <span class="btn-text">Entrar com Email</span>
+        <div class="loading" style="display: none;"></div>
+      </button>
+
+      <button class="btn btn-secondary" id="emailSignup">
+        Criar Conta com Email
+      </button>
+
+      <div class="divider">
+        <span>ou continue com</span>
+      </div>
+
+      <button class="btn btn-google" id="googleLogin">
+        <svg width="18" height="18" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+        </svg>
+        Google
+      </button>
+
+      <button class="btn btn-facebook" id="facebookLogin">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+        </svg>
+        Facebook
+      </button>
+
+      <button class="btn btn-secondary" id="anonLogin">
+        Entrar como Visitante
+      </button>
+    </div>
+
+    <div class="user-profile" id="userProfile">
+      <div class="avatar-container">
+        <img class="user-avatar" id="userAvatar" src="" alt="Avatar do usuário" />
+        <div class="online-indicator"></div>
+      </div>
+      <h3 class="user-name" id="userName"></h3>
+      <p class="user-email" id="userEmail"></p>
+      <button class="btn btn-secondary" id="logout">
+        Sair da Conta
+      </button>
     </div>
   </div>
+
   <div id="toast" class="toast"></div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import {
       getAuth, GoogleAuthProvider, FacebookAuthProvider,
-      signInWithPopup, signInWithRedirect, getRedirectResult,
-      signInAnonymously, signInWithEmailAndPassword, createUserWithEmailAndPassword,
+      signInWithPopup, signInAnonymously, 
+      signInWithEmailAndPassword, createUserWithEmailAndPassword,
       signOut, onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
@@ -82,66 +391,238 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    
+    // Configuração dos provedores
     const googleProvider = new GoogleAuthProvider();
+    googleProvider.addScope('profile');
+    googleProvider.addScope('email');
+    
     const facebookProvider = new FacebookAuthProvider();
     facebookProvider.addScope('public_profile');
     facebookProvider.addScope('email');
 
+    // Elementos DOM
     const toastEl = document.getElementById("toast");
-    function toast(msg,type="ok"){
-      toastEl.textContent=msg;
-      toastEl.classList.toggle("error",type==="error");
+    const loginForm = document.getElementById("loginForm");
+    const userProfile = document.getElementById("userProfile");
+    const userName = document.getElementById("userName");
+    const userEmail = document.getElementById("userEmail");
+    const userAvatar = document.getElementById("userAvatar");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+
+    // Função para mostrar toast
+    function showToast(message, type = "success") {
+      toastEl.textContent = message;
+      toastEl.classList.toggle("error", type === "error");
       toastEl.classList.add("show");
-      clearTimeout(toast._t);
-      toast._t=setTimeout(()=>toastEl.classList.remove("show"),3000);
+      
+      clearTimeout(showToast._timeout);
+      showToast._timeout = setTimeout(() => {
+        toastEl.classList.remove("show");
+      }, 4000);
     }
 
-    const userInfo=document.getElementById("userInfo");
-    const userName=document.getElementById("userName");
-    const userEmail=document.getElementById("userEmail");
-    const userAvatar=document.getElementById("userAvatar");
-
-    // Email login/signup
-    document.getElementById("emailLogin").onclick=async()=>{
-      try{await signInWithEmailAndPassword(auth,email.value,password.value);toast("Login realizado!")}
-      catch(e){toast(e.message,"error")}
-    };
-    document.getElementById("emailSignup").onclick=async()=>{
-      try{await createUserWithEmailAndPassword(auth,email.value,password.value);toast("Conta criada!")}
-      catch(e){toast(e.message,"error")}
-    };
-
-    // Google popup
-    document.getElementById("googleLogin").onclick=()=>signInWithPopup(auth,googleProvider).catch(e=>toast(e.message,"error"));
-
-    // Facebook redirect
-    document.getElementById("facebookLogin").onclick=()=>signInWithRedirect(auth,facebookProvider);
-
-    // Captura resultado do redirect
-    let fbProfile=null;
-    getRedirectResult(auth).then(res=>{
-      if(res?.user){
-        fbProfile=res.additionalUserInfo?.profile;
-        toast("Login Facebook OK!");
+    // Função para mostrar loading em botão
+    function setButtonLoading(button, loading) {
+      const text = button.querySelector('.btn-text') || button;
+      const loader = button.querySelector('.loading');
+      
+      if (loading) {
+        button.disabled = true;
+        if (loader) loader.style.display = 'block';
+        if (text !== button) text.textContent = 'Carregando...';
+      } else {
+        button.disabled = false;
+        if (loader) loader.style.display = 'none';
+        if (text !== button) text.textContent = 'Entrar com Email';
       }
-    }).catch(e=>toast(e.message,"error"));
+    }
 
-    // Anônimo
-    document.getElementById("anonLogin").onclick=()=>signInAnonymously(auth).catch(e=>toast(e.message,"error"));
+    // Função para obter mensagem de erro em português
+    function getErrorMessage(error) {
+      const errorMessages = {
+        'auth/user-not-found': 'Usuário não encontrado',
+        'auth/wrong-password': 'Senha incorreta',
+        'auth/email-already-in-use': 'Este email já está em uso',
+        'auth/weak-password': 'A senha deve ter pelo menos 6 caracteres',
+        'auth/invalid-email': 'Email inválido',
+        'auth/popup-closed-by-user': 'Login cancelado pelo usuário',
+        'auth/cancelled-popup-request': 'Login cancelado',
+        'auth/popup-blocked': 'Popup bloqueado pelo navegador',
+        'auth/invalid-credential': 'Credenciais inválidas',
+        'auth/too-many-requests': 'Muitas tentativas. Tente novamente mais tarde'
+      };
+      
+      return errorMessages[error.code] || error.message || 'Erro desconhecido';
+    }
+
+    // Login com email
+    document.getElementById("emailLogin").addEventListener('click', async () => {
+      const button = document.getElementById("emailLogin");
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+
+      if (!email || !password) {
+        showToast('Preencha email e senha', 'error');
+        return;
+      }
+
+      setButtonLoading(button, true);
+      
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        showToast('Login realizado com sucesso!');
+      } catch (error) {
+        showToast(getErrorMessage(error), 'error');
+      } finally {
+        setButtonLoading(button, false);
+      }
+    });
+
+    // Criar conta com email
+    document.getElementById("emailSignup").addEventListener('click', async () => {
+      const button = document.getElementById("emailSignup");
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+
+      if (!email || !password) {
+        showToast('Preencha email e senha', 'error');
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = 'Criando conta...';
+      
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        showToast('Conta criada com sucesso!');
+      } catch (error) {
+        showToast(getErrorMessage(error), 'error');
+      } finally {
+        button.disabled = false;
+        button.textContent = 'Criar Conta com Email';
+      }
+    });
+
+    // Login com Google
+    document.getElementById("googleLogin").addEventListener('click', async () => {
+      const button = document.getElementById("googleLogin");
+      button.disabled = true;
+      button.textContent = 'Conectando...';
+      
+      try {
+        const result = await signInWithPopup(auth, googleProvider);
+        showToast('Login com Google realizado!');
+      } catch (error) {
+        showToast(getErrorMessage(error), 'error');
+      } finally {
+        button.disabled = false;
+        button.innerHTML = `
+          <svg width="18" height="18" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+          </svg>
+          Google
+        `;
+      }
+    });
+
+    // Login com Facebook
+    document.getElementById("facebookLogin").addEventListener('click', async () => {
+      const button = document.getElementById("facebookLogin");
+      button.disabled = true;
+      button.textContent = 'Conectando...';
+      
+      try {
+        const result = await signInWithPopup(auth, facebookProvider);
+        showToast('Login com Facebook realizado!');
+      } catch (error) {
+        showToast(getErrorMessage(error), 'error');
+      } finally {
+        button.disabled = false;
+        button.innerHTML = `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+          Facebook
+        `;
+      }
+    });
+
+    // Login anônimo
+    document.getElementById("anonLogin").addEventListener('click', async () => {
+      const button = document.getElementById("anonLogin");
+      button.disabled = true;
+      button.textContent = 'Conectando...';
+      
+      try {
+        await signInAnonymously(auth);
+        showToast('Entrada como visitante realizada!');
+      } catch (error) {
+        showToast(getErrorMessage(error), 'error');
+      } finally {
+        button.disabled = false;
+        button.textContent = 'Entrar como Visitante';
+      }
+    });
 
     // Logout
-    document.getElementById("logout").onclick=()=>signOut(auth);
-
-    // Atualiza UI
-    onAuthStateChanged(auth,user=>{
-      if(user){
-        userInfo.style.display="block";
-        userName.textContent=user.displayName||fbProfile?.name||"Usuário";
-        userEmail.textContent=user.email||fbProfile?.email||"";
-        userAvatar.src=user.photoURL||(fbProfile?.id?`https://graph.facebook.com/${fbProfile.id}/picture?type=large`:"https://via.placeholder.com/60");
-      }else{
-        userInfo.style.display="none";
+    document.getElementById("logout").addEventListener('click', async () => {
+      try {
+        await signOut(auth);
+        showToast('Logout realizado!');
+      } catch (error) {
+        showToast('Erro ao fazer logout', 'error');
       }
+    });
+
+    // Monitorar estado da autenticação
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Usuário logado
+        loginForm.style.display = 'none';
+        userProfile.classList.add('show');
+        
+        // Preencher informações do usuário
+        userName.textContent = user.displayName || 'Usuário';
+        userEmail.textContent = user.email || (user.isAnonymous ? 'Visitante' : 'Email não disponível');
+        
+        // Avatar do usuário
+        if (user.photoURL) {
+          userAvatar.src = user.photoURL;
+        } else if (user.providerData.length > 0) {
+          // Tentar obter foto do provedor
+          const provider = user.providerData[0];
+          if (provider.providerId === 'facebook.com') {
+            userAvatar.src = `https://graph.facebook.com/${provider.uid}/picture?type=large`;
+          } else {
+            userAvatar.src = 'https://via.placeholder.com/80/4F46E5/FFFFFF?text=' + (user.displayName ? user.displayName.charAt(0).toUpperCase() : 'U');
+          }
+        } else {
+          userAvatar.src = 'https://via.placeholder.com/80/4F46E5/FFFFFF?text=' + (user.displayName ? user.displayName.charAt(0).toUpperCase() : 'U');
+        }
+        
+        userAvatar.onerror = () => {
+          userAvatar.src = 'https://via.placeholder.com/80/4F46E5/FFFFFF?text=' + (user.displayName ? user.displayName.charAt(0).toUpperCase() : 'U');
+        };
+        
+      } else {
+        // Usuário não logado
+        loginForm.style.display = 'block';
+        userProfile.classList.remove('show');
+      }
+    });
+
+    // Enter para fazer login
+    emailInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') passwordInput.focus();
+    });
+    
+    passwordInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') document.getElementById('emailLogin').click();
     });
   </script>
 </body>
