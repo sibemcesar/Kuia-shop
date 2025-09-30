@@ -82,10 +82,6 @@
       color: #d1d5db;
     }
 
-    .input-container {
-      position: relative;
-    }
-
     input[type="email"],
     input[type="password"] {
       width: 100%;
@@ -285,6 +281,21 @@
       transform: translateX(-50%) translateY(0);
     }
 
+    .debug-info {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 20px;
+      font-size: 12px;
+      font-family: monospace;
+      color: #10b981;
+      display: none;
+    }
+
+    .debug-info.show {
+      display: block;
+    }
+
     @media (max-width: 480px) {
       .login-container {
         padding: 24px;
@@ -353,6 +364,10 @@
       <button class="btn btn-secondary" id="anonLogin">
         Entrar como Visitante
       </button>
+
+      <button class="btn btn-secondary" id="debugBtn" style="font-size: 12px; margin-top: 10px;">
+        🔧 Mostrar Debug
+      </button>
     </div>
 
     <div class="user-profile" id="userProfile">
@@ -365,6 +380,11 @@
       <button class="btn btn-secondary" id="logout">
         Sair da Conta
       </button>
+    </div>
+
+    <div class="debug-info" id="debugInfo">
+      <div><strong>Debug Info:</strong></div>
+      <div id="debugContent">Clique em testar providers...</div>
     </div>
   </div>
 
@@ -392,14 +412,16 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     
-    // Configuração dos provedores
+    // Configuração dos provedores - versão mais robusta
     const googleProvider = new GoogleAuthProvider();
-    googleProvider.addScope('profile');
-    googleProvider.addScope('email');
+    googleProvider.setCustomParameters({
+      prompt: 'select_account'
+    });
     
     const facebookProvider = new FacebookAuthProvider();
-    facebookProvider.addScope('public_profile');
-    facebookProvider.addScope('email');
+    facebookProvider.setCustomParameters({
+      display: 'popup'
+    });
 
     // Elementos DOM
     const toastEl = document.getElementById("toast");
@@ -410,9 +432,34 @@
     const userAvatar = document.getElementById("userAvatar");
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
+    const debugInfo = document.getElementById("debugInfo");
+    const debugContent = document.getElementById("debugContent");
+
+    // Função para debug
+    function addDebugLog(message) {
+      console.log('🔧 DEBUG:', message);
+      const time = new Date().toLocaleTimeString();
+      debugContent.innerHTML += `<br>[${time}] ${message}`;
+    }
+
+    // Toggle debug
+    document.getElementById('debugBtn').onclick = () => {
+      debugInfo.classList.toggle('show');
+      addDebugLog('Debug ativado');
+      testProviders();
+    };
+
+    // Testar providers
+    function testProviders() {
+      addDebugLog(`Auth Domain: ${auth.config.authDomain}`);
+      addDebugLog(`Google Provider: ${googleProvider ? 'OK' : 'ERRO'}`);
+      addDebugLog(`Facebook Provider: ${facebookProvider ? 'OK' : 'ERRO'}`);
+      addDebugLog(`URL atual: ${window.location.href}`);
+    }
 
     // Função para mostrar toast
     function showToast(message, type = "success") {
+      console.log(`📱 TOAST [${type}]:`, message);
       toastEl.textContent = message;
       toastEl.classList.toggle("error", type === "error");
       toastEl.classList.add("show");
@@ -454,18 +501,51 @@
         'auth/too-many-requests': 'Muitas tentativas. Tente novamente mais tarde',
         'auth/app-not-authorized': 'App não autorizado. Configure no Facebook Developer Console',
         'auth/unauthorized-domain': 'Domínio não autorizado. Adicione este domínio no Facebook',
-        'auth/operation-not-allowed': 'Login com Facebook não está habilitado no Firebase',
+        'auth/operation-not-allowed': 'Login social não está habilitado no Firebase Console',
         'auth/account-exists-with-different-credential': 'Conta já existe com credencial diferente'
       };
       
       // Log detalhado do erro para debug
-      console.error('Erro completo:', {
+      console.error('❌ ERRO COMPLETO:', {
         code: error.code,
         message: error.message,
-        customData: error.customData
+        customData: error.customData,
+        stack: error.stack
       });
       
+      addDebugLog(`ERRO: ${error.code} - ${error.message}`);
+      
       return errorMessages[error.code] || `${error.code}: ${error.message}` || 'Erro desconhecido';
+    }
+
+    // Função para tentar login híbrido (popup primeiro, redirect como fallback)
+    async function tryLogin(provider, providerName) {
+      addDebugLog(`Tentando login com ${providerName}...`);
+      
+      try {
+        // Primeira tentativa: popup
+        addDebugLog(`Tentativa 1: Popup ${providerName}`);
+        const result = await signInWithPopup(auth, provider);
+        addDebugLog(`✅ Popup ${providerName} sucesso!`);
+        showToast(`Login com ${providerName} realizado!`);
+        return result;
+      } catch (error) {
+        addDebugLog(`❌ Popup falhou: ${error.code}`);
+        
+        if (error.code === 'auth/popup-blocked' || error.code === 'auth/popup-closed-by-user') {
+          try {
+            // Segunda tentativa: redirect
+            addDebugLog(`Tentativa 2: Redirect ${providerName}`);
+            showToast(`Redirecionando para ${providerName}...`);
+            await signInWithRedirect(auth, provider);
+          } catch (redirectError) {
+            addDebugLog(`❌ Redirect falhou: ${redirectError.code}`);
+            throw redirectError;
+          }
+        } else {
+          throw error;
+        }
+      }
     }
 
     // Login com email
@@ -480,10 +560,12 @@
       }
 
       setButtonLoading(button, true);
+      addDebugLog(`Tentando login com email: ${email}`);
       
       try {
         await signInWithEmailAndPassword(auth, email, password);
         showToast('Login realizado com sucesso!');
+        addDebugLog('✅ Login email sucesso');
       } catch (error) {
         showToast(getErrorMessage(error), 'error');
       } finally {
@@ -504,10 +586,12 @@
 
       button.disabled = true;
       button.textContent = 'Criando conta...';
+      addDebugLog(`Criando conta: ${email}`);
       
       try {
         await createUserWithEmailAndPassword(auth, email, password);
         showToast('Conta criada com sucesso!');
+        addDebugLog('✅ Conta criada com sucesso');
       } catch (error) {
         showToast(getErrorMessage(error), 'error');
       } finally {
@@ -516,82 +600,17 @@
       }
     });
 
-    // Função para detectar popup bloqueado
-    function isPopupBlocked() {
-      const popup = window.open('', '_blank', 'width=1,height=1');
-      if (!popup || popup.closed || typeof popup.closed == 'undefined') {
-        return true;
-      }
-      popup.close();
-      return false;
-    }
-
-    // Função para mostrar modal de instruções
-    function showPopupBlockedModal() {
-      const modal = document.createElement('div');
-      modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
-      modal.innerHTML = `
-        <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 max-w-md w-full">
-          <div class="text-center">
-            <div class="w-16 h-16 bg-yellow-100 dark:bg-yellow-900 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg class="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-              </svg>
-            </div>
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Popup Bloqueado</h3>
-            <p class="text-gray-600 dark:text-gray-300 mb-4">
-              Seu navegador está bloqueando popups. Para fazer login, você precisa:
-            </p>
-            <div class="text-left space-y-2 mb-6">
-              <div class="flex items-center">
-                <span class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm mr-3">1</span>
-                <span class="text-gray-700 dark:text-gray-300">Clique no ícone de escudo/popup na barra de endereço</span>
-              </div>
-              <div class="flex items-center">
-                <span class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm mr-3">2</span>
-                <span class="text-gray-700 dark:text-gray-300">Selecione "Sempre permitir popups"</span>
-              </div>
-              <div class="flex items-center">
-                <span class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm mr-3">3</span>
-                <span class="text-gray-700 dark:text-gray-300">Tente fazer login novamente</span>
-              </div>
-            </div>
-            <button onclick="this.closest('.fixed').remove()" 
-                    class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors">
-              Entendi
-            </button>
-          </div>
-        </div>
-      `;
-      document.body.appendChild(modal);
-    }
-
-    // Função para fazer login com redirecionamento (sem popup)
-    async function loginWithRedirect(provider, providerName) {
-      try {
-        // Salvar qual provedor está sendo usado
-        localStorage.setItem('pendingProvider', providerName);
-        showToast(`Redirecionando para ${providerName}...`);
-        
-        // Redirecionar para o provedor
-        await signInWithRedirect(auth, provider);
-      } catch (error) {
-        console.log(`Erro ${providerName}:`, error.code, error.message);
-        localStorage.removeItem('pendingProvider');
-        showToast(getErrorMessage(error), 'error');
-      }
-    }
-
     // Login com Google
     document.getElementById("googleLogin").addEventListener('click', async () => {
       const button = document.getElementById("googleLogin");
       button.disabled = true;
-      button.textContent = 'Redirecionando...';
+      button.textContent = 'Conectando...';
       
-      await loginWithRedirect(googleProvider, 'Google');
-      
-      // Resetar botão caso falhe
-      setTimeout(() => {
+      try {
+        await tryLogin(googleProvider, 'Google');
+      } catch (error) {
+        showToast(getErrorMessage(error), 'error');
+      } finally {
         button.disabled = false;
         button.innerHTML = `
           <svg width="18" height="18" viewBox="0 0 24 24">
@@ -602,19 +621,20 @@
           </svg>
           Google
         `;
-      }, 3000);
+      }
     });
 
     // Login com Facebook
     document.getElementById("facebookLogin").addEventListener('click', async () => {
       const button = document.getElementById("facebookLogin");
       button.disabled = true;
-      button.textContent = 'Redirecionando...';
+      button.textContent = 'Conectando...';
       
-      await loginWithRedirect(facebookProvider, 'Facebook');
-      
-      // Resetar botão caso falhe
-      setTimeout(() => {
+      try {
+        await tryLogin(facebookProvider, 'Facebook');
+      } catch (error) {
+        showToast(getErrorMessage(error), 'error');
+      } finally {
         button.disabled = false;
         button.innerHTML = `
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -622,7 +642,7 @@
           </svg>
           Facebook
         `;
-      }, 3000);
+      }
     });
 
     // Login anônimo
@@ -630,10 +650,12 @@
       const button = document.getElementById("anonLogin");
       button.disabled = true;
       button.textContent = 'Conectando...';
+      addDebugLog('Tentando login anônimo...');
       
       try {
         await signInAnonymously(auth);
         showToast('Entrada como visitante realizada!');
+        addDebugLog('✅ Login anônimo sucesso');
       } catch (error) {
         showToast(getErrorMessage(error), 'error');
       } finally {
@@ -647,24 +669,27 @@
       try {
         await signOut(auth);
         showToast('Logout realizado!');
+        addDebugLog('✅ Logout realizado');
       } catch (error) {
         showToast('Erro ao fazer logout', 'error');
+        addDebugLog(`❌ Erro logout: ${error.message}`);
       }
     });
 
     // Verificar resultado do redirecionamento quando a página carrega
     window.addEventListener('load', async () => {
+      addDebugLog('Página carregada, verificando redirect...');
       try {
         const result = await getRedirectResult(auth);
         if (result && result.user) {
-          const pendingProvider = localStorage.getItem('pendingProvider');
-          localStorage.removeItem('pendingProvider');
-          showToast(`Login com ${pendingProvider || 'rede social'} realizado com sucesso!`);
+          addDebugLog('✅ Redirect result encontrado');
+          showToast('Login realizado com sucesso!');
+        } else {
+          addDebugLog('Nenhum redirect result');
         }
       } catch (error) {
         console.log('Erro no redirect result:', error.code, error.message);
-        const pendingProvider = localStorage.getItem('pendingProvider');
-        localStorage.removeItem('pendingProvider');
+        addDebugLog(`❌ Erro redirect: ${error.code}`);
         showToast(getErrorMessage(error), 'error');
       }
     });
@@ -672,6 +697,7 @@
     // Monitorar estado da autenticação
     onAuthStateChanged(auth, (user) => {
       if (user) {
+        addDebugLog(`✅ Usuário logado: ${user.email || 'anônimo'}`);
         // Usuário logado
         loginForm.style.display = 'none';
         userProfile.classList.add('show');
@@ -700,6 +726,7 @@
         };
         
       } else {
+        addDebugLog('❌ Usuário não logado');
         // Usuário não logado
         loginForm.style.display = 'block';
         userProfile.classList.remove('show');
@@ -714,6 +741,9 @@
     passwordInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') document.getElementById('emailLogin').click();
     });
+
+    // Log inicial
+    addDebugLog('App inicializado');
   </script>
 </body>
 </html>
