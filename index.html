@@ -374,8 +374,8 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import {
       getAuth, GoogleAuthProvider, FacebookAuthProvider,
-      signInWithPopup, signInAnonymously, 
-      signInWithEmailAndPassword, createUserWithEmailAndPassword,
+      signInWithPopup, signInWithRedirect, getRedirectResult,
+      signInAnonymously, signInWithEmailAndPassword, createUserWithEmailAndPassword,
       signOut, onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
@@ -566,33 +566,32 @@
       document.body.appendChild(modal);
     }
 
+    // Função para fazer login com redirecionamento (sem popup)
+    async function loginWithRedirect(provider, providerName) {
+      try {
+        // Salvar qual provedor está sendo usado
+        localStorage.setItem('pendingProvider', providerName);
+        showToast(`Redirecionando para ${providerName}...`);
+        
+        // Redirecionar para o provedor
+        await signInWithRedirect(auth, provider);
+      } catch (error) {
+        console.log(`Erro ${providerName}:`, error.code, error.message);
+        localStorage.removeItem('pendingProvider');
+        showToast(getErrorMessage(error), 'error');
+      }
+    }
+
     // Login com Google
     document.getElementById("googleLogin").addEventListener('click', async () => {
       const button = document.getElementById("googleLogin");
-      
-      // Verificar se popups estão bloqueados
-      if (isPopupBlocked()) {
-        showPopupBlockedModal();
-        return;
-      }
-      
       button.disabled = true;
-      button.textContent = 'Conectando...';
+      button.textContent = 'Redirecionando...';
       
-      try {
-        const result = await signInWithPopup(auth, googleProvider);
-        showToast('Login com Google realizado!');
-      } catch (error) {
-        console.log('Erro Google:', error.code, error.message);
-        
-        if (error.code === 'auth/popup-closed-by-user') {
-          showToast('Login cancelado. Tente novamente e não feche a janela.', 'error');
-        } else if (error.code === 'auth/popup-blocked') {
-          showPopupBlockedModal();
-        } else {
-          showToast(getErrorMessage(error), 'error');
-        }
-      } finally {
+      await loginWithRedirect(googleProvider, 'Google');
+      
+      // Resetar botão caso falhe
+      setTimeout(() => {
         button.disabled = false;
         button.innerHTML = `
           <svg width="18" height="18" viewBox="0 0 24 24">
@@ -603,36 +602,19 @@
           </svg>
           Google
         `;
-      }
+      }, 3000);
     });
 
     // Login com Facebook
     document.getElementById("facebookLogin").addEventListener('click', async () => {
       const button = document.getElementById("facebookLogin");
-      
-      // Verificar se popups estão bloqueados
-      if (isPopupBlocked()) {
-        showPopupBlockedModal();
-        return;
-      }
-      
       button.disabled = true;
-      button.textContent = 'Conectando...';
+      button.textContent = 'Redirecionando...';
       
-      try {
-        const result = await signInWithPopup(auth, facebookProvider);
-        showToast('Login com Facebook realizado!');
-      } catch (error) {
-        console.log('Erro Facebook:', error.code, error.message);
-        
-        if (error.code === 'auth/popup-closed-by-user') {
-          showToast('Login cancelado. Tente novamente e não feche a janela.', 'error');
-        } else if (error.code === 'auth/popup-blocked') {
-          showPopupBlockedModal();
-        } else {
-          showToast(getErrorMessage(error), 'error');
-        }
-      } finally {
+      await loginWithRedirect(facebookProvider, 'Facebook');
+      
+      // Resetar botão caso falhe
+      setTimeout(() => {
         button.disabled = false;
         button.innerHTML = `
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -640,7 +622,7 @@
           </svg>
           Facebook
         `;
-      }
+      }, 3000);
     });
 
     // Login anônimo
@@ -667,6 +649,23 @@
         showToast('Logout realizado!');
       } catch (error) {
         showToast('Erro ao fazer logout', 'error');
+      }
+    });
+
+    // Verificar resultado do redirecionamento quando a página carrega
+    window.addEventListener('load', async () => {
+      try {
+        const result = await getRedirectResult(auth);
+        if (result && result.user) {
+          const pendingProvider = localStorage.getItem('pendingProvider');
+          localStorage.removeItem('pendingProvider');
+          showToast(`Login com ${pendingProvider || 'rede social'} realizado com sucesso!`);
+        }
+      } catch (error) {
+        console.log('Erro no redirect result:', error.code, error.message);
+        const pendingProvider = localStorage.getItem('pendingProvider');
+        localStorage.removeItem('pendingProvider');
+        showToast(getErrorMessage(error), 'error');
       }
     });
 
