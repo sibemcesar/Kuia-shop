@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuia+ Shop - Painel Administrativo</title>
+    <title>Kuia+ Admin - Painel Administrativo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -24,14 +24,6 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
-        .delete-hold {
-            background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
-            animation: deleteHold 2s linear forwards;
-        }
-        @keyframes deleteHold {
-            0% { background-size: 0% 100%; }
-            100% { background-size: 100% 100%; }
-        }
     </style>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
@@ -39,96 +31,55 @@
     <div id="loadingScreen" class="fixed inset-0 bg-white dark:bg-gray-900 flex items-center justify-center z-50">
         <div class="text-center">
             <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">Kuia+ Shop Admin</h2>
-            <p id="loadingStatus" class="text-gray-600 dark:text-gray-400">Carregando...</p>
-        </div>
-    </div>
-
-    <!-- Login Screen -->
-    <div id="loginScreen" class="fixed inset-0 bg-white dark:bg-gray-900 flex items-center justify-center z-40 hidden">
-        <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4 border border-gray-200 dark:border-gray-700">
-            <div class="text-center mb-8">
-                <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">🛡️ Painel Admin</h1>
-                <p class="text-gray-600 dark:text-gray-400">Kuia+ Shop</p>
-                <p class="text-sm text-gray-500 dark:text-gray-500 mt-2">Acesso restrito a administradores</p>
-            </div>
-
-            <!-- Admin Login Options -->
-            <div class="space-y-4">
-                <!-- Google Login -->
-                <button id="googleLoginBtn" class="w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 py-3 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors flex items-center justify-center space-x-3">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24">
-                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                    </svg>
-                    <span>Entrar com Google</span>
-                </button>
-
-                <!-- Email/Password Login -->
-                <form id="loginForm" class="space-y-3">
-                    <input type="email" id="loginEmail" placeholder="Email do administrador" required
-                           class="w-full px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
-                    <input type="password" id="loginPassword" placeholder="Senha" required
-                           class="w-full px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
-                    <button type="submit" class="w-full bg-primary text-white py-3 px-4 rounded-lg hover:bg-primary-dark transition-colors">
-                        Entrar no Painel
-                    </button>
-                </form>
-            </div>
+            <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">Kuia+ Admin</h2>
+            <p id="loadingStatus" class="text-gray-600 dark:text-gray-400">Verificando acesso...</p>
         </div>
     </div>
 
     <!-- Access Denied Screen -->
     <div id="accessDeniedScreen" class="fixed inset-0 bg-white dark:bg-gray-900 flex items-center justify-center z-40 hidden">
-        <div class="text-center max-w-md mx-4">
-            <div class="text-6xl mb-4">🚫</div>
+        <div class="text-center max-w-md">
+            <div class="text-6xl mb-6">🚫</div>
             <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-4">Acesso Negado</h2>
             <p class="text-gray-600 dark:text-gray-400 mb-6">Você não tem permissão para acessar o painel administrativo.</p>
-            <button id="backToLoginBtn" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors">
-                Voltar ao Login
+            <button onclick="location.reload()" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors">
+                Tentar Novamente
             </button>
         </div>
     </div>
 
-    <!-- Main Admin App -->
-    <div id="adminApp" class="hidden">
+    <!-- Main Admin Panel -->
+    <div id="adminPanel" class="hidden min-h-screen">
         <!-- Header -->
         <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
                     <div class="flex items-center space-x-4">
-                        <h1 class="text-2xl font-bold text-primary">Kuia+ Shop Admin</h1>
-                        <div class="hidden md:flex space-x-6">
+                        <h1 class="text-2xl font-bold text-primary">⚙️ Kuia+ Admin</h1>
+                        <nav class="hidden md:flex space-x-6">
                             <button id="dashboardBtn" class="nav-btn text-primary px-3 py-2 rounded-md text-sm font-medium">
-                                <span class="mr-2">📊</span>Dashboard
+                                📊 Dashboard
                             </button>
                             <button id="productsBtn" class="nav-btn text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">
-                                <span class="mr-2">📦</span>Produtos
+                                📦 Produtos
                             </button>
                             <button id="ordersBtn" class="nav-btn text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">
-                                <span class="mr-2">🛒</span>Pedidos
+                                🛒 Pedidos
                             </button>
-                            <button id="chatManagementBtn" class="nav-btn text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">
-                                <span class="mr-2">💬</span>Chat
+                            <button id="chatBtn" class="nav-btn text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium relative">
+                                💬 Chat
+                                <span id="chatNotification" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
                             </button>
-                            <button id="categoriesBtn" class="nav-btn text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">
-                                <span class="mr-2">📂</span>Categorias
-                            </button>
-                        </div>
+                        </nav>
                     </div>
                     
                     <div class="flex items-center space-x-4">
-                        <!-- User Info -->
                         <div class="flex items-center space-x-2">
                             <img id="adminAvatar" src="" alt="Admin" class="w-8 h-8 rounded-full">
-                            <span id="adminName" class="hidden sm:block text-sm font-medium text-gray-700 dark:text-gray-300"></span>
+                            <span id="adminName" class="text-sm font-medium text-gray-700 dark:text-gray-300 hidden sm:block">Admin</span>
                         </div>
-                        
-                        <!-- Logout -->
-                        <button id="logoutBtn" class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-                            <span class="mr-1">🚪</span>Sair
+                        <button id="logoutBtn" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">
+                            🚪 Sair
                         </button>
                     </div>
                 </div>
@@ -137,26 +88,19 @@
 
         <!-- Mobile Navigation -->
         <div class="md:hidden bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-            <div class="flex">
-                <button id="mobileDashboardBtn" class="flex-1 nav-btn text-center py-3 text-primary">
-                    <div class="text-lg">📊</div>
-                    <span class="text-xs mt-1">Dashboard</span>
+            <div class="flex overflow-x-auto px-4 py-2 space-x-4">
+                <button id="mobileDashboardBtn" class="mobile-nav-btn whitespace-nowrap px-3 py-2 text-sm text-primary bg-primary bg-opacity-10 rounded-lg">
+                    📊 Dashboard
                 </button>
-                <button id="mobileProductsBtn" class="flex-1 nav-btn text-center py-3 text-gray-700 dark:text-gray-300 hover:text-primary">
-                    <div class="text-lg">📦</div>
-                    <span class="text-xs mt-1">Produtos</span>
+                <button id="mobileProductsBtn" class="mobile-nav-btn whitespace-nowrap px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary rounded-lg">
+                    📦 Produtos
                 </button>
-                <button id="mobileOrdersBtn" class="flex-1 nav-btn text-center py-3 text-gray-700 dark:text-gray-300 hover:text-primary">
-                    <div class="text-lg">🛒</div>
-                    <span class="text-xs mt-1">Pedidos</span>
+                <button id="mobileOrdersBtn" class="mobile-nav-btn whitespace-nowrap px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary rounded-lg">
+                    🛒 Pedidos
                 </button>
-                <button id="mobileChatBtn" class="flex-1 nav-btn text-center py-3 text-gray-700 dark:text-gray-300 hover:text-primary">
-                    <div class="text-lg">💬</div>
-                    <span class="text-xs mt-1">Chat</span>
-                </button>
-                <button id="mobileCategoriesBtn" class="flex-1 nav-btn text-center py-3 text-gray-700 dark:text-gray-300 hover:text-primary">
-                    <div class="text-lg">📂</div>
-                    <span class="text-xs mt-1">Categorias</span>
+                <button id="mobileChatBtn" class="mobile-nav-btn whitespace-nowrap px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary rounded-lg relative">
+                    💬 Chat
+                    <span id="mobileChatNotification" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center hidden">0</span>
                 </button>
             </div>
         </div>
@@ -165,17 +109,20 @@
         <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <!-- Dashboard Section -->
             <div id="dashboardSection">
-                <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-8">Dashboard</h2>
-                
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">Dashboard</h2>
+                    <p class="text-gray-600 dark:text-gray-400">Visão geral da sua loja</p>
+                </div>
+
                 <!-- Stats Cards -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                         <div class="flex items-center">
-                            <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900">
-                                <span class="text-2xl">📦</span>
+                            <div class="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
+                                <div class="text-2xl">📦</div>
                             </div>
                             <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Produtos</p>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total de Produtos</p>
                                 <p id="totalProducts" class="text-2xl font-bold text-gray-900 dark:text-gray-100">0</p>
                             </div>
                         </div>
@@ -183,8 +130,8 @@
 
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                         <div class="flex items-center">
-                            <div class="p-3 rounded-full bg-green-100 dark:bg-green-900">
-                                <span class="text-2xl">🛒</span>
+                            <div class="p-2 bg-yellow-100 dark:bg-yellow-900 rounded-lg">
+                                <div class="text-2xl">⏳</div>
                             </div>
                             <div class="ml-4">
                                 <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Pedidos Pendentes</p>
@@ -195,75 +142,87 @@
 
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                         <div class="flex items-center">
-                            <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900">
-                                <span class="text-2xl">💰</span>
+                            <div class="p-2 bg-green-100 dark:bg-green-900 rounded-lg">
+                                <div class="text-2xl">✅</div>
                             </div>
                             <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Vendas Hoje</p>
-                                <p id="todaySales" class="text-2xl font-bold text-gray-900 dark:text-gray-100">0 Kz</p>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Pedidos Aprovados</p>
+                                <p id="approvedOrders" class="text-2xl font-bold text-gray-900 dark:text-gray-100">0</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                         <div class="flex items-center">
-                            <div class="p-3 rounded-full bg-purple-100 dark:bg-purple-900">
-                                <span class="text-2xl">💬</span>
+                            <div class="p-2 bg-purple-100 dark:bg-purple-900 rounded-lg">
+                                <div class="text-2xl">💬</div>
                             </div>
                             <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Chats Ativos</p>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Conversas Ativas</p>
                                 <p id="activeChats" class="text-2xl font-bold text-gray-900 dark:text-gray-100">0</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Recent Orders -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Pedidos Recentes</h3>
-                    </div>
-                    <div id="recentOrdersList" class="p-6">
-                        <div class="text-center py-8">
-                            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-                            <p class="text-gray-500 dark:text-gray-400">Carregando pedidos...</p>
-                        </div>
+                <!-- Quick Actions -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Ações Rápidas</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <button id="addProductBtn" class="flex items-center p-4 bg-primary bg-opacity-10 hover:bg-opacity-20 rounded-lg transition-colors">
+                            <div class="text-2xl mr-3">➕</div>
+                            <div class="text-left">
+                                <p class="font-medium text-primary">Adicionar Produto</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Cadastrar novo produto</p>
+                            </div>
+                        </button>
+                        <button id="viewPendingOrdersBtn" class="flex items-center p-4 bg-yellow-50 dark:bg-yellow-900 hover:bg-yellow-100 dark:hover:bg-yellow-800 rounded-lg transition-colors">
+                            <div class="text-2xl mr-3">⏳</div>
+                            <div class="text-left">
+                                <p class="font-medium text-yellow-700 dark:text-yellow-300">Ver Pedidos Pendentes</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Revisar novos pedidos</p>
+                            </div>
+                        </button>
+                        <button id="openChatBtn" class="flex items-center p-4 bg-green-50 dark:bg-green-900 hover:bg-green-100 dark:hover:bg-green-800 rounded-lg transition-colors">
+                            <div class="text-2xl mr-3">💬</div>
+                            <div class="text-left">
+                                <p class="font-medium text-green-700 dark:text-green-300">Abrir Chat</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Conversar com clientes</p>
+                            </div>
+                        </button>
                     </div>
                 </div>
             </div>
 
             <!-- Products Section -->
             <div id="productsSection" class="hidden">
-                <div class="flex justify-between items-center mb-8">
-                    <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200">Gerenciar Produtos</h2>
-                    <button id="addProductBtn" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 space-y-4 sm:space-y-0">
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">Gestão de Produtos</h2>
+                        <p class="text-gray-600 dark:text-gray-400">Gerencie o catálogo da sua loja</p>
+                    </div>
+                    <button id="addProductModalBtn" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors flex items-center">
                         <span class="mr-2">➕</span>Adicionar Produto
                     </button>
                 </div>
 
-                <!-- Products List -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                        <div class="flex justify-between items-center">
-                            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Lista de Produtos</h3>
-                            <input type="text" id="productSearch" placeholder="Buscar produtos..." 
-                                   class="w-64 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
-                        </div>
-                    </div>
-                    <div id="productsList" class="p-6">
-                        <div class="text-center py-8">
-                            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-                            <p class="text-gray-500 dark:text-gray-400">Carregando produtos...</p>
-                        </div>
+                <!-- Products Grid -->
+                <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <div class="text-center py-12 col-span-full">
+                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+                        <p class="text-gray-600 dark:text-gray-400">Carregando produtos...</p>
                     </div>
                 </div>
             </div>
 
             <!-- Orders Section -->
             <div id="ordersSection" class="hidden">
-                <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-8">Gerenciar Pedidos</h2>
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">Gestão de Pedidos</h2>
+                    <p class="text-gray-600 dark:text-gray-400">Gerencie os pedidos dos clientes</p>
+                </div>
 
-                <!-- Orders Filters -->
+                <!-- Order Filters -->
                 <div class="mb-6 flex flex-wrap gap-2">
                     <button class="order-filter-btn bg-primary text-white px-4 py-2 rounded-full text-sm font-medium" data-status="all">
                         Todos
@@ -279,95 +238,70 @@
                     </button>
                 </div>
 
-                <!-- Orders List -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Lista de Pedidos</h3>
-                    </div>
-                    <div id="ordersList" class="p-6">
-                        <div class="text-center py-8">
-                            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-                            <p class="text-gray-500 dark:text-gray-400">Carregando pedidos...</p>
-                        </div>
+                <!-- Orders Grid -->
+                <div id="ordersGrid" class="space-y-6">
+                    <div class="text-center py-12">
+                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+                        <p class="text-gray-600 dark:text-gray-400">Carregando pedidos...</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Chat Management Section -->
-            <div id="chatManagementSection" class="hidden">
-                <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-8">Gerenciar Chats</h2>
+            <!-- Chat Section -->
+            <div id="chatSection" class="hidden">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">Central de Chat</h2>
+                    <p class="text-gray-600 dark:text-gray-400">Converse com os clientes em tempo real</p>
+                </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- Users List -->
-                    <div class="lg:col-span-1">
-                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-                            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Usuários</h3>
-                            </div>
-                            <div id="usersList" class="p-4 max-h-96 overflow-y-auto">
-                                <div class="text-center py-8">
-                                    <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mx-auto mb-4"></div>
-                                    <p class="text-gray-500 dark:text-gray-400 text-sm">Carregando usuários...</p>
-                                </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                        <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Usuários</h3>
+                        </div>
+                        <div id="usersList" class="p-4 max-h-96 overflow-y-auto">
+                            <div class="text-center py-8 text-gray-500 dark:text-gray-400">
+                                Carregando usuários...
                             </div>
                         </div>
                     </div>
 
-                    <!-- Chat Interface -->
-                    <div class="lg:col-span-2">
-                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 flex flex-col h-96">
-                            <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-                                <h3 id="chatUserName" class="text-lg font-semibold text-gray-800 dark:text-gray-200">Selecione um usuário</h3>
-                                <div id="chatControls" class="hidden space-x-2">
-                                    <button id="startChatBtn" class="px-3 py-1 bg-green-500 text-white text-sm rounded hover:bg-green-600">
-                                        Iniciar Chat
-                                    </button>
-                                    <button id="closeChatBtn" class="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600">
-                                        Fechar Chat
-                                    </button>
+                    <!-- Chat Area -->
+                    <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 flex flex-col h-96">
+                        <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+                            <div id="chatHeader" class="flex items-center space-x-3">
+                                <div class="text-lg">💬</div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800 dark:text-gray-200">Selecione um usuário</h4>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Para iniciar uma conversa</p>
                                 </div>
                             </div>
-                            
-                            <div id="adminChatContainer" class="flex-1 overflow-y-auto p-4 bg-gray-50 dark:bg-gray-900">
-                                <div id="adminChatMessages" class="space-y-3">
-                                    <div class="text-center text-gray-500 dark:text-gray-400 text-sm">
-                                        <p>💬 Selecione um usuário para iniciar ou continuar uma conversa</p>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div id="adminChatInputContainer" class="p-4 border-t border-gray-200 dark:border-gray-700 hidden">
-                                <div class="flex space-x-2">
-                                    <input type="text" id="adminChatInput" placeholder="Digite sua mensagem..." 
-                                           class="flex-1 px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
-                                    <button id="sendAdminChatBtn" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors">
-                                        📤
-                                    </button>
-                                </div>
+                            <button id="closeChatBtn" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hidden">
+                                ❌
+                            </button>
+                        </div>
+                        
+                        <div id="chatMessages" class="flex-1 overflow-y-auto p-4 bg-gray-50 dark:bg-gray-900">
+                            <div class="text-center text-gray-500 dark:text-gray-400 py-12">
+                                <div class="text-4xl mb-4">💬</div>
+                                <p>Selecione um usuário para começar a conversar</p>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Categories Section -->
-            <div id="categoriesSection" class="hidden">
-                <div class="flex justify-between items-center mb-8">
-                    <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200">Gerenciar Categorias</h2>
-                    <button id="addCategoryBtn" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors">
-                        <span class="mr-2">➕</span>Adicionar Categoria
-                    </button>
-                </div>
-
-                <!-- Categories List -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Lista de Categorias</h3>
-                    </div>
-                    <div id="categoriesList" class="p-6">
-                        <div class="text-center py-8">
-                            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-                            <p class="text-gray-500 dark:text-gray-400">Carregando categorias...</p>
+                        
+                        <div id="chatInputContainer" class="p-4 border-t border-gray-200 dark:border-gray-700 hidden">
+                            <div class="flex space-x-2 mb-2">
+                                <input type="text" id="chatInput" placeholder="Digite sua mensagem..." 
+                                       class="flex-1 px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
+                                <input type="file" id="chatImageInput" accept="image/*" class="hidden">
+                                <button id="chatImageBtn" class="px-3 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+                                    📷
+                                </button>
+                                <button id="sendChatBtn" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors">
+                                    📤
+                                </button>
+                            </div>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">Pressione Enter para enviar • Clique em 📷 para enviar imagem</p>
                         </div>
                     </div>
                 </div>
@@ -375,96 +309,94 @@
         </main>
     </div>
 
-    <!-- Product Modal -->
+    <!-- Add/Edit Product Modal -->
     <div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden">
-        <div class="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-96 overflow-y-auto">
+        <div class="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-screen overflow-y-auto">
             <div class="p-6">
-                <div class="flex justify-between items-start mb-6">
+                <div class="flex justify-between items-center mb-6">
                     <h3 id="productModalTitle" class="text-xl font-semibold text-gray-800 dark:text-gray-200">Adicionar Produto</h3>
                     <button id="closeProductModalBtn" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-xl">
                         ❌
                     </button>
                 </div>
-
-                <form id="productForm" class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Product Image Upload -->
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Imagem do Produto</label>
-                            <div class="flex items-center space-x-4">
-                                <img id="productImagePreview" src="https://via.placeholder.com/100?text=📷" alt="Preview" 
-                                     class="w-20 h-20 rounded-lg object-cover border-2 border-gray-300 dark:border-gray-600">
-                                <div>
-                                    <input type="file" id="productImageInput" accept="image/*" class="hidden">
-                                    <label for="productImageInput" class="bg-primary text-white px-4 py-2 rounded cursor-pointer hover:bg-primary-dark">
+                
+                <form id="productForm">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Left Column -->
+                        <div class="space-y-4">
+                            <!-- Image Upload -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Imagem do Produto</label>
+                                <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-4 text-center hover:border-primary transition-colors">
+                                    <input type="file" id="productImage" accept="image/*" class="hidden">
+                                    <div id="imagePreview" class="mb-4">
+                                        <div class="w-32 h-32 mx-auto bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                                            <div class="text-3xl text-gray-400">📷</div>
+                                        </div>
+                                    </div>
+                                    <button type="button" onclick="document.getElementById('productImage').click()" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark">
                                         Escolher Imagem
-                                    </label>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Formatos: JPG, PNG, GIF</p>
+                                    </button>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">PNG, JPG até 5MB</p>
                                 </div>
+                            </div>
+
+                            <!-- Basic Info -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Nome do Produto *</label>
+                                <input type="text" id="productName" required class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Categoria *</label>
+                                <select id="productCategory" required class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
+                                    <option value="">Selecione uma categoria</option>
+                                    <option value="eletronicos">Eletrônicos</option>
+                                    <option value="roupas">Roupas</option>
+                                    <option value="casa">Casa e Jardim</option>
+                                    <option value="livros">Livros</option>
+                                    <option value="esportes">Esportes</option>
+                                    <option value="beleza">Beleza</option>
+                                    <option value="acessorios">Acessórios & Joias</option>
+                                    <option value="calcados">Calçados</option>
+                                    <option value="alimentacao">Alimentação & Bebidas</option>
+                                    <option value="saude">Saúde & Bem-estar</option>
+                                    <option value="automotivo">Automotivo</option>
+                                    <option value="brinquedos">Brinquedos & Jogos</option>
+                                    <option value="musica">Música & Instrumentos</option>
+                                    <option value="arte">Arte & Artesanato</option>
+                                    <option value="pets">Pets</option>
+                                    <option value="servicos">Serviços</option>
+                                </select>
                             </div>
                         </div>
 
-                        <!-- Product Name -->
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Nome do Produto *</label>
-                            <input type="text" id="productName" required
-                                   class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
-                        </div>
+                        <!-- Right Column -->
+                        <div class="space-y-4">
+                            <!-- Pricing -->
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Preço *</label>
+                                    <input type="number" id="productPrice" required min="0" step="0.01" placeholder="0.00" class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Preço Antigo</label>
+                                    <input type="number" id="productOldPrice" min="0" step="0.01" placeholder="0.00" class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
+                                </div>
+                            </div>
 
-                        <!-- Category -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Categoria *</label>
-                            <select id="productCategory" required
-                                    class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
-                                <option value="">Selecione uma categoria</option>
-                                <option value="eletronicos">Eletrônicos</option>
-                                <option value="roupas">Roupas</option>
-                                <option value="casa">Casa e Jardim</option>
-                                <option value="livros">Livros</option>
-                                <option value="esportes">Esportes</option>
-                                <option value="beleza">Beleza</option>
-                                <option value="acessorios">Acessórios & Joias</option>
-                                <option value="calcados">Calçados</option>
-                                <option value="alimentacao">Alimentação & Bebidas</option>
-                                <option value="saude">Saúde & Bem-estar</option>
-                                <option value="automotivo">Automotivo</option>
-                                <option value="brinquedos">Brinquedos & Jogos</option>
-                                <option value="musica">Música & Instrumentos</option>
-                                <option value="arte">Arte & Artesanato</option>
-                                <option value="pets">Pets</option>
-                                <option value="servicos">Serviços</option>
-                            </select>
-                        </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Estoque *</label>
+                                <input type="number" id="productStock" required min="0" value="1" class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
+                            </div>
 
-                        <!-- Stock -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Estoque *</label>
-                            <input type="number" id="productStock" required min="0"
-                                   class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
-                        </div>
-
-                        <!-- Price -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Preço (Kz) *</label>
-                            <input type="number" id="productPrice" required min="0" step="0.01"
-                                   class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
-                        </div>
-
-                        <!-- Old Price (for discounts) -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Preço Antigo (Kz)</label>
-                            <input type="number" id="productOldPrice" min="0" step="0.01"
-                                   class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
-                        </div>
-
-                        <!-- Description -->
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Descrição</label>
-                            <textarea id="productDescription" rows="3"
-                                      class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent"></textarea>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Descrição</label>
+                                <textarea id="productDescription" rows="4" placeholder="Descrição detalhada do produto..." class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent"></textarea>
+                            </div>
                         </div>
                     </div>
-
+                    
                     <div class="flex justify-end space-x-3 mt-6">
                         <button type="button" id="cancelProductBtn" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
                             Cancelar
@@ -484,90 +416,50 @@
 
     <!-- Order Detail Modal -->
     <div id="orderDetailModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden">
-        <div class="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-96 overflow-y-auto">
+        <div class="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-screen overflow-y-auto">
             <div class="p-6">
-                <div class="flex justify-between items-start mb-6">
+                <div class="flex justify-between items-center mb-6">
                     <h3 id="orderDetailTitle" class="text-xl font-semibold text-gray-800 dark:text-gray-200">Detalhes do Pedido</h3>
                     <button id="closeOrderDetailBtn" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-xl">
                         ❌
                     </button>
                 </div>
-
-                <div id="orderDetailContent">
+                
+                <div id="orderDetailContent" class="space-y-6">
                     <!-- Content will be populated dynamically -->
                 </div>
-
-                <div class="flex justify-end space-x-3 mt-6">
-                    <button id="startOrderChatBtn" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
-                        💬 Iniciar Chat
-                    </button>
-                    <button id="rejectOrderBtn" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
-                        Rejeitar
-                    </button>
-                    <button id="approveOrderBtn" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
-                        Aprovar
-                    </button>
-                    <button id="deleteOrderBtn" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors">
-                        Excluir
-                    </button>
-                </div>
             </div>
         </div>
     </div>
 
-    <!-- Category Modal -->
-    <div id="categoryModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden">
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden">
         <div class="bg-white dark:bg-gray-800 rounded-lg max-w-md w-full">
             <div class="p-6">
-                <div class="flex justify-between items-start mb-6">
-                    <h3 id="categoryModalTitle" class="text-xl font-semibold text-gray-800 dark:text-gray-200">Adicionar Categoria</h3>
-                    <button id="closeCategoryModalBtn" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-xl">
-                        ❌
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Confirmar Ação</h3>
+                <p id="confirmMessage" class="text-gray-600 dark:text-gray-400 mb-6">Tem certeza que deseja continuar?</p>
+                <div class="flex justify-end space-x-3">
+                    <button id="cancelConfirmBtn" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+                        Cancelar
+                    </button>
+                    <button id="confirmActionBtn" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
+                        Confirmar
                     </button>
                 </div>
-
-                <form id="categoryForm" class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Nome da Categoria *</label>
-                        <input type="text" id="categoryName" required
-                               class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Chave da Categoria *</label>
-                        <input type="text" id="categoryKey" required placeholder="ex: eletronicos"
-                               class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Ícone</label>
-                        <input type="text" id="categoryIcon" placeholder="📱"
-                               class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
-                    </div>
-
-                    <div class="flex justify-end space-x-3 mt-6">
-                        <button type="button" id="cancelCategoryBtn" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                            Cancelar
-                        </button>
-                        <button type="submit" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors">
-                            Salvar Categoria
-                        </button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
 
-    <!-- Firebase SDK -->
+    <!-- Firebase SDK and Main JavaScript -->
     <script type="module">
-        console.log('🚀 Iniciando Kuia+ Shop Admin...');
+        console.log('🚀 Iniciando Kuia+ Admin...');
         document.getElementById('loadingStatus').textContent = 'Carregando Firebase...';
 
         // Firebase imports
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js';
-        import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js';
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js';
         import { getDatabase, ref, onValue, push, set, remove, update } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js';
-        import { getFirestore, collection, doc, setDoc, getDoc, getDocs, deleteDoc, updateDoc, query, where, orderBy } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js';
+        import { getFirestore, collection, doc, setDoc, getDoc, getDocs, query, where, orderBy, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js';
 
         console.log('✅ Firebase modules loaded');
         document.getElementById('loadingStatus').textContent = 'Conectando ao Firebase...';
@@ -594,7 +486,8 @@
             document.getElementById('loadingStatus').textContent = 'Firebase conectado!';
         } catch (error) {
             console.error('❌ Firebase initialization error:', error);
-            document.getElementById('loadingStatus').textContent = 'Erro na conexão.';
+            document.getElementById('loadingStatus').textContent = 'Erro na conexão com Firebase';
+            showAccessDenied();
         }
 
         // Dark mode setup
@@ -610,309 +503,235 @@
         });
 
         // Global variables
-        let currentAdmin = null;
+        let currentUser = null;
+        let isAdmin = false;
         let products = {};
         let orders = {};
-        let customCategories = {};
         let users = {};
         let currentSection = 'dashboard';
         let currentOrderFilter = 'all';
         let editingProductId = null;
-        let currentOrderId = null;
-        let currentChatUser = null;
+        let uploadedImageUrl = null;
         let currentChatId = null;
-        let deleteTimeouts = {};
+        let selectedUserId = null;
+        let chatMessages = {};
 
         // API Key for image upload
         const apiKeyImgBB = 'e073e02267a1f0259cd69c562e780659';
-        let uploadedImageURL = null;
 
         // DOM elements
         const loadingScreen = document.getElementById('loadingScreen');
-        const loginScreen = document.getElementById('loginScreen');
         const accessDeniedScreen = document.getElementById('accessDeniedScreen');
-        const adminApp = document.getElementById('adminApp');
-
-        // Auth elements
-        const googleLoginBtn = document.getElementById('googleLoginBtn');
-        const loginForm = document.getElementById('loginForm');
-        const backToLoginBtn = document.getElementById('backToLoginBtn');
-        const logoutBtn = document.getElementById('logoutBtn');
+        const adminPanel = document.getElementById('adminPanel');
 
         // Navigation elements
         const dashboardBtn = document.getElementById('dashboardBtn');
         const productsBtn = document.getElementById('productsBtn');
         const ordersBtn = document.getElementById('ordersBtn');
-        const chatManagementBtn = document.getElementById('chatManagementBtn');
-        const categoriesBtn = document.getElementById('categoriesBtn');
+        const chatBtn = document.getElementById('chatBtn');
+        const chatNotification = document.getElementById('chatNotification');
+
+        // Mobile navigation
         const mobileDashboardBtn = document.getElementById('mobileDashboardBtn');
         const mobileProductsBtn = document.getElementById('mobileProductsBtn');
         const mobileOrdersBtn = document.getElementById('mobileOrdersBtn');
         const mobileChatBtn = document.getElementById('mobileChatBtn');
-        const mobileCategoriesBtn = document.getElementById('mobileCategoriesBtn');
+        const mobileChatNotification = document.getElementById('mobileChatNotification');
 
         // Section elements
         const dashboardSection = document.getElementById('dashboardSection');
         const productsSection = document.getElementById('productsSection');
         const ordersSection = document.getElementById('ordersSection');
-        const chatManagementSection = document.getElementById('chatManagementSection');
-        const categoriesSection = document.getElementById('categoriesSection');
+        const chatSection = document.getElementById('chatSection');
+
+        // Modal elements
+        const productModal = document.getElementById('productModal');
+        const orderDetailModal = document.getElementById('orderDetailModal');
+        const confirmModal = document.getElementById('confirmModal');
 
         // Chat elements
         const usersList = document.getElementById('usersList');
-        const chatUserName = document.getElementById('chatUserName');
-        const chatControls = document.getElementById('chatControls');
-        const startChatBtn = document.getElementById('startChatBtn');
+        const chatMessages_dom = document.getElementById('chatMessages');
+        const chatInputContainer = document.getElementById('chatInputContainer');
+        const chatInput = document.getElementById('chatInput');
+        const sendChatBtn = document.getElementById('sendChatBtn');
+        const chatImageBtn = document.getElementById('chatImageBtn');
+        const chatImageInput = document.getElementById('chatImageInput');
+        const chatHeader = document.getElementById('chatHeader');
         const closeChatBtn = document.getElementById('closeChatBtn');
-        const adminChatContainer = document.getElementById('adminChatContainer');
-        const adminChatMessages = document.getElementById('adminChatMessages');
-        const adminChatInputContainer = document.getElementById('adminChatInputContainer');
-        const adminChatInput = document.getElementById('adminChatInput');
-        const sendAdminChatBtn = document.getElementById('sendAdminChatBtn');
 
-        // Enhanced delete function with hold-to-delete
-        function createDeleteButton(itemId, deleteFunction, itemName = 'item') {
-            const deleteBtn = document.createElement('button');
-            deleteBtn.className = 'px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition-colors';
-            deleteBtn.textContent = 'Excluir';
+        // Authentication check
+        onAuthStateChanged(auth, async (user) => {
+            console.log('Auth state changed:', user);
+            currentUser = user;
             
-            let deleteTimeout;
-            let isHolding = false;
-            
-            function startDelete() {
-                if (isHolding) return;
-                isHolding = true;
-                
-                // Show immediate confirmation dialog
-                showConfirmDialog(`Tem certeza que deseja excluir este ${itemName}?`, () => {
-                    // User confirmed, start hold-to-delete
-                    deleteBtn.textContent = 'Segure para confirmar';
-                    deleteBtn.classList.add('delete-hold');
-                    
-                    deleteTimeout = setTimeout(() => {
-                        deleteFunction(itemId);
-                        deleteBtn.classList.remove('delete-hold');
-                        deleteBtn.textContent = 'Excluir';
-                        isHolding = false;
-                    }, 2000);
-                }, () => {
-                    // User cancelled
-                    isHolding = false;
-                });
+            if (user) {
+                await checkAdminAccess();
+            } else {
+                // Redirect to login
+                window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=53786495493-example.googleusercontent.com&scope=openid%20profile%20email&redirect_uri=' + encodeURIComponent(window.location.origin);
             }
-            
-            function cancelDelete() {
-                if (deleteTimeout) {
-                    clearTimeout(deleteTimeout);
-                    deleteTimeout = null;
-                }
-                deleteBtn.classList.remove('delete-hold');
-                deleteBtn.textContent = 'Excluir';
-                isHolding = false;
-            }
-            
-            deleteBtn.addEventListener('mousedown', startDelete);
-            deleteBtn.addEventListener('touchstart', startDelete);
-            deleteBtn.addEventListener('mouseup', cancelDelete);
-            deleteBtn.addEventListener('mouseleave', cancelDelete);
-            deleteBtn.addEventListener('touchend', cancelDelete);
-            
-            return deleteBtn;
-        }
+        });
 
-        // Enhanced delete functions with fallback
-        async function deleteWithFallback(primaryDelete, fallbackDelete, itemName) {
+        async function checkAdminAccess() {
             try {
-                await primaryDelete();
-                showCustomAlert(`${itemName} excluído com sucesso!`);
-            } catch (error) {
-                console.error(`Primary delete failed for ${itemName}:`, error);
-                try {
-                    await fallbackDelete();
-                    showCustomAlert(`${itemName} excluído com sucesso!`);
-                } catch (fallbackError) {
-                    console.error(`Fallback delete failed for ${itemName}:`, fallbackError);
-                    showCustomAlert(`Erro ao excluir ${itemName}: ${fallbackError.message}`);
+                document.getElementById('loadingStatus').textContent = 'Verificando permissões...';
+                
+                // Check if user is admin
+                const adminDoc = await getDoc(doc(firestore, 'admins', currentUser.uid));
+                
+                if (adminDoc.exists() || currentUser.email === 'sibemcesar@gmail.com') {
+                    isAdmin = true;
+                    document.getElementById('adminAvatar').src = currentUser.photoURL || 'https://via.placeholder.com/32?text=' + (currentUser.displayName?.charAt(0) || 'A');
+                    document.getElementById('adminName').textContent = currentUser.displayName || currentUser.email;
+                    
+                    showAdminPanel();
+                    loadData();
+                    initializeChat();
+                } else {
+                    console.log('❌ Access denied - user is not admin');
+                    showAccessDenied();
                 }
+            } catch (error) {
+                console.error('Error checking admin access:', error);
+                showAccessDenied();
             }
         }
 
-        // Chat Management Functions
-        function initializeChatManagement() {
-            loadUsers();
-            
-            startChatBtn.addEventListener('click', startUserChat);
-            closeChatBtn.addEventListener('click', closeUserChat);
-            sendAdminChatBtn.addEventListener('click', sendAdminMessage);
-            adminChatInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    sendAdminMessage();
-                }
-            });
+        function showAdminPanel() {
+            loadingScreen.classList.add('hidden');
+            accessDeniedScreen.classList.add('hidden');
+            adminPanel.classList.remove('hidden');
         }
 
-        function loadUsers() {
-            // Load users from Firestore
-            const usersQuery = query(collection(firestore, 'users'));
-            getDocs(usersQuery).then((snapshot) => {
-                users = {};
-                snapshot.docs.forEach(doc => {
-                    users[doc.id] = { id: doc.id, ...doc.data() };
-                });
+        function showAccessDenied() {
+            loadingScreen.classList.add('hidden');
+            adminPanel.classList.add('hidden');
+            accessDeniedScreen.classList.remove('hidden');
+        }
+
+        // Navigation event listeners
+        dashboardBtn.addEventListener('click', () => showSection('dashboard'));
+        productsBtn.addEventListener('click', () => showSection('products'));
+        ordersBtn.addEventListener('click', () => showSection('orders'));
+        chatBtn.addEventListener('click', () => showSection('chat'));
+
+        mobileDashboardBtn.addEventListener('click', () => showSection('dashboard'));
+        mobileProductsBtn.addEventListener('click', () => showSection('products'));
+        mobileOrdersBtn.addEventListener('click', () => showSection('orders'));
+        mobileChatBtn.addEventListener('click', () => showSection('chat'));
+
+        // Quick action buttons
+        document.getElementById('addProductBtn').addEventListener('click', () => {
+            showSection('products');
+            openProductModal();
+        });
+        document.getElementById('addProductModalBtn').addEventListener('click', openProductModal);
+        document.getElementById('viewPendingOrdersBtn').addEventListener('click', () => {
+            showSection('orders');
+            filterOrders('pending');
+        });
+        document.getElementById('openChatBtn').addEventListener('click', () => showSection('chat'));
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+                window.location.reload();
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+        });
+
+        // Chat functionality with image support
+        function initializeChat() {
+            // Listen for all users
+            const usersRef = ref(database, 'users');
+            onValue(usersRef, (snapshot) => {
+                const usersData = snapshot.val() || {};
+                users = usersData;
                 renderUsersList();
-            }).catch(error => {
-                console.error('Error loading users:', error);
+            });
+
+            // Listen for new chat messages to update notifications
+            const chatsRef = ref(database, 'chats/messages');
+            onValue(chatsRef, (snapshot) => {
+                const allMessages = snapshot.val() || {};
+                updateChatNotifications(allMessages);
             });
         }
 
         function renderUsersList() {
-            const usersArray = Object.values(users);
+            const usersArray = Object.entries(users).map(([id, user]) => ({ id, ...user }));
             
             if (usersArray.length === 0) {
-                usersList.innerHTML = `
-                    <div class="text-center py-4 text-gray-500 dark:text-gray-400 text-sm">
-                        Nenhum usuário encontrado
-                    </div>
-                `;
+                usersList.innerHTML = '<div class="text-center py-8 text-gray-500 dark:text-gray-400">Nenhum usuário encontrado</div>';
                 return;
             }
 
             usersList.innerHTML = usersArray.map(user => `
-                <div class="flex items-center space-x-3 p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg cursor-pointer user-item" 
-                     data-user-id="${user.id}" onclick="selectUser('${user.id}')">
+                <div class="flex items-center space-x-3 p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg cursor-pointer transition-colors user-item"
+                     data-user-id="${user.id}">
                     <img src="${user.photoURL || 'https://via.placeholder.com/40?text=' + (user.name?.charAt(0) || '👤')}" 
                          alt="${user.name}" class="w-10 h-10 rounded-full">
                     <div class="flex-1 min-w-0">
                         <p class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">${user.name || 'Usuário'}</p>
                         <p class="text-xs text-gray-500 dark:text-gray-400 truncate">${user.email}</p>
-                        <div id="chatStatus-${user.id}" class="text-xs mt-1">
-                            <span class="text-gray-400">Offline</span>
-                        </div>
                     </div>
+                    <button class="start-chat-btn px-3 py-1 text-xs bg-primary text-white rounded hover:bg-primary-dark"
+                            data-user-id="${user.id}">
+                        Chat
+                    </button>
                 </div>
             `).join('');
 
-            // Check chat status for each user
-            usersArray.forEach(user => {
-                const userChatRef = ref(database, `chats/users/${user.id}`);
-                onValue(userChatRef, (snapshot) => {
-                    const chatData = snapshot.val();
-                    const statusElement = document.getElementById(`chatStatus-${user.id}`);
-                    if (statusElement) {
-                        if (chatData && chatData.active) {
-                            statusElement.innerHTML = '<span class="text-green-500">Chat ativo</span>';
-                        } else {
-                            statusElement.innerHTML = '<span class="text-gray-400">Offline</span>';
-                        }
-                    }
+            // Add event listeners
+            document.querySelectorAll('.start-chat-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    startChat(btn.dataset.userId);
                 });
             });
         }
 
-        window.selectUser = function(userId) {
-            currentChatUser = users[userId];
-            chatUserName.textContent = currentChatUser.name || 'Usuário';
-            chatControls.classList.remove('hidden');
-            
-            // Highlight selected user
-            document.querySelectorAll('.user-item').forEach(item => {
-                item.classList.remove('bg-blue-50', 'dark:bg-blue-900');
-            });
-            document.querySelector(`[data-user-id="${userId}"]`).classList.add('bg-blue-50', 'dark:bg-blue-900');
-            
-            // Check if chat is already active
-            const userChatRef = ref(database, `chats/users/${userId}`);
-            onValue(userChatRef, (snapshot) => {
-                const chatData = snapshot.val();
-                if (chatData && chatData.active) {
-                    currentChatId = chatData.chatId;
-                    loadAdminChatMessages();
-                    adminChatInputContainer.classList.remove('hidden');
-                } else {
-                    currentChatId = null;
-                    adminChatMessages.innerHTML = `
-                        <div class="text-center text-gray-500 dark:text-gray-400 text-sm">
-                            <p>Chat não iniciado. Clique em "Iniciar Chat" para começar a conversa.</p>
-                        </div>
-                    `;
-                    adminChatInputContainer.classList.add('hidden');
-                }
-            }, { onlyOnce: true });
-        };
-
-        async function startUserChat() {
-            if (!currentChatUser) return;
-            
+        async function startChat(userId) {
             try {
-                // Generate unique chat ID
-                const chatId = `chat_${currentAdmin.uid}_${currentChatUser.id}_${Date.now()}`;
+                selectedUserId = userId;
+                const user = users[userId];
                 
-                // Set user chat status
-                await set(ref(database, `chats/users/${currentChatUser.id}`), {
+                // Create or get existing chat
+                currentChatId = `admin_${currentUser.uid}_user_${userId}`;
+                
+                // Set up chat for user
+                await set(ref(database, `chats/users/${userId}`), {
+                    chatId: currentChatId,
                     active: true,
-                    chatId: chatId,
-                    adminId: currentAdmin.uid,
+                    adminId: currentUser.uid,
                     startedAt: Date.now()
                 });
-                
-                currentChatId = chatId;
-                
-                // Send welcome message
-                await push(ref(database, `chats/messages/${chatId}`), {
-                    senderId: currentAdmin.uid,
-                    senderName: 'Administrador',
-                    text: 'Olá! Estou aqui para ajudar com questões sobre seus pedidos. Como posso ajudá-lo?',
-                    timestamp: Date.now(),
-                    read: false
-                });
-                
-                loadAdminChatMessages();
-                adminChatInputContainer.classList.remove('hidden');
-                showCustomAlert('Chat iniciado com sucesso!');
-                
-            } catch (error) {
-                console.error('Error starting chat:', error);
-                showCustomAlert('Erro ao iniciar chat: ' + error.message);
-            }
-        }
 
-        async function closeUserChat() {
-            if (!currentChatUser || !currentChatId) return;
-            
-            try {
-                // Send closing message
-                await push(ref(database, `chats/messages/${currentChatId}`), {
-                    senderId: currentAdmin.uid,
-                    senderName: 'Administrador',
-                    text: 'Chat encerrado. Obrigado pelo contato!',
-                    timestamp: Date.now(),
-                    read: false
-                });
-                
-                // Deactivate user chat
-                await set(ref(database, `chats/users/${currentChatUser.id}`), {
-                    active: false,
-                    chatId: null,
-                    endedAt: Date.now()
-                });
-                
-                currentChatId = null;
-                adminChatInputContainer.classList.add('hidden');
-                adminChatMessages.innerHTML = `
-                    <div class="text-center text-gray-500 dark:text-gray-400 text-sm">
-                        <p>Chat encerrado.</p>
+                // Update chat header
+                chatHeader.innerHTML = `
+                    <img src="${user.photoURL || 'https://via.placeholder.com/40?text=' + (user.name?.charAt(0) || '👤')}" 
+                         alt="${user.name}" class="w-8 h-8 rounded-full">
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-gray-200">${user.name || 'Usuário'}</h4>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">${user.email}</p>
                     </div>
                 `;
                 
-                showCustomAlert('Chat encerrado com sucesso!');
+                closeChatBtn.classList.remove('hidden');
+                chatInputContainer.classList.remove('hidden');
+                
+                loadChatMessages();
                 
             } catch (error) {
-                console.error('Error closing chat:', error);
-                showCustomAlert('Erro ao encerrar chat: ' + error.message);
+                console.error('Error starting chat:', error);
+                showCustomAlert('Erro ao iniciar chat.');
             }
         }
 
-        function loadAdminChatMessages() {
+        function loadChatMessages() {
             if (!currentChatId) return;
 
             const messagesRef = ref(database, `chats/messages/${currentChatId}`);
@@ -922,28 +741,41 @@
                     .map(([id, msg]) => ({ id, ...msg }))
                     .sort((a, b) => a.timestamp - b.timestamp);
 
-                displayAdminChatMessages(messagesList);
+                displayChatMessages(messagesList);
             });
         }
 
-        function displayAdminChatMessages(messages) {
+        function displayChatMessages(messages) {
             if (messages.length === 0) {
-                adminChatMessages.innerHTML = `
-                    <div class="text-center text-gray-500 dark:text-gray-400 text-sm">
-                        <p>Nenhuma mensagem ainda. Digite a primeira mensagem abaixo.</p>
+                chatMessages_dom.innerHTML = `
+                    <div class="text-center text-gray-500 dark:text-gray-400 py-12">
+                        <div class="text-4xl mb-4">💬</div>
+                        <p>Converse com o cliente</p>
+                        <p class="text-sm mt-2">Digite sua primeira mensagem abaixo</p>
                     </div>
                 `;
                 return;
             }
 
-            adminChatMessages.innerHTML = messages.map(msg => {
-                const isAdmin = msg.senderId === currentAdmin.uid;
+            chatMessages_dom.innerHTML = messages.map(msg => {
+                const isAdmin = msg.senderId === currentUser.uid;
+                let messageContent = '';
+                
+                if (msg.type === 'image') {
+                    messageContent = `
+                        <img src="${msg.imageUrl}" alt="Imagem" class="max-w-full h-auto rounded-lg cursor-pointer" 
+                             onclick="window.open('${msg.imageUrl}', '_blank')">
+                        ${msg.text ? `<p class="text-sm mt-2">${msg.text}</p>` : ''}
+                    `;
+                } else {
+                    messageContent = `<p class="text-sm">${msg.text}</p>`;
+                }
+                
                 return `
                     <div class="flex ${isAdmin ? 'justify-end' : 'justify-start'} mb-3">
                         <div class="${isAdmin ? 'bg-primary text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200'} 
                                     rounded-lg px-3 py-2 max-w-xs lg:max-w-md">
-                            <p class="text-sm font-medium">${isAdmin ? 'Você' : msg.senderName}</p>
-                            <p class="text-sm">${msg.text}</p>
+                            ${messageContent}
                             <p class="${isAdmin ? 'text-blue-100' : 'text-gray-500 dark:text-gray-400'} text-xs mt-1">
                                 ${new Date(msg.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
                             </p>
@@ -953,174 +785,146 @@
             }).join('');
 
             // Scroll to bottom
-            adminChatContainer.scrollTop = adminChatContainer.scrollHeight;
+            chatMessages_dom.scrollTop = chatMessages_dom.scrollHeight;
         }
 
-        async function sendAdminMessage() {
-            if (!currentChatId || !adminChatInput.value.trim()) return;
-
-            const messageText = adminChatInput.value.trim();
-            adminChatInput.value = '';
+        async function sendChatMessage(messageText = null, imageUrl = null) {
+            if (!currentChatId || !selectedUserId || (!messageText && !imageUrl)) return;
 
             try {
                 const messageData = {
-                    senderId: currentAdmin.uid,
-                    senderName: 'Administrador',
-                    text: messageText,
+                    senderId: currentUser.uid,
+                    senderName: currentUser.displayName || currentUser.email,
                     timestamp: Date.now(),
                     read: false
                 };
 
+                if (imageUrl) {
+                    messageData.type = 'image';
+                    messageData.imageUrl = imageUrl;
+                    messageData.text = messageText || '';
+                } else {
+                    messageData.type = 'text';
+                    messageData.text = messageText;
+                }
+
                 await push(ref(database, `chats/messages/${currentChatId}`), messageData);
             } catch (error) {
-                console.error('Error sending admin message:', error);
+                console.error('Error sending message:', error);
                 showCustomAlert('Erro ao enviar mensagem. Tente novamente.');
             }
         }
 
-        // Authentication
-        googleLoginBtn.addEventListener('click', async () => {
-            try {
-                const provider = new GoogleAuthProvider();
-                await signInWithPopup(auth, provider);
-            } catch (error) {
-                console.error('Login error:', error);
-                showCustomAlert('Erro no login: ' + error.message);
-            }
-        });
-
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-            } catch (error) {
-                console.error('Login error:', error);
-                showCustomAlert('Erro no login: ' + error.message);
-            }
-        });
-
-        backToLoginBtn.addEventListener('click', () => {
-            showLoginScreen();
-        });
-
-        logoutBtn.addEventListener('click', async () => {
-            try {
-                await signOut(auth);
-            } catch (error) {
-                console.error('Logout error:', error);
-            }
-        });
-
-        // Authentication state observer
-        onAuthStateChanged(auth, async (user) => {
-            console.log('Auth state changed:', user);
-            currentAdmin = user;
-            
-            if (user) {
-                // Check if user is admin
-                const isAdmin = await checkAdminStatus(user);
-                if (isAdmin) {
-                    updateAdminUI();
-                    showAdminApp();
-                    loadData();
-                    initializeChatManagement();
-                } else {
-                    showAccessDenied();
-                }
-            } else {
-                showLoginScreen();
-            }
-        });
-
-        async function checkAdminStatus(user) {
-            try {
-                // Check if user is sibemcesar@gmail.com or in admins collection
-                if (user.email === 'sibemcesar@gmail.com') {
-                    return true;
-                }
-                
-                const adminDoc = await getDoc(doc(firestore, 'admins', user.uid));
-                return adminDoc.exists();
-            } catch (error) {
-                console.error('Error checking admin status:', error);
-                return false;
-            }
-        }
-
-        function updateAdminUI() {
-            const adminAvatar = document.getElementById('adminAvatar');
-            const adminName = document.getElementById('adminName');
-            
-            adminAvatar.src = currentAdmin.photoURL || 'https://via.placeholder.com/32?text=' + (currentAdmin.displayName?.charAt(0) || '👤');
-            adminName.textContent = currentAdmin.displayName || currentAdmin.email;
-        }
-
-        // Navigation
-        dashboardBtn.addEventListener('click', () => showSection('dashboard'));
-        productsBtn.addEventListener('click', () => showSection('products'));
-        ordersBtn.addEventListener('click', () => showSection('orders'));
-        chatManagementBtn.addEventListener('click', () => showSection('chatManagement'));
-        categoriesBtn.addEventListener('click', () => showSection('categories'));
-        
-        mobileDashboardBtn.addEventListener('click', () => showSection('dashboard'));
-        mobileProductsBtn.addEventListener('click', () => showSection('products'));
-        mobileOrdersBtn.addEventListener('click', () => showSection('orders'));
-        mobileChatBtn.addEventListener('click', () => showSection('chatManagement'));
-        mobileCategoriesBtn.addEventListener('click', () => showSection('categories'));
-
-        function showSection(section) {
-            currentSection = section;
-            
-            // Hide all sections
-            dashboardSection.classList.add('hidden');
-            productsSection.classList.add('hidden');
-            ordersSection.classList.add('hidden');
-            chatManagementSection.classList.add('hidden');
-            categoriesSection.classList.add('hidden');
-            
-            // Update navigation buttons
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('text-primary');
-                btn.classList.add('text-gray-700', 'dark:text-gray-300');
+        function updateChatNotifications(allMessages) {
+            // Count unread messages from users
+            let unreadCount = 0;
+            Object.values(allMessages).forEach(chatMessages => {
+                Object.values(chatMessages).forEach(msg => {
+                    if (msg.senderId !== currentUser.uid && !msg.read) {
+                        unreadCount++;
+                    }
+                });
             });
-            
-            // Show selected section and update nav
-            switch (section) {
-                case 'dashboard':
-                    dashboardSection.classList.remove('hidden');
-                    dashboardBtn?.classList.add('text-primary');
-                    mobileDashboardBtn.classList.add('text-primary');
-                    loadDashboardData();
-                    break;
-                case 'products':
-                    productsSection.classList.remove('hidden');
-                    productsBtn?.classList.add('text-primary');
-                    mobileProductsBtn.classList.add('text-primary');
-                    renderProducts();
-                    break;
-                case 'orders':
-                    ordersSection.classList.remove('hidden');
-                    ordersBtn?.classList.add('text-primary');
-                    mobileOrdersBtn.classList.add('text-primary');
-                    renderOrders();
-                    break;
-                case 'chatManagement':
-                    chatManagementSection.classList.remove('hidden');
-                    chatManagementBtn?.classList.add('text-primary');
-                    mobileChatBtn.classList.add('text-primary');
-                    renderUsersList();
-                    break;
-                case 'categories':
-                    categoriesSection.classList.remove('hidden');
-                    categoriesBtn?.classList.add('text-primary');
-                    mobileCategoriesBtn.classList.add('text-primary');
-                    renderCategories();
-                    break;
+
+            if (unreadCount > 0) {
+                chatNotification.textContent = unreadCount > 99 ? '99+' : unreadCount;
+                chatNotification.classList.remove('hidden');
+                mobileChatNotification.textContent = unreadCount > 99 ? '99+' : unreadCount;
+                mobileChatNotification.classList.remove('hidden');
+            } else {
+                chatNotification.classList.add('hidden');
+                mobileChatNotification.classList.add('hidden');
             }
         }
+
+        // Chat image upload
+        chatImageBtn.addEventListener('click', () => {
+            chatImageInput.click();
+        });
+
+        chatImageInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Show loading state
+            chatImageBtn.innerHTML = '⏳';
+            chatImageBtn.disabled = true;
+
+            try {
+                const formData = new FormData();
+                formData.append('image', file);
+
+                const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKeyImgBB}`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    await sendChatMessage(null, result.data.url);
+                } else {
+                    showCustomAlert('Erro ao fazer upload da imagem.');
+                }
+            } catch (error) {
+                console.error('Image upload error:', error);
+                showCustomAlert('Erro ao fazer upload da imagem.');
+            } finally {
+                // Reset button state
+                chatImageBtn.innerHTML = '📷';
+                chatImageBtn.disabled = false;
+                chatImageInput.value = '';
+            }
+        });
+
+        // Chat event listeners
+        sendChatBtn.addEventListener('click', () => {
+            const messageText = chatInput.value.trim();
+            if (messageText) {
+                sendChatMessage(messageText);
+                chatInput.value = '';
+            }
+        });
+
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const messageText = chatInput.value.trim();
+                if (messageText) {
+                    sendChatMessage(messageText);
+                    chatInput.value = '';
+                }
+            }
+        });
+
+        closeChatBtn.addEventListener('click', async () => {
+            if (selectedUserId) {
+                // End chat for user
+                await set(ref(database, `chats/users/${selectedUserId}`), {
+                    active: false,
+                    endedAt: Date.now()
+                });
+            }
+            
+            currentChatId = null;
+            selectedUserId = null;
+            
+            chatHeader.innerHTML = `
+                <div class="text-lg">💬</div>
+                <div>
+                    <h4 class="font-semibold text-gray-800 dark:text-gray-200">Selecione um usuário</h4>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Para iniciar uma conversa</p>
+                </div>
+            `;
+            
+            closeChatBtn.classList.add('hidden');
+            chatInputContainer.classList.add('hidden');
+            
+            chatMessages_dom.innerHTML = `
+                <div class="text-center text-gray-500 dark:text-gray-400 py-12">
+                    <div class="text-4xl mb-4">💬</div>
+                    <p>Selecione um usuário para começar a conversar</p>
+                </div>
+            `;
+        });
 
         // Load data from Firebase
         function loadData() {
@@ -1129,9 +933,8 @@
             onValue(productsRef, (snapshot) => {
                 products = snapshot.val() || {};
                 console.log('Products loaded:', Object.keys(products).length);
-                if (currentSection === 'products') {
-                    renderProducts();
-                }
+                renderProducts();
+                updateDashboardStats();
             });
 
             // Load orders
@@ -1139,114 +942,220 @@
             onValue(ordersRef, (snapshot) => {
                 orders = snapshot.val() || {};
                 console.log('Orders loaded:', Object.keys(orders).length);
-                if (currentSection === 'orders') {
-                    renderOrders();
-                }
-            });
-
-            // Load custom categories
-            const categoriesRef = ref(database, 'categories');
-            onValue(categoriesRef, (snapshot) => {
-                customCategories = snapshot.val() || {};
-                console.log('Categories loaded:', Object.keys(customCategories).length);
-                if (currentSection === 'categories') {
-                    renderCategories();
-                }
+                renderOrders();
+                updateDashboardStats();
             });
         }
 
-        function loadDashboardData() {
-            // Calculate stats
-            const totalProducts = Object.keys(products).length;
+        function updateDashboardStats() {
+            const productsCount = Object.keys(products).length;
             const ordersArray = Object.values(orders);
-            const pendingOrders = ordersArray.filter(order => order.status === 'pending').length;
-            const today = new Date().toDateString();
-            const todaySales = ordersArray
-                .filter(order => new Date(order.createdAt).toDateString() === today && order.status === 'approved')
-                .reduce((sum, order) => sum + order.total, 0);
+            const pendingCount = ordersArray.filter(order => order.status === 'pending').length;
+            const approvedCount = ordersArray.filter(order => order.status === 'approved').length;
+            const activeChatsCount = Object.keys(users).length; // Simplified count
+
+            document.getElementById('totalProducts').textContent = productsCount;
+            document.getElementById('pendingOrders').textContent = pendingCount;
+            document.getElementById('approvedOrders').textContent = approvedCount;
+            document.getElementById('activeChats').textContent = activeChatsCount;
+        }
+
+        // Navigation functions
+        function showSection(section) {
+            currentSection = section;
             
-            // Count active chats
-            let activeChats = 0;
-            const chatsRef = ref(database, 'chats/users');
-            onValue(chatsRef, (snapshot) => {
-                const chatsData = snapshot.val() || {};
-                activeChats = Object.values(chatsData).filter(chat => chat.active).length;
-                document.getElementById('activeChats').textContent = activeChats;
+            // Hide all sections
+            dashboardSection.classList.add('hidden');
+            productsSection.classList.add('hidden');
+            ordersSection.classList.add('hidden');
+            chatSection.classList.add('hidden');
+            
+            // Update navigation buttons
+            document.querySelectorAll('.nav-btn, .mobile-nav-btn').forEach(btn => {
+                btn.classList.remove('text-primary', 'bg-primary', 'bg-opacity-10');
+                btn.classList.add('text-gray-700', 'dark:text-gray-300');
             });
-
-            // Update dashboard stats
-            document.getElementById('totalProducts').textContent = totalProducts;
-            document.getElementById('pendingOrders').textContent = pendingOrders;
-            document.getElementById('todaySales').textContent = formatPrice(todaySales);
-
-            // Load recent orders
-            const recentOrders = ordersArray
-                .sort((a, b) => b.createdAt - a.createdAt)
-                .slice(0, 5);
-
-            const recentOrdersList = document.getElementById('recentOrdersList');
-            if (recentOrders.length === 0) {
-                recentOrdersList.innerHTML = `
-                    <div class="text-center py-8">
-                        <p class="text-gray-500 dark:text-gray-400">Nenhum pedido encontrado</p>
-                    </div>
-                `;
-            } else {
-                recentOrdersList.innerHTML = recentOrders.map(order => `
-                    <div class="flex justify-between items-center py-3 border-b border-gray-200 dark:border-gray-700 last:border-b-0">
-                        <div>
-                            <p class="font-medium text-gray-900 dark:text-gray-100">${order.customer.name}</p>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">${order.items.length} item(s) • ${formatPrice(order.total)}</p>
-                        </div>
-                        <div class="text-right">
-                            <span class="px-2 py-1 text-xs rounded ${getStatusColor(order.status)}">
-                                ${getStatusText(order.status)}
-                            </span>
-                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                ${new Date(order.createdAt).toLocaleDateString('pt-BR')}
-                            </p>
-                        </div>
-                    </div>
-                `).join('');
+            
+            // Show selected section and update nav
+            switch (section) {
+                case 'dashboard':
+                    dashboardSection.classList.remove('hidden');
+                    dashboardBtn.classList.add('text-primary');
+                    mobileDashboardBtn.classList.add('text-primary', 'bg-primary', 'bg-opacity-10');
+                    mobileDashboardBtn.classList.remove('text-gray-600', 'dark:text-gray-400');
+                    break;
+                case 'products':
+                    productsSection.classList.remove('hidden');
+                    productsBtn.classList.add('text-primary');
+                    mobileProductsBtn.classList.add('text-primary', 'bg-primary', 'bg-opacity-10');
+                    mobileProductsBtn.classList.remove('text-gray-600', 'dark:text-gray-400');
+                    break;
+                case 'orders':
+                    ordersSection.classList.remove('hidden');
+                    ordersBtn.classList.add('text-primary');
+                    mobileOrdersBtn.classList.add('text-primary', 'bg-primary', 'bg-opacity-10');
+                    mobileOrdersBtn.classList.remove('text-gray-600', 'dark:text-gray-400');
+                    break;
+                case 'chat':
+                    chatSection.classList.remove('hidden');
+                    chatBtn.classList.add('text-primary');
+                    mobileChatBtn.classList.add('text-primary', 'bg-primary', 'bg-opacity-10');
+                    mobileChatBtn.classList.remove('text-gray-600', 'dark:text-gray-400');
+                    break;
             }
         }
 
-        // Products Management
-        const addProductBtn = document.getElementById('addProductBtn');
-        const productModal = document.getElementById('productModal');
-        const closeProductModalBtn = document.getElementById('closeProductModalBtn');
-        const cancelProductBtn = document.getElementById('cancelProductBtn');
-        const productForm = document.getElementById('productForm');
-        const productImageInput = document.getElementById('productImageInput');
-        const productImagePreview = document.getElementById('productImagePreview');
+        // Products functions
+        function renderProducts() {
+            const productsGrid = document.getElementById('productsGrid');
+            const productsArray = Object.entries(products).map(([id, product]) => ({ id, ...product }));
+            
+            if (productsArray.length === 0) {
+                productsGrid.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <div class="text-4xl mb-4">📦</div>
+                        <p class="text-gray-500 dark:text-gray-400">Nenhum produto cadastrado</p>
+                        <button onclick="openProductModal()" class="mt-4 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors">
+                            Adicionar Primeiro Produto
+                        </button>
+                    </div>
+                `;
+                return;
+            }
 
-        addProductBtn.addEventListener('click', () => {
-            editingProductId = null;
-            document.getElementById('productModalTitle').textContent = 'Adicionar Produto';
-            productForm.reset();
-            productImagePreview.src = 'https://via.placeholder.com/100?text=📷';
-            uploadedImageURL = null;
-            productModal.classList.remove('hidden');
-        });
-
-        closeProductModalBtn.addEventListener('click', closeProductModal);
-        cancelProductBtn.addEventListener('click', closeProductModal);
-
-        function closeProductModal() {
-            productModal.classList.add('hidden');
-            editingProductId = null;
-            uploadedImageURL = null;
+            productsGrid.innerHTML = productsArray.map(product => {
+                const hasDiscount = product.oldPrice && product.oldPrice > product.price;
+                const discountPercent = hasDiscount ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100) : 0;
+                
+                return `
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                        <div class="relative aspect-w-1 aspect-h-1 w-full h-48 bg-gray-200 dark:bg-gray-700">
+                            ${product.image ? 
+                                `<img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover">` :
+                                `<div class="w-full h-full flex items-center justify-center">
+                                    <div class="text-3xl text-gray-400">🖼️</div>
+                                </div>`
+                            }
+                            ${hasDiscount ? `
+                                <div class="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded text-xs font-bold">
+                                    -${discountPercent}%
+                                </div>
+                            ` : ''}
+                            ${product.stock === 0 ? `
+                                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                                    <span class="text-white font-bold">Esgotado</span>
+                                </div>
+                            ` : ''}
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2 line-clamp-2">${product.name}</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2 capitalize">${getCategoryName(product.category)}</p>
+                            
+                            <div class="flex items-center space-x-2 mb-2">
+                                <span class="text-lg font-bold text-primary">${formatPrice(product.price)}</span>
+                                ${hasDiscount ? `<span class="text-sm text-gray-400 line-through">${formatPrice(product.oldPrice)}</span>` : ''}
+                            </div>
+                            
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs text-gray-500 dark:text-gray-400">
+                                    📦 ${product.stock} em estoque
+                                </span>
+                            </div>
+                            
+                            <div class="flex space-x-2">
+                                <button onclick="editProduct('${product.id}')" class="flex-1 bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-400 py-2 px-3 rounded text-sm hover:bg-blue-100 dark:hover:bg-blue-800 transition-colors">
+                                    ✏️ Editar
+                                </button>
+                                <button onclick="confirmDeleteProduct('${product.id}')" class="bg-red-50 dark:bg-red-900 text-red-600 dark:text-red-400 py-2 px-3 rounded text-sm hover:bg-red-100 dark:hover:bg-red-800 transition-colors">
+                                    🗑️
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
-        // Image upload functionality
-        productImageInput.addEventListener('change', async (e) => {
+        // Product modal functions
+        function openProductModal(productId = null) {
+            editingProductId = productId;
+            uploadedImageUrl = null;
+            
+            const modal = document.getElementById('productModal');
+            const title = document.getElementById('productModalTitle');
+            const form = document.getElementById('productForm');
+            const imagePreview = document.getElementById('imagePreview');
+            
+            // Reset form
+            form.reset();
+            imagePreview.innerHTML = `
+                <div class="w-32 h-32 mx-auto bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                    <div class="text-3xl text-gray-400">📷</div>
+                </div>
+            `;
+            
+            if (productId) {
+                // Edit mode
+                title.textContent = 'Editar Produto';
+                const product = products[productId];
+                if (product) {
+                    document.getElementById('productName').value = product.name;
+                    document.getElementById('productCategory').value = product.category;
+                    document.getElementById('productPrice').value = product.price;
+                    document.getElementById('productOldPrice').value = product.oldPrice || '';
+                    document.getElementById('productStock').value = product.stock;
+                    document.getElementById('productDescription').value = product.description || '';
+                    
+                    if (product.image) {
+                        imagePreview.innerHTML = `<img src="${product.image}" alt="Preview" class="w-32 h-32 mx-auto rounded-lg object-cover">`;
+                        uploadedImageUrl = product.image;
+                    }
+                }
+            } else {
+                // Add mode
+                title.textContent = 'Adicionar Produto';
+            }
+            
+            modal.classList.remove('hidden');
+        }
+
+        // Make openProductModal globally available
+        window.openProductModal = openProductModal;
+        window.editProduct = openProductModal;
+
+        // Delete product with confirmation
+        window.confirmDeleteProduct = function(productId) {
+            showConfirmDialog(
+                `Tem certeza que deseja excluir este produto? Esta ação não pode ser desfeita.`,
+                () => deleteProduct(productId)
+            );
+        };
+
+        async function deleteProduct(productId) {
+            try {
+                // Delete from both Realtime Database and Firestore
+                await Promise.all([
+                    remove(ref(database, `products/${productId}`)),
+                    deleteDoc(doc(firestore, 'products', productId))
+                ]);
+                
+                showCustomAlert('Produto excluído com sucesso!');
+            } catch (error) {
+                console.error('Error deleting product:', error);
+                showCustomAlert('Erro ao excluir produto. Tente novamente.');
+            }
+        }
+
+        // Product form handlers
+        document.getElementById('productImage').addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (!file) return;
 
             // Show preview
             const reader = new FileReader();
             reader.onload = (e) => {
-                productImagePreview.src = e.target.result;
+                document.getElementById('imagePreview').innerHTML = 
+                    `<img src="${e.target.result}" alt="Preview" class="w-32 h-32 mx-auto rounded-lg object-cover">`;
             };
             reader.readAsDataURL(file);
 
@@ -1262,8 +1171,8 @@
 
                 const result = await response.json();
                 if (result.success) {
-                    uploadedImageURL = result.data.url;
-                    console.log('Image uploaded successfully:', uploadedImageURL);
+                    uploadedImageUrl = result.data.url;
+                    console.log('Image uploaded successfully:', uploadedImageUrl);
                 } else {
                     showCustomAlert('Erro ao fazer upload da imagem.');
                 }
@@ -1273,517 +1182,350 @@
             }
         });
 
-        productForm.addEventListener('submit', async (e) => {
+        document.getElementById('productForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const saveProductText = document.getElementById('saveProductText');
-            const saveProductLoader = document.getElementById('saveProductLoader');
-            const saveProductBtn = document.getElementById('saveProductBtn');
+            const saveBtn = document.getElementById('saveProductBtn');
+            const saveText = document.getElementById('saveProductText');
+            const saveLoader = document.getElementById('saveProductLoader');
             
             // Show loading state
-            saveProductText.classList.add('hidden');
-            saveProductLoader.classList.remove('hidden');
-            saveProductBtn.disabled = true;
+            saveText.classList.add('hidden');
+            saveLoader.classList.remove('hidden');
+            saveBtn.disabled = true;
             
             try {
                 const productData = {
                     name: document.getElementById('productName').value,
                     category: document.getElementById('productCategory').value,
-                    stock: parseInt(document.getElementById('productStock').value),
                     price: parseFloat(document.getElementById('productPrice').value),
                     oldPrice: parseFloat(document.getElementById('productOldPrice').value) || null,
-                    description: document.getElementById('productDescription').value,
-                    image: uploadedImageURL,
-                    createdAt: editingProductId ? undefined : Date.now(),
+                    stock: parseInt(document.getElementById('productStock').value),
+                    description: document.getElementById('productDescription').value || '',
+                    image: uploadedImageUrl || (editingProductId ? products[editingProductId]?.image : null),
                     updatedAt: Date.now()
                 };
 
+                if (!editingProductId) {
+                    productData.createdAt = Date.now();
+                }
+
                 if (editingProductId) {
                     // Update existing product
-                    await update(ref(database, `products/${editingProductId}`), productData);
-                    await updateDoc(doc(firestore, 'products', editingProductId), productData);
+                    await Promise.all([
+                        update(ref(database, `products/${editingProductId}`), productData),
+                        setDoc(doc(firestore, 'products', editingProductId), productData, { merge: true })
+                    ]);
                     showCustomAlert('Produto atualizado com sucesso!');
                 } else {
-                    // Add new product - use same key for both databases
+                    // Create new product
                     const newProductRef = push(ref(database, 'products'));
-                    await set(newProductRef, productData);
-                    await setDoc(doc(firestore, 'products', newProductRef.key), productData);
+                    await Promise.all([
+                        set(newProductRef, productData),
+                        setDoc(doc(firestore, 'products', newProductRef.key), productData)
+                    ]);
                     showCustomAlert('Produto adicionado com sucesso!');
                 }
-                
+
                 closeProductModal();
             } catch (error) {
                 console.error('Error saving product:', error);
-                showCustomAlert('Erro ao salvar produto: ' + error.message);
+                showCustomAlert('Erro ao salvar produto. Tente novamente.');
             } finally {
                 // Reset loading state
-                saveProductText.classList.remove('hidden');
-                saveProductLoader.classList.add('hidden');
-                saveProductBtn.disabled = false;
+                saveText.classList.remove('hidden');
+                saveLoader.classList.add('hidden');
+                saveBtn.disabled = false;
             }
         });
 
-        function renderProducts() {
-            const productsList = document.getElementById('productsList');
-            const productsArray = Object.entries(products).map(([id, product]) => ({ id, ...product }));
-            
-            if (productsArray.length === 0) {
-                productsList.innerHTML = `
-                    <div class="text-center py-8">
-                        <div class="text-4xl mb-4">📦</div>
-                        <p class="text-gray-500 dark:text-gray-400">Nenhum produto cadastrado</p>
-                    </div>
-                `;
-                return;
-            }
-
-            productsList.innerHTML = `
-                <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                    ${productsArray.map(product => `
-                        <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
-                            <div class="flex items-start space-x-4">
-                                <img src="${product.image || 'https://via.placeholder.com/80?text=📷'}" alt="${product.name}" 
-                                     class="w-20 h-20 rounded-lg object-cover">
-                                <div class="flex-1 min-w-0">
-                                    <h4 class="font-semibold text-gray-900 dark:text-gray-100 truncate">${product.name}</h4>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400 capitalize">${getCategoryName(product.category)}</p>
-                                    <p class="text-lg font-bold text-primary">${formatPrice(product.price)}</p>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">Estoque: ${product.stock}</p>
-                                </div>
-                            </div>
-                            <div class="flex justify-end space-x-2 mt-4">
-                                <button onclick="editProduct('${product.id}')" 
-                                        class="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600">
-                                    Editar
-                                </button>
-                                <div id="deleteProductBtn-${product.id}"></div>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-
-            // Add enhanced delete buttons
-            productsArray.forEach(product => {
-                const deleteBtn = createDeleteButton(product.id, deleteProductFunction, 'produto');
-                document.getElementById(`deleteProductBtn-${product.id}`).appendChild(deleteBtn);
-            });
+        function closeProductModal() {
+            document.getElementById('productModal').classList.add('hidden');
+            editingProductId = null;
+            uploadedImageUrl = null;
         }
 
-        async function deleteProductFunction(productId) {
-            await deleteWithFallback(
-                () => Promise.all([
-                    remove(ref(database, `products/${productId}`)),
-                    deleteDoc(doc(firestore, 'products', productId))
-                ]),
-                () => remove(ref(database, `products/${productId}`)),
-                'Produto'
-            );
-        }
+        document.getElementById('closeProductModalBtn').addEventListener('click', closeProductModal);
+        document.getElementById('cancelProductBtn').addEventListener('click', closeProductModal);
 
-        window.editProduct = function(productId) {
-            const product = products[productId];
-            if (!product) return;
-
-            editingProductId = productId;
-            document.getElementById('productModalTitle').textContent = 'Editar Produto';
-            
-            // Fill form with product data
-            document.getElementById('productName').value = product.name;
-            document.getElementById('productCategory').value = product.category;
-            document.getElementById('productStock').value = product.stock;
-            document.getElementById('productPrice').value = product.price;
-            document.getElementById('productOldPrice').value = product.oldPrice || '';
-            document.getElementById('productDescription').value = product.description || '';
-            
-            if (product.image) {
-                productImagePreview.src = product.image;
-                uploadedImageURL = product.image;
-            } else {
-                productImagePreview.src = 'https://via.placeholder.com/100?text=📷';
-                uploadedImageURL = null;
-            }
-            
-            productModal.classList.remove('hidden');
-        };
-
-        // Orders Management
-        const orderDetailModal = document.getElementById('orderDetailModal');
-        const closeOrderDetailBtn = document.getElementById('closeOrderDetailBtn');
-        const approveOrderBtn = document.getElementById('approveOrderBtn');
-        const rejectOrderBtn = document.getElementById('rejectOrderBtn');
-        const deleteOrderBtn = document.getElementById('deleteOrderBtn');
-        const startOrderChatBtn = document.getElementById('startOrderChatBtn');
-
-        closeOrderDetailBtn.addEventListener('click', () => {
-            orderDetailModal.classList.add('hidden');
-            currentOrderId = null;
-        });
-
-        // Order filters
-        document.querySelectorAll('.order-filter-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.order-filter-btn').forEach(b => {
-                    b.classList.remove('bg-primary', 'text-white');
-                    b.classList.add('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
-                });
-                btn.classList.add('bg-primary', 'text-white');
-                btn.classList.remove('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
-                currentOrderFilter = btn.dataset.status;
-                renderOrders();
-            });
-        });
-
+        // Orders functions
         function renderOrders() {
-            const ordersList = document.getElementById('ordersList');
+            const ordersGrid = document.getElementById('ordersGrid');
             const ordersArray = Object.entries(orders).map(([id, order]) => ({ id, ...order }));
             
+            // Apply filter
             let filteredOrders = ordersArray;
             if (currentOrderFilter !== 'all') {
                 filteredOrders = ordersArray.filter(order => order.status === currentOrderFilter);
             }
-
+            
+            // Sort by creation date (newest first)
+            filteredOrders.sort((a, b) => b.createdAt - a.createdAt);
+            
             if (filteredOrders.length === 0) {
-                ordersList.innerHTML = `
-                    <div class="text-center py-8">
-                        <div class="text-4xl mb-4">🛒</div>
-                        <p class="text-gray-500 dark:text-gray-400">Nenhum pedido encontrado</p>
+                ordersGrid.innerHTML = `
+                    <div class="text-center py-12">
+                        <div class="text-4xl mb-4">📦</div>
+                        <p class="text-gray-500 dark:text-gray-400">
+                            ${currentOrderFilter === 'all' ? 'Nenhum pedido encontrado' : `Nenhum pedido ${getStatusText(currentOrderFilter)} encontrado`}
+                        </p>
                     </div>
                 `;
                 return;
             }
 
-            ordersList.innerHTML = `
-                <div class="space-y-4">
-                    ${filteredOrders
-                        .sort((a, b) => b.createdAt - a.createdAt)
-                        .map(order => `
-                        <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
-                            <div class="flex justify-between items-start mb-3">
-                                <div>
-                                    <h4 class="font-semibold text-gray-900 dark:text-gray-100">${order.customer.name}</h4>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">${order.customer.email}</p>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">${order.customer.phone}</p>
-                                </div>
-                                <div class="text-right">
-                                    <span class="px-2 py-1 text-xs rounded ${getStatusColor(order.status)}">
-                                        ${getStatusText(order.status)}
-                                    </span>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                        ${new Date(order.createdAt).toLocaleDateString('pt-BR')}
-                                    </p>
+            ordersGrid.innerHTML = filteredOrders.map(order => {
+                const statusColor = getOrderStatusColor(order.status);
+                const statusText = getOrderStatusText(order.status);
+                
+                return `
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Pedido #${order.id.slice(-6)}</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">${new Date(order.createdAt).toLocaleString('pt-BR')}</p>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-sm font-medium ${statusColor}">
+                                ${statusText}
+                            </span>
+                        </div>
+                        
+                        <div class="space-y-3 mb-4">
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-gray-200 mb-2">Cliente</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">📧 ${order.customer.email}</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">👤 ${order.customer.name}</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">📞 ${order.customer.phone}</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">📍 ${order.customer.location}</p>
+                                ${order.customer.message ? `<p class="text-sm text-gray-600 dark:text-gray-400">💬 ${order.customer.message}</p>` : ''}
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-medium text-gray-800 dark:text-gray-200 mb-2">Itens (${order.items.length})</h4>
+                                <div class="space-y-1">
+                                    ${order.items.slice(0, 3).map(item => `
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                                            ${item.quantity}x ${item.name} - ${formatPrice(item.price)}
+                                        </p>
+                                    `).join('')}
+                                    ${order.items.length > 3 ? `<p class="text-sm text-gray-500 dark:text-gray-500">+${order.items.length - 3} mais...</p>` : ''}
                                 </div>
                             </div>
-                            <div class="mb-3">
-                                <p class="text-sm text-gray-600 dark:text-gray-400">
-                                    <strong>Itens:</strong> ${order.items.length} produto(s)
-                                </p>
-                                <p class="text-lg font-semibold text-primary">
-                                    <strong>Total:</strong> ${formatPrice(order.total)}
-                                </p>
+                            
+                            <div class="pt-2 border-t border-gray-200 dark:border-gray-600">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-semibold text-gray-800 dark:text-gray-200">Total:</span>
+                                    <span class="text-lg font-bold text-primary">${formatPrice(order.total)}</span>
+                                </div>
                             </div>
-                            <button onclick="showOrderDetail('${order.id}')" 
-                                    class="px-4 py-2 bg-primary text-white text-sm rounded hover:bg-primary-dark">
-                                Ver Detalhes
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="showOrderDetail('${order.id}')" class="px-3 py-2 bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded text-sm hover:bg-blue-100 dark:hover:bg-blue-800 transition-colors">
+                                👁️ Ver Detalhes
+                            </button>
+                            ${order.status === 'pending' ? `
+                                <button onclick="updateOrderStatus('${order.id}', 'approved')" class="px-3 py-2 bg-green-50 dark:bg-green-900 text-green-600 dark:text-green-400 rounded text-sm hover:bg-green-100 dark:hover:bg-green-800 transition-colors">
+                                    ✅ Aprovar
+                                </button>
+                                <button onclick="updateOrderStatus('${order.id}', 'rejected')" class="px-3 py-2 bg-red-50 dark:bg-red-900 text-red-600 dark:text-red-400 rounded text-sm hover:bg-red-100 dark:hover:bg-red-800 transition-colors">
+                                    ❌ Rejeitar
+                                </button>
+                            ` : ''}
+                            <button onclick="startChatWithCustomer('${order.customer.userId}')" class="px-3 py-2 bg-purple-50 dark:bg-purple-900 text-purple-600 dark:text-purple-400 rounded text-sm hover:bg-purple-100 dark:hover:bg-purple-800 transition-colors">
+                                💬 Chat
+                            </button>
+                            <button onclick="confirmDeleteOrder('${order.id}')" class="px-3 py-2 bg-gray-50 dark:bg-gray-900 text-gray-600 dark:text-gray-400 rounded text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                                🗑️ Excluir
                             </button>
                         </div>
-                    `).join('')}
-                </div>
-            `;
+                    </div>
+                `;
+            }).join('');
         }
 
+        // Order filter functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add event listeners to order filter buttons
+            document.querySelectorAll('.order-filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Update filter buttons
+                    document.querySelectorAll('.order-filter-btn').forEach(b => {
+                        b.classList.remove('bg-primary', 'text-white');
+                        b.classList.add('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+                    });
+                    btn.classList.add('bg-primary', 'text-white');
+                    btn.classList.remove('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+                    
+                    currentOrderFilter = btn.dataset.status;
+                    renderOrders();
+                });
+            });
+        });
+
+        function filterOrders(status) {
+            currentOrderFilter = status;
+            
+            // Update filter buttons
+            document.querySelectorAll('.order-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-primary', 'text-white');
+                btn.classList.add('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+            });
+            
+            const activeBtn = document.querySelector(`.order-filter-btn[data-status="${status}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-primary', 'text-white');
+                activeBtn.classList.remove('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+            }
+            
+            renderOrders();
+        }
+
+        // Make order functions globally available
         window.showOrderDetail = function(orderId) {
             const order = orders[orderId];
             if (!order) return;
-
-            currentOrderId = orderId;
-            document.getElementById('orderDetailTitle').textContent = `Pedido #${orderId.slice(-6)}`;
             
-            const orderDetailContent = document.getElementById('orderDetailContent');
-            orderDetailContent.innerHTML = `
-                <div class="space-y-4">
-                    <!-- Customer Info -->
-                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-                        <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">Informações do Cliente</h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-                            <div>
-                                <span class="font-medium">Nome:</span> ${order.customer.name}
+            const modal = document.getElementById('orderDetailModal');
+            const title = document.getElementById('orderDetailTitle');
+            const content = document.getElementById('orderDetailContent');
+            
+            title.textContent = `Pedido #${orderId.slice(-6)}`;
+            
+            const statusColor = getOrderStatusColor(order.status);
+            const statusText = getOrderStatusText(order.status);
+            
+            content.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-3">Informações do Cliente</h4>
+                            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 space-y-2">
+                                <p class="text-sm"><span class="font-medium">Nome:</span> ${order.customer.name}</p>
+                                <p class="text-sm"><span class="font-medium">Email:</span> ${order.customer.email}</p>
+                                <p class="text-sm"><span class="font-medium">Telefone:</span> ${order.customer.phone}</p>
+                                <p class="text-sm"><span class="font-medium">Localização:</span> ${order.customer.location}</p>
+                                ${order.customer.message ? `<p class="text-sm"><span class="font-medium">Mensagem:</span> ${order.customer.message}</p>` : ''}
                             </div>
-                            <div>
-                                <span class="font-medium">Email:</span> ${order.customer.email}
-                            </div>
-                            <div>
-                                <span class="font-medium">Telefone:</span> ${order.customer.phone}
-                            </div>
-                            <div>
-                                <span class="font-medium">Status:</span> 
-                                <span class="px-2 py-1 text-xs rounded ${getStatusColor(order.status)}">
-                                    ${getStatusText(order.status)}
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-3">Status do Pedido</h4>
+                            <div class="flex items-center space-x-3">
+                                <span class="px-3 py-1 rounded-full text-sm font-medium ${statusColor}">
+                                    ${statusText}
+                                </span>
+                                <span class="text-sm text-gray-500 dark:text-gray-400">
+                                    ${new Date(order.createdAt).toLocaleString('pt-BR')}
                                 </span>
                             </div>
                         </div>
-                        <div class="mt-3">
-                            <span class="font-medium">Endereço:</span>
-                            <p class="text-gray-600 dark:text-gray-400">${order.customer.location}</p>
-                        </div>
-                        ${order.customer.message ? `
-                            <div class="mt-3">
-                                <span class="font-medium">Mensagem:</span>
-                                <p class="text-gray-600 dark:text-gray-400">${order.customer.message}</p>
-                            </div>
-                        ` : ''}
                     </div>
-
-                    <!-- Order Items -->
-                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-                        <h4 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">Itens do Pedido</h4>
-                        <div class="space-y-2">
-                            ${order.items.map(item => `
-                                <div class="flex justify-between items-center py-2 border-b border-gray-200 dark:border-gray-600 last:border-b-0">
-                                    <div>
-                                        <span class="font-medium">${item.name}</span>
-                                        <span class="text-gray-500 dark:text-gray-400"> (${item.quantity}x ${formatPrice(item.price)})</span>
-                                    </div>
-                                    <span class="font-medium">${formatPrice(item.price * item.quantity)}</span>
-                                </div>
-                            `).join('')}
-                            <div class="flex justify-between items-center pt-2 font-bold text-lg">
-                                <span>Total:</span>
-                                <span class="text-primary">${formatPrice(order.total)}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Order Date -->
-                    <div class="text-sm text-gray-500 dark:text-gray-500">
-                        Pedido realizado em: ${new Date(order.createdAt).toLocaleString('pt-BR')}
-                    </div>
-                </div>
-            `;
-
-            orderDetailModal.classList.remove('hidden');
-        };
-
-        startOrderChatBtn.addEventListener('click', async () => {
-            if (!currentOrderId) return;
-            
-            const order = orders[currentOrderId];
-            if (!order || !order.customer.userId) {
-                showCustomAlert('Não foi possível encontrar o usuário deste pedido.');
-                return;
-            }
-            
-            try {
-                // Check if user exists
-                const user = users[order.customer.userId];
-                if (!user) {
-                    // Try to find user in the users collection
-                    const userDoc = await getDoc(doc(firestore, 'users', order.customer.userId));
-                    if (!userDoc.exists()) {
-                        showCustomAlert('Usuário não encontrado.');
-                        return;
-                    }
-                }
-                
-                // Switch to chat management and select user
-                showSection('chatManagement');
-                
-                // Wait for users list to load, then select the user
-                setTimeout(() => {
-                    selectUser(order.customer.userId);
                     
-                    // If chat is not active, start it
-                    const userChatRef = ref(database, `chats/users/${order.customer.userId}`);
-                    onValue(userChatRef, (snapshot) => {
-                        const chatData = snapshot.val();
-                        if (!chatData || !chatData.active) {
-                            // Start chat automatically
-                            currentChatUser = user || { id: order.customer.userId, name: order.customer.name, email: order.customer.email };
-                            startUserChat();
-                        }
-                    }, { onlyOnce: true });
-                }, 500);
-                
-                orderDetailModal.classList.add('hidden');
-                
-            } catch (error) {
-                console.error('Error starting order chat:', error);
-                showCustomAlert('Erro ao iniciar chat: ' + error.message);
-            }
-        });
-
-        approveOrderBtn.addEventListener('click', async () => {
-            if (!currentOrderId) return;
-            
-            try {
-                await update(ref(database, `orders/${currentOrderId}`), { status: 'approved' });
-                
-                // Update in Firestore only if document exists
-                try {
-                    await updateDoc(doc(firestore, 'orders', currentOrderId), { status: 'approved' });
-                } catch (firestoreError) {
-                    console.log('Order not found in Firestore, updating only Realtime Database');
-                }
-                
-                showCustomAlert('Pedido aprovado com sucesso!');
-                orderDetailModal.classList.add('hidden');
-            } catch (error) {
-                console.error('Error approving order:', error);
-                showCustomAlert('Erro ao aprovar pedido: ' + error.message);
-            }
-        });
-
-        rejectOrderBtn.addEventListener('click', async () => {
-            if (!currentOrderId) return;
-            
-            try {
-                await update(ref(database, `orders/${currentOrderId}`), { status: 'rejected' });
-                
-                // Update in Firestore only if document exists
-                try {
-                    await updateDoc(doc(firestore, 'orders', currentOrderId), { status: 'rejected' });
-                } catch (firestoreError) {
-                    console.log('Order not found in Firestore, updating only Realtime Database');
-                }
-                
-                showCustomAlert('Pedido rejeitado com sucesso!');
-                orderDetailModal.classList.add('hidden');
-            } catch (error) {
-                console.error('Error rejecting order:', error);
-                showCustomAlert('Erro ao rejeitar pedido: ' + error.message);
-            }
-        });
-
-        deleteOrderBtn.addEventListener('click', async () => {
-            if (!currentOrderId) return;
-            
-            const deleteBtn = createDeleteButton(currentOrderId, deleteOrderFunction, 'pedido');
-            deleteBtn.click(); // Trigger the enhanced delete
-            
-            async function deleteOrderFunction(orderId) {
-                await deleteWithFallback(
-                    () => Promise.all([
-                        remove(ref(database, `orders/${orderId}`)),
-                        deleteDoc(doc(firestore, 'orders', orderId))
-                    ]),
-                    () => remove(ref(database, `orders/${orderId}`)),
-                    'Pedido'
-                );
-                orderDetailModal.classList.add('hidden');
-            }
-        });
-
-        // Categories Management
-        const addCategoryBtn = document.getElementById('addCategoryBtn');
-        const categoryModal = document.getElementById('categoryModal');
-        const closeCategoryModalBtn = document.getElementById('closeCategoryModalBtn');
-        const cancelCategoryBtn = document.getElementById('cancelCategoryBtn');
-        const categoryForm = document.getElementById('categoryForm');
-
-        addCategoryBtn.addEventListener('click', () => {
-            categoryForm.reset();
-            categoryModal.classList.remove('hidden');
-        });
-
-        closeCategoryModalBtn.addEventListener('click', () => {
-            categoryModal.classList.add('hidden');
-        });
-
-        cancelCategoryBtn.addEventListener('click', () => {
-            categoryModal.classList.add('hidden');
-        });
-
-        categoryForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            try {
-                const categoryData = {
-                    name: document.getElementById('categoryName').value,
-                    key: document.getElementById('categoryKey').value,
-                    icon: document.getElementById('categoryIcon').value || '🏷️',
-                    createdAt: Date.now()
-                };
-
-                const categoryKey = categoryData.key;
-                
-                // Save to both databases
-                await set(ref(database, `categories/${categoryKey}`), categoryData);
-                await setDoc(doc(firestore, 'categories', categoryKey), categoryData);
-                
-                showCustomAlert('Categoria adicionada com sucesso!');
-                categoryModal.classList.add('hidden');
-            } catch (error) {
-                console.error('Error saving category:', error);
-                showCustomAlert('Erro ao salvar categoria: ' + error.message);
-            }
-        });
-
-        function renderCategories() {
-            const categoriesList = document.getElementById('categoriesList');
-            
-            // Get categories from both custom categories and products
-            const productCategories = [...new Set(Object.values(products).map(p => p.category))];
-            const allCategoryKeys = [...new Set([...Object.keys(customCategories), ...productCategories])];
-            
-            if (allCategoryKeys.length === 0) {
-                categoriesList.innerHTML = `
-                    <div class="text-center py-8">
-                        <div class="text-4xl mb-4">📂</div>
-                        <p class="text-gray-500 dark:text-gray-400">Nenhuma categoria encontrada</p>
-                    </div>
-                `;
-                return;
-            }
-
-            categoriesList.innerHTML = `
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    ${allCategoryKeys.map(categoryKey => {
-                        const customCategory = customCategories[categoryKey];
-                        const categoryProducts = Object.values(products).filter(p => p.category === categoryKey);
-                        const categoryName = customCategory?.name || getCategoryName(categoryKey);
-                        const categoryIcon = customCategory?.icon || getCategoryIcon(categoryKey);
-                        
-                        return `
-                            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center space-x-3">
-                                        <div class="text-2xl">${categoryIcon}</div>
-                                        <div>
-                                            <h4 class="font-semibold text-gray-900 dark:text-gray-100">${categoryName}</h4>
-                                            <p class="text-sm text-gray-500 dark:text-gray-400">${categoryProducts.length} produto(s)</p>
-                                            <p class="text-xs text-gray-400 dark:text-gray-500">Chave: ${categoryKey}</p>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-3">Itens do Pedido</h4>
+                        <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                            <div class="space-y-3">
+                                ${order.items.map(item => `
+                                    <div class="flex justify-between items-center py-2 border-b border-gray-200 dark:border-gray-600 last:border-b-0">
+                                        <div class="flex-1">
+                                            <p class="font-medium text-gray-800 dark:text-gray-200">${item.name}</p>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400">Quantidade: ${item.quantity}</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="font-medium text-gray-800 dark:text-gray-200">${formatPrice(item.price * item.quantity)}</p>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400">${formatPrice(item.price)} cada</p>
                                         </div>
                                     </div>
-                                    ${customCategory ? `
-                                        <div id="deleteCategoryBtn-${categoryKey}"></div>
-                                    ` : ''}
+                                `).join('')}
+                            </div>
+                            
+                            <div class="border-t border-gray-200 dark:border-gray-600 pt-3 mt-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-lg font-bold text-gray-800 dark:text-gray-200">Total:</span>
+                                    <span class="text-xl font-bold text-primary">${formatPrice(order.total)}</span>
                                 </div>
                             </div>
-                        `;
-                    }).join('')}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap gap-3 pt-6 border-t border-gray-200 dark:border-gray-600">
+                    ${order.status === 'pending' ? `
+                        <button onclick="updateOrderStatus('${orderId}', 'approved'); closeOrderDetail();" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors">
+                            ✅ Aprovar Pedido
+                        </button>
+                        <button onclick="updateOrderStatus('${orderId}', 'rejected'); closeOrderDetail();" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors">
+                            ❌ Rejeitar Pedido
+                        </button>
+                    ` : ''}
+                    <button onclick="startChatWithCustomer('${order.customer.userId}'); closeOrderDetail();" class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition-colors">
+                        💬 Conversar com Cliente
+                    </button>
+                    <button onclick="confirmDeleteOrder('${orderId}'); closeOrderDetail();" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors">
+                        🗑️ Excluir Pedido
+                    </button>
                 </div>
             `;
+            
+            modal.classList.remove('hidden');
+        };
 
-            // Add enhanced delete buttons for custom categories
-            Object.keys(customCategories).forEach(categoryKey => {
-                const deleteBtn = createDeleteButton(categoryKey, deleteCategoryFunction, 'categoria');
-                const container = document.getElementById(`deleteCategoryBtn-${categoryKey}`);
-                if (container) {
-                    container.appendChild(deleteBtn);
-                }
-            });
-        }
+        window.updateOrderStatus = async function(orderId, newStatus) {
+            try {
+                const updateData = {
+                    status: newStatus,
+                    updatedAt: Date.now()
+                };
 
-        async function deleteCategoryFunction(categoryKey) {
-            await deleteWithFallback(
-                () => Promise.all([
-                    remove(ref(database, `categories/${categoryKey}`)),
-                    deleteDoc(doc(firestore, 'categories', categoryKey))
-                ]),
-                () => remove(ref(database, `categories/${categoryKey}`)),
-                'Categoria'
+                await Promise.all([
+                    update(ref(database, `orders/${orderId}`), updateData),
+                    setDoc(doc(firestore, 'orders', orderId), updateData, { merge: true })
+                ]);
+
+                const statusText = getOrderStatusText(newStatus);
+                showCustomAlert(`Pedido ${statusText.toLowerCase()} com sucesso!`);
+            } catch (error) {
+                console.error('Error updating order status:', error);
+                showCustomAlert('Erro ao atualizar status do pedido.');
+            }
+        };
+
+        window.startChatWithCustomer = function(userId) {
+            showSection('chat');
+            setTimeout(() => {
+                startChat(userId);
+            }, 100);
+        };
+
+        // Delete order with confirmation
+        window.confirmDeleteOrder = function(orderId) {
+            showConfirmDialog(
+                `Tem certeza que deseja excluir este pedido? Esta ação não pode ser desfeita.`,
+                () => deleteOrder(orderId)
             );
+        };
+
+        async function deleteOrder(orderId) {
+            try {
+                // Delete from both Realtime Database and Firestore
+                await Promise.all([
+                    remove(ref(database, `orders/${orderId}`)),
+                    deleteDoc(doc(firestore, 'orders', orderId))
+                ]);
+                
+                showCustomAlert('Pedido excluído com sucesso!');
+            } catch (error) {
+                console.error('Error deleting order:', error);
+                showCustomAlert('Erro ao excluir pedido. Tente novamente.');
+            }
         }
+
+        function closeOrderDetail() {
+            document.getElementById('orderDetailModal').classList.add('hidden');
+        }
+
+        document.getElementById('closeOrderDetailBtn').addEventListener('click', closeOrderDetail);
 
         // Utility functions
         function formatPrice(price) {
@@ -1812,29 +1554,7 @@
             return categoryNames[category] || category;
         }
 
-        function getCategoryIcon(category) {
-            const categoryIcons = {
-                'eletronicos': '💻',
-                'roupas': '👕',
-                'casa': '🏠',
-                'livros': '📚',
-                'esportes': '⚽',
-                'beleza': '💄',
-                'acessorios': '💍',
-                'calcados': '👟',
-                'alimentacao': '🍔',
-                'saude': '💊',
-                'automotivo': '🚗',
-                'brinquedos': '🧸',
-                'musica': '🎸',
-                'arte': '🎨',
-                'pets': '🐶',
-                'servicos': '🛠️'
-            };
-            return categoryIcons[category] || '🏷️';
-        }
-
-        function getStatusColor(status) {
+        function getOrderStatusColor(status) {
             switch (status) {
                 case 'pending':
                     return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
@@ -1847,7 +1567,7 @@
             }
         }
 
-        function getStatusText(status) {
+        function getOrderStatusText(status) {
             switch (status) {
                 case 'pending':
                     return 'Pendente';
@@ -1860,28 +1580,20 @@
             }
         }
 
-        function showAdminApp() {
-            loadingScreen.classList.add('hidden');
-            loginScreen.classList.add('hidden');
-            accessDeniedScreen.classList.add('hidden');
-            adminApp.classList.remove('hidden');
+        function getStatusText(status) {
+            switch (status) {
+                case 'pending':
+                    return 'pendente';
+                case 'approved':
+                    return 'aprovado';
+                case 'rejected':
+                    return 'rejeitado';
+                default:
+                    return '';
+            }
         }
 
-        function showLoginScreen() {
-            loadingScreen.classList.add('hidden');
-            accessDeniedScreen.classList.add('hidden');
-            adminApp.classList.add('hidden');
-            loginScreen.classList.remove('hidden');
-        }
-
-        function showAccessDenied() {
-            loadingScreen.classList.add('hidden');
-            loginScreen.classList.add('hidden');
-            adminApp.classList.add('hidden');
-            accessDeniedScreen.classList.remove('hidden');
-        }
-
-        // Custom alert and confirm functions
+        // Custom alert function
         function showCustomAlert(message) {
             const modal = document.createElement('div');
             modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
@@ -1896,38 +1608,34 @@
             document.body.appendChild(modal);
         }
 
-        function showConfirmDialog(message, onConfirm, onCancel) {
+        // Custom confirm dialog function
+        function showConfirmDialog(message, onConfirm) {
             const modal = document.createElement('div');
             modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
             modal.innerHTML = `
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full">
-                    <p class="text-gray-700 dark:text-gray-300 mb-4">${message}</p>
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-md w-full">
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Confirmar Ação</h3>
+                    <p class="text-gray-700 dark:text-gray-300 mb-6">${message}</p>
                     <div class="flex justify-end space-x-3">
-                        <button id="cancelConfirm" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">Cancelar</button>
-                        <button id="confirmAction" class="px-4 py-2 bg-red-500 text-white hover:bg-red-600 rounded">Confirmar</button>
+                        <button class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded" onclick="this.closest('.fixed').remove()">Cancelar</button>
+                        <button class="px-4 py-2 bg-red-500 text-white hover:bg-red-600 rounded" onclick="this.closest('.fixed').remove(); onConfirm()">Confirmar</button>
                     </div>
                 </div>
             `;
             document.body.appendChild(modal);
-            
-            modal.querySelector('#confirmAction').addEventListener('click', () => {
-                modal.remove();
-                if (onConfirm) onConfirm();
-            });
-            
-            modal.querySelector('#cancelConfirm').addEventListener('click', () => {
-                modal.remove();
-                if (onCancel) onCancel();
-            });
         }
 
-        // Initialize the admin app
+        // Initialize the app
         setTimeout(() => {
-            if (!currentAdmin) {
-                showLoginScreen();
+            if (!currentUser) {
+                // Trigger Google login
+                const provider = new GoogleAuthProvider();
+                signInWithPopup(auth, provider).catch(error => {
+                    console.error('Login error:', error);
+                    showAccessDenied();
+                });
             }
         }, 2000);
     </script>
-    
 </body>
 </html>
