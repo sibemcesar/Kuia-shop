@@ -24,6 +24,14 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
+        .delete-hold {
+            background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+            animation: deleteHold 2s linear forwards;
+        }
+        @keyframes deleteHold {
+            0% { background-size: 0% 100%; }
+            100% { background-size: 100% 100%; }
+        }
     </style>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
@@ -102,6 +110,9 @@
                             <button id="ordersBtn" class="nav-btn text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">
                                 <span class="mr-2">🛒</span>Pedidos
                             </button>
+                            <button id="chatManagementBtn" class="nav-btn text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">
+                                <span class="mr-2">💬</span>Chat
+                            </button>
                             <button id="categoriesBtn" class="nav-btn text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">
                                 <span class="mr-2">📂</span>Categorias
                             </button>
@@ -138,6 +149,10 @@
                 <button id="mobileOrdersBtn" class="flex-1 nav-btn text-center py-3 text-gray-700 dark:text-gray-300 hover:text-primary">
                     <div class="text-lg">🛒</div>
                     <span class="text-xs mt-1">Pedidos</span>
+                </button>
+                <button id="mobileChatBtn" class="flex-1 nav-btn text-center py-3 text-gray-700 dark:text-gray-300 hover:text-primary">
+                    <div class="text-lg">💬</div>
+                    <span class="text-xs mt-1">Chat</span>
                 </button>
                 <button id="mobileCategoriesBtn" class="flex-1 nav-btn text-center py-3 text-gray-700 dark:text-gray-300 hover:text-primary">
                     <div class="text-lg">📂</div>
@@ -193,11 +208,11 @@
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                         <div class="flex items-center">
                             <div class="p-3 rounded-full bg-purple-100 dark:bg-purple-900">
-                                <span class="text-2xl">📂</span>
+                                <span class="text-2xl">💬</span>
                             </div>
                             <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Categorias</p>
-                                <p id="totalCategories" class="text-2xl font-bold text-gray-900 dark:text-gray-100">0</p>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Chats Ativos</p>
+                                <p id="activeChats" class="text-2xl font-bold text-gray-900 dark:text-gray-100">0</p>
                             </div>
                         </div>
                     </div>
@@ -273,6 +288,63 @@
                         <div class="text-center py-8">
                             <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
                             <p class="text-gray-500 dark:text-gray-400">Carregando pedidos...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Management Section -->
+            <div id="chatManagementSection" class="hidden">
+                <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-8">Gerenciar Chats</h2>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Users List -->
+                    <div class="lg:col-span-1">
+                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Usuários</h3>
+                            </div>
+                            <div id="usersList" class="p-4 max-h-96 overflow-y-auto">
+                                <div class="text-center py-8">
+                                    <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mx-auto mb-4"></div>
+                                    <p class="text-gray-500 dark:text-gray-400 text-sm">Carregando usuários...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Interface -->
+                    <div class="lg:col-span-2">
+                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 flex flex-col h-96">
+                            <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+                                <h3 id="chatUserName" class="text-lg font-semibold text-gray-800 dark:text-gray-200">Selecione um usuário</h3>
+                                <div id="chatControls" class="hidden space-x-2">
+                                    <button id="startChatBtn" class="px-3 py-1 bg-green-500 text-white text-sm rounded hover:bg-green-600">
+                                        Iniciar Chat
+                                    </button>
+                                    <button id="closeChatBtn" class="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600">
+                                        Fechar Chat
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div id="adminChatContainer" class="flex-1 overflow-y-auto p-4 bg-gray-50 dark:bg-gray-900">
+                                <div id="adminChatMessages" class="space-y-3">
+                                    <div class="text-center text-gray-500 dark:text-gray-400 text-sm">
+                                        <p>💬 Selecione um usuário para iniciar ou continuar uma conversa</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div id="adminChatInputContainer" class="p-4 border-t border-gray-200 dark:border-gray-700 hidden">
+                                <div class="flex space-x-2">
+                                    <input type="text" id="adminChatInput" placeholder="Digite sua mensagem..." 
+                                           class="flex-1 px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
+                                    <button id="sendAdminChatBtn" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors">
+                                        📤
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -426,6 +498,9 @@
                 </div>
 
                 <div class="flex justify-end space-x-3 mt-6">
+                    <button id="startOrderChatBtn" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                        💬 Iniciar Chat
+                    </button>
                     <button id="rejectOrderBtn" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
                         Rejeitar
                     </button>
@@ -539,10 +614,14 @@
         let products = {};
         let orders = {};
         let customCategories = {};
+        let users = {};
         let currentSection = 'dashboard';
         let currentOrderFilter = 'all';
         let editingProductId = null;
         let currentOrderId = null;
+        let currentChatUser = null;
+        let currentChatId = null;
+        let deleteTimeouts = {};
 
         // API Key for image upload
         const apiKeyImgBB = 'e073e02267a1f0259cd69c562e780659';
@@ -564,17 +643,340 @@
         const dashboardBtn = document.getElementById('dashboardBtn');
         const productsBtn = document.getElementById('productsBtn');
         const ordersBtn = document.getElementById('ordersBtn');
+        const chatManagementBtn = document.getElementById('chatManagementBtn');
         const categoriesBtn = document.getElementById('categoriesBtn');
         const mobileDashboardBtn = document.getElementById('mobileDashboardBtn');
         const mobileProductsBtn = document.getElementById('mobileProductsBtn');
         const mobileOrdersBtn = document.getElementById('mobileOrdersBtn');
+        const mobileChatBtn = document.getElementById('mobileChatBtn');
         const mobileCategoriesBtn = document.getElementById('mobileCategoriesBtn');
 
         // Section elements
         const dashboardSection = document.getElementById('dashboardSection');
         const productsSection = document.getElementById('productsSection');
         const ordersSection = document.getElementById('ordersSection');
+        const chatManagementSection = document.getElementById('chatManagementSection');
         const categoriesSection = document.getElementById('categoriesSection');
+
+        // Chat elements
+        const usersList = document.getElementById('usersList');
+        const chatUserName = document.getElementById('chatUserName');
+        const chatControls = document.getElementById('chatControls');
+        const startChatBtn = document.getElementById('startChatBtn');
+        const closeChatBtn = document.getElementById('closeChatBtn');
+        const adminChatContainer = document.getElementById('adminChatContainer');
+        const adminChatMessages = document.getElementById('adminChatMessages');
+        const adminChatInputContainer = document.getElementById('adminChatInputContainer');
+        const adminChatInput = document.getElementById('adminChatInput');
+        const sendAdminChatBtn = document.getElementById('sendAdminChatBtn');
+
+        // Enhanced delete function with hold-to-delete
+        function createDeleteButton(itemId, deleteFunction, itemName = 'item') {
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition-colors';
+            deleteBtn.textContent = 'Excluir';
+            
+            let deleteTimeout;
+            let isHolding = false;
+            
+            function startDelete() {
+                if (isHolding) return;
+                isHolding = true;
+                
+                // Show immediate confirmation dialog
+                showConfirmDialog(`Tem certeza que deseja excluir este ${itemName}?`, () => {
+                    // User confirmed, start hold-to-delete
+                    deleteBtn.textContent = 'Segure para confirmar';
+                    deleteBtn.classList.add('delete-hold');
+                    
+                    deleteTimeout = setTimeout(() => {
+                        deleteFunction(itemId);
+                        deleteBtn.classList.remove('delete-hold');
+                        deleteBtn.textContent = 'Excluir';
+                        isHolding = false;
+                    }, 2000);
+                }, () => {
+                    // User cancelled
+                    isHolding = false;
+                });
+            }
+            
+            function cancelDelete() {
+                if (deleteTimeout) {
+                    clearTimeout(deleteTimeout);
+                    deleteTimeout = null;
+                }
+                deleteBtn.classList.remove('delete-hold');
+                deleteBtn.textContent = 'Excluir';
+                isHolding = false;
+            }
+            
+            deleteBtn.addEventListener('mousedown', startDelete);
+            deleteBtn.addEventListener('touchstart', startDelete);
+            deleteBtn.addEventListener('mouseup', cancelDelete);
+            deleteBtn.addEventListener('mouseleave', cancelDelete);
+            deleteBtn.addEventListener('touchend', cancelDelete);
+            
+            return deleteBtn;
+        }
+
+        // Enhanced delete functions with fallback
+        async function deleteWithFallback(primaryDelete, fallbackDelete, itemName) {
+            try {
+                await primaryDelete();
+                showCustomAlert(`${itemName} excluído com sucesso!`);
+            } catch (error) {
+                console.error(`Primary delete failed for ${itemName}:`, error);
+                try {
+                    await fallbackDelete();
+                    showCustomAlert(`${itemName} excluído com sucesso!`);
+                } catch (fallbackError) {
+                    console.error(`Fallback delete failed for ${itemName}:`, fallbackError);
+                    showCustomAlert(`Erro ao excluir ${itemName}: ${fallbackError.message}`);
+                }
+            }
+        }
+
+        // Chat Management Functions
+        function initializeChatManagement() {
+            loadUsers();
+            
+            startChatBtn.addEventListener('click', startUserChat);
+            closeChatBtn.addEventListener('click', closeUserChat);
+            sendAdminChatBtn.addEventListener('click', sendAdminMessage);
+            adminChatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendAdminMessage();
+                }
+            });
+        }
+
+        function loadUsers() {
+            // Load users from Firestore
+            const usersQuery = query(collection(firestore, 'users'));
+            getDocs(usersQuery).then((snapshot) => {
+                users = {};
+                snapshot.docs.forEach(doc => {
+                    users[doc.id] = { id: doc.id, ...doc.data() };
+                });
+                renderUsersList();
+            }).catch(error => {
+                console.error('Error loading users:', error);
+            });
+        }
+
+        function renderUsersList() {
+            const usersArray = Object.values(users);
+            
+            if (usersArray.length === 0) {
+                usersList.innerHTML = `
+                    <div class="text-center py-4 text-gray-500 dark:text-gray-400 text-sm">
+                        Nenhum usuário encontrado
+                    </div>
+                `;
+                return;
+            }
+
+            usersList.innerHTML = usersArray.map(user => `
+                <div class="flex items-center space-x-3 p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg cursor-pointer user-item" 
+                     data-user-id="${user.id}" onclick="selectUser('${user.id}')">
+                    <img src="${user.photoURL || 'https://via.placeholder.com/40?text=' + (user.name?.charAt(0) || '👤')}" 
+                         alt="${user.name}" class="w-10 h-10 rounded-full">
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">${user.name || 'Usuário'}</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 truncate">${user.email}</p>
+                        <div id="chatStatus-${user.id}" class="text-xs mt-1">
+                            <span class="text-gray-400">Offline</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Check chat status for each user
+            usersArray.forEach(user => {
+                const userChatRef = ref(database, `chats/users/${user.id}`);
+                onValue(userChatRef, (snapshot) => {
+                    const chatData = snapshot.val();
+                    const statusElement = document.getElementById(`chatStatus-${user.id}`);
+                    if (statusElement) {
+                        if (chatData && chatData.active) {
+                            statusElement.innerHTML = '<span class="text-green-500">Chat ativo</span>';
+                        } else {
+                            statusElement.innerHTML = '<span class="text-gray-400">Offline</span>';
+                        }
+                    }
+                });
+            });
+        }
+
+        window.selectUser = function(userId) {
+            currentChatUser = users[userId];
+            chatUserName.textContent = currentChatUser.name || 'Usuário';
+            chatControls.classList.remove('hidden');
+            
+            // Highlight selected user
+            document.querySelectorAll('.user-item').forEach(item => {
+                item.classList.remove('bg-blue-50', 'dark:bg-blue-900');
+            });
+            document.querySelector(`[data-user-id="${userId}"]`).classList.add('bg-blue-50', 'dark:bg-blue-900');
+            
+            // Check if chat is already active
+            const userChatRef = ref(database, `chats/users/${userId}`);
+            onValue(userChatRef, (snapshot) => {
+                const chatData = snapshot.val();
+                if (chatData && chatData.active) {
+                    currentChatId = chatData.chatId;
+                    loadAdminChatMessages();
+                    adminChatInputContainer.classList.remove('hidden');
+                } else {
+                    currentChatId = null;
+                    adminChatMessages.innerHTML = `
+                        <div class="text-center text-gray-500 dark:text-gray-400 text-sm">
+                            <p>Chat não iniciado. Clique em "Iniciar Chat" para começar a conversa.</p>
+                        </div>
+                    `;
+                    adminChatInputContainer.classList.add('hidden');
+                }
+            }, { onlyOnce: true });
+        };
+
+        async function startUserChat() {
+            if (!currentChatUser) return;
+            
+            try {
+                // Generate unique chat ID
+                const chatId = `chat_${currentAdmin.uid}_${currentChatUser.id}_${Date.now()}`;
+                
+                // Set user chat status
+                await set(ref(database, `chats/users/${currentChatUser.id}`), {
+                    active: true,
+                    chatId: chatId,
+                    adminId: currentAdmin.uid,
+                    startedAt: Date.now()
+                });
+                
+                currentChatId = chatId;
+                
+                // Send welcome message
+                await push(ref(database, `chats/messages/${chatId}`), {
+                    senderId: currentAdmin.uid,
+                    senderName: 'Administrador',
+                    text: 'Olá! Estou aqui para ajudar com questões sobre seus pedidos. Como posso ajudá-lo?',
+                    timestamp: Date.now(),
+                    read: false
+                });
+                
+                loadAdminChatMessages();
+                adminChatInputContainer.classList.remove('hidden');
+                showCustomAlert('Chat iniciado com sucesso!');
+                
+            } catch (error) {
+                console.error('Error starting chat:', error);
+                showCustomAlert('Erro ao iniciar chat: ' + error.message);
+            }
+        }
+
+        async function closeUserChat() {
+            if (!currentChatUser || !currentChatId) return;
+            
+            try {
+                // Send closing message
+                await push(ref(database, `chats/messages/${currentChatId}`), {
+                    senderId: currentAdmin.uid,
+                    senderName: 'Administrador',
+                    text: 'Chat encerrado. Obrigado pelo contato!',
+                    timestamp: Date.now(),
+                    read: false
+                });
+                
+                // Deactivate user chat
+                await set(ref(database, `chats/users/${currentChatUser.id}`), {
+                    active: false,
+                    chatId: null,
+                    endedAt: Date.now()
+                });
+                
+                currentChatId = null;
+                adminChatInputContainer.classList.add('hidden');
+                adminChatMessages.innerHTML = `
+                    <div class="text-center text-gray-500 dark:text-gray-400 text-sm">
+                        <p>Chat encerrado.</p>
+                    </div>
+                `;
+                
+                showCustomAlert('Chat encerrado com sucesso!');
+                
+            } catch (error) {
+                console.error('Error closing chat:', error);
+                showCustomAlert('Erro ao encerrar chat: ' + error.message);
+            }
+        }
+
+        function loadAdminChatMessages() {
+            if (!currentChatId) return;
+
+            const messagesRef = ref(database, `chats/messages/${currentChatId}`);
+            onValue(messagesRef, (snapshot) => {
+                const messages = snapshot.val() || {};
+                const messagesList = Object.entries(messages)
+                    .map(([id, msg]) => ({ id, ...msg }))
+                    .sort((a, b) => a.timestamp - b.timestamp);
+
+                displayAdminChatMessages(messagesList);
+            });
+        }
+
+        function displayAdminChatMessages(messages) {
+            if (messages.length === 0) {
+                adminChatMessages.innerHTML = `
+                    <div class="text-center text-gray-500 dark:text-gray-400 text-sm">
+                        <p>Nenhuma mensagem ainda. Digite a primeira mensagem abaixo.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            adminChatMessages.innerHTML = messages.map(msg => {
+                const isAdmin = msg.senderId === currentAdmin.uid;
+                return `
+                    <div class="flex ${isAdmin ? 'justify-end' : 'justify-start'} mb-3">
+                        <div class="${isAdmin ? 'bg-primary text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200'} 
+                                    rounded-lg px-3 py-2 max-w-xs lg:max-w-md">
+                            <p class="text-sm font-medium">${isAdmin ? 'Você' : msg.senderName}</p>
+                            <p class="text-sm">${msg.text}</p>
+                            <p class="${isAdmin ? 'text-blue-100' : 'text-gray-500 dark:text-gray-400'} text-xs mt-1">
+                                ${new Date(msg.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                            </p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Scroll to bottom
+            adminChatContainer.scrollTop = adminChatContainer.scrollHeight;
+        }
+
+        async function sendAdminMessage() {
+            if (!currentChatId || !adminChatInput.value.trim()) return;
+
+            const messageText = adminChatInput.value.trim();
+            adminChatInput.value = '';
+
+            try {
+                const messageData = {
+                    senderId: currentAdmin.uid,
+                    senderName: 'Administrador',
+                    text: messageText,
+                    timestamp: Date.now(),
+                    read: false
+                };
+
+                await push(ref(database, `chats/messages/${currentChatId}`), messageData);
+            } catch (error) {
+                console.error('Error sending admin message:', error);
+                showCustomAlert('Erro ao enviar mensagem. Tente novamente.');
+            }
+        }
 
         // Authentication
         googleLoginBtn.addEventListener('click', async () => {
@@ -624,6 +1026,7 @@
                     updateAdminUI();
                     showAdminApp();
                     loadData();
+                    initializeChatManagement();
                 } else {
                     showAccessDenied();
                 }
@@ -659,11 +1062,13 @@
         dashboardBtn.addEventListener('click', () => showSection('dashboard'));
         productsBtn.addEventListener('click', () => showSection('products'));
         ordersBtn.addEventListener('click', () => showSection('orders'));
+        chatManagementBtn.addEventListener('click', () => showSection('chatManagement'));
         categoriesBtn.addEventListener('click', () => showSection('categories'));
         
         mobileDashboardBtn.addEventListener('click', () => showSection('dashboard'));
         mobileProductsBtn.addEventListener('click', () => showSection('products'));
         mobileOrdersBtn.addEventListener('click', () => showSection('orders'));
+        mobileChatBtn.addEventListener('click', () => showSection('chatManagement'));
         mobileCategoriesBtn.addEventListener('click', () => showSection('categories'));
 
         function showSection(section) {
@@ -673,6 +1078,7 @@
             dashboardSection.classList.add('hidden');
             productsSection.classList.add('hidden');
             ordersSection.classList.add('hidden');
+            chatManagementSection.classList.add('hidden');
             categoriesSection.classList.add('hidden');
             
             // Update navigation buttons
@@ -700,6 +1106,12 @@
                     ordersBtn?.classList.add('text-primary');
                     mobileOrdersBtn.classList.add('text-primary');
                     renderOrders();
+                    break;
+                case 'chatManagement':
+                    chatManagementSection.classList.remove('hidden');
+                    chatManagementBtn?.classList.add('text-primary');
+                    mobileChatBtn.classList.add('text-primary');
+                    renderUsersList();
                     break;
                 case 'categories':
                     categoriesSection.classList.remove('hidden');
@@ -753,16 +1165,19 @@
                 .filter(order => new Date(order.createdAt).toDateString() === today && order.status === 'approved')
                 .reduce((sum, order) => sum + order.total, 0);
             
-            // Get categories from both custom categories and product categories
-            const productCategories = [...new Set(Object.values(products).map(p => p.category))];
-            const allCategories = [...new Set([...Object.keys(customCategories), ...productCategories])];
-            const totalCategories = allCategories.length;
+            // Count active chats
+            let activeChats = 0;
+            const chatsRef = ref(database, 'chats/users');
+            onValue(chatsRef, (snapshot) => {
+                const chatsData = snapshot.val() || {};
+                activeChats = Object.values(chatsData).filter(chat => chat.active).length;
+                document.getElementById('activeChats').textContent = activeChats;
+            });
 
             // Update dashboard stats
             document.getElementById('totalProducts').textContent = totalProducts;
             document.getElementById('pendingOrders').textContent = pendingOrders;
             document.getElementById('todaySales').textContent = formatPrice(todaySales);
-            document.getElementById('totalCategories').textContent = totalCategories;
 
             // Load recent orders
             const recentOrders = ordersArray
@@ -941,15 +1356,29 @@
                                         class="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600">
                                     Editar
                                 </button>
-                                <button onclick="deleteProduct('${product.id}')" 
-                                        class="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600">
-                                    Excluir
-                                </button>
+                                <div id="deleteProductBtn-${product.id}"></div>
                             </div>
                         </div>
                     `).join('')}
                 </div>
             `;
+
+            // Add enhanced delete buttons
+            productsArray.forEach(product => {
+                const deleteBtn = createDeleteButton(product.id, deleteProductFunction, 'produto');
+                document.getElementById(`deleteProductBtn-${product.id}`).appendChild(deleteBtn);
+            });
+        }
+
+        async function deleteProductFunction(productId) {
+            await deleteWithFallback(
+                () => Promise.all([
+                    remove(ref(database, `products/${productId}`)),
+                    deleteDoc(doc(firestore, 'products', productId))
+                ]),
+                () => remove(ref(database, `products/${productId}`)),
+                'Produto'
+            );
         }
 
         window.editProduct = function(productId) {
@@ -978,25 +1407,13 @@
             productModal.classList.remove('hidden');
         };
 
-        window.deleteProduct = function(productId) {
-            showConfirmDialog('Tem certeza que deseja excluir este produto?', async () => {
-                try {
-                    await remove(ref(database, `products/${productId}`));
-                    await deleteDoc(doc(firestore, 'products', productId));
-                    showCustomAlert('Produto excluído com sucesso!');
-                } catch (error) {
-                    console.error('Error deleting product:', error);
-                    showCustomAlert('Erro ao excluir produto: ' + error.message);
-                }
-            });
-        };
-
         // Orders Management
         const orderDetailModal = document.getElementById('orderDetailModal');
         const closeOrderDetailBtn = document.getElementById('closeOrderDetailBtn');
         const approveOrderBtn = document.getElementById('approveOrderBtn');
         const rejectOrderBtn = document.getElementById('rejectOrderBtn');
         const deleteOrderBtn = document.getElementById('deleteOrderBtn');
+        const startOrderChatBtn = document.getElementById('startOrderChatBtn');
 
         closeOrderDetailBtn.addEventListener('click', () => {
             orderDetailModal.classList.add('hidden');
@@ -1138,7 +1555,7 @@
                     </div>
 
                     <!-- Order Date -->
-                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                    <div class="text-sm text-gray-500 dark:text-gray-500">
                         Pedido realizado em: ${new Date(order.createdAt).toLocaleString('pt-BR')}
                     </div>
                 </div>
@@ -1146,6 +1563,54 @@
 
             orderDetailModal.classList.remove('hidden');
         };
+
+        startOrderChatBtn.addEventListener('click', async () => {
+            if (!currentOrderId) return;
+            
+            const order = orders[currentOrderId];
+            if (!order || !order.customer.userId) {
+                showCustomAlert('Não foi possível encontrar o usuário deste pedido.');
+                return;
+            }
+            
+            try {
+                // Check if user exists
+                const user = users[order.customer.userId];
+                if (!user) {
+                    // Try to find user in the users collection
+                    const userDoc = await getDoc(doc(firestore, 'users', order.customer.userId));
+                    if (!userDoc.exists()) {
+                        showCustomAlert('Usuário não encontrado.');
+                        return;
+                    }
+                }
+                
+                // Switch to chat management and select user
+                showSection('chatManagement');
+                
+                // Wait for users list to load, then select the user
+                setTimeout(() => {
+                    selectUser(order.customer.userId);
+                    
+                    // If chat is not active, start it
+                    const userChatRef = ref(database, `chats/users/${order.customer.userId}`);
+                    onValue(userChatRef, (snapshot) => {
+                        const chatData = snapshot.val();
+                        if (!chatData || !chatData.active) {
+                            // Start chat automatically
+                            currentChatUser = user || { id: order.customer.userId, name: order.customer.name, email: order.customer.email };
+                            startUserChat();
+                        }
+                    }, { onlyOnce: true });
+                }, 500);
+                
+                orderDetailModal.classList.add('hidden');
+                
+            } catch (error) {
+                console.error('Error starting order chat:', error);
+                showCustomAlert('Erro ao iniciar chat: ' + error.message);
+            }
+        });
 
         approveOrderBtn.addEventListener('click', async () => {
             if (!currentOrderId) return;
@@ -1192,24 +1657,20 @@
         deleteOrderBtn.addEventListener('click', async () => {
             if (!currentOrderId) return;
             
-            showConfirmDialog('Tem certeza que deseja excluir este pedido?', async () => {
-                try {
-                    await remove(ref(database, `orders/${currentOrderId}`));
-                    
-                    // Delete from Firestore only if document exists
-                    try {
-                        await deleteDoc(doc(firestore, 'orders', currentOrderId));
-                    } catch (firestoreError) {
-                        console.log('Order not found in Firestore, deleting only from Realtime Database');
-                    }
-                    
-                    showCustomAlert('Pedido excluído com sucesso!');
-                    orderDetailModal.classList.add('hidden');
-                } catch (error) {
-                    console.error('Error deleting order:', error);
-                    showCustomAlert('Erro ao excluir pedido: ' + error.message);
-                }
-            });
+            const deleteBtn = createDeleteButton(currentOrderId, deleteOrderFunction, 'pedido');
+            deleteBtn.click(); // Trigger the enhanced delete
+            
+            async function deleteOrderFunction(orderId) {
+                await deleteWithFallback(
+                    () => Promise.all([
+                        remove(ref(database, `orders/${orderId}`)),
+                        deleteDoc(doc(firestore, 'orders', orderId))
+                    ]),
+                    () => remove(ref(database, `orders/${orderId}`)),
+                    'Pedido'
+                );
+                orderDetailModal.classList.add('hidden');
+            }
         });
 
         // Categories Management
@@ -1294,10 +1755,7 @@
                                         </div>
                                     </div>
                                     ${customCategory ? `
-                                        <button onclick="deleteCategory('${categoryKey}')" 
-                                                class="px-2 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600">
-                                            Excluir
-                                        </button>
+                                        <div id="deleteCategoryBtn-${categoryKey}"></div>
                                     ` : ''}
                                 </div>
                             </div>
@@ -1305,20 +1763,27 @@
                     }).join('')}
                 </div>
             `;
-        }
 
-        window.deleteCategory = function(categoryKey) {
-            showConfirmDialog('Tem certeza que deseja excluir esta categoria?', async () => {
-                try {
-                    await remove(ref(database, `categories/${categoryKey}`));
-                    await deleteDoc(doc(firestore, 'categories', categoryKey));
-                    showCustomAlert('Categoria excluída com sucesso!');
-                } catch (error) {
-                    console.error('Error deleting category:', error);
-                    showCustomAlert('Erro ao excluir categoria: ' + error.message);
+            // Add enhanced delete buttons for custom categories
+            Object.keys(customCategories).forEach(categoryKey => {
+                const deleteBtn = createDeleteButton(categoryKey, deleteCategoryFunction, 'categoria');
+                const container = document.getElementById(`deleteCategoryBtn-${categoryKey}`);
+                if (container) {
+                    container.appendChild(deleteBtn);
                 }
             });
-        };
+        }
+
+        async function deleteCategoryFunction(categoryKey) {
+            await deleteWithFallback(
+                () => Promise.all([
+                    remove(ref(database, `categories/${categoryKey}`)),
+                    deleteDoc(doc(firestore, 'categories', categoryKey))
+                ]),
+                () => remove(ref(database, `categories/${categoryKey}`)),
+                'Categoria'
+            );
+        }
 
         // Utility functions
         function formatPrice(price) {
@@ -1431,19 +1896,29 @@
             document.body.appendChild(modal);
         }
 
-        function showConfirmDialog(message, onConfirm) {
+        function showConfirmDialog(message, onConfirm, onCancel) {
             const modal = document.createElement('div');
             modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
             modal.innerHTML = `
                 <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full">
                     <p class="text-gray-700 dark:text-gray-300 mb-4">${message}</p>
                     <div class="flex justify-end space-x-3">
-                        <button class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded" onclick="this.closest('.fixed').remove()">Cancelar</button>
-                        <button class="px-4 py-2 bg-red-500 text-white hover:bg-red-600 rounded" onclick="this.closest('.fixed').remove(); onConfirm()">Confirmar</button>
+                        <button id="cancelConfirm" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">Cancelar</button>
+                        <button id="confirmAction" class="px-4 py-2 bg-red-500 text-white hover:bg-red-600 rounded">Confirmar</button>
                     </div>
                 </div>
             `;
             document.body.appendChild(modal);
+            
+            modal.querySelector('#confirmAction').addEventListener('click', () => {
+                modal.remove();
+                if (onConfirm) onConfirm();
+            });
+            
+            modal.querySelector('#cancelConfirm').addEventListener('click', () => {
+                modal.remove();
+                if (onCancel) onCancel();
+            });
         }
 
         // Initialize the admin app
