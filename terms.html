@@ -440,6 +440,49 @@
         </div>
     </div>
 
+    <!-- Category Modal -->
+    <div id="categoryModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-lg max-w-md w-full">
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-6">
+                    <h3 id="categoryModalTitle" class="text-xl font-semibold text-gray-800 dark:text-gray-200">Adicionar Categoria</h3>
+                    <button id="closeCategoryModalBtn" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-xl">
+                        ❌
+                    </button>
+                </div>
+
+                <form id="categoryForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Nome da Categoria *</label>
+                        <input type="text" id="categoryName" required
+                               class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Chave da Categoria *</label>
+                        <input type="text" id="categoryKey" required placeholder="ex: eletronicos"
+                               class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Ícone</label>
+                        <input type="text" id="categoryIcon" placeholder="📱"
+                               class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
+                    </div>
+
+                    <div class="flex justify-end space-x-3 mt-6">
+                        <button type="button" id="cancelCategoryBtn" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors">
+                            Salvar Categoria
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Firebase SDK -->
     <script type="module">
         console.log('🚀 Iniciando Kuia+ Shop Admin...');
@@ -495,7 +538,7 @@
         let currentAdmin = null;
         let products = {};
         let orders = {};
-        let categories = [];
+        let customCategories = {};
         let currentSection = 'dashboard';
         let currentOrderFilter = 'all';
         let editingProductId = null;
@@ -688,6 +731,16 @@
                     renderOrders();
                 }
             });
+
+            // Load custom categories
+            const categoriesRef = ref(database, 'categories');
+            onValue(categoriesRef, (snapshot) => {
+                customCategories = snapshot.val() || {};
+                console.log('Categories loaded:', Object.keys(customCategories).length);
+                if (currentSection === 'categories') {
+                    renderCategories();
+                }
+            });
         }
 
         function loadDashboardData() {
@@ -699,7 +752,11 @@
             const todaySales = ordersArray
                 .filter(order => new Date(order.createdAt).toDateString() === today && order.status === 'approved')
                 .reduce((sum, order) => sum + order.total, 0);
-            const totalCategories = [...new Set(Object.values(products).map(p => p.category))].length;
+            
+            // Get categories from both custom categories and product categories
+            const productCategories = [...new Set(Object.values(products).map(p => p.category))];
+            const allCategories = [...new Set([...Object.keys(customCategories), ...productCategories])];
+            const totalCategories = allCategories.length;
 
             // Update dashboard stats
             document.getElementById('totalProducts').textContent = totalProducts;
@@ -832,7 +889,7 @@
                     await updateDoc(doc(firestore, 'products', editingProductId), productData);
                     showCustomAlert('Produto atualizado com sucesso!');
                 } else {
-                    // Add new product
+                    // Add new product - use same key for both databases
                     const newProductRef = push(ref(database, 'products'));
                     await set(newProductRef, productData);
                     await setDoc(doc(firestore, 'products', newProductRef.key), productData);
@@ -1068,7 +1125,7 @@
                                 <div class="flex justify-between items-center py-2 border-b border-gray-200 dark:border-gray-600 last:border-b-0">
                                     <div>
                                         <span class="font-medium">${item.name}</span>
-                                        <span class="text-gray-500 dark:text-gray-400">(${item.quantity}x)</span>
+                                        <span class="text-gray-500 dark:text-gray-400"> (${item.quantity}x ${formatPrice(item.price)})</span>
                                     </div>
                                     <span class="font-medium">${formatPrice(item.price * item.quantity)}</span>
                                 </div>
@@ -1095,7 +1152,14 @@
             
             try {
                 await update(ref(database, `orders/${currentOrderId}`), { status: 'approved' });
-                await updateDoc(doc(firestore, 'orders', currentOrderId), { status: 'approved' });
+                
+                // Update in Firestore only if document exists
+                try {
+                    await updateDoc(doc(firestore, 'orders', currentOrderId), { status: 'approved' });
+                } catch (firestoreError) {
+                    console.log('Order not found in Firestore, updating only Realtime Database');
+                }
+                
                 showCustomAlert('Pedido aprovado com sucesso!');
                 orderDetailModal.classList.add('hidden');
             } catch (error) {
@@ -1109,7 +1173,14 @@
             
             try {
                 await update(ref(database, `orders/${currentOrderId}`), { status: 'rejected' });
-                await updateDoc(doc(firestore, 'orders', currentOrderId), { status: 'rejected' });
+                
+                // Update in Firestore only if document exists
+                try {
+                    await updateDoc(doc(firestore, 'orders', currentOrderId), { status: 'rejected' });
+                } catch (firestoreError) {
+                    console.log('Order not found in Firestore, updating only Realtime Database');
+                }
+                
                 showCustomAlert('Pedido rejeitado com sucesso!');
                 orderDetailModal.classList.add('hidden');
             } catch (error) {
@@ -1124,7 +1195,14 @@
             showConfirmDialog('Tem certeza que deseja excluir este pedido?', async () => {
                 try {
                     await remove(ref(database, `orders/${currentOrderId}`));
-                    await deleteDoc(doc(firestore, 'orders', currentOrderId));
+                    
+                    // Delete from Firestore only if document exists
+                    try {
+                        await deleteDoc(doc(firestore, 'orders', currentOrderId));
+                    } catch (firestoreError) {
+                        console.log('Order not found in Firestore, deleting only from Realtime Database');
+                    }
+                    
                     showCustomAlert('Pedido excluído com sucesso!');
                     orderDetailModal.classList.add('hidden');
                 } catch (error) {
@@ -1135,11 +1213,58 @@
         });
 
         // Categories Management
+        const addCategoryBtn = document.getElementById('addCategoryBtn');
+        const categoryModal = document.getElementById('categoryModal');
+        const closeCategoryModalBtn = document.getElementById('closeCategoryModalBtn');
+        const cancelCategoryBtn = document.getElementById('cancelCategoryBtn');
+        const categoryForm = document.getElementById('categoryForm');
+
+        addCategoryBtn.addEventListener('click', () => {
+            categoryForm.reset();
+            categoryModal.classList.remove('hidden');
+        });
+
+        closeCategoryModalBtn.addEventListener('click', () => {
+            categoryModal.classList.add('hidden');
+        });
+
+        cancelCategoryBtn.addEventListener('click', () => {
+            categoryModal.classList.add('hidden');
+        });
+
+        categoryForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            try {
+                const categoryData = {
+                    name: document.getElementById('categoryName').value,
+                    key: document.getElementById('categoryKey').value,
+                    icon: document.getElementById('categoryIcon').value || '🏷️',
+                    createdAt: Date.now()
+                };
+
+                const categoryKey = categoryData.key;
+                
+                // Save to both databases
+                await set(ref(database, `categories/${categoryKey}`), categoryData);
+                await setDoc(doc(firestore, 'categories', categoryKey), categoryData);
+                
+                showCustomAlert('Categoria adicionada com sucesso!');
+                categoryModal.classList.add('hidden');
+            } catch (error) {
+                console.error('Error saving category:', error);
+                showCustomAlert('Erro ao salvar categoria: ' + error.message);
+            }
+        });
+
         function renderCategories() {
             const categoriesList = document.getElementById('categoriesList');
-            const productCategories = [...new Set(Object.values(products).map(p => p.category))];
             
-            if (productCategories.length === 0) {
+            // Get categories from both custom categories and products
+            const productCategories = [...new Set(Object.values(products).map(p => p.category))];
+            const allCategoryKeys = [...new Set([...Object.keys(customCategories), ...productCategories])];
+            
+            if (allCategoryKeys.length === 0) {
                 categoriesList.innerHTML = `
                     <div class="text-center py-8">
                         <div class="text-4xl mb-4">📂</div>
@@ -1151,16 +1276,29 @@
 
             categoriesList.innerHTML = `
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    ${productCategories.map(category => {
-                        const categoryProducts = Object.values(products).filter(p => p.category === category);
+                    ${allCategoryKeys.map(categoryKey => {
+                        const customCategory = customCategories[categoryKey];
+                        const categoryProducts = Object.values(products).filter(p => p.category === categoryKey);
+                        const categoryName = customCategory?.name || getCategoryName(categoryKey);
+                        const categoryIcon = customCategory?.icon || getCategoryIcon(categoryKey);
+                        
                         return `
                             <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
-                                <div class="flex items-center space-x-3">
-                                    <div class="text-2xl">${getCategoryIcon(category)}</div>
-                                    <div>
-                                        <h4 class="font-semibold text-gray-900 dark:text-gray-100">${getCategoryName(category)}</h4>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">${categoryProducts.length} produto(s)</p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="text-2xl">${categoryIcon}</div>
+                                        <div>
+                                            <h4 class="font-semibold text-gray-900 dark:text-gray-100">${categoryName}</h4>
+                                            <p class="text-sm text-gray-500 dark:text-gray-400">${categoryProducts.length} produto(s)</p>
+                                            <p class="text-xs text-gray-400 dark:text-gray-500">Chave: ${categoryKey}</p>
+                                        </div>
                                     </div>
+                                    ${customCategory ? `
+                                        <button onclick="deleteCategory('${categoryKey}')" 
+                                                class="px-2 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600">
+                                            Excluir
+                                        </button>
+                                    ` : ''}
                                 </div>
                             </div>
                         `;
@@ -1168,6 +1306,19 @@
                 </div>
             `;
         }
+
+        window.deleteCategory = function(categoryKey) {
+            showConfirmDialog('Tem certeza que deseja excluir esta categoria?', async () => {
+                try {
+                    await remove(ref(database, `categories/${categoryKey}`));
+                    await deleteDoc(doc(firestore, 'categories', categoryKey));
+                    showCustomAlert('Categoria excluída com sucesso!');
+                } catch (error) {
+                    console.error('Error deleting category:', error);
+                    showCustomAlert('Erro ao excluir categoria: ' + error.message);
+                }
+            });
+        };
 
         // Utility functions
         function formatPrice(price) {
@@ -1288,7 +1439,7 @@
                     <p class="text-gray-700 dark:text-gray-300 mb-4">${message}</p>
                     <div class="flex justify-end space-x-3">
                         <button class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded" onclick="this.closest('.fixed').remove()">Cancelar</button>
-                        <button class="px-4 py-2 bg-red-500 text-white hover:bg-red-600 rounded" onclick="this.closest('.fixed').remove(); (${onConfirm})()">Confirmar</button>
+                        <button class="px-4 py-2 bg-red-500 text-white hover:bg-red-600 rounded" onclick="this.closest('.fixed').remove(); onConfirm()">Confirmar</button>
                     </div>
                 </div>
             `;
