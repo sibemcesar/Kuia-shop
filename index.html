@@ -505,9 +505,66 @@
       }
     });
 
+    // Função para detectar popup bloqueado
+    function isPopupBlocked() {
+      const popup = window.open('', '_blank', 'width=1,height=1');
+      if (!popup || popup.closed || typeof popup.closed == 'undefined') {
+        return true;
+      }
+      popup.close();
+      return false;
+    }
+
+    // Função para mostrar modal de instruções
+    function showPopupBlockedModal() {
+      const modal = document.createElement('div');
+      modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+      modal.innerHTML = `
+        <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 max-w-md w-full">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-yellow-100 dark:bg-yellow-900 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Popup Bloqueado</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">
+              Seu navegador está bloqueando popups. Para fazer login, você precisa:
+            </p>
+            <div class="text-left space-y-2 mb-6">
+              <div class="flex items-center">
+                <span class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm mr-3">1</span>
+                <span class="text-gray-700 dark:text-gray-300">Clique no ícone de escudo/popup na barra de endereço</span>
+              </div>
+              <div class="flex items-center">
+                <span class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm mr-3">2</span>
+                <span class="text-gray-700 dark:text-gray-300">Selecione "Sempre permitir popups"</span>
+              </div>
+              <div class="flex items-center">
+                <span class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm mr-3">3</span>
+                <span class="text-gray-700 dark:text-gray-300">Tente fazer login novamente</span>
+              </div>
+            </div>
+            <button onclick="this.closest('.fixed').remove()" 
+                    class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors">
+              Entendi
+            </button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(modal);
+    }
+
     // Login com Google
     document.getElementById("googleLogin").addEventListener('click', async () => {
       const button = document.getElementById("googleLogin");
+      
+      // Verificar se popups estão bloqueados
+      if (isPopupBlocked()) {
+        showPopupBlockedModal();
+        return;
+      }
+      
       button.disabled = true;
       button.textContent = 'Conectando...';
       
@@ -515,7 +572,15 @@
         const result = await signInWithPopup(auth, googleProvider);
         showToast('Login com Google realizado!');
       } catch (error) {
-        showToast(getErrorMessage(error), 'error');
+        console.log('Erro Google:', error.code, error.message);
+        
+        if (error.code === 'auth/popup-closed-by-user') {
+          showToast('Login cancelado. Tente novamente e não feche a janela.', 'error');
+        } else if (error.code === 'auth/popup-blocked') {
+          showPopupBlockedModal();
+        } else {
+          showToast(getErrorMessage(error), 'error');
+        }
       } finally {
         button.disabled = false;
         button.innerHTML = `
@@ -533,6 +598,13 @@
     // Login com Facebook
     document.getElementById("facebookLogin").addEventListener('click', async () => {
       const button = document.getElementById("facebookLogin");
+      
+      // Verificar se popups estão bloqueados
+      if (isPopupBlocked()) {
+        showPopupBlockedModal();
+        return;
+      }
+      
       button.disabled = true;
       button.textContent = 'Conectando...';
       
@@ -540,7 +612,15 @@
         const result = await signInWithPopup(auth, facebookProvider);
         showToast('Login com Facebook realizado!');
       } catch (error) {
-        showToast(getErrorMessage(error), 'error');
+        console.log('Erro Facebook:', error.code, error.message);
+        
+        if (error.code === 'auth/popup-closed-by-user') {
+          showToast('Login cancelado. Tente novamente e não feche a janela.', 'error');
+        } else if (error.code === 'auth/popup-blocked') {
+          showPopupBlockedModal();
+        } else {
+          showToast(getErrorMessage(error), 'error');
+        }
       } finally {
         button.disabled = false;
         button.innerHTML = `
