@@ -451,10 +451,21 @@
         'auth/cancelled-popup-request': 'Login cancelado',
         'auth/popup-blocked': 'Popup bloqueado pelo navegador',
         'auth/invalid-credential': 'Credenciais inválidas',
-        'auth/too-many-requests': 'Muitas tentativas. Tente novamente mais tarde'
+        'auth/too-many-requests': 'Muitas tentativas. Tente novamente mais tarde',
+        'auth/app-not-authorized': 'App não autorizado. Configure no Facebook Developer Console',
+        'auth/unauthorized-domain': 'Domínio não autorizado. Adicione este domínio no Facebook',
+        'auth/operation-not-allowed': 'Login com Facebook não está habilitado no Firebase',
+        'auth/account-exists-with-different-credential': 'Conta já existe com credencial diferente'
       };
       
-      return errorMessages[error.code] || error.message || 'Erro desconhecido';
+      // Log detalhado do erro para debug
+      console.error('Erro completo:', {
+        code: error.code,
+        message: error.message,
+        customData: error.customData
+      });
+      
+      return errorMessages[error.code] || `${error.code}: ${error.message}` || 'Erro desconhecido';
     }
 
     // Login com email
