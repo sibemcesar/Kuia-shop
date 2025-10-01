@@ -262,11 +262,13 @@
                     <!-- Users List -->
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
                         <div class="p-4 border-b border-gray-200 dark:border-gray-700">
-                            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Usuários</h3>
+                            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Usuários Registrados</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Clique para iniciar conversa</p>
                         </div>
                         <div id="usersList" class="p-4 max-h-96 overflow-y-auto">
                             <div class="text-center py-8 text-gray-500 dark:text-gray-400">
-                                Carregando usuários...
+                                <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mx-auto mb-2"></div>
+                                <p>Carregando usuários...</p>
                             </div>
                         </div>
                     </div>
@@ -634,67 +636,126 @@
             }
         });
 
-        // Enhanced chat functionality with image support
-        function initializeChat() {
-            // Listen for all users from Realtime Database
-            const usersRef = ref(database, 'users');
-            onValue(usersRef, (snapshot) => {
-                const usersData = snapshot.val() || {};
-                users = usersData;
-                console.log('Users loaded:', Object.keys(users).length);
+        // Enhanced chat functionality with corrected user loading
+        async function initializeChat() {
+            try {
+                console.log('Initializing chat system...');
+                
+                // Load all users from Firestore first
+                const usersQuery = query(collection(firestore, 'users'));
+                const usersSnapshot = await getDocs(usersQuery);
+                
+                users = {};
+                usersSnapshot.docs.forEach(doc => {
+                    users[doc.id] = { id: doc.id, ...doc.data() };
+                });
+                
+                console.log('✅ Users loaded from Firestore:', Object.keys(users).length);
                 renderUsersList();
-            });
 
-            // Listen for new chat messages to update notifications
-            const chatsRef = ref(database, 'chats/messages');
-            onValue(chatsRef, (snapshot) => {
-                const allMessages = snapshot.val() || {};
-                updateChatNotifications(allMessages);
-            });
+                // Also check Realtime Database for additional users
+                const usersRef = ref(database, 'users');
+                onValue(usersRef, (snapshot) => {
+                    const realtimeUsers = snapshot.val() || {};
+                    // Merge with existing users
+                    Object.keys(realtimeUsers).forEach(userId => {
+                        if (!users[userId]) {
+                            users[userId] = { id: userId, ...realtimeUsers[userId] };
+                        }
+                    });
+                    console.log('👥 Total users after merge:', Object.keys(users).length);
+                    renderUsersList();
+                });
+
+                // Listen for new chat messages to update notifications
+                const chatsRef = ref(database, 'chats/messages');
+                onValue(chatsRef, (snapshot) => {
+                    const allMessages = snapshot.val() || {};
+                    updateChatNotifications(allMessages);
+                });
+
+            } catch (error) {
+                console.error('Error initializing chat:', error);
+                // Fallback to just Realtime Database
+                const usersRef = ref(database, 'users');
+                onValue(usersRef, (snapshot) => {
+                    const usersData = snapshot.val() || {};
+                    users = {};
+                    Object.keys(usersData).forEach(userId => {
+                        users[userId] = { id: userId, ...usersData[userId] };
+                    });
+                    console.log('📱 Fallback: Users loaded from Realtime Database:', Object.keys(users).length);
+                    renderUsersList();
+                });
+
+                // Listen for chat messages
+                const chatsRef = ref(database, 'chats/messages');
+                onValue(chatsRef, (snapshot) => {
+                    const allMessages = snapshot.val() || {};
+                    updateChatNotifications(allMessages);
+                });
+            }
         }
 
         function renderUsersList() {
-            const usersArray = Object.entries(users).map(([id, user]) => ({ id, ...user }));
+            const usersArray = Object.entries(users).map(([id, user]) => ({ id, ...user }))
+                .filter(user => user.email && user.name); // Only show users with email and name
             
             if (usersArray.length === 0) {
-                usersList.innerHTML = '<div class="text-center py-8 text-gray-500 dark:text-gray-400">Nenhum usuário encontrado</div>';
+                usersList.innerHTML = `
+                    <div class="text-center py-8 text-gray-500 dark:text-gray-400">
+                        <div class="text-3xl mb-2">👤</div>
+                        <p class="text-sm">Nenhum usuário registrado encontrado</p>
+                        <p class="text-xs mt-1">Usuários aparecerão aqui após se registrarem na loja</p>
+                    </div>
+                `;
                 return;
             }
 
             usersList.innerHTML = usersArray.map(user => `
                 <div class="flex items-center space-x-3 p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg cursor-pointer transition-colors user-item"
                      data-user-id="${user.id}">
-                    <img src="${user.photoURL || 'https://via.placeholder.com/40?text=' + (user.name?.charAt(0) || '👤')}" 
+                    <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.name || 'U') + '&background=5D5CDE&color=fff'}" 
                          alt="${user.name}" class="w-10 h-10 rounded-full">
                     <div class="flex-1 min-w-0">
                         <p class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">${user.name || 'Usuário'}</p>
                         <p class="text-xs text-gray-500 dark:text-gray-400 truncate">${user.email}</p>
+                        ${user.isActive ? '<span class="inline-block w-2 h-2 bg-green-400 rounded-full"></span>' : ''}
                     </div>
-                    <button class="start-chat-btn px-3 py-1 text-xs bg-primary text-white rounded hover:bg-primary-dark"
+                    <button class="start-chat-btn px-3 py-1 text-xs bg-primary text-white rounded hover:bg-primary-dark transition-colors"
                             data-user-id="${user.id}">
-                        Chat
+                        💬 Chat
                     </button>
                 </div>
             `).join('');
 
-            // Add event listeners
+            // Add event listeners for chat buttons
             document.querySelectorAll('.start-chat-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    startChat(btn.dataset.userId);
+                    const userId = btn.dataset.userId;
+                    console.log('Starting chat with user:', userId);
+                    startChat(userId);
                 });
             });
+
+            // Update active users count
+            document.getElementById('activeUsers').textContent = usersArray.length;
         }
 
         async function startChat(userId) {
             try {
+                console.log('Starting chat with user ID:', userId);
                 selectedUserId = userId;
                 const user = users[userId];
                 
                 if (!user) {
-                    showCustomAlert('Usuário não encontrado.');
+                    console.error('User not found:', userId);
+                    showCustomAlert('Usuário não encontrado. Verifique se o usuário ainda está registrado.');
                     return;
                 }
+                
+                console.log('Found user:', user);
                 
                 // Create or get existing chat
                 currentChatId = `admin_${currentUser.uid}_user_${userId}`;
@@ -709,7 +770,7 @@
 
                 // Update chat header
                 chatHeader.innerHTML = `
-                    <img src="${user.photoURL || 'https://via.placeholder.com/40?text=' + (user.name?.charAt(0) || '👤')}" 
+                    <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.name || 'U') + '&background=5D5CDE&color=fff'}" 
                          alt="${user.name}" class="w-8 h-8 rounded-full">
                     <div>
                         <h4 class="font-semibold text-gray-800 dark:text-gray-200">${user.name || 'Usuário'}</h4>
@@ -722,15 +783,18 @@
                 
                 loadChatMessages();
                 
+                console.log('✅ Chat started successfully');
+                
             } catch (error) {
                 console.error('Error starting chat:', error);
-                showCustomAlert('Erro ao iniciar chat.');
+                showCustomAlert('Erro ao iniciar chat: ' + error.message);
             }
         }
 
         function loadChatMessages() {
             if (!currentChatId) return;
 
+            console.log('Loading chat messages for:', currentChatId);
             const messagesRef = ref(database, `chats/messages/${currentChatId}`);
             onValue(messagesRef, (snapshot) => {
                 const messages = snapshot.val() || {};
@@ -760,9 +824,9 @@
                 
                 if (msg.type === 'image') {
                     messageContent = `
-                        <img src="${msg.imageUrl}" alt="Imagem" class="max-w-full h-auto rounded-lg cursor-pointer" 
+                        <img src="${msg.imageUrl}" alt="Imagem" class="max-w-full h-auto rounded-lg cursor-pointer mb-2" 
                              onclick="window.open('${msg.imageUrl}', '_blank')">
-                        ${msg.text ? `<p class="text-sm mt-2">${msg.text}</p>` : ''}
+                        ${msg.text ? `<p class="text-sm">${msg.text}</p>` : ''}
                     `;
                 } else {
                     messageContent = `<p class="text-sm">${msg.text}</p>`;
@@ -806,6 +870,7 @@
                 }
 
                 await push(ref(database, `chats/messages/${currentChatId}`), messageData);
+                console.log('✅ Message sent successfully');
             } catch (error) {
                 console.error('Error sending message:', error);
                 showCustomAlert('Erro ao enviar mensagem. Tente novamente.');
@@ -813,7 +878,7 @@
         }
 
         function updateChatNotifications(allMessages) {
-            // Count unread messages from users
+            // Count unread messages from users (not from admin)
             let unreadCount = 0;
             Object.values(allMessages).forEach(chatMessages => {
                 Object.values(chatMessages).forEach(msg => {
@@ -1122,7 +1187,7 @@
             modal.classList.remove('hidden');
         }
 
-        // Make openProductModal globally available
+        // Make functions globally available
         window.openProductModal = openProductModal;
         window.editProduct = openProductModal;
 
@@ -1558,10 +1623,11 @@
         };
 
         window.startChatWithCustomer = function(userId) {
+            console.log('Starting chat with customer:', userId);
             showSection('chat');
             setTimeout(() => {
                 startChat(userId);
-            }, 100);
+            }, 500);
         };
 
         // Delete order with confirmation and long press
