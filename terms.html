@@ -24,6 +24,10 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
+        .delete-progress {
+            background: linear-gradient(90deg, #ef4444 var(--progress, 0%), transparent var(--progress, 0%));
+            transition: background 0.1s ease;
+        }
     </style>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
@@ -158,8 +162,8 @@
                                 <div class="text-2xl">💬</div>
                             </div>
                             <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Conversas Ativas</p>
-                                <p id="activeChats" class="text-2xl font-bold text-gray-900 dark:text-gray-100">0</p>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Usuários Ativos</p>
+                                <p id="activeUsers" class="text-2xl font-bold text-gray-900 dark:text-gray-100">0</p>
                             </div>
                         </div>
                     </div>
@@ -432,24 +436,6 @@
         </div>
     </div>
 
-    <!-- Confirmation Modal -->
-    <div id="confirmModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden">
-        <div class="bg-white dark:bg-gray-800 rounded-lg max-w-md w-full">
-            <div class="p-6">
-                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Confirmar Ação</h3>
-                <p id="confirmMessage" class="text-gray-600 dark:text-gray-400 mb-6">Tem certeza que deseja continuar?</p>
-                <div class="flex justify-end space-x-3">
-                    <button id="cancelConfirmBtn" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                        Cancelar
-                    </button>
-                    <button id="confirmActionBtn" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
-                        Confirmar
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Firebase SDK and Main JavaScript -->
     <script type="module">
         console.log('🚀 Iniciando Kuia+ Admin...');
@@ -547,7 +533,6 @@
         // Modal elements
         const productModal = document.getElementById('productModal');
         const orderDetailModal = document.getElementById('orderDetailModal');
-        const confirmModal = document.getElementById('confirmModal');
 
         // Chat elements
         const usersList = document.getElementById('usersList');
@@ -568,8 +553,14 @@
             if (user) {
                 await checkAdminAccess();
             } else {
-                // Redirect to login
-                window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=53786495493-example.googleusercontent.com&scope=openid%20profile%20email&redirect_uri=' + encodeURIComponent(window.location.origin);
+                // Trigger Google login
+                const provider = new GoogleAuthProvider();
+                try {
+                    await signInWithPopup(auth, provider);
+                } catch (error) {
+                    console.error('Login error:', error);
+                    showAccessDenied();
+                }
             }
         });
 
@@ -643,13 +634,14 @@
             }
         });
 
-        // Chat functionality with image support
+        // Enhanced chat functionality with image support
         function initializeChat() {
-            // Listen for all users
+            // Listen for all users from Realtime Database
             const usersRef = ref(database, 'users');
             onValue(usersRef, (snapshot) => {
                 const usersData = snapshot.val() || {};
                 users = usersData;
+                console.log('Users loaded:', Object.keys(users).length);
                 renderUsersList();
             });
 
@@ -698,6 +690,11 @@
             try {
                 selectedUserId = userId;
                 const user = users[userId];
+                
+                if (!user) {
+                    showCustomAlert('Usuário não encontrado.');
+                    return;
+                }
                 
                 // Create or get existing chat
                 currentChatId = `admin_${currentUser.uid}_user_${userId}`;
@@ -952,12 +949,12 @@
             const ordersArray = Object.values(orders);
             const pendingCount = ordersArray.filter(order => order.status === 'pending').length;
             const approvedCount = ordersArray.filter(order => order.status === 'approved').length;
-            const activeChatsCount = Object.keys(users).length; // Simplified count
+            const usersCount = Object.keys(users).length;
 
             document.getElementById('totalProducts').textContent = productsCount;
             document.getElementById('pendingOrders').textContent = pendingCount;
             document.getElementById('approvedOrders').textContent = approvedCount;
-            document.getElementById('activeChats').textContent = activeChatsCount;
+            document.getElementById('activeUsers').textContent = usersCount;
         }
 
         // Navigation functions
@@ -1066,7 +1063,13 @@
                                 <button onclick="editProduct('${product.id}')" class="flex-1 bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-400 py-2 px-3 rounded text-sm hover:bg-blue-100 dark:hover:bg-blue-800 transition-colors">
                                     ✏️ Editar
                                 </button>
-                                <button onclick="confirmDeleteProduct('${product.id}')" class="bg-red-50 dark:bg-red-900 text-red-600 dark:text-red-400 py-2 px-3 rounded text-sm hover:bg-red-100 dark:hover:bg-red-800 transition-colors">
+                                <button onclick="confirmDeleteProduct('${product.id}')" 
+                                        onmousedown="startDeleteTimer('${product.id}', this, 'product')" 
+                                        onmouseup="cancelDeleteTimer(this)" 
+                                        onmouseleave="cancelDeleteTimer(this)"
+                                        ontouchstart="startDeleteTimer('${product.id}', this, 'product')" 
+                                        ontouchend="cancelDeleteTimer(this)"
+                                        class="bg-red-50 dark:bg-red-900 text-red-600 dark:text-red-400 py-2 px-3 rounded text-sm hover:bg-red-100 dark:hover:bg-red-800 transition-colors">
                                     🗑️
                                 </button>
                             </div>
@@ -1122,6 +1125,63 @@
         // Make openProductModal globally available
         window.openProductModal = openProductModal;
         window.editProduct = openProductModal;
+
+        // Enhanced delete system with long press
+        let deleteTimer = null;
+        let deleteProgress = 0;
+        let deleteProgressInterval = null;
+
+        window.startDeleteTimer = function(itemId, element, type) {
+            // Visual feedback
+            element.style.position = 'relative';
+            element.style.overflow = 'hidden';
+            element.innerHTML = '🗑️ Segure...';
+            
+            // Start progress animation
+            deleteProgress = 0;
+            deleteProgressInterval = setInterval(() => {
+                deleteProgress += 5; // 5% every 100ms = 2 seconds total
+                element.style.setProperty('--progress', deleteProgress + '%');
+                element.classList.add('delete-progress');
+                
+                if (deleteProgress >= 100) {
+                    clearInterval(deleteProgressInterval);
+                    if (type === 'product') {
+                        deleteProduct(itemId);
+                    } else if (type === 'order') {
+                        deleteOrder(itemId);
+                    }
+                    cancelDeleteTimer(element);
+                }
+            }, 100);
+            
+            // Backup timer
+            deleteTimer = setTimeout(() => {
+                if (type === 'product') {
+                    deleteProduct(itemId);
+                } else if (type === 'order') {
+                    deleteOrder(itemId);
+                }
+                cancelDeleteTimer(element);
+            }, 2000);
+        };
+
+        window.cancelDeleteTimer = function(element) {
+            if (deleteTimer) {
+                clearTimeout(deleteTimer);
+                deleteTimer = null;
+            }
+            if (deleteProgressInterval) {
+                clearInterval(deleteProgressInterval);
+                deleteProgressInterval = null;
+            }
+            deleteProgress = 0;
+            element.style.removeProperty('--progress');
+            element.classList.remove('delete-progress');
+            element.style.removeProperty('position');
+            element.style.removeProperty('overflow');
+            element.innerHTML = '🗑️';
+        };
 
         // Delete product with confirmation
         window.confirmDeleteProduct = function(productId) {
@@ -1335,8 +1395,14 @@
                             <button onclick="startChatWithCustomer('${order.customer.userId}')" class="px-3 py-2 bg-purple-50 dark:bg-purple-900 text-purple-600 dark:text-purple-400 rounded text-sm hover:bg-purple-100 dark:hover:bg-purple-800 transition-colors">
                                 💬 Chat
                             </button>
-                            <button onclick="confirmDeleteOrder('${order.id}')" class="px-3 py-2 bg-gray-50 dark:bg-gray-900 text-gray-600 dark:text-gray-400 rounded text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                                🗑️ Excluir
+                            <button onclick="confirmDeleteOrder('${order.id}')" 
+                                    onmousedown="startDeleteTimer('${order.id}', this, 'order')" 
+                                    onmouseup="cancelDeleteTimer(this)" 
+                                    onmouseleave="cancelDeleteTimer(this)"
+                                    ontouchstart="startDeleteTimer('${order.id}', this, 'order')" 
+                                    ontouchend="cancelDeleteTimer(this)"
+                                    class="px-3 py-2 bg-gray-50 dark:bg-gray-900 text-gray-600 dark:text-gray-400 rounded text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                                🗑️
                             </button>
                         </div>
                     </div>
@@ -1498,7 +1564,7 @@
             }, 100);
         };
 
-        // Delete order with confirmation
+        // Delete order with confirmation and long press
         window.confirmDeleteOrder = function(orderId) {
             showConfirmDialog(
                 `Tem certeza que deseja excluir este pedido? Esta ação não pode ser desfeita.`,
