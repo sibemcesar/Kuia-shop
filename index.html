@@ -223,8 +223,8 @@
                     </div>
                     
                     <div class="flex items-center space-x-4">
-                        <!-- Search -->
-                        <div class="hidden sm:block relative">
+                        <!-- Search - Only visible on home section -->
+                        <div id="searchContainer" class="hidden sm:block relative">
                             <input type="text" id="searchInput" placeholder="Buscar produtos..." 
                                    class="w-64 px-4 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent pr-10 transition-all">
                             <svg class="absolute right-3 top-3 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -255,8 +255,8 @@
             </div>
         </header>
 
-        <!-- Mobile Search -->
-        <div class="md:hidden bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+        <!-- Mobile Search - Only visible on home section -->
+        <div id="mobileSearchContainer" class="md:hidden bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
             <div class="px-4 py-2">
                 <input type="text" id="mobileSearchInput" placeholder="Buscar produtos..." 
                        class="w-full px-4 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
@@ -400,7 +400,17 @@
 
             <!-- Notifications Section -->
             <div id="notificationsSection" class="hidden section-transition">
-                <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-8">Notificações</h2>
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200">Notificações</h2>
+                    <div class="flex space-x-3">
+                        <button id="markAllAsReadBtn" class="px-4 py-2 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600 transition-all transform hover:scale-105 hidden">
+                            ✅ Marcar Todas como Lidas
+                        </button>
+                        <button id="deleteAllNotificationsBtn" class="px-4 py-2 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600 transition-all transform hover:scale-105 hidden">
+                            🗑️ Excluir Todas
+                        </button>
+                    </div>
+                </div>
                 <div id="notificationsList" class="space-y-4">
                     <div class="text-center py-12">
                         <div class="text-4xl mb-4">🔔</div>
@@ -631,7 +641,6 @@
         </div>
     </div>
 
-    <!-- Rest of the modals and scripts remain similar but I'll add the enhanced order status handling... -->
     <!-- Cart Sidebar -->
     <div id="cartSidebar" class="fixed inset-y-0 right-0 w-80 bg-white dark:bg-gray-800 shadow-xl transform translate-x-full transition-transform z-50 border-l border-gray-200 dark:border-gray-700">
         <div class="flex flex-col h-full">
@@ -871,6 +880,12 @@
         const loginScreen = document.getElementById('loginScreen');
         const mainApp = document.getElementById('mainApp');
 
+        // Search elements
+        const searchContainer = document.getElementById('searchContainer');
+        const mobileSearchContainer = document.getElementById('mobileSearchContainer');
+        const searchInput = document.getElementById('searchInput');
+        const mobileSearchInput = document.getElementById('mobileSearchInput');
+
         // Chat elements - both mini and full versions
         const chatContainer = document.getElementById('chatContainer');
         const chatMessages_dom = document.getElementById('chatMessages');
@@ -942,8 +957,10 @@
         const notificationArea = document.getElementById('notificationArea');
         const notificationBadge = document.getElementById('notificationBadge');
         const notificationsList = document.getElementById('notificationsList');
+        const markAllAsReadBtn = document.getElementById('markAllAsReadBtn');
+        const deleteAllNotificationsBtn = document.getElementById('deleteAllNotificationsBtn');
 
-        // Enhanced notification system
+        // Enhanced notification system with delete functionality
         function loadNotifications() {
             if (!currentUser) return;
             
@@ -952,6 +969,7 @@
                 const notificationsData = snapshot.val() || {};
                 notifications = Object.entries(notificationsData)
                     .map(([id, notification]) => ({ id, ...notification }))
+                    .filter(n => !n.deleted) // Filter out deleted notifications
                     .sort((a, b) => b.timestamp - a.timestamp);
                 
                 updateNotificationBadge();
@@ -972,7 +990,7 @@
         }
 
         function updateNotificationBadge() {
-            const unreadCount = notifications.filter(n => !n.read).length;
+            const unreadCount = notifications.filter(n => !n.read && !n.deleted).length;
             if (unreadCount > 0) {
                 notificationBadge.textContent = unreadCount > 99 ? '99+' : unreadCount;
                 notificationBadge.classList.remove('hidden');
@@ -982,6 +1000,22 @@
         }
 
         function renderNotifications() {
+            // Show/hide action buttons based on notifications
+            const hasUnreadNotifications = notifications.some(n => !n.read);
+            const hasNotifications = notifications.length > 0;
+
+            if (hasUnreadNotifications) {
+                markAllAsReadBtn.classList.remove('hidden');
+            } else {
+                markAllAsReadBtn.classList.add('hidden');
+            }
+
+            if (hasNotifications) {
+                deleteAllNotificationsBtn.classList.remove('hidden');
+            } else {
+                deleteAllNotificationsBtn.classList.add('hidden');
+            }
+
             if (notifications.length === 0) {
                 notificationsList.innerHTML = `
                     <div class="text-center py-12">
@@ -1015,17 +1049,24 @@
                             <div class="flex-1 min-w-0">
                                 <div class="flex items-center justify-between">
                                     <h4 class="font-semibold text-gray-800 dark:text-gray-200">${notification.title}</h4>
-                                    ${isUnread ? '<span class="bg-primary text-white text-xs px-2 py-1 rounded-full">Novo</span>' : ''}
+                                    <div class="flex items-center space-x-2">
+                                        ${isUnread ? '<span class="bg-primary text-white text-xs px-2 py-1 rounded-full">Novo</span>' : ''}
+                                        <button onclick="deleteNotification('${notification.id}')" class="text-red-500 hover:text-red-700 text-sm transition-all transform hover:scale-110" title="Excluir notificação">
+                                            🗑️
+                                        </button>
+                                    </div>
                                 </div>
                                 <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">${notification.message}</p>
                                 <p class="text-xs text-gray-500 dark:text-gray-500 mt-2">
                                     ${new Date(notification.timestamp).toLocaleString('pt-BR')}
                                 </p>
-                                ${isUnread ? `
-                                    <button onclick="markNotificationAsRead('${notification.id}')" class="text-xs text-primary hover:underline mt-2">
-                                        Marcar como lida
-                                    </button>
-                                ` : ''}
+                                <div class="mt-2 flex space-x-3">
+                                    ${isUnread ? `
+                                        <button onclick="markNotificationAsRead('${notification.id}')" class="text-xs text-primary hover:underline transition-all">
+                                            Marcar como lida
+                                        </button>
+                                    ` : ''}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1064,6 +1105,7 @@
             }, 5000);
         }
 
+        // Enhanced notification functions with error handling
         window.markNotificationAsRead = async function(notificationId) {
             if (!currentUser) return;
             
@@ -1072,10 +1114,149 @@
                     read: true,
                     readAt: Date.now()
                 });
+                console.log('Notification marked as read:', notificationId);
             } catch (error) {
                 console.error('Error marking notification as read:', error);
+                // Silently hide the notification from UI if Firebase fails
+                const notification = notifications.find(n => n.id === notificationId);
+                if (notification) {
+                    notification.read = true;
+                    renderNotifications();
+                }
             }
         };
+
+        window.deleteNotification = async function(notificationId) {
+            if (!currentUser) return;
+            
+            // Show confirmation dialog using custom modal
+            showConfirmDialog('Tem certeza que deseja excluir esta notificação?', async () => {
+                try {
+                    // Try to delete from Firebase
+                    await remove(ref(database, `notifications/${currentUser.uid}/${notificationId}`));
+                    console.log('Notification deleted:', notificationId);
+                } catch (error) {
+                    console.error('Error deleting notification from Firebase:', error);
+                    // If Firebase fails, just hide it locally
+                    try {
+                        await update(ref(database, `notifications/${currentUser.uid}/${notificationId}`), {
+                            deleted: true,
+                            deletedAt: Date.now()
+                        });
+                    } catch (updateError) {
+                        console.error('Error marking notification as deleted:', updateError);
+                        // Final fallback - hide from local array
+                        const index = notifications.findIndex(n => n.id === notificationId);
+                        if (index > -1) {
+                            notifications.splice(index, 1);
+                            renderNotifications();
+                            updateNotificationBadge();
+                        }
+                    }
+                }
+                showNotificationToast('Sucesso', 'Notificação excluída', 'success');
+            });
+        };
+
+        // Mark all notifications as read
+        markAllAsReadBtn.addEventListener('click', async () => {
+            if (!currentUser) return;
+            
+            showConfirmDialog('Marcar todas as notificações como lidas?', async () => {
+                const unreadNotifications = notifications.filter(n => !n.read);
+                let successCount = 0;
+                let errorCount = 0;
+
+                for (const notification of unreadNotifications) {
+                    try {
+                        await update(ref(database, `notifications/${currentUser.uid}/${notification.id}`), {
+                            read: true,
+                            readAt: Date.now()
+                        });
+                        successCount++;
+                    } catch (error) {
+                        console.error('Error marking notification as read:', error);
+                        errorCount++;
+                        // Hide locally if Firebase fails
+                        notification.read = true;
+                    }
+                }
+
+                if (errorCount === 0) {
+                    showNotificationToast('Sucesso', 'Todas as notificações foram marcadas como lidas', 'success');
+                } else {
+                    showNotificationToast('Parcialmente concluído', `${successCount} notificações marcadas como lidas`, 'warning');
+                }
+                renderNotifications();
+                updateNotificationBadge();
+            });
+        });
+
+        // Delete all notifications
+        deleteAllNotificationsBtn.addEventListener('click', async () => {
+            if (!currentUser) return;
+            
+            showConfirmDialog('Tem certeza que deseja excluir TODAS as notificações? Esta ação não pode ser desfeita.', async () => {
+                try {
+                    // Try to delete all notifications from Firebase
+                    await remove(ref(database, `notifications/${currentUser.uid}`));
+                    showNotificationToast('Sucesso', 'Todas as notificações foram excluídas', 'success');
+                } catch (error) {
+                    console.error('Error deleting all notifications:', error);
+                    // If Firebase fails, try to mark all as deleted
+                    const updates = {};
+                    notifications.forEach(notification => {
+                        updates[`notifications/${currentUser.uid}/${notification.id}/deleted`] = true;
+                        updates[`notifications/${currentUser.uid}/${notification.id}/deletedAt`] = Date.now();
+                    });
+                    
+                    try {
+                        await update(ref(database), updates);
+                        showNotificationToast('Sucesso', 'Todas as notificações foram excluídas', 'success');
+                    } catch (updateError) {
+                        console.error('Error marking notifications as deleted:', updateError);
+                        // Final fallback - clear local array
+                        notifications = [];
+                        renderNotifications();
+                        updateNotificationBadge();
+                        showNotificationToast('Aviso', 'Notificações ocultadas localmente devido a erro de conexão', 'warning');
+                    }
+                }
+            });
+        });
+
+        // Custom confirmation dialog
+        function showConfirmDialog(message, onConfirm) {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.innerHTML = `
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full mx-4 animate-scale-in">
+                    <p class="text-gray-700 dark:text-gray-300 mb-4">${message}</p>
+                    <div class="flex justify-end space-x-3">
+                        <button id="cancelBtn" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all">Cancelar</button>
+                        <button id="confirmBtn" class="px-4 py-2 bg-red-500 text-white hover:bg-red-600 rounded transition-all transform hover:scale-105">Confirmar</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+            modal.querySelector('#cancelBtn').onclick = () => modal.remove();
+            modal.querySelector('#confirmBtn').onclick = () => {
+                modal.remove();
+                onConfirm();
+            };
+        }
+
+        // Update search visibility based on current section
+        function updateSearchVisibility() {
+            if (currentSection === 'home') {
+                searchContainer.classList.remove('hidden');
+                mobileSearchContainer.classList.remove('hidden');
+            } else {
+                searchContainer.classList.add('hidden');
+                mobileSearchContainer.classList.add('hidden');
+            }
+        }
 
         // Profile picture functionality
         window.openProfilePictureModal = function() {
@@ -1687,7 +1868,7 @@
             }
         }
 
-        // Enhanced navigation with smooth transitions
+        // Enhanced navigation with smooth transitions and search visibility control
         function showSection(section) {
             // Add fade out animation to current section
             const currentSectionElement = document.querySelector('.section-transition:not(.hidden)');
@@ -1698,6 +1879,9 @@
 
             setTimeout(() => {
                 currentSection = section;
+                
+                // Update search visibility
+                updateSearchVisibility();
                 
                 // Hide all sections
                 homeSection.classList.add('hidden');
@@ -2936,6 +3120,7 @@
                 mainApp.style.opacity = '0';
                 setTimeout(() => {
                     mainApp.style.opacity = '1';
+                    updateSearchVisibility(); // Initialize search visibility
                 }, 50);
             }, 300);
         }
