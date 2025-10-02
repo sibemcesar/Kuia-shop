@@ -224,7 +224,7 @@
                     
                     <div class="flex items-center space-x-4">
                         <!-- Search - Only visible on home section -->
-                        <div id="searchContainer" class="hidden sm:block relative">
+                        <div style="display:none;"  id="searchContainer" class="hidden sm:block relative">
                             <input type="text" id="searchInput" placeholder="Buscar produtos..." 
                                    class="w-64 px-4 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent pr-10 transition-all">
                             <svg class="absolute right-3 top-3 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -404,10 +404,10 @@
                     <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200">Notificações</h2>
                     <div class="flex space-x-3">
                         <button id="markAllAsReadBtn" class="px-4 py-2 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600 transition-all transform hover:scale-105 hidden">
-                            ✅ Marcar Todas como Lidas
+                             Marcar Todas como Lidas
                         </button>
                         <button id="deleteAllNotificationsBtn" class="px-4 py-2 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600 transition-all transform hover:scale-105 hidden">
-                            🗑️ Excluir Todas
+                             Excluir Todas
                         </button>
                     </div>
                 </div>
@@ -960,17 +960,21 @@
         const markAllAsReadBtn = document.getElementById('markAllAsReadBtn');
         const deleteAllNotificationsBtn = document.getElementById('deleteAllNotificationsBtn');
 
-        // Enhanced notification system with delete functionality
+        // Enhanced notification system with localStorage fallback
         function loadNotifications() {
             if (!currentUser) return;
             
             const notificationsRef = ref(database, `notifications/${currentUser.uid}`);
             onValue(notificationsRef, (snapshot) => {
                 const notificationsData = snapshot.val() || {};
-                notifications = Object.entries(notificationsData)
+                let allNotifications = Object.entries(notificationsData)
                     .map(([id, notification]) => ({ id, ...notification }))
-                    .filter(n => !n.deleted) // Filter out deleted notifications
-                    .sort((a, b) => b.timestamp - a.timestamp);
+                    .filter(n => !n.deleted); // Filter out deleted notifications from Firebase
+
+                // Apply localStorage filters
+                allNotifications = applyLocalStorageFilters(allNotifications);
+                
+                notifications = allNotifications.sort((a, b) => b.timestamp - a.timestamp);
                 
                 updateNotificationBadge();
                 renderNotifications();
@@ -987,6 +991,61 @@
                 });
                 localStorage.setItem('lastGlobalNotificationSeen', Date.now());
             });
+        }
+
+        // Apply localStorage filters to notifications
+        function applyLocalStorageFilters(notificationsList) {
+            const deletedNotifications = getLocalDeletedNotifications();
+            const readNotifications = getLocalReadNotifications();
+            
+            return notificationsList.map(notification => {
+                // Check if marked as read in localStorage
+                if (readNotifications.includes(notification.id)) {
+                    notification.read = true;
+                }
+                return notification;
+            }).filter(notification => {
+                // Filter out notifications deleted in localStorage
+                return !deletedNotifications.includes(notification.id);
+            });
+        }
+
+        // localStorage helper functions
+        function getLocalDeletedNotifications() {
+            const key = `deletedNotifications_${currentUser.uid}`;
+            const deleted = localStorage.getItem(key);
+            return deleted ? JSON.parse(deleted) : [];
+        }
+
+        function addToLocalDeletedNotifications(notificationId) {
+            const key = `deletedNotifications_${currentUser.uid}`;
+            const deleted = getLocalDeletedNotifications();
+            if (!deleted.includes(notificationId)) {
+                deleted.push(notificationId);
+                localStorage.setItem(key, JSON.stringify(deleted));
+            }
+        }
+
+        function getLocalReadNotifications() {
+            const key = `readNotifications_${currentUser.uid}`;
+            const read = localStorage.getItem(key);
+            return read ? JSON.parse(read) : [];
+        }
+
+        function addToLocalReadNotifications(notificationId) {
+            const key = `readNotifications_${currentUser.uid}`;
+            const read = getLocalReadNotifications();
+            if (!read.includes(notificationId)) {
+                read.push(notificationId);
+                localStorage.setItem(key, JSON.stringify(read));
+            }
+        }
+
+        function clearLocalNotificationData() {
+            const deletedKey = `deletedNotifications_${currentUser.uid}`;
+            const readKey = `readNotifications_${currentUser.uid}`;
+            localStorage.removeItem(deletedKey);
+            localStorage.removeItem(readKey);
         }
 
         function updateNotificationBadge() {
@@ -1105,24 +1164,33 @@
             }, 5000);
         }
 
-        // Enhanced notification functions with error handling
+        // Enhanced notification functions with localStorage fallback
         window.markNotificationAsRead = async function(notificationId) {
             if (!currentUser) return;
             
             try {
+                // Try to update Firebase first
                 await update(ref(database, `notifications/${currentUser.uid}/${notificationId}`), {
                     read: true,
                     readAt: Date.now()
                 });
-                console.log('Notification marked as read:', notificationId);
+                console.log('✅ Notification marked as read in Firebase:', notificationId);
             } catch (error) {
-                console.error('Error marking notification as read:', error);
-                // Silently hide the notification from UI if Firebase fails
+                console.error('❌ Error marking notification as read in Firebase:', error);
+                
+                // Fallback to localStorage
+                console.log('📱 Using localStorage fallback for marking as read');
+                addToLocalReadNotifications(notificationId);
+                
+                // Update local notifications array immediately
                 const notification = notifications.find(n => n.id === notificationId);
                 if (notification) {
                     notification.read = true;
                     renderNotifications();
+                    updateNotificationBadge();
                 }
+                
+                showNotificationToast('Aviso', 'Notificação marcada como lida localmente', 'warning');
             }
         };
 
@@ -1132,29 +1200,39 @@
             // Show confirmation dialog using custom modal
             showConfirmDialog('Tem certeza que deseja excluir esta notificação?', async () => {
                 try {
-                    // Try to delete from Firebase
+                    // Try to delete from Firebase first
                     await remove(ref(database, `notifications/${currentUser.uid}/${notificationId}`));
-                    console.log('Notification deleted:', notificationId);
+                    console.log('✅ Notification deleted from Firebase:', notificationId);
+                    showNotificationToast('Sucesso', 'Notificação excluída', 'success');
                 } catch (error) {
-                    console.error('Error deleting notification from Firebase:', error);
-                    // If Firebase fails, just hide it locally
+                    console.error('❌ Error deleting notification from Firebase:', error);
+                    
                     try {
+                        // Try to mark as deleted in Firebase
                         await update(ref(database, `notifications/${currentUser.uid}/${notificationId}`), {
                             deleted: true,
                             deletedAt: Date.now()
                         });
+                        console.log('✅ Notification marked as deleted in Firebase:', notificationId);
+                        showNotificationToast('Sucesso', 'Notificação excluída', 'success');
                     } catch (updateError) {
-                        console.error('Error marking notification as deleted:', updateError);
-                        // Final fallback - hide from local array
+                        console.error('❌ Error marking notification as deleted in Firebase:', updateError);
+                        
+                        // Final fallback to localStorage
+                        console.log('📱 Using localStorage fallback for deletion');
+                        addToLocalDeletedNotifications(notificationId);
+                        
+                        // Remove from local notifications array immediately
                         const index = notifications.findIndex(n => n.id === notificationId);
                         if (index > -1) {
                             notifications.splice(index, 1);
                             renderNotifications();
                             updateNotificationBadge();
                         }
+                        
+                        showNotificationToast('Aviso', 'Notificação excluída localmente', 'warning');
                     }
                 }
-                showNotificationToast('Sucesso', 'Notificação excluída', 'success');
             });
         };
 
@@ -1165,7 +1243,7 @@
             showConfirmDialog('Marcar todas as notificações como lidas?', async () => {
                 const unreadNotifications = notifications.filter(n => !n.read);
                 let successCount = 0;
-                let errorCount = 0;
+                let localFallbackCount = 0;
 
                 for (const notification of unreadNotifications) {
                     try {
@@ -1176,17 +1254,23 @@
                         successCount++;
                     } catch (error) {
                         console.error('Error marking notification as read:', error);
-                        errorCount++;
-                        // Hide locally if Firebase fails
+                        
+                        // Use localStorage fallback
+                        addToLocalReadNotifications(notification.id);
                         notification.read = true;
+                        localFallbackCount++;
                     }
                 }
 
-                if (errorCount === 0) {
+                // Show appropriate message
+                if (localFallbackCount === 0) {
                     showNotificationToast('Sucesso', 'Todas as notificações foram marcadas como lidas', 'success');
+                } else if (successCount === 0) {
+                    showNotificationToast('Aviso', 'Notificações marcadas como lidas localmente devido a problemas de conexão', 'warning');
                 } else {
-                    showNotificationToast('Parcialmente concluído', `${successCount} notificações marcadas como lidas`, 'warning');
+                    showNotificationToast('Parcial', `${successCount} no servidor, ${localFallbackCount} localmente`, 'info');
                 }
+
                 renderNotifications();
                 updateNotificationBadge();
             });
@@ -1200,26 +1284,37 @@
                 try {
                     // Try to delete all notifications from Firebase
                     await remove(ref(database, `notifications/${currentUser.uid}`));
+                    console.log('✅ All notifications deleted from Firebase');
                     showNotificationToast('Sucesso', 'Todas as notificações foram excluídas', 'success');
                 } catch (error) {
-                    console.error('Error deleting all notifications:', error);
-                    // If Firebase fails, try to mark all as deleted
-                    const updates = {};
-                    notifications.forEach(notification => {
-                        updates[`notifications/${currentUser.uid}/${notification.id}/deleted`] = true;
-                        updates[`notifications/${currentUser.uid}/${notification.id}/deletedAt`] = Date.now();
-                    });
+                    console.error('❌ Error deleting all notifications from Firebase:', error);
                     
+                    // Try to mark all as deleted in Firebase
                     try {
+                        const updates = {};
+                        notifications.forEach(notification => {
+                            updates[`notifications/${currentUser.uid}/${notification.id}/deleted`] = true;
+                            updates[`notifications/${currentUser.uid}/${notification.id}/deletedAt`] = Date.now();
+                        });
+                        
                         await update(ref(database), updates);
+                        console.log('✅ All notifications marked as deleted in Firebase');
                         showNotificationToast('Sucesso', 'Todas as notificações foram excluídas', 'success');
                     } catch (updateError) {
-                        console.error('Error marking notifications as deleted:', updateError);
-                        // Final fallback - clear local array
+                        console.error('❌ Error marking all notifications as deleted in Firebase:', updateError);
+                        
+                        // Final fallback - use localStorage for all notifications
+                        console.log('📱 Using localStorage fallback for deleting all notifications');
+                        notifications.forEach(notification => {
+                            addToLocalDeletedNotifications(notification.id);
+                        });
+                        
+                        // Clear local notifications array
                         notifications = [];
                         renderNotifications();
                         updateNotificationBadge();
-                        showNotificationToast('Aviso', 'Notificações ocultadas localmente devido a erro de conexão', 'warning');
+                        
+                        showNotificationToast('Aviso', 'Notificações excluídas localmente devido a problemas de conexão', 'warning');
                     }
                 }
             });
