@@ -103,15 +103,40 @@
         .long-press-btn:active {
             transform: scale(0.95);
         }
+
+        /* Debug panel styles */
+        .debug-panel {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-width: 300px;
+            z-index: 1000;
+        }
     </style>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <!-- Debug Panel -->
+    <div id="debugPanel" class="debug-panel hidden">
+        <div class="flex justify-between items-center mb-2">
+            <strong>🐛 Debug Info</strong>
+            <button onclick="toggleDebug()" class="text-red-400">❌</button>
+        </div>
+        <div id="debugContent"></div>
+    </div>
+
     <!-- Loading Screen -->
     <div id="loadingScreen" class="fixed inset-0 bg-white dark:bg-gray-900 flex items-center justify-center z-50">
         <div class="text-center">
             <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
             <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">Kuia+ Admin</h2>
             <p id="loadingStatus" class="text-gray-600 dark:text-gray-400">Verificando acesso...</p>
+            <button onclick="toggleDebug()" class="mt-4 text-xs text-gray-500 hover:text-gray-700">🐛 Debug Mode</button>
         </div>
     </div>
 
@@ -121,9 +146,14 @@
             <div class="text-6xl mb-6">🚫</div>
             <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-4">Acesso Negado</h2>
             <p class="text-gray-600 dark:text-gray-400 mb-6">Você não tem permissão para acessar o painel administrativo.</p>
-            <button onclick="location.reload()" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all transform hover:scale-105">
-                Tentar Novamente
-            </button>
+            <div class="space-y-3">
+                <button onclick="location.reload()" class="block w-full px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all transform hover:scale-105">
+                    Tentar Novamente
+                </button>
+                <button onclick="toggleDebug()" class="block w-full px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-all">
+                    🐛 Ver Debug
+                </button>
+            </div>
         </div>
     </div>
 
@@ -151,10 +181,6 @@
                             <button id="ordersBtn" class="nav-btn text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-all">
                                 🛒 Pedidos
                             </button>
-                            <button id="chatBtn" class="nav-btn text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium relative transition-all">
-                                💬 Chat
-                                <span id="chatNotification" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden notification-badge">0</span>
-                            </button>
                             <button id="notificationsBtn" class="nav-btn text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-all">
                                 🔔 Notificações
                             </button>
@@ -162,16 +188,14 @@
                     </div>
                     
                     <div class="flex items-center space-x-4">
+                        <button onclick="toggleDebug()" class="px-3 py-1 text-xs bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-all">
+                            🐛 Debug
+                        </button>
                         <div class="relative">
                             <button id="adminMenuBtn" class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">
                                 <img id="adminAvatar" src="" alt="Admin" class="w-8 h-8 rounded-full">
                                 <span id="adminName" class="text-sm font-medium text-gray-700 dark:text-gray-300 hidden sm:block">Admin</span>
                             </button>
-                            <div id="adminMenu" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50 animate-scale-in">
-                                <div id="adminMenuContent">
-                                    <!-- Content will be populated dynamically -->
-                                </div>
-                            </div>
                         </div>
                         <button id="logoutBtn" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-all transform hover:scale-105">
                             🚪 Sair
@@ -196,10 +220,6 @@
                 <button id="mobileOrdersBtn" class="mobile-nav-btn whitespace-nowrap px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary rounded-lg transition-all">
                     🛒 Pedidos
                 </button>
-                <button id="mobileChatBtn" class="mobile-nav-btn whitespace-nowrap px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary rounded-lg relative transition-all">
-                    💬 Chat
-                    <span id="mobileChatNotification" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center hidden notification-badge">0</span>
-                </button>
                 <button id="mobileNotificationsBtn" class="mobile-nav-btn whitespace-nowrap px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary rounded-lg transition-all">
                     🔔 Notificações
                 </button>
@@ -215,8 +235,11 @@
                     <p class="text-gray-600 dark:text-gray-400">Visão geral da sua loja</p>
                 </div>
 
+                <!-- Connection Status -->
+                <div id="connectionStatus" class="mb-6 p-4 rounded-lg border"></div>
+
                 <!-- Stats Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 animate-fade-in transform hover:scale-105 transition-all">
                         <div class="flex items-center">
                             <div class="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
@@ -225,6 +248,18 @@
                             <div class="ml-4">
                                 <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total de Produtos</p>
                                 <p id="totalProducts" class="text-2xl font-bold text-gray-900 dark:text-gray-100">0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 animate-fade-in transform hover:scale-105 transition-all">
+                        <div class="flex items-center">
+                            <div class="p-2 bg-green-100 dark:bg-green-900 rounded-lg">
+                                <div class="text-2xl">📂</div>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Categorias</p>
+                                <p id="totalCategories" class="text-2xl font-bold text-gray-900 dark:text-gray-100">0</p>
                             </div>
                         </div>
                     </div>
@@ -243,36 +278,12 @@
 
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 animate-fade-in transform hover:scale-105 transition-all">
                         <div class="flex items-center">
-                            <div class="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
-                                <div class="text-2xl">✅</div>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Pedidos Aprovados</p>
-                                <p id="approvedOrders" class="text-2xl font-bold text-gray-900 dark:text-gray-100">0</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 animate-fade-in transform hover:scale-105 transition-all">
-                        <div class="flex items-center">
-                            <div class="p-2 bg-green-100 dark:bg-green-900 rounded-lg">
-                                <div class="text-2xl">🎉</div>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Pedidos Entregues</p>
-                                <p id="deliveredOrders" class="text-2xl font-bold text-gray-900 dark:text-gray-100">0</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 animate-fade-in transform hover:scale-105 transition-all">
-                        <div class="flex items-center">
                             <div class="p-2 bg-purple-100 dark:bg-purple-900 rounded-lg">
-                                <div class="text-2xl">💬</div>
+                                <div class="text-2xl">👥</div>
                             </div>
                             <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Usuários Ativos</p>
-                                <p id="activeUsers" class="text-2xl font-bold text-gray-900 dark:text-gray-100">0</p>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Usuários</p>
+                                <p id="totalUsers" class="text-2xl font-bold text-gray-900 dark:text-gray-100">0</p>
                             </div>
                         </div>
                     </div>
@@ -296,18 +307,18 @@
                                 <p class="text-sm text-gray-600 dark:text-gray-400">Gerenciar categorias</p>
                             </div>
                         </button>
-                        <button id="viewPendingOrdersBtn" class="flex items-center p-4 bg-yellow-50 dark:bg-yellow-900 hover:bg-yellow-100 dark:hover:bg-yellow-800 rounded-lg transition-all transform hover:scale-105">
-                            <div class="text-2xl mr-3">⏳</div>
+                        <button id="testConnectionBtn" class="flex items-center p-4 bg-blue-50 dark:bg-blue-900 hover:bg-blue-100 dark:hover:bg-blue-800 rounded-lg transition-all transform hover:scale-105">
+                            <div class="text-2xl mr-3">🔗</div>
                             <div class="text-left">
-                                <p class="font-medium text-yellow-700 dark:text-yellow-300">Ver Pedidos Pendentes</p>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Revisar novos pedidos</p>
+                                <p class="font-medium text-blue-700 dark:text-blue-300">Testar Conexão</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Verificar Firebase</p>
                             </div>
                         </button>
-                        <button id="sendNotificationBtn" class="flex items-center p-4 bg-purple-50 dark:bg-purple-900 hover:bg-purple-100 dark:hover:bg-purple-800 rounded-lg transition-all transform hover:scale-105">
+                        <button id="sendTestNotificationBtn" class="flex items-center p-4 bg-purple-50 dark:bg-purple-900 hover:bg-purple-100 dark:hover:bg-purple-800 rounded-lg transition-all transform hover:scale-105">
                             <div class="text-2xl mr-3">🔔</div>
                             <div class="text-left">
-                                <p class="font-medium text-purple-700 dark:text-purple-300">Enviar Notificação</p>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Notificar usuários</p>
+                                <p class="font-medium text-purple-700 dark:text-purple-300">Teste Notificação</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Enviar para si mesmo</p>
                             </div>
                         </button>
                     </div>
@@ -368,92 +379,11 @@
                     <p class="text-gray-600 dark:text-gray-400">Gerencie os pedidos dos clientes</p>
                 </div>
 
-                <!-- Order Filters -->
-                <div class="mb-6 flex flex-wrap gap-2">
-                    <button class="order-filter-btn bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition-all transform hover:scale-105" data-status="all">
-                        Todos
-                    </button>
-                    <button class="order-filter-btn bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 px-4 py-2 rounded-full text-sm font-medium transition-all transform hover:scale-105" data-status="pending">
-                        Pendentes
-                    </button>
-                    <button class="order-filter-btn bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 px-4 py-2 rounded-full text-sm font-medium transition-all transform hover:scale-105" data-status="approved">
-                        Aprovados
-                    </button>
-                    <button class="order-filter-btn bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 px-4 py-2 rounded-full text-sm font-medium transition-all transform hover:scale-105" data-status="delivered">
-                        Entregues
-                    </button>
-                    <button class="order-filter-btn bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 px-4 py-2 rounded-full text-sm font-medium transition-all transform hover:scale-105" data-status="rejected">
-                        Rejeitados
-                    </button>
-                </div>
-
                 <!-- Orders Grid -->
                 <div id="ordersGrid" class="space-y-6">
                     <div class="text-center py-12">
                         <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
                         <p class="text-gray-600 dark:text-gray-400">Carregando pedidos...</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Chat Section -->
-            <div id="chatSection" class="hidden section-transition">
-                <div class="mb-8">
-                    <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">Central de Chat</h2>
-                    <p class="text-gray-600 dark:text-gray-400">Converse com os clientes em tempo real</p>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Users List -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 animate-fade-in">
-                        <div class="p-4 border-b border-gray-200 dark:border-gray-700">
-                            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Usuários Registrados</h3>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">Clique para iniciar conversa</p>
-                        </div>
-                        <div id="usersList" class="p-4 max-h-96 overflow-y-auto">
-                            <div class="text-center py-8 text-gray-500 dark:text-gray-400">
-                                <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mx-auto mb-2"></div>
-                                <p>Carregando usuários...</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Chat Area -->
-                    <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 flex flex-col h-96 animate-fade-in">
-                        <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-                            <div id="chatHeader" class="flex items-center space-x-3">
-                                <div class="text-lg">💬</div>
-                                <div>
-                                    <h4 class="font-semibold text-gray-800 dark:text-gray-200">Selecione um usuário</h4>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">Para iniciar uma conversa</p>
-                                </div>
-                            </div>
-                            <button id="closeChatBtn" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hidden transition-all transform hover:scale-110">
-                                ❌
-                            </button>
-                        </div>
-                        
-                        <div id="chatMessages" class="flex-1 overflow-y-auto p-4 bg-gray-50 dark:bg-gray-900">
-                            <div class="text-center text-gray-500 dark:text-gray-400 py-12 animate-fade-in">
-                                <div class="text-4xl mb-4">💬</div>
-                                <p>Selecione um usuário para começar a conversar</p>
-                            </div>
-                        </div>
-                        
-                        <div id="chatInputContainer" class="p-4 border-t border-gray-200 dark:border-gray-700 hidden">
-                            <div class="flex space-x-2 mb-2">
-                                <input type="text" id="chatInput" placeholder="Digite sua mensagem..." 
-                                       class="flex-1 px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-                                <input type="file" id="chatImageInput" accept="image/*" class="hidden">
-                                <button id="chatImageBtn" class="px-3 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-all transform hover:scale-105">
-                                    📷
-                                </button>
-                                <button id="sendChatBtn" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all transform hover:scale-105">
-                                    📤
-                                </button>
-                            </div>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">Pressione Enter para enviar • Clique em 📷 para enviar imagem</p>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -465,9 +395,9 @@
                     <p class="text-gray-600 dark:text-gray-400">Envie notificações e promoções para os usuários</p>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <!-- Send Notification Form -->
-                    <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 animate-fade-in">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 animate-fade-in">
                         <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Enviar Notificação</h3>
                         
                         <form id="notificationForm">
@@ -668,6 +598,7 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Ícone</label>
                             <div class="grid grid-cols-8 gap-2 p-3 border border-gray-300 dark:border-gray-600 rounded-lg">
+                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110 bg-primary text-white" data-icon="📂">📂</button>
                                 <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="📱">📱</button>
                                 <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="👕">👕</button>
                                 <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="🏠">🏠</button>
@@ -683,7 +614,6 @@
                                 <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="🎸">🎸</button>
                                 <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="🎨">🎨</button>
                                 <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="🐶">🐶</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="🛠️">🛠️</button>
                             </div>
                             <input type="hidden" id="categoryIcon" value="📂">
                             <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Ícone selecionado: <span id="selectedIcon">📂</span></p>
@@ -709,65 +639,6 @@
                         </button>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Order Detail Modal -->
-    <div id="orderDetailModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden">
-        <div class="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-screen overflow-y-auto animate-scale-in">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 id="orderDetailTitle" class="text-xl font-semibold text-gray-800 dark:text-gray-200">Detalhes do Pedido</h3>
-                    <button id="closeOrderDetailBtn" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-xl transition-all">
-                        ❌
-                    </button>
-                </div>
-                
-                <div id="orderDetailContent" class="space-y-6">
-                    <!-- Content will be populated dynamically -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Profile Picture Modal -->
-    <div id="profilePictureModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden">
-        <div class="bg-white dark:bg-gray-800 rounded-lg max-w-md w-full animate-scale-in">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Alterar Foto do Perfil</h3>
-                    <button id="closeProfilePictureBtn" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-xl transition-all">
-                        ❌
-                    </button>
-                </div>
-                
-                <div class="text-center">
-                    <div class="relative inline-block mb-4">
-                        <img id="profilePicturePreview" src="" alt="Preview" class="w-32 h-32 rounded-full object-cover border-4 border-gray-300 dark:border-gray-600">
-                        <label for="newProfilePicture" class="absolute bottom-2 right-2 bg-primary text-white rounded-full p-2 cursor-pointer hover:bg-primary-dark transition-all transform hover:scale-110">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            </svg>
-                        </label>
-                        <input type="file" id="newProfilePicture" accept="image/*" class="hidden">
-                    </div>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">Clique no ícone da câmera para escolher uma nova foto</p>
-                    
-                    <div class="flex space-x-3">
-                        <button id="cancelProfilePictureBtn" class="flex-1 px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all">
-                            Cancelar
-                        </button>
-                        <button id="saveProfilePictureBtn" class="flex-1 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all transform hover:scale-105" disabled>
-                            <span id="saveProfilePictureText">Salvar</span>
-                            <span id="saveProfilePictureLoader" class="hidden">
-                                <div class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                                Salvando...
-                            </span>
-                        </button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -808,6 +679,7 @@
             document.getElementById('loadingStatus').textContent = 'Firebase conectado!';
         } catch (error) {
             console.error('❌ Firebase initialization error:', error);
+            addDebugLog('Firebase Init Error: ' + error.message);
             document.getElementById('loadingStatus').textContent = 'Erro na conexão com Firebase';
             showAccessDenied();
         }
@@ -832,14 +704,10 @@
         let users = {};
         let categories = {};
         let currentSection = 'dashboard';
-        let currentOrderFilter = 'all';
         let editingProductId = null;
         let editingCategoryId = null;
         let uploadedImageUrl = null;
-        let uploadedPhotoURL = null;
-        let currentChatId = null;
-        let selectedUserId = null;
-        let chatMessages = {};
+        let connectionStatus = 'unknown';
 
         // Long press delete system
         let deleteTimers = new Map();
@@ -848,13 +716,44 @@
         // API Key for image upload
         const apiKeyImgBB = 'e073e02267a1f0259cd69c562e780659';
 
-        // DOM elements
-        const loadingScreen = document.getElementById('loadingScreen');
-        const accessDeniedScreen = document.getElementById('accessDeniedScreen');
-        const adminPanel = document.getElementById('adminPanel');
+        // Debug system
+        let debugLogs = [];
+        
+        function addDebugLog(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            debugLogs.push(`[${timestamp}] ${message}`);
+            console.log(`🐛 ${message}`);
+            
+            if (debugLogs.length > 50) {
+                debugLogs = debugLogs.slice(-50); // Keep only last 50 logs
+            }
+            
+            updateDebugPanel();
+        }
+
+        function updateDebugPanel() {
+            const debugContent = document.getElementById('debugContent');
+            if (debugContent) {
+                debugContent.innerHTML = debugLogs.slice(-10).map(log => 
+                    `<div class="text-xs mb-1">${log}</div>`
+                ).join('');
+            }
+        }
+
+        function toggleDebug() {
+            const panel = document.getElementById('debugPanel');
+            panel.classList.toggle('hidden');
+        }
+
+        // Make toggle function globally available
+        window.toggleDebug = toggleDebug;
+
+        addDebugLog('Sistema de debug inicializado');
 
         // Enhanced notification system
         function showNotificationToast(title, message, type = 'info') {
+            addDebugLog(`Notification: ${type} - ${title}: ${message}`);
+            
             const toast = document.createElement('div');
             const typeColors = {
                 info: 'bg-blue-500',
@@ -887,7 +786,7 @@
 
         // Enhanced Long Press Delete System
         function startLongPressDelete(itemId, element, type) {
-            console.log('🔴 Starting long press delete for:', itemId, type);
+            addDebugLog(`Starting long press delete for ${type}: ${itemId}`);
             
             // Prevent multiple timers for the same element
             if (deleteTimers.has(element)) {
@@ -936,6 +835,8 @@
         }
 
         function cancelLongPressDelete(element) {
+            addDebugLog('Cancelling long press delete');
+            
             // Get original content
             const originalContent = element.getAttribute('data-original') || '🗑️';
             
@@ -964,7 +865,7 @@
         }
 
         async function executeDelete(itemId, type) {
-            console.log('🗑️ Executing delete:', itemId, type);
+            addDebugLog(`Executing delete: ${type} - ${itemId}`);
             
             try {
                 switch (type) {
@@ -978,10 +879,10 @@
                         await deleteOrder(itemId);
                         break;
                     default:
-                        console.error('Unknown delete type:', type);
+                        addDebugLog('Unknown delete type: ' + type);
                 }
             } catch (error) {
-                console.error('Delete error:', error);
+                addDebugLog('Delete error: ' + error.message);
                 showNotificationToast('Erro', 'Erro ao excluir item: ' + error.message, 'error');
             }
         }
@@ -990,21 +891,75 @@
         window.startLongPressDelete = startLongPressDelete;
         window.cancelLongPressDelete = cancelLongPressDelete;
 
-        // Authentication and initialization
+        // Connection status check
+        async function updateConnectionStatus() {
+            const statusEl = document.getElementById('connectionStatus');
+            
+            try {
+                // Test Realtime Database connection
+                const testRef = ref(database, '.info/connected');
+                onValue(testRef, (snapshot) => {
+                    const connected = snapshot.val();
+                    connectionStatus = connected ? 'connected' : 'disconnected';
+                    
+                    if (connected) {
+                        statusEl.className = 'mb-6 p-4 rounded-lg border bg-green-50 dark:bg-green-900 border-green-200 dark:border-green-700';
+                        statusEl.innerHTML = `
+                            <div class="flex items-center">
+                                <div class="text-green-500 mr-2">✅</div>
+                                <div>
+                                    <h4 class="font-medium text-green-800 dark:text-green-200">Conexão Ativa</h4>
+                                    <p class="text-sm text-green-600 dark:text-green-400">Firebase Realtime Database conectado</p>
+                                </div>
+                            </div>
+                        `;
+                        addDebugLog('Realtime Database connected');
+                    } else {
+                        statusEl.className = 'mb-6 p-4 rounded-lg border bg-red-50 dark:bg-red-900 border-red-200 dark:border-red-700';
+                        statusEl.innerHTML = `
+                            <div class="flex items-center">
+                                <div class="text-red-500 mr-2">❌</div>
+                                <div>
+                                    <h4 class="font-medium text-red-800 dark:text-red-200">Sem Conexão</h4>
+                                    <p class="text-sm text-red-600 dark:text-red-400">Problemas de conectividade</p>
+                                </div>
+                            </div>
+                        `;
+                        addDebugLog('Realtime Database disconnected');
+                    }
+                });
+            } catch (error) {
+                addDebugLog('Connection test error: ' + error.message);
+                statusEl.className = 'mb-6 p-4 rounded-lg border bg-yellow-50 dark:bg-yellow-900 border-yellow-200 dark:border-yellow-700';
+                statusEl.innerHTML = `
+                    <div class="flex items-center">
+                        <div class="text-yellow-500 mr-2">⚠️</div>
+                        <div>
+                            <h4 class="font-medium text-yellow-800 dark:text-yellow-200">Erro de Conexão</h4>
+                            <p class="text-sm text-yellow-600 dark:text-yellow-400">${error.message}</p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Authentication and admin check with enhanced debugging
         onAuthStateChanged(auth, async (user) => {
-            console.log('🔐 Auth state changed:', user?.email);
+            addDebugLog(`Auth state changed. User: ${user ? user.email : 'null'}`);
             currentUser = user;
             
             if (user) {
+                addDebugLog(`User authenticated: ${user.email}, UID: ${user.uid}`);
                 await checkAdminAccess();
             } else {
+                addDebugLog('No user authenticated, triggering login');
                 // Trigger Google login
                 const provider = new GoogleAuthProvider();
                 try {
-                    console.log('🔑 Triggering Google login...');
+                    addDebugLog('Starting Google sign-in popup');
                     await signInWithPopup(auth, provider);
                 } catch (error) {
-                    console.error('❌ Login error:', error);
+                    addDebugLog('Login error: ' + error.message);
                     showAccessDenied();
                 }
             }
@@ -1013,45 +968,91 @@
         async function checkAdminAccess() {
             try {
                 document.getElementById('loadingStatus').textContent = 'Verificando permissões...';
+                addDebugLog('Checking admin access...');
                 
-                // Check if user is admin
+                // First check if user is super admin by email
+                if (currentUser.email === 'sibemcesar@gmail.com') {
+                    addDebugLog('Super admin detected by email');
+                    isAdmin = true;
+                    await initializeAdminUser();
+                    updateAdminUI();
+                    showAdminPanel();
+                    loadData();
+                    updateConnectionStatus();
+                    return;
+                }
+                
+                // Check if user is admin in Firestore
+                addDebugLog('Checking Firestore for admin document...');
                 const adminDoc = await getDoc(doc(firestore, 'admins', currentUser.uid));
                 
-                if (adminDoc.exists() || currentUser.email === 'sibemcesar@gmail.com') {
-                    console.log('✅ Admin access granted');
+                if (adminDoc.exists()) {
+                    addDebugLog('Admin document found in Firestore');
                     isAdmin = true;
                     updateAdminUI();
                     showAdminPanel();
                     loadData();
-                    initializeChat();
+                    updateConnectionStatus();
                 } else {
-                    console.log('❌ Access denied - user is not admin');
-                    showAccessDenied();
+                    addDebugLog('Admin document not found in Firestore');
+                    
+                    // Check Realtime Database as fallback
+                    addDebugLog('Checking Realtime Database for admin access...');
+                    const adminRef = ref(database, `admins/${currentUser.uid}`);
+                    onValue(adminRef, (snapshot) => {
+                        if (snapshot.exists()) {
+                            addDebugLog('Admin access found in Realtime Database');
+                            isAdmin = true;
+                            updateAdminUI();
+                            showAdminPanel();
+                            loadData();
+                            updateConnectionStatus();
+                        } else {
+                            addDebugLog('No admin access found in Realtime Database');
+                            showAccessDenied();
+                        }
+                    }, { onlyOnce: true });
                 }
             } catch (error) {
-                console.error('❌ Error checking admin access:', error);
+                addDebugLog('Error checking admin access: ' + error.message);
                 showAccessDenied();
             }
         }
 
+        async function initializeAdminUser() {
+            try {
+                addDebugLog('Initializing super admin user...');
+                
+                // Ensure super admin exists in both databases
+                const adminData = {
+                    email: currentUser.email,
+                    name: currentUser.displayName || 'Super Admin',
+                    role: 'super_admin',
+                    createdAt: Date.now(),
+                    lastLogin: Date.now()
+                };
+                
+                // Save to Realtime Database
+                await set(ref(database, `admins/${currentUser.uid}`), adminData);
+                addDebugLog('Super admin saved to Realtime Database');
+                
+                // Save to Firestore
+                await setDoc(doc(firestore, 'admins', currentUser.uid), adminData);
+                addDebugLog('Super admin saved to Firestore');
+                
+            } catch (error) {
+                addDebugLog('Error initializing admin user: ' + error.message);
+            }
+        }
+
         function updateAdminUI() {
+            addDebugLog('Updating admin UI...');
             document.getElementById('adminAvatar').src = currentUser.photoURL || 'https://via.placeholder.com/32?text=' + (currentUser.displayName?.charAt(0) || 'A');
             document.getElementById('adminName').textContent = currentUser.displayName || currentUser.email;
-            
-            document.getElementById('adminMenuContent').innerHTML = `
-                <button onclick="openProfilePictureModal()" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-600 transition-all">
-                    <span class="mr-2">👤</span>Alterar Foto
-                </button>
-                <button onclick="showSection('notifications')" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-600 transition-all">
-                    <span class="mr-2">🔔</span>Notificações
-                </button>
-                <button onclick="signOutAdmin()" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-b-lg transition-all">
-                    <span class="mr-2">🚪</span>Sair
-                </button>
-            `;
         }
 
         function showAdminPanel() {
+            addDebugLog('Showing admin panel...');
             loadingScreen.style.opacity = '0';
             setTimeout(() => {
                 loadingScreen.classList.add('hidden');
@@ -1065,44 +1066,75 @@
         }
 
         function showAccessDenied() {
+            addDebugLog('Showing access denied screen');
             loadingScreen.classList.add('hidden');
             adminPanel.classList.add('hidden');
             accessDeniedScreen.classList.remove('hidden');
         }
 
-        // Load data from Firebase
+        // Load data from Firebase (PRIMARILY Realtime Database)
         function loadData() {
-            console.log('🔄 Loading data from Firebase...');
+            addDebugLog('Loading data from Firebase...');
             
             // Load categories first
             const categoriesRef = ref(database, 'categories');
             onValue(categoriesRef, (snapshot) => {
                 categories = snapshot.val() || {};
-                console.log('✅ Categories loaded:', Object.keys(categories).length);
+                addDebugLog(`Categories loaded: ${Object.keys(categories).length}`);
                 renderCategories();
                 updateProductCategorySelect();
+                updateDashboardStats();
+            }, (error) => {
+                addDebugLog('Error loading categories: ' + error.message);
             });
             
             // Load products
             const productsRef = ref(database, 'products');
             onValue(productsRef, (snapshot) => {
                 products = snapshot.val() || {};
-                console.log('✅ Products loaded:', Object.keys(products).length);
+                addDebugLog(`Products loaded: ${Object.keys(products).length}`);
                 renderProducts();
                 updateDashboardStats();
+            }, (error) => {
+                addDebugLog('Error loading products: ' + error.message);
             });
 
             // Load orders
             const ordersRef = ref(database, 'orders');
             onValue(ordersRef, (snapshot) => {
                 orders = snapshot.val() || {};
-                console.log('✅ Orders loaded:', Object.keys(orders).length);
+                addDebugLog(`Orders loaded: ${Object.keys(orders).length}`);
                 renderOrders();
                 updateDashboardStats();
+            }, (error) => {
+                addDebugLog('Error loading orders: ' + error.message);
+            });
+
+            // Load users
+            const usersRef = ref(database, 'users');
+            onValue(usersRef, (snapshot) => {
+                users = snapshot.val() || {};
+                addDebugLog(`Users loaded: ${Object.keys(users).length}`);
+                updateDashboardStats();
+            }, (error) => {
+                addDebugLog('Error loading users: ' + error.message);
             });
         }
 
-        // Categories Management (FIXED)
+        function updateDashboardStats() {
+            const productsCount = Object.keys(products).length;
+            const categoriesCount = Object.keys(categories).length;
+            const ordersArray = Object.values(orders);
+            const pendingCount = ordersArray.filter(order => order.status === 'pending').length;
+            const usersCount = Object.keys(users).length;
+
+            document.getElementById('totalProducts').textContent = productsCount;
+            document.getElementById('totalCategories').textContent = categoriesCount;
+            document.getElementById('pendingOrders').textContent = pendingCount;
+            document.getElementById('totalUsers').textContent = usersCount;
+        }
+
+        // Categories Management (FIXED with Realtime Database focus)
         function renderCategories() {
             const categoriesGrid = document.getElementById('categoriesGrid');
             const categoriesArray = Object.entries(categories).map(([id, category]) => ({ id, ...category }));
@@ -1153,6 +1185,7 @@
         }
 
         function openCategoryModal(categoryId = null) {
+            addDebugLog(`Opening category modal. Edit ID: ${categoryId}`);
             editingCategoryId = categoryId;
             
             const modal = document.getElementById('categoryModal');
@@ -1170,6 +1203,13 @@
                 btn.classList.add('hover:bg-gray-100', 'dark:hover:bg-gray-700');
             });
             
+            // Set default icon as selected
+            const defaultIconBtn = document.querySelector('[data-icon="📂"]');
+            if (defaultIconBtn) {
+                defaultIconBtn.classList.add('bg-primary', 'text-white');
+                defaultIconBtn.classList.remove('hover:bg-gray-100', 'dark:hover:bg-gray-700');
+            }
+            
             if (categoryId) {
                 // Edit mode
                 title.textContent = 'Editar Categoria';
@@ -1181,6 +1221,11 @@
                     document.getElementById('selectedIcon').textContent = category.icon || '📂';
                     
                     // Highlight selected icon
+                    document.querySelectorAll('.icon-btn').forEach(btn => {
+                        btn.classList.remove('bg-primary', 'text-white');
+                        btn.classList.add('hover:bg-gray-100', 'dark:hover:bg-gray-700');
+                    });
+                    
                     const selectedBtn = document.querySelector(`[data-icon="${category.icon}"]`);
                     if (selectedBtn) {
                         selectedBtn.classList.add('bg-primary', 'text-white');
@@ -1195,9 +1240,10 @@
             modal.classList.remove('hidden');
         }
 
-        // Enhanced category form submission with better ID generation and validation
+        // Enhanced category form submission - FOCUSED ON REALTIME DATABASE
         document.getElementById('categoryForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            addDebugLog('Category form submitted');
             
             const saveBtn = document.getElementById('saveCategoryBtn');
             const saveText = document.getElementById('saveCategoryText');
@@ -1206,11 +1252,13 @@
             // Enhanced validation
             const name = document.getElementById('categoryName').value.trim();
             if (!name) {
+                addDebugLog('Validation error: empty category name');
                 showNotificationToast('Erro', 'Por favor, insira o nome da categoria.', 'error');
                 return;
             }
             
             if (name.length < 2) {
+                addDebugLog('Validation error: category name too short');
                 showNotificationToast('Erro', 'O nome da categoria deve ter pelo menos 2 caracteres.', 'error');
                 return;
             }
@@ -1225,6 +1273,7 @@
                 
                 if (editingCategoryId) {
                     categoryId = editingCategoryId;
+                    addDebugLog(`Editing existing category: ${categoryId}`);
                 } else {
                     // Generate a safe and unique category ID
                     categoryId = name.toLowerCase()
@@ -1244,6 +1293,8 @@
                     if (!categoryId || categoryId.length < 1) {
                         categoryId = `categoria_${Date.now()}`;
                     }
+                    
+                    addDebugLog(`Generated category ID: ${categoryId}`);
                 }
                 
                 const categoryData = {
@@ -1258,24 +1309,27 @@
                     categoryData.createdAt = Date.now();
                 }
 
-                console.log('💾 Saving category:', categoryId, categoryData);
+                addDebugLog(`Saving category data: ${JSON.stringify(categoryData)}`);
 
-                // Save to both databases with comprehensive error handling
-                const promises = [
-                    set(ref(database, `categories/${categoryId}`), categoryData),
-                    setDoc(doc(firestore, 'categories', categoryId), categoryData)
-                ];
+                // PRIORITY: Save to Realtime Database first
+                await set(ref(database, `categories/${categoryId}`), categoryData);
+                addDebugLog('Category saved to Realtime Database');
 
-                await Promise.all(promises);
+                // SECONDARY: Try to save to Firestore (non-blocking)
+                try {
+                    await setDoc(doc(firestore, 'categories', categoryId), categoryData);
+                    addDebugLog('Category saved to Firestore');
+                } catch (firestoreError) {
+                    addDebugLog('Firestore save failed (non-critical): ' + firestoreError.message);
+                }
 
-                console.log('✅ Category saved successfully');
                 const action = editingCategoryId ? 'atualizada' : 'adicionada';
                 showNotificationToast('Sucesso', `Categoria "${name}" ${action} com sucesso!`, 'success');
                 
                 closeCategoryModal();
                 updateProductCategorySelect();
             } catch (error) {
-                console.error('❌ Error saving category:', error);
+                addDebugLog('Error saving category: ' + error.message);
                 showNotificationToast('Erro', 'Erro ao salvar categoria: ' + error.message, 'error');
             } finally {
                 // Reset loading state
@@ -1302,22 +1356,29 @@
                     `<option value="${category.id}">${category.icon} ${category.name}</option>`
                 ).join('')}
             `;
+            
+            addDebugLog(`Product category select updated with ${categoriesArray.length} categories`);
         }
 
         async function deleteCategory(categoryId) {
             try {
-                console.log('🗑️ Deleting category:', categoryId);
+                addDebugLog(`Deleting category: ${categoryId}`);
                 
                 const category = categories[categoryId];
                 const productCount = Object.values(products).filter(p => p.category === categoryId).length;
                 
-                // Delete from both databases
-                await Promise.all([
-                    remove(ref(database, `categories/${categoryId}`)),
-                    deleteDoc(doc(firestore, 'categories', categoryId))
-                ]);
+                // PRIORITY: Delete from Realtime Database
+                await remove(ref(database, `categories/${categoryId}`));
+                addDebugLog('Category deleted from Realtime Database');
                 
-                console.log('✅ Category deleted successfully');
+                // SECONDARY: Try to delete from Firestore (non-blocking)
+                try {
+                    await deleteDoc(doc(firestore, 'categories', categoryId));
+                    addDebugLog('Category deleted from Firestore');
+                } catch (firestoreError) {
+                    addDebugLog('Firestore delete failed (non-critical): ' + firestoreError.message);
+                }
+                
                 showNotificationToast('Sucesso', `Categoria "${category?.name}" excluída com sucesso!`, 'success');
                 
                 if (productCount > 0) {
@@ -1326,7 +1387,7 @@
                 
                 updateProductCategorySelect();
             } catch (error) {
-                console.error('❌ Error deleting category:', error);
+                addDebugLog('Error deleting category: ' + error.message);
                 showNotificationToast('Erro', 'Erro ao excluir categoria: ' + error.message, 'error');
             }
         }
@@ -1350,10 +1411,12 @@
                 const icon = e.target.dataset.icon;
                 document.getElementById('categoryIcon').value = icon;
                 document.getElementById('selectedIcon').textContent = icon;
+                
+                addDebugLog(`Icon selected: ${icon}`);
             }
         });
 
-        // Products Management (FIXED)
+        // Products Management (FIXED with Realtime Database focus)
         function renderProducts() {
             const productsGrid = document.getElementById('productsGrid');
             const productsArray = Object.entries(products).map(([id, product]) => ({ id, ...product }));
@@ -1433,6 +1496,7 @@
         }
 
         function openProductModal(productId = null) {
+            addDebugLog(`Opening product modal. Edit ID: ${productId}`);
             editingProductId = productId;
             uploadedImageUrl = null;
             
@@ -1482,8 +1546,11 @@
             const file = e.target.files[0];
             if (!file) return;
 
+            addDebugLog(`Image upload started. File: ${file.name}, Size: ${file.size}`);
+
             // Enhanced validation
             if (file.size > 5 * 1024 * 1024) {
+                addDebugLog('Image too large');
                 showNotificationToast('Erro', 'Imagem muito grande. O tamanho máximo é 5MB.', 'error');
                 e.target.value = '';
                 return;
@@ -1491,6 +1558,7 @@
 
             const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
             if (!allowedTypes.includes(file.type)) {
+                addDebugLog('Invalid image format');
                 showNotificationToast('Erro', 'Formato não suportado. Use JPG, PNG ou WebP.', 'error');
                 e.target.value = '';
                 return;
@@ -1523,13 +1591,13 @@
                 const result = await response.json();
                 if (result.success) {
                     uploadedImageUrl = result.data.url;
-                    console.log('✅ Product image uploaded successfully:', uploadedImageUrl);
+                    addDebugLog('Image uploaded successfully: ' + uploadedImageUrl);
                     showNotificationToast('Sucesso', 'Imagem carregada com sucesso!', 'success');
                 } else {
                     throw new Error(result.error?.message || 'Falha no upload');
                 }
             } catch (error) {
-                console.error('❌ Image upload error:', error);
+                addDebugLog('Image upload error: ' + error.message);
                 showNotificationToast('Erro', 'Erro ao fazer upload da imagem: ' + error.message, 'error');
                 e.target.value = '';
                 // Reset preview
@@ -1541,9 +1609,10 @@
             }
         });
 
-        // Enhanced product form submission with comprehensive validation
+        // Enhanced product form submission - FOCUSED ON REALTIME DATABASE
         document.getElementById('productForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            addDebugLog('Product form submitted');
             
             const saveBtn = document.getElementById('saveProductBtn');
             const saveText = document.getElementById('saveProductText');
@@ -1557,31 +1626,37 @@
             const stock = parseInt(document.getElementById('productStock').value);
             
             if (!name) {
+                addDebugLog('Validation error: empty product name');
                 showNotificationToast('Erro', 'Por favor, insira o nome do produto.', 'error');
                 return;
             }
             
             if (name.length < 2) {
+                addDebugLog('Validation error: product name too short');
                 showNotificationToast('Erro', 'O nome do produto deve ter pelo menos 2 caracteres.', 'error');
                 return;
             }
             
             if (!category) {
+                addDebugLog('Validation error: no category selected');
                 showNotificationToast('Erro', 'Por favor, selecione uma categoria.', 'error');
                 return;
             }
             
             if (isNaN(price) || price <= 0) {
+                addDebugLog('Validation error: invalid price');
                 showNotificationToast('Erro', 'Por favor, insira um preço válido maior que zero.', 'error');
                 return;
             }
             
             if (oldPrice && oldPrice <= price) {
+                addDebugLog('Validation error: old price not greater than current price');
                 showNotificationToast('Erro', 'O preço antigo deve ser maior que o preço atual.', 'error');
                 return;
             }
             
             if (isNaN(stock) || stock < 0) {
+                addDebugLog('Validation error: invalid stock');
                 showNotificationToast('Erro', 'Por favor, insira um estoque válido (0 ou maior).', 'error');
                 return;
             }
@@ -1607,34 +1682,50 @@
                     productData.createdAt = Date.now();
                 }
 
-                console.log('💾 Saving product data:', productData);
+                addDebugLog(`Saving product data: ${JSON.stringify(productData)}`);
 
                 if (editingProductId) {
                     // Update existing product
-                    console.log('📝 Updating product:', editingProductId);
-                    await Promise.all([
-                        update(ref(database, `products/${editingProductId}`), productData),
-                        setDoc(doc(firestore, 'products', editingProductId), productData, { merge: true })
-                    ]);
-                    console.log('✅ Product updated successfully');
+                    addDebugLog(`Updating product: ${editingProductId}`);
+                    
+                    // PRIORITY: Update in Realtime Database
+                    await update(ref(database, `products/${editingProductId}`), productData);
+                    addDebugLog('Product updated in Realtime Database');
+                    
+                    // SECONDARY: Try to update in Firestore (non-blocking)
+                    try {
+                        await setDoc(doc(firestore, 'products', editingProductId), productData, { merge: true });
+                        addDebugLog('Product updated in Firestore');
+                    } catch (firestoreError) {
+                        addDebugLog('Firestore update failed (non-critical): ' + firestoreError.message);
+                    }
+                    
                     showNotificationToast('Sucesso', 'Produto atualizado com sucesso!', 'success');
                 } else {
                     // Create new product
-                    console.log('➕ Creating new product');
+                    addDebugLog('Creating new product');
+                    
+                    // PRIORITY: Create in Realtime Database
                     const newProductRef = push(ref(database, 'products'));
                     const productId = newProductRef.key;
                     
-                    await Promise.all([
-                        set(newProductRef, productData),
-                        setDoc(doc(firestore, 'products', productId), productData)
-                    ]);
-                    console.log('✅ Product created successfully with ID:', productId);
+                    await set(newProductRef, productData);
+                    addDebugLog('Product created in Realtime Database with ID: ' + productId);
+                    
+                    // SECONDARY: Try to create in Firestore (non-blocking)
+                    try {
+                        await setDoc(doc(firestore, 'products', productId), productData);
+                        addDebugLog('Product created in Firestore');
+                    } catch (firestoreError) {
+                        addDebugLog('Firestore create failed (non-critical): ' + firestoreError.message);
+                    }
+                    
                     showNotificationToast('Sucesso', 'Produto adicionado com sucesso!', 'success');
                 }
 
                 closeProductModal();
             } catch (error) {
-                console.error('❌ Error saving product:', error);
+                addDebugLog('Error saving product: ' + error.message);
                 showNotificationToast('Erro', 'Erro ao salvar produto: ' + error.message, 'error');
             } finally {
                 // Reset loading state
@@ -1652,148 +1743,133 @@
 
         async function deleteProduct(productId) {
             try {
-                console.log('🗑️ Deleting product:', productId);
+                addDebugLog(`Deleting product: ${productId}`);
                 
                 const product = products[productId];
                 
-                // Delete from both Realtime Database and Firestore
-                await Promise.all([
-                    remove(ref(database, `products/${productId}`)),
-                    deleteDoc(doc(firestore, 'products', productId))
-                ]);
+                // PRIORITY: Delete from Realtime Database
+                await remove(ref(database, `products/${productId}`));
+                addDebugLog('Product deleted from Realtime Database');
                 
-                console.log('✅ Product deleted successfully');
+                // SECONDARY: Try to delete from Firestore (non-blocking)
+                try {
+                    await deleteDoc(doc(firestore, 'products', productId));
+                    addDebugLog('Product deleted from Firestore');
+                } catch (firestoreError) {
+                    addDebugLog('Firestore delete failed (non-critical): ' + firestoreError.message);
+                }
+                
                 showNotificationToast('Sucesso', `Produto "${product?.name}" excluído com sucesso!`, 'success');
             } catch (error) {
-                console.error('❌ Error deleting product:', error);
+                addDebugLog('Error deleting product: ' + error.message);
                 showNotificationToast('Erro', 'Erro ao excluir produto: ' + error.message, 'error');
             }
         }
 
-        // Chat and other functionality (keeping existing implementations)
-        async function initializeChat() {
-            try {
-                console.log('Initializing chat system...');
-                
-                // Load all users from Firestore first
-                const usersQuery = query(collection(firestore, 'users'));
-                const usersSnapshot = await getDocs(usersQuery);
-                
-                users = {};
-                usersSnapshot.docs.forEach(doc => {
-                    users[doc.id] = { id: doc.id, ...doc.data() };
-                });
-                
-                console.log('✅ Users loaded from Firestore:', Object.keys(users).length);
-                renderUsersList();
-
-                // Also check Realtime Database for additional users
-                const usersRef = ref(database, 'users');
-                onValue(usersRef, (snapshot) => {
-                    const realtimeUsers = snapshot.val() || {};
-                    // Merge with existing users
-                    Object.keys(realtimeUsers).forEach(userId => {
-                        if (!users[userId]) {
-                            users[userId] = { id: userId, ...realtimeUsers[userId] };
-                        }
-                    });
-                    console.log('👥 Total users after merge:', Object.keys(users).length);
-                    renderUsersList();
-                });
-
-                // Listen for new chat messages to update notifications
-                const chatsRef = ref(database, 'chats/messages');
-                onValue(chatsRef, (snapshot) => {
-                    const allMessages = snapshot.val() || {};
-                    updateChatNotifications(allMessages);
-                });
-
-            } catch (error) {
-                console.error('Error initializing chat:', error);
-            }
-        }
-
-        function renderUsersList() {
-            const usersArray = Object.entries(users).map(([id, user]) => ({ id, ...user }))
-                .filter(user => user.email && user.name);
+        // Basic implementations for orders and notifications
+        function renderOrders() {
+            const ordersGrid = document.getElementById('ordersGrid');
+            const ordersArray = Object.entries(orders).map(([id, order]) => ({ id, ...order }));
             
-            if (usersArray.length === 0) {
-                document.getElementById('usersList').innerHTML = `
-                    <div class="text-center py-8 text-gray-500 dark:text-gray-400 animate-fade-in">
-                        <div class="text-3xl mb-2">👤</div>
-                        <p class="text-sm">Nenhum usuário registrado encontrado</p>
+            if (ordersArray.length === 0) {
+                ordersGrid.innerHTML = `
+                    <div class="text-center py-12 animate-fade-in">
+                        <div class="text-4xl mb-4">🛒</div>
+                        <p class="text-gray-500 dark:text-gray-400">Nenhum pedido encontrado</p>
                     </div>
                 `;
                 return;
             }
 
-            document.getElementById('usersList').innerHTML = usersArray.map(user => `
-                <div class="flex items-center space-x-3 p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg cursor-pointer transition-all user-item animate-fade-in transform hover:scale-105"
-                     data-user-id="${user.id}">
-                    <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.name || 'U') + '&background=5D5CDE&color=fff'}" 
-                         alt="${user.name}" class="w-10 h-10 rounded-full">
-                    <div class="flex-1 min-w-0">
-                        <p class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">${user.name || 'Usuário'}</p>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 truncate">${user.email}</p>
+            ordersGrid.innerHTML = ordersArray.slice(0, 10).map(order => `
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 animate-fade-in">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-semibold text-gray-800 dark:text-gray-200">Pedido #${order.id.slice(-6)}</h3>
+                        <span class="px-2 py-1 text-xs rounded ${getOrderStatusColor(order.status)}">${getOrderStatusText(order.status)}</span>
                     </div>
-                    <button class="start-chat-btn px-3 py-1 text-xs bg-primary text-white rounded hover:bg-primary-dark transition-all transform hover:scale-105"
-                            data-user-id="${user.id}">
-                        💬 Chat
-                    </button>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Cliente: ${order.customer?.name || 'N/A'}</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Total: ${formatPrice(order.total || 0)}</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-500">${new Date(order.createdAt || Date.now()).toLocaleDateString('pt-BR')}</p>
                 </div>
             `).join('');
-
-            // Update active users count
-            document.getElementById('activeUsers').textContent = usersArray.length;
         }
 
-        function updateChatNotifications(allMessages) {
-            // Count unread messages from users (not from admin)
-            let unreadCount = 0;
-            Object.values(allMessages).forEach(chatMessages => {
-                Object.values(chatMessages).forEach(msg => {
-                    if (msg.senderId !== currentUser?.uid && !msg.read) {
-                        unreadCount++;
-                    }
-                });
-            });
-
-            if (unreadCount > 0) {
-                document.getElementById('chatNotification').textContent = unreadCount > 99 ? '99+' : unreadCount;
-                document.getElementById('chatNotification').classList.remove('hidden');
-                document.getElementById('mobileChatNotification').textContent = unreadCount > 99 ? '99+' : unreadCount;
-                document.getElementById('mobileChatNotification').classList.remove('hidden');
-            } else {
-                document.getElementById('chatNotification').classList.add('hidden');
-                document.getElementById('mobileChatNotification').classList.add('hidden');
+        function getOrderStatusColor(status) {
+            switch (status) {
+                case 'pending': return 'bg-yellow-100 text-yellow-800';
+                case 'approved': return 'bg-blue-100 text-blue-800';
+                case 'delivered': return 'bg-green-100 text-green-800';
+                case 'rejected': return 'bg-red-100 text-red-800';
+                default: return 'bg-gray-100 text-gray-800';
             }
         }
 
-        // Orders functions (keeping existing implementation)
-        function renderOrders() {
-            // Implementation remains the same as in original code
-            // ... (keeping original implementation for brevity)
+        function getOrderStatusText(status) {
+            switch (status) {
+                case 'pending': return 'Pendente';
+                case 'approved': return 'Aprovado';
+                case 'delivered': return 'Entregue';
+                case 'rejected': return 'Rejeitado';
+                default: return 'Desconhecido';
+            }
         }
 
-        function updateDashboardStats() {
-            const productsCount = Object.keys(products).length;
-            const ordersArray = Object.values(orders);
-            const pendingCount = ordersArray.filter(order => order.status === 'pending').length;
-            const approvedCount = ordersArray.filter(order => order.status === 'approved').length;
-            const deliveredCount = ordersArray.filter(order => order.status === 'delivered').length;
-            const usersCount = Object.keys(users).length;
+        // Test functions
+        async function testConnection() {
+            addDebugLog('Testing Firebase connection...');
+            showNotificationToast('Teste', 'Testando conexão com Firebase...', 'info');
+            
+            try {
+                // Test write to Realtime Database
+                const testRef = ref(database, `test/${Date.now()}`);
+                await set(testRef, { test: true, timestamp: Date.now() });
+                addDebugLog('Realtime Database write test successful');
+                
+                // Clean up test data
+                await remove(testRef);
+                addDebugLog('Test data cleaned up');
+                
+                showNotificationToast('Sucesso', 'Conexão com Firebase funcionando!', 'success');
+            } catch (error) {
+                addDebugLog('Connection test failed: ' + error.message);
+                showNotificationToast('Erro', 'Falha na conexão: ' + error.message, 'error');
+            }
+        }
 
-            document.getElementById('totalProducts').textContent = productsCount;
-            document.getElementById('pendingOrders').textContent = pendingCount;
-            document.getElementById('approvedOrders').textContent = approvedCount;
-            document.getElementById('deliveredOrders').textContent = deliveredCount;
-            document.getElementById('activeUsers').textContent = usersCount;
+        async function sendTestNotification() {
+            addDebugLog('Sending test notification...');
+            
+            try {
+                const notificationData = {
+                    title: '🧪 Teste de Notificação',
+                    message: 'Esta é uma notificação de teste enviada pelo admin.',
+                    type: 'info',
+                    timestamp: Date.now(),
+                    read: false,
+                    adminId: currentUser.uid,
+                    adminName: currentUser.displayName || currentUser.email,
+                    isTest: true
+                };
+                
+                const notificationId = `test_${Date.now()}`;
+                
+                // Send only to current user (self-test)
+                await set(ref(database, `notifications/${currentUser.uid}/${notificationId}`), notificationData);
+                addDebugLog('Test notification sent to self');
+                
+                showNotificationToast('Sucesso', 'Notificação de teste enviada!', 'success');
+            } catch (error) {
+                addDebugLog('Test notification failed: ' + error.message);
+                showNotificationToast('Erro', 'Falha ao enviar notificação: ' + error.message, 'error');
+            }
         }
 
         // Navigation and UI functions
         function showSection(section) {
+            addDebugLog(`Showing section: ${section}`);
+            
             // Hide all sections
-            ['dashboard', 'products', 'categories', 'orders', 'chat', 'notifications'].forEach(sec => {
+            ['dashboard', 'products', 'categories', 'orders', 'notifications'].forEach(sec => {
                 document.getElementById(`${sec}Section`).classList.add('hidden');
             });
             
@@ -1814,6 +1890,10 @@
             // Load section-specific data
             if (section === 'categories') {
                 renderCategories();
+            } else if (section === 'products') {
+                renderProducts();
+            } else if (section === 'orders') {
+                renderOrders();
             }
         }
 
@@ -1866,7 +1946,112 @@
                 document.getElementById('notificationTitle').value = selectedTemplate.title;
                 document.getElementById('notificationMessage').value = selectedTemplate.message;
                 document.getElementById('notificationType').value = selectedTemplate.type;
+                addDebugLog(`Template applied: ${template}`);
             }
+        }
+
+        // Enhanced notification form with Realtime Database focus
+        document.getElementById('notificationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            addDebugLog('Notification form submitted');
+            
+            const sendText = document.getElementById('sendNotificationText');
+            const sendLoader = document.getElementById('sendNotificationLoader');
+            const sendBtn = document.getElementById('sendNotificationFormBtn');
+            
+            // Show loading state
+            sendText.classList.add('hidden');
+            sendLoader.classList.remove('hidden');
+            sendBtn.disabled = true;
+            
+            try {
+                const notificationData = {
+                    title: document.getElementById('notificationTitle').value,
+                    message: document.getElementById('notificationMessage').value,
+                    type: document.getElementById('notificationType').value,
+                    timestamp: Date.now(),
+                    read: false,
+                    adminId: currentUser.uid,
+                    adminName: currentUser.displayName || currentUser.email
+                };
+
+                const target = document.getElementById('notificationTarget').value;
+
+                if (target === 'all') {
+                    // Send to all users - save only in Realtime Database
+                    const notificationId = `notif_${Date.now()}`;
+                    
+                    const promises = [];
+                    
+                    // Save in global notifications
+                    promises.push(set(ref(database, `notifications/global/${notificationId}`), notificationData));
+                    
+                    // Also send to each individual user
+                    const usersArray = Object.keys(users);
+                    addDebugLog(`Sending to ${usersArray.length} users`);
+                    
+                    usersArray.forEach(userId => {
+                        if (userId !== currentUser.uid) { // Don't send to admin
+                            promises.push(set(ref(database, `notifications/${userId}/${notificationId}`), notificationData));
+                        }
+                    });
+
+                    await Promise.all(promises);
+                    addDebugLog('Global notification sent successfully');
+                    showNotificationToast('Sucesso', `Notificação enviada para ${usersArray.length} usuários!`, 'success');
+                } else {
+                    // Send to specific user
+                    const userId = document.getElementById('specificUser').value;
+                    if (!userId) {
+                        showCustomAlert('Por favor, selecione um usuário.');
+                        return;
+                    }
+
+                    const notificationId = `notif_${Date.now()}`;
+                    const user = users[userId];
+                    
+                    addDebugLog(`Sending to specific user: ${userId}`);
+
+                    // Save only in Realtime Database
+                    await set(ref(database, `notifications/${userId}/${notificationId}`), notificationData);
+
+                    addDebugLog('User-specific notification sent successfully');
+                    showNotificationToast('Sucesso', `Notificação enviada para ${user?.name || 'usuário selecionado'}!`, 'success');
+                }
+
+                // Reset form
+                document.getElementById('notificationForm').reset();
+                document.getElementById('specificUserContainer').classList.add('hidden');
+            } catch (error) {
+                addDebugLog('Error sending notification: ' + error.message);
+                showNotificationToast('Erro', 'Erro ao enviar notificação: ' + error.message, 'error');
+            } finally {
+                // Reset loading state
+                sendText.classList.remove('hidden');
+                sendLoader.classList.add('hidden');
+                sendBtn.disabled = false;
+            }
+        });
+
+        // Notification target change handler
+        document.getElementById('notificationTarget').addEventListener('change', () => {
+            if (document.getElementById('notificationTarget').value === 'specific') {
+                document.getElementById('specificUserContainer').classList.remove('hidden');
+                loadUsersForNotification();
+            } else {
+                document.getElementById('specificUserContainer').classList.add('hidden');
+            }
+        });
+
+        function loadUsersForNotification() {
+            const usersArray = Object.entries(users).map(([id, user]) => ({ id, ...user }))
+                .filter(user => user.email && user.name);
+            
+            document.getElementById('specificUser').innerHTML = usersArray.map(user => 
+                `<option value="${user.id}">${user.name} (${user.email})</option>`
+            ).join('');
+            
+            addDebugLog(`Loaded ${usersArray.length} users for notification`);
         }
 
         // Make functions globally available
@@ -1876,13 +2061,14 @@
         window.editProduct = openProductModal;
         window.showSection = showSection;
         window.useNotificationTemplate = useNotificationTemplate;
-        window.openProfilePictureModal = () => {}; // Placeholder
+        window.testConnection = testConnection;
+        window.sendTestNotification = sendTestNotification;
         window.signOutAdmin = async () => {
             try {
                 await signOut(auth);
                 window.location.reload();
             } catch (error) {
-                console.error('Logout error:', error);
+                addDebugLog('Logout error: ' + error.message);
             }
         };
 
@@ -1891,7 +2077,6 @@
         document.getElementById('productsBtn').addEventListener('click', () => showSection('products'));
         document.getElementById('categoriesBtn').addEventListener('click', () => showSection('categories'));
         document.getElementById('ordersBtn').addEventListener('click', () => showSection('orders'));
-        document.getElementById('chatBtn').addEventListener('click', () => showSection('chat'));
         document.getElementById('notificationsBtn').addEventListener('click', () => showSection('notifications'));
 
         // Mobile navigation
@@ -1899,7 +2084,6 @@
         document.getElementById('mobileProductsBtn').addEventListener('click', () => showSection('products'));
         document.getElementById('mobileCategoriesBtn').addEventListener('click', () => showSection('categories'));
         document.getElementById('mobileOrdersBtn').addEventListener('click', () => showSection('orders'));
-        document.getElementById('mobileChatBtn').addEventListener('click', () => showSection('chat'));
         document.getElementById('mobileNotificationsBtn').addEventListener('click', () => showSection('notifications'));
 
         // Quick actions
@@ -1915,6 +2099,8 @@
         document.getElementById('manageCategoriesBtn').addEventListener('click', () => showSection('categories'));
         document.getElementById('addCategoryModalBtn').addEventListener('click', openCategoryModal);
         document.getElementById('quickAddCategoryBtn').addEventListener('click', openCategoryModal);
+        document.getElementById('testConnectionBtn').addEventListener('click', testConnection);
+        document.getElementById('sendTestNotificationBtn').addEventListener('click', sendTestNotification);
 
         // Modal close buttons
         document.getElementById('closeProductModalBtn').addEventListener('click', closeProductModal);
@@ -1922,16 +2108,28 @@
         document.getElementById('closeCategoryModalBtn').addEventListener('click', closeCategoryModal);
         document.getElementById('cancelCategoryBtn').addEventListener('click', closeCategoryModal);
 
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+                window.location.reload();
+            } catch (error) {
+                addDebugLog('Logout error: ' + error.message);
+            }
+        });
+
         // Initialize the app
         setTimeout(() => {
             if (!currentUser) {
                 const provider = new GoogleAuthProvider();
                 signInWithPopup(auth, provider).catch(error => {
-                    console.error('Login error:', error);
+                    addDebugLog('Login error: ' + error.message);
                     showAccessDenied();
                 });
             }
         }, 2000);
+
+        addDebugLog('Admin panel initialization complete');
     </script>
 </body>
 </html>
