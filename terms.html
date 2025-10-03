@@ -11,9 +11,7 @@
                 extend: {
                     colors: {
                         primary: '#5D5CDE',
-                        'primary-dark': '#4845BE',
-                        secondary: '#10B981',
-                        'secondary-dark': '#059669'
+                        'primary-dark': '#4845BE'
                     },
                     animation: {
                         'slide-in-right': 'slideInRight 0.3s ease-out',
@@ -116,9 +114,6 @@
                             <button id="productsBtn" class="nav-btn text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-all">
                                 📦 Produtos
                             </button>
-                            <button id="categoriesBtn" class="nav-btn text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-all">
-                                📂 Categorias
-                            </button>
                             <button id="ordersBtn" class="nav-btn text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-all">
                                 🛒 Pedidos
                             </button>
@@ -160,9 +155,6 @@
                 </button>
                 <button id="mobileProductsBtn" class="mobile-nav-btn whitespace-nowrap px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary rounded-lg transition-all">
                     📦 Produtos
-                </button>
-                <button id="mobileCategoriesBtn" class="mobile-nav-btn whitespace-nowrap px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary rounded-lg transition-all">
-                    📂 Categorias
                 </button>
                 <button id="mobileOrdersBtn" class="mobile-nav-btn whitespace-nowrap px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary rounded-lg transition-all">
                     🛒 Pedidos
@@ -260,18 +252,18 @@
                                 <p class="text-sm text-gray-600 dark:text-gray-400">Cadastrar novo produto</p>
                             </div>
                         </button>
-                        <button id="addCategoryBtn" class="flex items-center p-4 bg-secondary bg-opacity-10 hover:bg-opacity-20 rounded-lg transition-all transform hover:scale-105">
-                            <div class="text-2xl mr-3">📂</div>
-                            <div class="text-left">
-                                <p class="font-medium text-secondary">Criar Categoria</p>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Gerenciar categorias</p>
-                            </div>
-                        </button>
                         <button id="viewPendingOrdersBtn" class="flex items-center p-4 bg-yellow-50 dark:bg-yellow-900 hover:bg-yellow-100 dark:hover:bg-yellow-800 rounded-lg transition-all transform hover:scale-105">
                             <div class="text-2xl mr-3">⏳</div>
                             <div class="text-left">
                                 <p class="font-medium text-yellow-700 dark:text-yellow-300">Ver Pedidos Pendentes</p>
                                 <p class="text-sm text-gray-600 dark:text-gray-400">Revisar novos pedidos</p>
+                            </div>
+                        </button>
+                        <button id="openChatBtn" class="flex items-center p-4 bg-green-50 dark:bg-green-900 hover:bg-green-100 dark:hover:bg-green-800 rounded-lg transition-all transform hover:scale-105">
+                            <div class="text-2xl mr-3">💬</div>
+                            <div class="text-left">
+                                <p class="font-medium text-green-700 dark:text-green-300">Abrir Chat</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Conversar com clientes</p>
                             </div>
                         </button>
                         <button id="sendNotificationBtn" class="flex items-center p-4 bg-purple-50 dark:bg-purple-900 hover:bg-purple-100 dark:hover:bg-purple-800 rounded-lg transition-all transform hover:scale-105">
@@ -292,14 +284,9 @@
                         <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">Gestão de Produtos</h2>
                         <p class="text-gray-600 dark:text-gray-400">Gerencie o catálogo da sua loja</p>
                     </div>
-                    <div class="flex space-x-3">
-                        <button id="manageCategoriesBtn" class="px-4 py-2 bg-secondary text-white rounded-lg hover:bg-secondary-dark transition-all flex items-center transform hover:scale-105">
-                            <span class="mr-2">📂</span>Categorias
-                        </button>
-                        <button id="addProductModalBtn" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all flex items-center transform hover:scale-105">
-                            <span class="mr-2">➕</span>Adicionar Produto
-                        </button>
-                    </div>
+                    <button id="addProductModalBtn" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all flex items-center transform hover:scale-105">
+                        <span class="mr-2">➕</span>Adicionar Produto
+                    </button>
                 </div>
 
                 <!-- Products Grid -->
@@ -307,27 +294,6 @@
                     <div class="text-center py-12 col-span-full">
                         <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
                         <p class="text-gray-600 dark:text-gray-400">Carregando produtos...</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Categories Section -->
-            <div id="categoriesSection" class="hidden section-transition">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 space-y-4 sm:space-y-0">
-                    <div>
-                        <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">Gestão de Categorias</h2>
-                        <p class="text-gray-600 dark:text-gray-400">Organize os produtos por categoria</p>
-                    </div>
-                    <button id="addCategoryModalBtn" class="px-6 py-3 bg-secondary text-white rounded-lg hover:bg-secondary-dark transition-all flex items-center transform hover:scale-105">
-                        <span class="mr-2">➕</span>Adicionar Categoria
-                    </button>
-                </div>
-
-                <!-- Categories Grid -->
-                <div id="categoriesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    <div class="text-center py-12 col-span-full">
-                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-secondary mx-auto mb-4"></div>
-                        <p class="text-gray-600 dark:text-gray-400">Carregando categorias...</p>
                     </div>
                 </div>
             </div>
@@ -522,6 +488,47 @@
         </main>
     </div>
 
+    <!-- Profile Picture Modal -->
+    <div id="profilePictureModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-lg max-w-md w-full animate-scale-in">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Alterar Foto do Perfil</h3>
+                    <button id="closeProfilePictureBtn" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-xl transition-all">
+                        ❌
+                    </button>
+                </div>
+                
+                <div class="text-center">
+                    <div class="relative inline-block mb-4">
+                        <img id="profilePicturePreview" src="" alt="Preview" class="w-32 h-32 rounded-full object-cover border-4 border-gray-300 dark:border-gray-600">
+                        <label for="newProfilePicture" class="absolute bottom-2 right-2 bg-primary text-white rounded-full p-2 cursor-pointer hover:bg-primary-dark transition-all transform hover:scale-110">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                        </label>
+                        <input type="file" id="newProfilePicture" accept="image/*" class="hidden">
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">Clique no ícone da câmera para escolher uma nova foto</p>
+                    
+                    <div class="flex space-x-3">
+                        <button id="cancelProfilePictureBtn" class="flex-1 px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all">
+                            Cancelar
+                        </button>
+                        <button id="saveProfilePictureBtn" class="flex-1 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all transform hover:scale-105" disabled>
+                            <span id="saveProfilePictureText">Salvar</span>
+                            <span id="saveProfilePictureLoader" class="hidden">
+                                <div class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                                Salvando...
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Add/Edit Product Modal -->
     <div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden">
         <div class="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-screen overflow-y-auto animate-scale-in">
@@ -562,15 +569,25 @@
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Categoria *</label>
-                                <div class="flex space-x-2">
-                                    <select id="productCategory" required class="flex-1 px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-                                        <option value="">Selecione uma categoria</option>
-                                        <!-- Categories will be loaded dynamically -->
-                                    </select>
-                                    <button type="button" id="quickAddCategoryBtn" class="px-3 py-2 bg-secondary text-white rounded-lg hover:bg-secondary-dark transition-all transform hover:scale-105" title="Criar categoria">
-                                        ➕
-                                    </button>
-                                </div>
+                                <select id="productCategory" required class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+                                    <option value="">Selecione uma categoria</option>
+                                    <option value="eletronicos">Eletrônicos</option>
+                                    <option value="roupas">Roupas</option>
+                                    <option value="casa">Casa e Jardim</option>
+                                    <option value="livros">Livros</option>
+                                    <option value="esportes">Esportes</option>
+                                    <option value="beleza">Beleza</option>
+                                    <option value="acessorios">Acessórios & Joias</option>
+                                    <option value="calcados">Calçados</option>
+                                    <option value="alimentacao">Alimentação & Bebidas</option>
+                                    <option value="saude">Saúde & Bem-estar</option>
+                                    <option value="automotivo">Automotivo</option>
+                                    <option value="brinquedos">Brinquedos & Jogos</option>
+                                    <option value="musica">Música & Instrumentos</option>
+                                    <option value="arte">Arte & Artesanato</option>
+                                    <option value="pets">Pets</option>
+                                    <option value="servicos">Serviços</option>
+                                </select>
                             </div>
                         </div>
 
@@ -617,73 +634,6 @@
         </div>
     </div>
 
-    <!-- Add/Edit Category Modal -->
-    <div id="categoryModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden">
-        <div class="bg-white dark:bg-gray-800 rounded-lg max-w-md w-full animate-scale-in">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 id="categoryModalTitle" class="text-xl font-semibold text-gray-800 dark:text-gray-200">Adicionar Categoria</h3>
-                    <button id="closeCategoryModalBtn" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-xl transition-all">
-                        ❌
-                    </button>
-                </div>
-                
-                <form id="categoryForm">
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Nome da Categoria *</label>
-                            <input type="text" id="categoryName" required placeholder="Ex: Eletrônicos, Roupas..." 
-                                   class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Ícone</label>
-                            <div class="grid grid-cols-8 gap-2 p-3 border border-gray-300 dark:border-gray-600 rounded-lg">
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="📱">📱</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="👕">👕</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="🏠">🏠</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="📚">📚</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="⚽">⚽</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="💄">💄</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="💍">💍</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="👟">👟</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="🍔">🍔</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="💊">💊</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="🚗">🚗</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="🧸">🧸</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="🎸">🎸</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="🎨">🎨</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="🐶">🐶</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="🛠️">🛠️</button>
-                            </div>
-                            <input type="hidden" id="categoryIcon" value="📂">
-                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Ícone selecionado: <span id="selectedIcon">📂</span></p>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Descrição</label>
-                            <textarea id="categoryDescription" rows="3" placeholder="Descrição opcional da categoria..." 
-                                      class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent transition-all"></textarea>
-                        </div>
-                    </div>
-                    
-                    <div class="flex justify-end space-x-3 mt-6">
-                        <button type="button" id="cancelCategoryBtn" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all">
-                            Cancelar
-                        </button>
-                        <button type="submit" id="saveCategoryBtn" class="px-6 py-2 bg-secondary text-white rounded-lg hover:bg-secondary-dark transition-all transform hover:scale-105">
-                            <span id="saveCategoryText">Salvar Categoria</span>
-                            <span id="saveCategoryLoader" class="hidden">
-                                <div class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                                Salvando...
-                            </span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <!-- Order Detail Modal -->
     <div id="orderDetailModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden">
         <div class="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-screen overflow-y-auto animate-scale-in">
@@ -697,47 +647,6 @@
                 
                 <div id="orderDetailContent" class="space-y-6">
                     <!-- Content will be populated dynamically -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Profile Picture Modal -->
-    <div id="profilePictureModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden">
-        <div class="bg-white dark:bg-gray-800 rounded-lg max-w-md w-full animate-scale-in">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Alterar Foto do Perfil</h3>
-                    <button id="closeProfilePictureBtn" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-xl transition-all">
-                        ❌
-                    </button>
-                </div>
-                
-                <div class="text-center">
-                    <div class="relative inline-block mb-4">
-                        <img id="profilePicturePreview" src="" alt="Preview" class="w-32 h-32 rounded-full object-cover border-4 border-gray-300 dark:border-gray-600">
-                        <label for="newProfilePicture" class="absolute bottom-2 right-2 bg-primary text-white rounded-full p-2 cursor-pointer hover:bg-primary-dark transition-all transform hover:scale-110">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            </svg>
-                        </label>
-                        <input type="file" id="newProfilePicture" accept="image/*" class="hidden">
-                    </div>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">Clique no ícone da câmera para escolher uma nova foto</p>
-                    
-                    <div class="flex space-x-3">
-                        <button id="cancelProfilePictureBtn" class="flex-1 px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all">
-                            Cancelar
-                        </button>
-                        <button id="saveProfilePictureBtn" class="flex-1 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all transform hover:scale-105" disabled>
-                            <span id="saveProfilePictureText">Salvar</span>
-                            <span id="saveProfilePictureLoader" class="hidden">
-                                <div class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                                Salvando...
-                            </span>
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -801,11 +710,9 @@
         let products = {};
         let orders = {};
         let users = {};
-        let categories = {};
         let currentSection = 'dashboard';
         let currentOrderFilter = 'all';
         let editingProductId = null;
-        let editingCategoryId = null;
         let uploadedImageUrl = null;
         let uploadedPhotoURL = null;
         let currentChatId = null;
@@ -823,7 +730,6 @@
         // Navigation elements
         const dashboardBtn = document.getElementById('dashboardBtn');
         const productsBtn = document.getElementById('productsBtn');
-        const categoriesBtn = document.getElementById('categoriesBtn');
         const ordersBtn = document.getElementById('ordersBtn');
         const chatBtn = document.getElementById('chatBtn');
         const notificationsBtn = document.getElementById('notificationsBtn');
@@ -832,7 +738,6 @@
         // Mobile navigation
         const mobileDashboardBtn = document.getElementById('mobileDashboardBtn');
         const mobileProductsBtn = document.getElementById('mobileProductsBtn');
-        const mobileCategoriesBtn = document.getElementById('mobileCategoriesBtn');
         const mobileOrdersBtn = document.getElementById('mobileOrdersBtn');
         const mobileChatBtn = document.getElementById('mobileChatBtn');
         const mobileNotificationsBtn = document.getElementById('mobileNotificationsBtn');
@@ -841,14 +746,12 @@
         // Section elements
         const dashboardSection = document.getElementById('dashboardSection');
         const productsSection = document.getElementById('productsSection');
-        const categoriesSection = document.getElementById('categoriesSection');
         const ordersSection = document.getElementById('ordersSection');
         const chatSection = document.getElementById('chatSection');
         const notificationsSection = document.getElementById('notificationsSection');
 
         // Modal elements
         const productModal = document.getElementById('productModal');
-        const categoryModal = document.getElementById('categoryModal');
         const orderDetailModal = document.getElementById('orderDetailModal');
         const profilePictureModal = document.getElementById('profilePictureModal');
 
@@ -1241,7 +1144,6 @@
                 // Hide all sections
                 dashboardSection.classList.add('hidden');
                 productsSection.classList.add('hidden');
-                categoriesSection.classList.add('hidden');
                 ordersSection.classList.add('hidden');
                 chatSection.classList.add('hidden');
                 notificationsSection.classList.add('hidden');
@@ -1266,13 +1168,6 @@
                         productsBtn.classList.add('text-primary');
                         mobileProductsBtn.classList.add('text-primary', 'bg-primary', 'bg-opacity-10');
                         mobileProductsBtn.classList.remove('text-gray-600', 'dark:text-gray-400');
-                        break;
-                    case 'categories':
-                        targetSection = categoriesSection;
-                        categoriesBtn.classList.add('text-primary');
-                        mobileCategoriesBtn.classList.add('text-primary', 'bg-primary', 'bg-opacity-10');
-                        mobileCategoriesBtn.classList.remove('text-gray-600', 'dark:text-gray-400');
-                        renderCategories();
                         break;
                     case 'orders':
                         targetSection = ordersSection;
@@ -1315,14 +1210,12 @@
         // Navigation event listeners
         dashboardBtn.addEventListener('click', () => showSection('dashboard'));
         productsBtn.addEventListener('click', () => showSection('products'));
-        categoriesBtn.addEventListener('click', () => showSection('categories'));
         ordersBtn.addEventListener('click', () => showSection('orders'));
         chatBtn.addEventListener('click', () => showSection('chat'));
         notificationsBtn.addEventListener('click', () => showSection('notifications'));
 
         mobileDashboardBtn.addEventListener('click', () => showSection('dashboard'));
         mobileProductsBtn.addEventListener('click', () => showSection('products'));
-        mobileCategoriesBtn.addEventListener('click', () => showSection('categories'));
         mobileOrdersBtn.addEventListener('click', () => showSection('orders'));
         mobileChatBtn.addEventListener('click', () => showSection('chat'));
         mobileNotificationsBtn.addEventListener('click', () => showSection('notifications'));
@@ -1330,19 +1223,14 @@
         // Quick action buttons
         document.getElementById('addProductBtn').addEventListener('click', () => {
             showSection('products');
-            setTimeout(() => openProductModal(), 500);
-        });
-        document.getElementById('addCategoryBtn').addEventListener('click', () => {
-            showSection('categories');
-            setTimeout(() => openCategoryModal(), 500);
+            openProductModal();
         });
         document.getElementById('addProductModalBtn').addEventListener('click', openProductModal);
-        document.getElementById('manageCategoriesBtn').addEventListener('click', () => showSection('categories'));
-        document.getElementById('addCategoryModalBtn').addEventListener('click', openCategoryModal);
         document.getElementById('viewPendingOrdersBtn').addEventListener('click', () => {
             showSection('orders');
             filterOrders('pending');
         });
+        document.getElementById('openChatBtn').addEventListener('click', () => showSection('chat'));
         document.getElementById('sendNotificationBtn').addEventListener('click', () => showSection('notifications'));
 
         // Logout
@@ -1724,31 +1612,20 @@
 
         // Load data from Firebase
         function loadData() {
-            console.log('🔄 Loading data from Firebase...');
-            
             // Load products
             const productsRef = ref(database, 'products');
             onValue(productsRef, (snapshot) => {
                 products = snapshot.val() || {};
-                console.log('✅ Products loaded:', Object.keys(products).length);
+                console.log('Products loaded:', Object.keys(products).length);
                 renderProducts();
                 updateDashboardStats();
-            });
-
-            // Load categories
-            const categoriesRef = ref(database, 'categories');
-            onValue(categoriesRef, (snapshot) => {
-                categories = snapshot.val() || {};
-                console.log('✅ Categories loaded:', Object.keys(categories).length);
-                renderCategories();
-                updateProductCategorySelect();
             });
 
             // Load orders
             const ordersRef = ref(database, 'orders');
             onValue(ordersRef, (snapshot) => {
                 orders = snapshot.val() || {};
-                console.log('✅ Orders loaded:', Object.keys(orders).length);
+                console.log('Orders loaded:', Object.keys(orders).length);
                 renderOrders();
                 updateDashboardStats();
             });
@@ -1769,222 +1646,7 @@
             document.getElementById('activeUsers').textContent = usersCount;
         }
 
-        // CATEGORIES MANAGEMENT
-        function renderCategories() {
-            const categoriesGrid = document.getElementById('categoriesGrid');
-            const categoriesArray = Object.entries(categories).map(([id, category]) => ({ id, ...category }));
-            
-            if (categoriesArray.length === 0) {
-                categoriesGrid.innerHTML = `
-                    <div class="col-span-full text-center py-12 animate-fade-in">
-                        <div class="text-4xl mb-4">📂</div>
-                        <p class="text-gray-500 dark:text-gray-400">Nenhuma categoria cadastrada</p>
-                        <button onclick="openCategoryModal()" class="mt-4 px-6 py-3 bg-secondary text-white rounded-lg hover:bg-secondary-dark transition-all transform hover:scale-105">
-                            Criar Primeira Categoria
-                        </button>
-                    </div>
-                `;
-                return;
-            }
-
-            categoriesGrid.innerHTML = categoriesArray.map(category => {
-                const productCount = Object.values(products).filter(p => p.category === category.id).length;
-                
-                return `
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden animate-fade-in hover:shadow-lg transition-all transform hover:scale-105">
-                        <div class="p-6 text-center">
-                            <div class="text-4xl mb-4">${category.icon || '📂'}</div>
-                            <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">${category.name}</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">${category.description || 'Sem descrição'}</p>
-                            <p class="text-xs text-gray-500 dark:text-gray-500 mb-4">${productCount} produtos</p>
-                            
-                            <div class="flex space-x-2 justify-center">
-                                <button onclick="editCategory('${category.id}')" class="px-3 py-2 bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded text-sm hover:bg-blue-100 dark:hover:bg-blue-800 transition-all transform hover:scale-105">
-                                    ✏️ Editar
-                                </button>
-                                <button onclick="confirmDeleteCategory('${category.id}')" class="px-3 py-2 bg-red-50 dark:bg-red-900 text-red-600 dark:text-red-400 rounded text-sm hover:bg-red-100 dark:hover:bg-red-800 transition-all transform hover:scale-105">
-                                    🗑️ Excluir
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function openCategoryModal(categoryId = null) {
-            editingCategoryId = categoryId;
-            
-            const modal = document.getElementById('categoryModal');
-            const title = document.getElementById('categoryModalTitle');
-            const form = document.getElementById('categoryForm');
-            
-            // Reset form
-            form.reset();
-            document.getElementById('categoryIcon').value = '📂';
-            document.getElementById('selectedIcon').textContent = '📂';
-            
-            // Reset icon buttons
-            document.querySelectorAll('.icon-btn').forEach(btn => {
-                btn.classList.remove('bg-primary', 'text-white');
-                btn.classList.add('hover:bg-gray-100', 'dark:hover:bg-gray-700');
-            });
-            
-            if (categoryId) {
-                // Edit mode
-                title.textContent = 'Editar Categoria';
-                const category = categories[categoryId];
-                if (category) {
-                    document.getElementById('categoryName').value = category.name;
-                    document.getElementById('categoryDescription').value = category.description || '';
-                    document.getElementById('categoryIcon').value = category.icon || '📂';
-                    document.getElementById('selectedIcon').textContent = category.icon || '📂';
-                    
-                    // Highlight selected icon
-                    const selectedBtn = document.querySelector(`[data-icon="${category.icon}"]`);
-                    if (selectedBtn) {
-                        selectedBtn.classList.add('bg-primary', 'text-white');
-                        selectedBtn.classList.remove('hover:bg-gray-100', 'dark:hover:bg-gray-700');
-                    }
-                }
-            } else {
-                // Add mode
-                title.textContent = 'Adicionar Categoria';
-            }
-            
-            modal.classList.remove('hidden');
-        }
-
-        // Icon selection for categories
-        document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('icon-btn')) {
-                e.preventDefault();
-                
-                // Reset all icon buttons
-                document.querySelectorAll('.icon-btn').forEach(btn => {
-                    btn.classList.remove('bg-primary', 'text-white');
-                    btn.classList.add('hover:bg-gray-100', 'dark:hover:bg-gray-700');
-                });
-                
-                // Highlight selected icon
-                e.target.classList.add('bg-primary', 'text-white');
-                e.target.classList.remove('hover:bg-gray-100', 'dark:hover:bg-gray-700');
-                
-                // Update form values
-                const icon = e.target.dataset.icon;
-                document.getElementById('categoryIcon').value = icon;
-                document.getElementById('selectedIcon').textContent = icon;
-            }
-        });
-
-        // Category form submission
-        document.getElementById('categoryForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const saveBtn = document.getElementById('saveCategoryBtn');
-            const saveText = document.getElementById('saveCategoryText');
-            const saveLoader = document.getElementById('saveCategoryLoader');
-            
-            // Show loading state
-            saveText.classList.add('hidden');
-            saveLoader.classList.remove('hidden');
-            saveBtn.disabled = true;
-            
-            try {
-                // Generate category ID from name
-                const name = document.getElementById('categoryName').value;
-                const categoryId = editingCategoryId || name.toLowerCase()
-                    .replace(/[^a-z0-9\s]/g, '')
-                    .replace(/\s+/g, '_')
-                    .trim();
-                
-                const categoryData = {
-                    name: name,
-                    icon: document.getElementById('categoryIcon').value,
-                    description: document.getElementById('categoryDescription').value || '',
-                    updatedAt: Date.now()
-                };
-
-                if (!editingCategoryId) {
-                    categoryData.createdAt = Date.now();
-                }
-
-                // Save to database
-                await Promise.all([
-                    set(ref(database, `categories/${categoryId}`), categoryData),
-                    setDoc(doc(firestore, 'categories', categoryId), categoryData)
-                ]);
-
-                const action = editingCategoryId ? 'atualizada' : 'adicionada';
-                showNotificationToast('Sucesso', `Categoria ${action} com sucesso!`, 'success');
-                
-                closeCategoryModal();
-                updateProductCategorySelect();
-            } catch (error) {
-                console.error('Error saving category:', error);
-                showCustomAlert('Erro ao salvar categoria. Tente novamente.');
-            } finally {
-                // Reset loading state
-                saveText.classList.remove('hidden');
-                saveLoader.classList.add('hidden');
-                saveBtn.disabled = false;
-            }
-        });
-
-        function closeCategoryModal() {
-            document.getElementById('categoryModal').classList.add('hidden');
-            editingCategoryId = null;
-        }
-
-        function updateProductCategorySelect() {
-            const select = document.getElementById('productCategory');
-            const categoriesArray = Object.entries(categories).map(([id, category]) => ({ id, ...category }));
-            
-            select.innerHTML = `
-                <option value="">Selecione uma categoria</option>
-                ${categoriesArray.map(category => 
-                    `<option value="${category.id}">${category.icon} ${category.name}</option>`
-                ).join('')}
-            `;
-        }
-
-        // Make category functions globally available
-        window.openCategoryModal = openCategoryModal;
-        window.editCategory = openCategoryModal;
-        
-        window.confirmDeleteCategory = function(categoryId) {
-            const category = categories[categoryId];
-            const productCount = Object.values(products).filter(p => p.category === categoryId).length;
-            
-            let message = `Tem certeza que deseja excluir a categoria "${category.name}"?`;
-            if (productCount > 0) {
-                message += `\n\nATENÇÃO: Existem ${productCount} produto(s) nesta categoria. Eles ficarão sem categoria.`;
-            }
-            
-            showConfirmDialog(message, () => deleteCategory(categoryId));
-        };
-
-        async function deleteCategory(categoryId) {
-            try {
-                // Delete from both databases
-                await Promise.all([
-                    remove(ref(database, `categories/${categoryId}`)),
-                    deleteDoc(doc(firestore, 'categories', categoryId))
-                ]);
-                
-                showNotificationToast('Sucesso', 'Categoria excluída com sucesso!', 'success');
-                updateProductCategorySelect();
-            } catch (error) {
-                console.error('Error deleting category:', error);
-                showCustomAlert('Erro ao excluir categoria. Tente novamente.');
-            }
-        }
-
-        // Category modal close buttons
-        document.getElementById('closeCategoryModalBtn').addEventListener('click', closeCategoryModal);
-        document.getElementById('cancelCategoryBtn').addEventListener('click', closeCategoryModal);
-
-        // PRODUCTS MANAGEMENT (FIXED)
+        // Products functions
         function renderProducts() {
             const productsGrid = document.getElementById('productsGrid');
             const productsArray = Object.entries(products).map(([id, product]) => ({ id, ...product }));
@@ -2005,7 +1667,6 @@
             productsGrid.innerHTML = productsArray.map(product => {
                 const hasDiscount = product.oldPrice && product.oldPrice > product.price;
                 const discountPercent = hasDiscount ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100) : 0;
-                const category = categories[product.category];
                 
                 return `
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden animate-fade-in hover:shadow-lg transition-all transform hover:scale-105">
@@ -2029,7 +1690,7 @@
                         </div>
                         <div class="p-4">
                             <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2 line-clamp-2">${product.name}</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">${category ? `${category.icon} ${category.name}` : 'Sem categoria'}</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2 capitalize">${getCategoryName(product.category)}</p>
                             
                             <div class="flex items-center space-x-2 mb-2">
                                 <span class="text-lg font-bold text-primary">${formatPrice(product.price)}</span>
@@ -2046,8 +1707,14 @@
                                 <button onclick="editProduct('${product.id}')" class="flex-1 bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-400 py-2 px-3 rounded text-sm hover:bg-blue-100 dark:hover:bg-blue-800 transition-all transform hover:scale-105">
                                     ✏️ Editar
                                 </button>
-                                <button onclick="confirmDeleteProduct('${product.id}')" class="bg-red-50 dark:bg-red-900 text-red-600 dark:text-red-400 py-2 px-3 rounded text-sm hover:bg-red-100 dark:hover:bg-red-800 transition-all transform hover:scale-105">
-                                    🗑️ Excluir
+                                <button onclick="confirmDeleteProduct('${product.id}')" 
+                                        onmousedown="startDeleteTimer('${product.id}', this, 'product')" 
+                                        onmouseup="cancelDeleteTimer(this)" 
+                                        onmouseleave="cancelDeleteTimer(this)"
+                                        ontouchstart="startDeleteTimer('${product.id}', this, 'product')" 
+                                        ontouchend="cancelDeleteTimer(this)"
+                                        class="bg-red-50 dark:bg-red-900 text-red-600 dark:text-red-400 py-2 px-3 rounded text-sm hover:bg-red-100 dark:hover:bg-red-800 transition-all">
+                                    🗑️
                                 </button>
                             </div>
                         </div>
@@ -2074,9 +1741,6 @@
                 </div>
             `;
             
-            // Update category options
-            updateProductCategorySelect();
-            
             if (productId) {
                 // Edit mode
                 title.textContent = 'Editar Produto';
@@ -2102,22 +1766,94 @@
             modal.classList.remove('hidden');
         }
 
-        // Quick add category button in product form
-        document.getElementById('quickAddCategoryBtn').addEventListener('click', () => {
-            openCategoryModal();
-        });
+        // Make functions globally available
+        window.openProductModal = openProductModal;
+        window.editProduct = openProductModal;
 
-        // Product image upload
+        // Enhanced delete system with long press
+        let deleteTimer = null;
+        let deleteProgress = 0;
+        let deleteProgressInterval = null;
+
+        window.startDeleteTimer = function(itemId, element, type) {
+            // Visual feedback
+            element.style.position = 'relative';
+            element.style.overflow = 'hidden';
+            element.innerHTML = '🗑️ Segure...';
+            
+            // Start progress animation
+            deleteProgress = 0;
+            deleteProgressInterval = setInterval(() => {
+                deleteProgress += 5; // 5% every 100ms = 2 seconds total
+                element.style.setProperty('--progress', deleteProgress + '%');
+                element.classList.add('delete-progress');
+                
+                if (deleteProgress >= 100) {
+                    clearInterval(deleteProgressInterval);
+                    if (type === 'product') {
+                        deleteProduct(itemId);
+                    } else if (type === 'order') {
+                        deleteOrder(itemId);
+                    }
+                    cancelDeleteTimer(element);
+                }
+            }, 100);
+            
+            // Backup timer
+            deleteTimer = setTimeout(() => {
+                if (type === 'product') {
+                    deleteProduct(itemId);
+                } else if (type === 'order') {
+                    deleteOrder(itemId);
+                }
+                cancelDeleteTimer(element);
+            }, 2000);
+        };
+
+        window.cancelDeleteTimer = function(element) {
+            if (deleteTimer) {
+                clearTimeout(deleteTimer);
+                deleteTimer = null;
+            }
+            if (deleteProgressInterval) {
+                clearInterval(deleteProgressInterval);
+                deleteProgressInterval = null;
+            }
+            deleteProgress = 0;
+            element.style.removeProperty('--progress');
+            element.classList.remove('delete-progress');
+            element.style.removeProperty('position');
+            element.style.removeProperty('overflow');
+            element.innerHTML = '🗑️';
+        };
+
+        // Delete product with confirmation
+        window.confirmDeleteProduct = function(productId) {
+            showConfirmDialog(
+                `Tem certeza que deseja excluir este produto? Esta ação não pode ser desfeita.`,
+                () => deleteProduct(productId)
+            );
+        };
+
+        async function deleteProduct(productId) {
+            try {
+                // Delete from both Realtime Database and Firestore
+                await Promise.all([
+                    remove(ref(database, `products/${productId}`)),
+                    deleteDoc(doc(firestore, 'products', productId))
+                ]);
+                
+                showNotificationToast('Sucesso', 'Produto excluído com sucesso!', 'success');
+            } catch (error) {
+                console.error('Error deleting product:', error);
+                showCustomAlert('Erro ao excluir produto. Tente novamente.');
+            }
+        }
+
+        // Product form handlers
         document.getElementById('productImage').addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (!file) return;
-
-            // Validate file size (5MB limit)
-            if (file.size > 5 * 1024 * 1024) {
-                showCustomAlert('Imagem muito grande. O tamanho máximo é 5MB.');
-                e.target.value = '';
-                return;
-            }
 
             // Show preview
             const reader = new FileReader();
@@ -2133,8 +1869,6 @@
 
             // Upload to ImgBB
             try {
-                showNotificationToast('Upload', 'Fazendo upload da imagem...', 'info');
-                
                 const formData = new FormData();
                 formData.append('image', file);
 
@@ -2146,52 +1880,22 @@
                 const result = await response.json();
                 if (result.success) {
                     uploadedImageUrl = result.data.url;
-                    console.log('✅ Product image uploaded successfully:', uploadedImageUrl);
-                    showNotificationToast('Sucesso', 'Imagem carregada com sucesso!', 'success');
+                    console.log('Image uploaded successfully:', uploadedImageUrl);
                 } else {
-                    showCustomAlert('Erro ao fazer upload da imagem: ' + (result.error?.message || 'Erro desconhecido'));
-                    e.target.value = '';
+                    showCustomAlert('Erro ao fazer upload da imagem.');
                 }
             } catch (error) {
-                console.error('❌ Image upload error:', error);
-                showCustomAlert('Erro ao fazer upload da imagem. Verifique sua conexão.');
-                e.target.value = '';
+                console.error('Image upload error:', error);
+                showCustomAlert('Erro ao fazer upload da imagem.');
             }
         });
 
-        // Enhanced product form submission with better validation
         document.getElementById('productForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const saveBtn = document.getElementById('saveProductBtn');
             const saveText = document.getElementById('saveProductText');
             const saveLoader = document.getElementById('saveProductLoader');
-            
-            // Validate form
-            const name = document.getElementById('productName').value.trim();
-            const category = document.getElementById('productCategory').value;
-            const price = parseFloat(document.getElementById('productPrice').value);
-            const stock = parseInt(document.getElementById('productStock').value);
-            
-            if (!name) {
-                showCustomAlert('Por favor, insira o nome do produto.');
-                return;
-            }
-            
-            if (!category) {
-                showCustomAlert('Por favor, selecione uma categoria.');
-                return;
-            }
-            
-            if (isNaN(price) || price <= 0) {
-                showCustomAlert('Por favor, insira um preço válido maior que zero.');
-                return;
-            }
-            
-            if (isNaN(stock) || stock < 0) {
-                showCustomAlert('Por favor, insira um estoque válido (0 ou maior).');
-                return;
-            }
             
             // Show loading state
             saveText.classList.add('hidden');
@@ -2200,12 +1904,12 @@
             
             try {
                 const productData = {
-                    name: name,
-                    category: category,
-                    price: price,
+                    name: document.getElementById('productName').value,
+                    category: document.getElementById('productCategory').value,
+                    price: parseFloat(document.getElementById('productPrice').value),
                     oldPrice: parseFloat(document.getElementById('productOldPrice').value) || null,
-                    stock: stock,
-                    description: document.getElementById('productDescription').value.trim() || '',
+                    stock: parseInt(document.getElementById('productStock').value),
+                    description: document.getElementById('productDescription').value || '',
                     image: uploadedImageUrl || (editingProductId ? products[editingProductId]?.image : null),
                     updatedAt: Date.now()
                 };
@@ -2214,35 +1918,27 @@
                     productData.createdAt = Date.now();
                 }
 
-                console.log('💾 Saving product data:', productData);
-
                 if (editingProductId) {
                     // Update existing product
-                    console.log('📝 Updating product:', editingProductId);
                     await Promise.all([
                         update(ref(database, `products/${editingProductId}`), productData),
                         setDoc(doc(firestore, 'products', editingProductId), productData, { merge: true })
                     ]);
-                    console.log('✅ Product updated successfully');
                     showNotificationToast('Sucesso', 'Produto atualizado com sucesso!', 'success');
                 } else {
                     // Create new product
-                    console.log('➕ Creating new product');
                     const newProductRef = push(ref(database, 'products'));
-                    const productId = newProductRef.key;
-                    
                     await Promise.all([
                         set(newProductRef, productData),
-                        setDoc(doc(firestore, 'products', productId), productData)
+                        setDoc(doc(firestore, 'products', newProductRef.key), productData)
                     ]);
-                    console.log('✅ Product created successfully with ID:', productId);
                     showNotificationToast('Sucesso', 'Produto adicionado com sucesso!', 'success');
                 }
 
                 closeProductModal();
             } catch (error) {
-                console.error('❌ Error saving product:', error);
-                showCustomAlert('Erro ao salvar produto: ' + error.message);
+                console.error('Error saving product:', error);
+                showCustomAlert('Erro ao salvar produto. Tente novamente.');
             } finally {
                 // Reset loading state
                 saveText.classList.remove('hidden');
@@ -2257,38 +1953,6 @@
             uploadedImageUrl = null;
         }
 
-        // Make functions globally available
-        window.openProductModal = openProductModal;
-        window.editProduct = openProductModal;
-
-        // Delete product with confirmation
-        window.confirmDeleteProduct = function(productId) {
-            const product = products[productId];
-            showConfirmDialog(
-                `Tem certeza que deseja excluir o produto "${product.name}"? Esta ação não pode ser desfeita.`,
-                () => deleteProduct(productId)
-            );
-        };
-
-        async function deleteProduct(productId) {
-            try {
-                console.log('🗑️ Deleting product:', productId);
-                
-                // Delete from both Realtime Database and Firestore
-                await Promise.all([
-                    remove(ref(database, `products/${productId}`)),
-                    deleteDoc(doc(firestore, 'products', productId))
-                ]);
-                
-                console.log('✅ Product deleted successfully');
-                showNotificationToast('Sucesso', 'Produto excluído com sucesso!', 'success');
-            } catch (error) {
-                console.error('❌ Error deleting product:', error);
-                showCustomAlert('Erro ao excluir produto: ' + error.message);
-            }
-        }
-
-        // Product modal close buttons
         document.getElementById('closeProductModalBtn').addEventListener('click', closeProductModal);
         document.getElementById('cancelProductBtn').addEventListener('click', closeProductModal);
 
@@ -2384,8 +2048,14 @@
                             <button onclick="startChatWithCustomer('${order.customer.userId}')" class="px-3 py-2 bg-purple-50 dark:bg-purple-900 text-purple-600 dark:text-purple-400 rounded text-sm hover:bg-purple-100 dark:hover:bg-purple-800 transition-all transform hover:scale-105">
                                 💬 Chat
                             </button>
-                            <button onclick="confirmDeleteOrder('${order.id}')" class="px-3 py-2 bg-gray-50 dark:bg-gray-900 text-gray-600 dark:text-gray-400 rounded text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-all transform hover:scale-105">
-                                🗑️ Excluir
+                            <button onclick="confirmDeleteOrder('${order.id}')" 
+                                    onmousedown="startDeleteTimer('${order.id}', this, 'order')" 
+                                    onmouseup="cancelDeleteTimer(this)" 
+                                    onmouseleave="cancelDeleteTimer(this)"
+                                    ontouchstart="startDeleteTimer('${order.id}', this, 'order')" 
+                                    ontouchend="cancelDeleteTimer(this)"
+                                    class="px-3 py-2 bg-gray-50 dark:bg-gray-900 text-gray-600 dark:text-gray-400 rounded text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">
+                                🗑️
                             </button>
                         </div>
                     </div>
@@ -2566,7 +2236,7 @@
             }, 500);
         };
 
-        // Delete order with confirmation
+        // Delete order with confirmation and long press
         window.confirmDeleteOrder = function(orderId) {
             showConfirmDialog(
                 `Tem certeza que deseja excluir este pedido? Esta ação não pode ser desfeita.`,
@@ -2601,8 +2271,25 @@
         }
 
         function getCategoryName(category) {
-            const categoryObj = categories[category];
-            return categoryObj ? categoryObj.name : category;
+            const categoryNames = {
+                'eletronicos': 'Eletrônicos',
+                'roupas': 'Roupas',
+                'casa': 'Casa e Jardim',
+                'livros': 'Livros',
+                'esportes': 'Esportes',
+                'beleza': 'Beleza',
+                'acessorios': 'Acessórios & Joias',
+                'calcados': 'Calçados',
+                'alimentacao': 'Alimentação & Bebidas',
+                'saude': 'Saúde & Bem-estar',
+                'automotivo': 'Automotivo',
+                'brinquedos': 'Brinquedos & Jogos',
+                'musica': 'Música & Instrumentos',
+                'arte': 'Arte & Artesanato',
+                'pets': 'Pets',
+                'servicos': 'Serviços'
+            };
+            return categoryNames[category] || category;
         }
 
         function getOrderStatusColor(status) {
