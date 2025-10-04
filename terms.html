@@ -2270,7 +2270,7 @@
             }
         });
 
-        // Enhanced product form submission - CORRIGIDO
+        // Enhanced product form submission
         document.getElementById('productForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             addDebugLog('Product form submitted');
@@ -2279,7 +2279,7 @@
             const saveText = document.getElementById('saveProductText');
             const saveLoader = document.getElementById('saveProductLoader');
             
-            // Get and validate form data with robust validation
+            // Get and validate form data - com validação robusta
             const nameInput = document.getElementById('productName');
             const categoryInput = document.getElementById('productCategory');
             const priceInput = document.getElementById('productPrice');
@@ -2301,9 +2301,9 @@
             
             addDebugLog(`Product form data - Name: "${name}", Category: "${category}", Price: ${price}, Stock: ${stock}`);
             
-            // Robust validation
-            if (!name || name.length < 2) {
-                showNotificationToast('Erro', 'Nome do produto deve ter pelo menos 2 caracteres.', 'error');
+            // Validation
+            if (!name) {
+                showNotificationToast('Erro', 'Por favor, insira o nome do produto.', 'error');
                 return;
             }
             
@@ -2313,23 +2313,17 @@
             }
             
             if (isNaN(price) || price <= 0) {
-                showNotificationToast('Erro', 'Por favor, insira um preço válido maior que zero.', 'error');
+                showNotificationToast('Erro', 'Por favor, insira um preço válido.', 'error');
                 return;
             }
             
-            if (oldPrice && (isNaN(oldPrice) || oldPrice <= price)) {
+            if (oldPrice && oldPrice <= price) {
                 showNotificationToast('Erro', 'O preço antigo deve ser maior que o preço atual.', 'error');
                 return;
             }
             
             if (isNaN(stock) || stock < 0) {
-                showNotificationToast('Erro', 'Por favor, insira um estoque válido (0 ou maior).', 'error');
-                return;
-            }
-            
-            // Validate category exists
-            if (!categories[category]) {
-                showNotificationToast('Erro', 'Categoria selecionada não existe. Atualize a página.', 'error');
+                showNotificationToast('Erro', 'Por favor, insira um estoque válido.', 'error');
                 return;
             }
             
@@ -2339,69 +2333,42 @@
             saveBtn.disabled = true;
             
             try {
-                // Ensure all data are valid strings/numbers
                 const productData = {
-                    name: String(name),
-                    category: String(category),
-                    price: Number(price),
-                    oldPrice: oldPrice > 0 ? Number(oldPrice) : null,
-                    stock: Number(stock),
-                    description: String(description),
-                    image: uploadedImageUrl || (editingProductId && products[editingProductId] ? products[editingProductId].image : null) || null,
+                    name: name,
+                    category: category,
+                    price: price,
+                    oldPrice: oldPrice || null,
+                    stock: stock,
+                    description: description,
+                    image: uploadedImageUrl || (editingProductId ? products[editingProductId]?.image : null),
                     updatedAt: Date.now()
                 };
 
-                addDebugLog('Product data prepared: ' + JSON.stringify(productData));
-
                 if (editingProductId) {
-                    // Update existing product - ensure editingProductId is valid string
-                    const productId = String(editingProductId).trim();
-                    
-                    if (!productId || productId === 'null' || productId === 'undefined') {
-                        throw new Error('ID do produto para edição é inválido');
-                    }
-                    
-                    addDebugLog(`Updating product with ID: ${productId}`);
-                    await update(ref(database, `products/${productId}`), productData);
+                    // Update existing product
+                    await update(ref(database, `products/${editingProductId}`), productData);
                     addDebugLog('Product updated successfully');
                     showNotificationToast('Sucesso', 'Produto atualizado com sucesso!', 'success');
                 } else {
-                    // Create new product - using safer method
+                    // Create new product - método seguro
                     productData.createdAt = Date.now();
                     
-                    // Generate unique and safe ID manually
+                    // Gerar ID seguro
                     const timestamp = Date.now();
-                    const randomId = Math.random().toString(36).substr(2, 9);
-                    const safeName = String(name).toLowerCase()
+                    const randomPart = Math.random().toString(36).substr(2, 9);
+                    const safeName = name.toLowerCase()
                         .normalize('NFD')
                         .replace(/[\u0300-\u036f]/g, '')
                         .replace(/[^a-z0-9]/g, '_')
-                        .replace(/_+/g, '_')
-                        .replace(/^_|_$/g, '')
-                        .slice(0, 20);
+                        .slice(0, 15);
                     
-                    const productId = `${safeName}_${timestamp}_${randomId}`;
-                    
-                    // Final validation of ID
-                    if (!productId || typeof productId !== 'string' || productId.length < 5) {
-                        throw new Error('Falha ao gerar ID do produto');
-                    }
-                    
-                    // Add ID to product
+                    const productId = `prod_${safeName}_${timestamp}_${randomPart}`;
                     productData.id = productId;
                     
-                    addDebugLog(`Creating product with ID: ${productId}`);
+                    addDebugLog(`Creating product with safe ID: ${productId}`);
                     
-                    // Save to Firebase
+                    // Salvar no Firebase Database
                     await set(ref(database, `products/${productId}`), productData);
-                    
-                    // Backup to Firestore
-                    try {
-                        await setDoc(doc(firestore, 'products', productId), productData);
-                        addDebugLog('Product saved to Firestore as backup');
-                    } catch (firestoreError) {
-                        addDebugLog('Firestore backup failed (non-critical): ' + firestoreError.message);
-                    }
                     
                     addDebugLog('Product created successfully with ID: ' + productId);
                     showNotificationToast('Sucesso', 'Produto adicionado com sucesso!', 'success');
@@ -2411,7 +2378,6 @@
                 
             } catch (error) {
                 addDebugLog('Error saving product: ' + error.message);
-                console.error('Product save error details:', error);
                 showNotificationToast('Erro', 'Erro ao salvar produto: ' + error.message, 'error');
             } finally {
                 saveText.classList.remove('hidden');
