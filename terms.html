@@ -1982,24 +1982,35 @@
                 let categoryId;
                 
                 if (editingCategoryId) {
-                    categoryId = editingCategoryId.toString(); // Garantir que é string
+                    // Garantir que editingCategoryId é uma string válida
+                    categoryId = String(editingCategoryId).trim();
                     addDebugLog(`Editing existing category: ${categoryId}`);
                 } else {
-                    categoryId = generateSafeId(name);
-                    addDebugLog(`Generated category ID: ${categoryId}`);
+                    // Gerar um ID completamente novo e seguro
+                    const timestamp = Date.now();
+                    const randomId = Math.random().toString(36).substr(2, 9);
+                    const safeName = String(name).toLowerCase()
+                        .normalize('NFD')
+                        .replace(/[\u0300-\u036f]/g, '')
+                        .replace(/[^a-z0-9]/g, '_')
+                        .replace(/_+/g, '_')
+                        .replace(/^_|_$/g, '')
+                        .slice(0, 20);
                     
-                    // Verificar se já existe
-                    if (categories && categories[categoryId]) {
-                        categoryId = `${categoryId}_${Date.now()}`;
-                        addDebugLog(`Category ID already exists, using: ${categoryId}`);
-                    }
+                    categoryId = `${safeName}_${timestamp}_${randomId}`;
+                    addDebugLog(`Generated category ID: ${categoryId}`);
                 }
                 
-                // Validar categoryId antes de usar
-                if (!categoryId || typeof categoryId !== 'string') {
-                    addDebugLog('Invalid category ID generated: ' + categoryId);
-                    throw new Error('ID da categoria inválido');
+                // Validação extra robusta do categoryId
+                if (!categoryId || typeof categoryId !== 'string' || categoryId.includes('[object') || categoryId.length < 3) {
+                    addDebugLog('Invalid category ID detected, generating fallback: ' + categoryId);
+                    // Fallback para ID completamente seguro
+                    categoryId = `category_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+                    addDebugLog('Using fallback category ID: ' + categoryId);
                 }
+                
+                // Sanitizar o categoryId final
+                categoryId = String(categoryId).replace(/[^a-zA-Z0-9_-]/g, '_');
                 
                 const categoryData = {
                     id: categoryId,
