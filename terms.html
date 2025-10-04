@@ -1939,10 +1939,22 @@
             const saveText = document.getElementById('saveCategoryText');
             const saveLoader = document.getElementById('saveCategoryLoader');
             
-            // Enhanced validation
-            const name = document.getElementById('categoryName').value.trim();
-            const icon = document.getElementById('categoryIcon').value;
-            const description = document.getElementById('categoryDescription').value.trim();
+            // Enhanced validation - garantir que estamos pegando strings válidas
+            const nameInput = document.getElementById('categoryName');
+            const iconInput = document.getElementById('categoryIcon');
+            const descriptionInput = document.getElementById('categoryDescription');
+            
+            if (!nameInput || !iconInput || !descriptionInput) {
+                addDebugLog('Form inputs not found');
+                showNotificationToast('Erro', 'Erro no formulário. Recarregue a página.', 'error');
+                return;
+            }
+            
+            const name = nameInput.value ? nameInput.value.trim() : '';
+            const icon = iconInput.value || '📂';
+            const description = descriptionInput.value ? descriptionInput.value.trim() : '';
+            
+            addDebugLog(`Category form data - Name: "${name}", Icon: "${icon}", Description: "${description}"`);
             
             if (!name) {
                 showNotificationToast('Erro', 'Por favor, insira o nome da categoria.', 'error');
@@ -1951,6 +1963,13 @@
             
             if (name.length < 2) {
                 showNotificationToast('Erro', 'O nome da categoria deve ter pelo menos 2 caracteres.', 'error');
+                return;
+            }
+            
+            // Validar que name é uma string válida
+            if (typeof name !== 'string') {
+                addDebugLog('Category name is not a string: ' + typeof name);
+                showNotificationToast('Erro', 'Nome da categoria inválido.', 'error');
                 return;
             }
             
@@ -1963,12 +1982,23 @@
                 let categoryId;
                 
                 if (editingCategoryId) {
-                    categoryId = editingCategoryId;
+                    categoryId = editingCategoryId.toString(); // Garantir que é string
+                    addDebugLog(`Editing existing category: ${categoryId}`);
                 } else {
                     categoryId = generateSafeId(name);
-                    if (categories[categoryId]) {
+                    addDebugLog(`Generated category ID: ${categoryId}`);
+                    
+                    // Verificar se já existe
+                    if (categories && categories[categoryId]) {
                         categoryId = `${categoryId}_${Date.now()}`;
+                        addDebugLog(`Category ID already exists, using: ${categoryId}`);
                     }
+                }
+                
+                // Validar categoryId antes de usar
+                if (!categoryId || typeof categoryId !== 'string') {
+                    addDebugLog('Invalid category ID generated: ' + categoryId);
+                    throw new Error('ID da categoria inválido');
                 }
                 
                 const categoryData = {
@@ -1983,12 +2013,19 @@
                     categoryData.createdAt = Date.now();
                 }
 
-                // Save to database
-                await set(ref(database, `categories/${categoryId}`), categoryData);
+                addDebugLog(`Saving category to path: categories/${categoryId}`);
+                addDebugLog('Category data: ' + JSON.stringify(categoryData));
+
+                // Save to database - garantir que categoryId é string válida
+                const categoryPath = `categories/${categoryId}`;
+                addDebugLog(`Firebase path: ${categoryPath}`);
+                
+                await set(ref(database, categoryPath), categoryData);
                 
                 // Try to save to Firestore as backup
                 try {
                     await setDoc(doc(firestore, 'categories', categoryId), categoryData);
+                    addDebugLog('Category saved to Firestore successfully');
                 } catch (firestoreError) {
                     addDebugLog('Firestore save failed (non-critical): ' + firestoreError.message);
                 }
