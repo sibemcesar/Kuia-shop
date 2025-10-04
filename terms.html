@@ -16,22 +16,12 @@
                         'secondary-dark': '#059669'
                     },
                     animation: {
-                        'slide-in-right': 'slideInRight 0.3s ease-out',
-                        'slide-in-left': 'slideInLeft 0.3s ease-out',
                         'fade-in': 'fadeIn 0.3s ease-out',
                         'scale-in': 'scaleIn 0.2s ease-out',
                         'bounce-in': 'bounceIn 0.4s ease-out',
                         'progress': 'progress 2s linear'
                     },
                     keyframes: {
-                        slideInRight: {
-                            '0%': { transform: 'translateX(100%)', opacity: '0' },
-                            '100%': { transform: 'translateX(0)', opacity: '1' }
-                        },
-                        slideInLeft: {
-                            '0%': { transform: 'translateX(-100%)', opacity: '0' },
-                            '100%': { transform: 'translateX(0)', opacity: '1' }
-                        },
                         fadeIn: {
                             '0%': { opacity: '0' },
                             '100%': { opacity: '1' }
@@ -79,55 +69,50 @@
             transition: width 0.1s ease;
             z-index: -1;
         }
-        
-        .section-transition {
-            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
-        }
-        
-        .notification-badge {
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
 
-        .long-press-btn {
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-        }
-
-        .long-press-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* Debug panel styles */
         .debug-panel {
             position: fixed;
             bottom: 20px;
             left: 20px;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.9);
             color: white;
             padding: 10px;
-            border-radius: 5px;
+            border-radius: 8px;
             font-family: monospace;
-            font-size: 12px;
-            max-width: 300px;
+            font-size: 11px;
+            max-width: 400px;
+            max-height: 300px;
+            overflow-y: auto;
             z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .debug-panel::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .debug-panel::-webkit-scrollbar-track {
+            background: #333;
+        }
+
+        .debug-panel::-webkit-scrollbar-thumb {
+            background: #666;
+            border-radius: 2px;
         }
     </style>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
     <!-- Debug Panel -->
     <div id="debugPanel" class="debug-panel hidden">
-        <div class="flex justify-between items-center mb-2">
-            <strong>🐛 Debug Info</strong>
-            <button onclick="toggleDebug()" class="text-red-400">❌</button>
+        <div class="flex justify-between items-center mb-2 border-b border-gray-600 pb-2">
+            <strong class="text-yellow-400">🐛 Debug Console</strong>
+            <button onclick="toggleDebug()" class="text-red-400 hover:text-red-300">❌</button>
         </div>
-        <div id="debugContent"></div>
+        <div id="debugContent" class="text-xs"></div>
+        <div class="mt-2 pt-2 border-t border-gray-600">
+            <button onclick="clearDebugLogs()" class="text-blue-400 hover:text-blue-300 text-xs">🗑️ Limpar</button>
+            <button onclick="exportDebugLogs()" class="ml-2 text-green-400 hover:text-green-300 text-xs">📋 Copiar</button>
+        </div>
     </div>
 
     <!-- Loading Screen -->
@@ -136,7 +121,7 @@
             <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
             <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">Kuia+ Admin</h2>
             <p id="loadingStatus" class="text-gray-600 dark:text-gray-400">Verificando acesso...</p>
-            <button onclick="toggleDebug()" class="mt-4 text-xs text-gray-500 hover:text-gray-700">🐛 Debug Mode</button>
+            <button onclick="toggleDebug()" class="mt-4 text-xs text-gray-500 hover:text-gray-700 px-3 py-1 border rounded">🐛 Debug Mode</button>
         </div>
     </div>
 
@@ -147,10 +132,13 @@
             <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-4">Acesso Negado</h2>
             <p class="text-gray-600 dark:text-gray-400 mb-6">Você não tem permissão para acessar o painel administrativo.</p>
             <div class="space-y-3">
-                <button onclick="location.reload()" class="block w-full px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all transform hover:scale-105">
-                    Tentar Novamente
+                <button onclick="forceAdminAccess()" class="block w-full px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all">
+                    🔓 Forçar Acesso (sibemcesar@gmail.com)
                 </button>
-                <button onclick="toggleDebug()" class="block w-full px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-all">
+                <button onclick="location.reload()" class="block w-full px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-all">
+                    🔄 Tentar Novamente
+                </button>
+                <button onclick="toggleDebug()" class="block w-full px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-all">
                     🐛 Ver Debug
                 </button>
             </div>
@@ -169,35 +157,27 @@
                     <div class="flex items-center space-x-4">
                         <h1 class="text-2xl font-bold text-primary">⚙️ Kuia+ Admin</h1>
                         <nav class="hidden md:flex space-x-6">
-                            <button id="dashboardBtn" class="nav-btn text-primary px-3 py-2 rounded-md text-sm font-medium transition-all">
+                            <button id="dashboardBtn" class="nav-btn text-primary px-3 py-2 rounded-md text-sm font-medium">
                                 📊 Dashboard
                             </button>
-                            <button id="productsBtn" class="nav-btn text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-all">
+                            <button id="productsBtn" class="nav-btn text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">
                                 📦 Produtos
                             </button>
-                            <button id="categoriesBtn" class="nav-btn text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-all">
+                            <button id="categoriesBtn" class="nav-btn text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">
                                 📂 Categorias
                             </button>
-                            <button id="ordersBtn" class="nav-btn text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-all">
-                                🛒 Pedidos
-                            </button>
-                            <button id="notificationsBtn" class="nav-btn text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-all">
+                            <button id="notificationsBtn" class="nav-btn text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">
                                 🔔 Notificações
                             </button>
                         </nav>
                     </div>
                     
                     <div class="flex items-center space-x-4">
-                        <button onclick="toggleDebug()" class="px-3 py-1 text-xs bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-all">
-                            🐛 Debug
+                        <button onclick="toggleDebug()" class="px-3 py-1 text-xs bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded hover:bg-gray-300 dark:hover:bg-gray-600">
+                            🐛
                         </button>
-                        <div class="relative">
-                            <button id="adminMenuBtn" class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">
-                                <img id="adminAvatar" src="" alt="Admin" class="w-8 h-8 rounded-full">
-                                <span id="adminName" class="text-sm font-medium text-gray-700 dark:text-gray-300 hidden sm:block">Admin</span>
-                            </button>
-                        </div>
-                        <button id="logoutBtn" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-all transform hover:scale-105">
+                        <div class="text-xs text-gray-500" id="userInfo"></div>
+                        <button id="logoutBtn" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">
                             🚪 Sair
                         </button>
                     </div>
@@ -205,54 +185,41 @@
             </div>
         </header>
 
-        <!-- Mobile Navigation -->
-        <div class="md:hidden bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-            <div class="flex overflow-x-auto px-4 py-2 space-x-4">
-                <button id="mobileDashboardBtn" class="mobile-nav-btn whitespace-nowrap px-3 py-2 text-sm text-primary bg-primary bg-opacity-10 rounded-lg transition-all">
-                    📊 Dashboard
-                </button>
-                <button id="mobileProductsBtn" class="mobile-nav-btn whitespace-nowrap px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary rounded-lg transition-all">
-                    📦 Produtos
-                </button>
-                <button id="mobileCategoriesBtn" class="mobile-nav-btn whitespace-nowrap px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary rounded-lg transition-all">
-                    📂 Categorias
-                </button>
-                <button id="mobileOrdersBtn" class="mobile-nav-btn whitespace-nowrap px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary rounded-lg transition-all">
-                    🛒 Pedidos
-                </button>
-                <button id="mobileNotificationsBtn" class="mobile-nav-btn whitespace-nowrap px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary rounded-lg transition-all">
-                    🔔 Notificações
-                </button>
-            </div>
-        </div>
-
         <!-- Main Content -->
         <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <!-- Dashboard Section -->
-            <div id="dashboardSection" class="section-transition">
+            <div id="dashboardSection">
                 <div class="mb-8">
                     <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">Dashboard</h2>
-                    <p class="text-gray-600 dark:text-gray-400">Visão geral da sua loja</p>
+                    <p class="text-gray-600 dark:text-gray-400">Painel administrativo da Kuia+</p>
                 </div>
 
                 <!-- Connection Status -->
                 <div id="connectionStatus" class="mb-6 p-4 rounded-lg border"></div>
 
+                <!-- User Info Card -->
+                <div class="mb-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Informações do Usuário</h3>
+                    <div id="userInfoDetails" class="space-y-2 text-sm">
+                        <!-- Will be populated -->
+                    </div>
+                </div>
+
                 <!-- Stats Cards -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 animate-fade-in transform hover:scale-105 transition-all">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                         <div class="flex items-center">
                             <div class="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
                                 <div class="text-2xl">📦</div>
                             </div>
                             <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total de Produtos</p>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Produtos</p>
                                 <p id="totalProducts" class="text-2xl font-bold text-gray-900 dark:text-gray-100">0</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 animate-fade-in transform hover:scale-105 transition-all">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                         <div class="flex items-center">
                             <div class="p-2 bg-green-100 dark:bg-green-900 rounded-lg">
                                 <div class="text-2xl">📂</div>
@@ -264,21 +231,9 @@
                         </div>
                     </div>
 
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 animate-fade-in transform hover:scale-105 transition-all">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                         <div class="flex items-center">
                             <div class="p-2 bg-yellow-100 dark:bg-yellow-900 rounded-lg">
-                                <div class="text-2xl">⏳</div>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Pedidos Pendentes</p>
-                                <p id="pendingOrders" class="text-2xl font-bold text-gray-900 dark:text-gray-100">0</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 animate-fade-in transform hover:scale-105 transition-all">
-                        <div class="flex items-center">
-                            <div class="p-2 bg-purple-100 dark:bg-purple-900 rounded-lg">
                                 <div class="text-2xl">👥</div>
                             </div>
                             <div class="ml-4">
@@ -287,38 +242,53 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <div class="flex items-center">
+                            <div class="p-2 bg-red-100 dark:bg-red-900 rounded-lg">
+                                <div class="text-2xl">🔥</div>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Admin Status</p>
+                                <p id="adminStatus" class="text-lg font-bold text-gray-900 dark:text-gray-100">Verificando...</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Quick Actions -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 animate-fade-in">
-                    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Ações Rápidas</h3>
+                <!-- Test Tools -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Ferramentas de Teste</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <button id="addProductBtn" class="flex items-center p-4 bg-primary bg-opacity-10 hover:bg-opacity-20 rounded-lg transition-all transform hover:scale-105">
-                            <div class="text-2xl mr-3">➕</div>
-                            <div class="text-left">
-                                <p class="font-medium text-primary">Adicionar Produto</p>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Cadastrar novo produto</p>
-                            </div>
-                        </button>
-                        <button id="addCategoryBtn" class="flex items-center p-4 bg-secondary bg-opacity-10 hover:bg-opacity-20 rounded-lg transition-all transform hover:scale-105">
-                            <div class="text-2xl mr-3">📂</div>
-                            <div class="text-left">
-                                <p class="font-medium text-secondary">Criar Categoria</p>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Gerenciar categorias</p>
-                            </div>
-                        </button>
-                        <button id="testConnectionBtn" class="flex items-center p-4 bg-blue-50 dark:bg-blue-900 hover:bg-blue-100 dark:hover:bg-blue-800 rounded-lg transition-all transform hover:scale-105">
+                        <button onclick="testConnection()" class="flex items-center p-4 bg-blue-50 dark:bg-blue-900 hover:bg-blue-100 dark:hover:bg-blue-800 rounded-lg transition-all">
                             <div class="text-2xl mr-3">🔗</div>
                             <div class="text-left">
                                 <p class="font-medium text-blue-700 dark:text-blue-300">Testar Conexão</p>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Verificar Firebase</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Firebase</p>
                             </div>
                         </button>
-                        <button id="sendTestNotificationBtn" class="flex items-center p-4 bg-purple-50 dark:bg-purple-900 hover:bg-purple-100 dark:hover:bg-purple-800 rounded-lg transition-all transform hover:scale-105">
-                            <div class="text-2xl mr-3">🔔</div>
+                        
+                        <button onclick="testAdminAccess()" class="flex items-center p-4 bg-green-50 dark:bg-green-900 hover:bg-green-100 dark:hover:bg-green-800 rounded-lg transition-all">
+                            <div class="text-2xl mr-3">🔐</div>
                             <div class="text-left">
-                                <p class="font-medium text-purple-700 dark:text-purple-300">Teste Notificação</p>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Enviar para si mesmo</p>
+                                <p class="font-medium text-green-700 dark:text-green-300">Testar Admin</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Permissões</p>
+                            </div>
+                        </button>
+                        
+                        <button onclick="testCategoryCreation()" class="flex items-center p-4 bg-yellow-50 dark:bg-yellow-900 hover:bg-yellow-100 dark:hover:bg-yellow-800 rounded-lg transition-all">
+                            <div class="text-2xl mr-3">📂</div>
+                            <div class="text-left">
+                                <p class="font-medium text-yellow-700 dark:text-yellow-300">Testar Categoria</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Criação</p>
+                            </div>
+                        </button>
+                        
+                        <button onclick="openCategoryModal()" class="flex items-center p-4 bg-purple-50 dark:bg-purple-900 hover:bg-purple-100 dark:hover:bg-purple-800 rounded-lg transition-all">
+                            <div class="text-2xl mr-3">➕</div>
+                            <div class="text-left">
+                                <p class="font-medium text-purple-700 dark:text-purple-300">Nova Categoria</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Criar agora</p>
                             </div>
                         </button>
                     </div>
@@ -326,265 +296,63 @@
             </div>
 
             <!-- Products Section -->
-            <div id="productsSection" class="hidden section-transition">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 space-y-4 sm:space-y-0">
+            <div id="productsSection" class="hidden">
+                <div class="flex justify-between items-center mb-8">
                     <div>
-                        <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">Gestão de Produtos</h2>
-                        <p class="text-gray-600 dark:text-gray-400">Gerencie o catálogo da sua loja</p>
+                        <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">Produtos</h2>
+                        <p class="text-gray-600 dark:text-gray-400">Gerencie os produtos da loja</p>
                     </div>
-                    <div class="flex space-x-3">
-                        <button id="manageCategoriesBtn" class="px-4 py-2 bg-secondary text-white rounded-lg hover:bg-secondary-dark transition-all flex items-center transform hover:scale-105">
-                            <span class="mr-2">📂</span>Categorias
-                        </button>
-                        <button id="addProductModalBtn" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all flex items-center transform hover:scale-105">
-                            <span class="mr-2">➕</span>Adicionar Produto
-                        </button>
-                    </div>
+                    <button onclick="openProductModal()" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark">
+                        ➕ Adicionar Produto
+                    </button>
                 </div>
 
-                <!-- Products Grid -->
                 <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    <div class="text-center py-12 col-span-full">
-                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-                        <p class="text-gray-600 dark:text-gray-400">Carregando produtos...</p>
-                    </div>
+                    <!-- Products will be rendered here -->
                 </div>
             </div>
 
             <!-- Categories Section -->
-            <div id="categoriesSection" class="hidden section-transition">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 space-y-4 sm:space-y-0">
+            <div id="categoriesSection" class="hidden">
+                <div class="flex justify-between items-center mb-8">
                     <div>
-                        <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">Gestão de Categorias</h2>
+                        <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">Categorias</h2>
                         <p class="text-gray-600 dark:text-gray-400">Organize os produtos por categoria</p>
                     </div>
-                    <button id="addCategoryModalBtn" class="px-6 py-3 bg-secondary text-white rounded-lg hover:bg-secondary-dark transition-all flex items-center transform hover:scale-105">
-                        <span class="mr-2">➕</span>Adicionar Categoria
+                    <button onclick="openCategoryModal()" class="px-6 py-3 bg-secondary text-white rounded-lg hover:bg-secondary-dark">
+                        ➕ Adicionar Categoria
                     </button>
                 </div>
 
-                <!-- Categories Grid -->
                 <div id="categoriesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    <div class="text-center py-12 col-span-full">
-                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-secondary mx-auto mb-4"></div>
-                        <p class="text-gray-600 dark:text-gray-400">Carregando categorias...</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Orders Section -->
-            <div id="ordersSection" class="hidden section-transition">
-                <div class="mb-8">
-                    <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">Gestão de Pedidos</h2>
-                    <p class="text-gray-600 dark:text-gray-400">Gerencie os pedidos dos clientes</p>
-                </div>
-
-                <!-- Orders Grid -->
-                <div id="ordersGrid" class="space-y-6">
-                    <div class="text-center py-12">
-                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-                        <p class="text-gray-600 dark:text-gray-400">Carregando pedidos...</p>
-                    </div>
+                    <!-- Categories will be rendered here -->
                 </div>
             </div>
 
             <!-- Notifications Section -->
-            <div id="notificationsSection" class="hidden section-transition">
+            <div id="notificationsSection" class="hidden">
                 <div class="mb-8">
-                    <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">Central de Notificações</h2>
-                    <p class="text-gray-600 dark:text-gray-400">Envie notificações e promoções para os usuários</p>
+                    <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">Notificações</h2>
+                    <p class="text-gray-600 dark:text-gray-400">Envie notificações para os usuários</p>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <!-- Send Notification Form -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 animate-fade-in">
-                        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Enviar Notificação</h3>
-                        
-                        <form id="notificationForm">
-                            <div class="space-y-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Destinatários</label>
-                                    <select id="notificationTarget" class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-                                        <option value="all">Todos os usuários</option>
-                                        <option value="specific">Usuário específico</option>
-                                    </select>
-                                </div>
-
-                                <div id="specificUserContainer" class="hidden">
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Selecionar Usuário</label>
-                                    <select id="specificUser" class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-                                        <option value="">Carregando usuários...</option>
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Tipo</label>
-                                    <select id="notificationType" class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-                                        <option value="info">Informação</option>
-                                        <option value="success">Sucesso</option>
-                                        <option value="warning">Aviso</option>
-                                        <option value="error">Erro</option>
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Título *</label>
-                                    <input type="text" id="notificationTitle" required placeholder="Ex: Nova Promoção!" 
-                                           class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-                                </div>
-
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Mensagem *</label>
-                                    <textarea id="notificationMessage" required rows="4" placeholder="Digite sua mensagem..." 
-                                              class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent transition-all"></textarea>
-                                </div>
-
-                                <button type="submit" id="sendNotificationFormBtn" class="w-full bg-primary text-white py-3 rounded-lg hover:bg-primary-dark transition-all transform hover:scale-105">
-                                    <span id="sendNotificationText">📤 Enviar Notificação</span>
-                                    <span id="sendNotificationLoader" class="hidden">
-                                        <div class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                                        Enviando...
-                                    </span>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-
-                    <!-- Quick Templates -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 animate-fade-in">
-                        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Templates Rápidos</h3>
-                        
-                        <div class="space-y-3">
-                            <button onclick="useNotificationTemplate('promotion')" class="w-full text-left p-3 bg-yellow-50 dark:bg-yellow-900 hover:bg-yellow-100 dark:hover:bg-yellow-800 rounded-lg transition-all transform hover:scale-105">
-                                <h4 class="font-medium text-yellow-800 dark:text-yellow-200">🎉 Promoção</h4>
-                                <p class="text-sm text-yellow-600 dark:text-yellow-400">Anunciar ofertas especiais</p>
-                            </button>
-
-                            <button onclick="useNotificationTemplate('order_update')" class="w-full text-left p-3 bg-blue-50 dark:bg-blue-900 hover:bg-blue-100 dark:hover:bg-blue-800 rounded-lg transition-all transform hover:scale-105">
-                                <h4 class="font-medium text-blue-800 dark:text-blue-200">📦 Atualização de Pedido</h4>
-                                <p class="text-sm text-blue-600 dark:text-blue-400">Status do pedido alterado</p>
-                            </button>
-
-                            <button onclick="useNotificationTemplate('new_product')" class="w-full text-left p-3 bg-green-50 dark:bg-green-900 hover:bg-green-100 dark:hover:bg-green-800 rounded-lg transition-all transform hover:scale-105">
-                                <h4 class="font-medium text-green-800 dark:text-green-200">✨ Novo Produto</h4>
-                                <p class="text-sm text-green-600 dark:text-green-400">Lançamento de produtos</p>
-                            </button>
-
-                            <button onclick="useNotificationTemplate('maintenance')" class="w-full text-left p-3 bg-red-50 dark:bg-red-900 hover:bg-red-100 dark:hover:bg-red-800 rounded-lg transition-all transform hover:scale-105">
-                                <h4 class="font-medium text-red-800 dark:text-red-200">⚠️ Manutenção</h4>
-                                <p class="text-sm text-red-600 dark:text-red-400">Aviso de manutenção</p>
-                            </button>
-                        </div>
-                    </div>
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Teste de Notificação</h3>
+                    <button onclick="sendTestNotification()" class="px-6 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600">
+                        🔔 Enviar Teste
+                    </button>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- Add/Edit Product Modal -->
-    <div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden">
-        <div class="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-screen overflow-y-auto animate-scale-in">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 id="productModalTitle" class="text-xl font-semibold text-gray-800 dark:text-gray-200">Adicionar Produto</h3>
-                    <button id="closeProductModalBtn" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-xl transition-all">
-                        ❌
-                    </button>
-                </div>
-                
-                <form id="productForm">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Left Column -->
-                        <div class="space-y-4">
-                            <!-- Image Upload -->
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Imagem do Produto</label>
-                                <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-4 text-center hover:border-primary transition-all">
-                                    <input type="file" id="productImage" accept="image/*" class="hidden">
-                                    <div id="imagePreview" class="mb-4">
-                                        <div class="w-32 h-32 mx-auto bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-                                            <div class="text-3xl text-gray-400">📷</div>
-                                        </div>
-                                    </div>
-                                    <button type="button" onclick="document.getElementById('productImage').click()" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark transition-all transform hover:scale-105">
-                                        Escolher Imagem
-                                    </button>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">PNG, JPG até 5MB</p>
-                                </div>
-                            </div>
-
-                            <!-- Basic Info -->
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Nome do Produto *</label>
-                                <input type="text" id="productName" required class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Categoria *</label>
-                                <div class="flex space-x-2">
-                                    <select id="productCategory" required class="flex-1 px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-                                        <option value="">Selecione uma categoria</option>
-                                        <!-- Categories will be loaded dynamically -->
-                                    </select>
-                                    <button type="button" id="quickAddCategoryBtn" class="px-3 py-2 bg-secondary text-white rounded-lg hover:bg-secondary-dark transition-all transform hover:scale-105" title="Criar categoria">
-                                        ➕
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Right Column -->
-                        <div class="space-y-4">
-                            <!-- Pricing -->
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Preço *</label>
-                                    <input type="number" id="productPrice" required min="0" step="0.01" placeholder="0.00" class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Preço Antigo</label>
-                                    <input type="number" id="productOldPrice" min="0" step="0.01" placeholder="0.00" class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Estoque *</label>
-                                <input type="number" id="productStock" required min="0" value="1" class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Descrição</label>
-                                <textarea id="productDescription" rows="4" placeholder="Descrição detalhada do produto..." class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent transition-all"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="flex justify-end space-x-3 mt-6">
-                        <button type="button" id="cancelProductBtn" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all">
-                            Cancelar
-                        </button>
-                        <button type="submit" id="saveProductBtn" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all transform hover:scale-105">
-                            <span id="saveProductText">Salvar Produto</span>
-                            <span id="saveProductLoader" class="hidden">
-                                <div class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                                Salvando...
-                            </span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Add/Edit Category Modal -->
+    <!-- Category Modal -->
     <div id="categoryModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden">
         <div class="bg-white dark:bg-gray-800 rounded-lg max-w-md w-full animate-scale-in">
             <div class="p-6">
                 <div class="flex justify-between items-center mb-6">
                     <h3 id="categoryModalTitle" class="text-xl font-semibold text-gray-800 dark:text-gray-200">Adicionar Categoria</h3>
-                    <button id="closeCategoryModalBtn" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-xl transition-all">
-                        ❌
-                    </button>
+                    <button onclick="closeCategoryModal()" class="text-gray-500 hover:text-gray-700 text-xl">❌</button>
                 </div>
                 
                 <form id="categoryForm">
@@ -592,28 +360,20 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Nome da Categoria *</label>
                             <input type="text" id="categoryName" required placeholder="Ex: Eletrônicos, Roupas..." 
-                                   class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+                                   class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Ícone</label>
                             <div class="grid grid-cols-8 gap-2 p-3 border border-gray-300 dark:border-gray-600 rounded-lg">
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110 bg-primary text-white" data-icon="📂">📂</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="📱">📱</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="👕">👕</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="🏠">🏠</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="📚">📚</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="⚽">⚽</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="💄">💄</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="💍">💍</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="👟">👟</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="🍔">🍔</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="💊">💊</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="🚗">🚗</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="🧸">🧸</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="🎸">🎸</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="🎨">🎨</button>
-                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all transform hover:scale-110" data-icon="🐶">🐶</button>
+                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded bg-primary text-white" data-icon="📂">📂</button>
+                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded" data-icon="📱">📱</button>
+                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded" data-icon="👕">👕</button>
+                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded" data-icon="🏠">🏠</button>
+                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded" data-icon="📚">📚</button>
+                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded" data-icon="⚽">⚽</button>
+                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded" data-icon="💄">💄</button>
+                                <button type="button" class="icon-btn p-2 text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 rounded" data-icon="🍔">🍔</button>
                             </div>
                             <input type="hidden" id="categoryIcon" value="📂">
                             <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Ícone selecionado: <span id="selectedIcon">📂</span></p>
@@ -622,20 +382,71 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Descrição</label>
                             <textarea id="categoryDescription" rows="3" placeholder="Descrição opcional da categoria..." 
-                                      class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent transition-all"></textarea>
+                                      class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent"></textarea>
                         </div>
                     </div>
                     
                     <div class="flex justify-end space-x-3 mt-6">
-                        <button type="button" id="cancelCategoryBtn" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all">
+                        <button type="button" onclick="closeCategoryModal()" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
                             Cancelar
                         </button>
-                        <button type="submit" id="saveCategoryBtn" class="px-6 py-2 bg-secondary text-white rounded-lg hover:bg-secondary-dark transition-all transform hover:scale-105">
+                        <button type="submit" id="saveCategoryBtn" class="px-6 py-2 bg-secondary text-white rounded-lg hover:bg-secondary-dark">
                             <span id="saveCategoryText">Salvar Categoria</span>
-                            <span id="saveCategoryLoader" class="hidden">
-                                <div class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                                Salvando...
-                            </span>
+                            <span id="saveCategoryLoader" class="hidden">Salvando...</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-screen overflow-y-auto animate-scale-in">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 id="productModalTitle" class="text-xl font-semibold text-gray-800 dark:text-gray-200">Adicionar Produto</h3>
+                    <button onclick="closeProductModal()" class="text-gray-500 hover:text-gray-700 text-xl">❌</button>
+                </div>
+                
+                <form id="productForm">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Nome do Produto *</label>
+                            <input type="text" id="productName" required class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Categoria *</label>
+                            <select id="productCategory" required class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
+                                <option value="">Selecione uma categoria</option>
+                            </select>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Preço *</label>
+                                <input type="number" id="productPrice" required min="0" step="0.01" class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Estoque *</label>
+                                <input type="number" id="productStock" required min="0" value="1" class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Descrição</label>
+                            <textarea id="productDescription" rows="3" class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3 mt-6">
+                        <button type="button" onclick="closeProductModal()" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+                            Cancelar
+                        </button>
+                        <button type="submit" id="saveProductBtn" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark">
+                            <span id="saveProductText">Salvar Produto</span>
+                            <span id="saveProductLoader" class="hidden">Salvando...</span>
                         </button>
                     </div>
                 </form>
@@ -646,16 +457,12 @@
     <!-- Firebase SDK and Main JavaScript -->
     <script type="module">
         console.log('🚀 Iniciando Kuia+ Admin...');
-        document.getElementById('loadingStatus').textContent = 'Carregando Firebase...';
 
         // Firebase imports
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js';
-        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, updateProfile } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js';
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js';
         import { getDatabase, ref, onValue, push, set, remove, update } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js';
-        import { getFirestore, collection, doc, setDoc, getDoc, getDocs, query, where, orderBy, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js';
-
-        console.log('✅ Firebase modules loaded');
-        document.getElementById('loadingStatus').textContent = 'Conectando ao Firebase...';
+        import { getFirestore, collection, doc, setDoc, getDoc, getDocs, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js';
 
         // Firebase Configuration
         const firebaseConfig = {
@@ -676,56 +483,31 @@
             database = getDatabase(app);
             firestore = getFirestore(app);
             console.log('✅ Firebase initialized successfully');
-            document.getElementById('loadingStatus').textContent = 'Firebase conectado!';
         } catch (error) {
             console.error('❌ Firebase initialization error:', error);
             addDebugLog('Firebase Init Error: ' + error.message);
-            document.getElementById('loadingStatus').textContent = 'Erro na conexão com Firebase';
-            showAccessDenied();
         }
-
-        // Dark mode setup
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.documentElement.classList.add('dark');
-        }
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-            if (event.matches) {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
-        });
 
         // Global variables
         let currentUser = null;
         let isAdmin = false;
         let products = {};
-        let orders = {};
-        let users = {};
         let categories = {};
-        let currentSection = 'dashboard';
-        let editingProductId = null;
+        let users = {};
         let editingCategoryId = null;
-        let uploadedImageUrl = null;
-        let connectionStatus = 'unknown';
-
-        // Long press delete system
-        let deleteTimers = new Map();
-        let deleteProgressIntervals = new Map();
-
-        // API Key for image upload
-        const apiKeyImgBB = 'e073e02267a1f0259cd69c562e780659';
+        let editingProductId = null;
 
         // Debug system
         let debugLogs = [];
         
         function addDebugLog(message) {
             const timestamp = new Date().toLocaleTimeString();
-            debugLogs.push(`[${timestamp}] ${message}`);
+            const logEntry = `[${timestamp}] ${message}`;
+            debugLogs.push(logEntry);
             console.log(`🐛 ${message}`);
             
-            if (debugLogs.length > 50) {
-                debugLogs = debugLogs.slice(-50); // Keep only last 50 logs
+            if (debugLogs.length > 100) {
+                debugLogs = debugLogs.slice(-100);
             }
             
             updateDebugPanel();
@@ -734,9 +516,10 @@
         function updateDebugPanel() {
             const debugContent = document.getElementById('debugContent');
             if (debugContent) {
-                debugContent.innerHTML = debugLogs.slice(-10).map(log => 
-                    `<div class="text-xs mb-1">${log}</div>`
+                debugContent.innerHTML = debugLogs.slice(-20).map(log => 
+                    `<div class="text-green-300 mb-1">${log}</div>`
                 ).join('');
+                debugContent.scrollTop = debugContent.scrollHeight;
             }
         }
 
@@ -745,10 +528,27 @@
             panel.classList.toggle('hidden');
         }
 
-        // Make toggle function globally available
-        window.toggleDebug = toggleDebug;
+        function clearDebugLogs() {
+            debugLogs = [];
+            updateDebugPanel();
+            addDebugLog('Debug logs cleared');
+        }
 
-        addDebugLog('Sistema de debug inicializado');
+        function exportDebugLogs() {
+            const logsText = debugLogs.join('\n');
+            navigator.clipboard.writeText(logsText).then(() => {
+                addDebugLog('Debug logs copied to clipboard');
+            }).catch(err => {
+                addDebugLog('Failed to copy logs: ' + err.message);
+            });
+        }
+
+        // Make functions globally available
+        window.toggleDebug = toggleDebug;
+        window.clearDebugLogs = clearDebugLogs;
+        window.exportDebugLogs = exportDebugLogs;
+
+        addDebugLog('Debug system initialized');
 
         // Enhanced notification system
         function showNotificationToast(title, message, type = 'info') {
@@ -769,9 +569,7 @@
                         <h4 class="font-semibold">${title}</h4>
                         <p class="text-sm opacity-90">${message}</p>
                     </div>
-                    <button onclick="this.parentElement.parentElement.remove()" class="text-white hover:opacity-75 ml-4 transition-all transform hover:scale-110">
-                        ❌
-                    </button>
+                    <button onclick="this.parentElement.parentElement.remove()" class="text-white hover:opacity-75 ml-4">❌</button>
                 </div>
             `;
             
@@ -784,123 +582,15 @@
             }, 5000);
         }
 
-        // Enhanced Long Press Delete System
-        function startLongPressDelete(itemId, element, type) {
-            addDebugLog(`Starting long press delete for ${type}: ${itemId}`);
-            
-            // Prevent multiple timers for the same element
-            if (deleteTimers.has(element)) {
-                return;
-            }
-            
-            // Visual feedback
-            element.style.position = 'relative';
-            element.style.overflow = 'hidden';
-            element.classList.add('long-press-btn', 'delete-progress');
-            
-            // Store original content
-            const originalContent = element.innerHTML;
-            element.innerHTML = '🗑️ Mantenha pressionado...';
-            element.disabled = true;
-            
-            let progress = 0;
-            const duration = 2000; // 2 seconds
-            const interval = 50; // Update every 50ms
-            const increment = (interval / duration) * 100;
-            
-            // Progress animation
-            const progressInterval = setInterval(() => {
-                progress += increment;
-                element.style.setProperty('--progress', `${progress}%`);
-                
-                if (progress >= 100) {
-                    clearInterval(progressInterval);
-                    deleteProgressIntervals.delete(element);
-                    
-                    // Execute delete
-                    executeDelete(itemId, type);
-                    resetLongPressElement(element, originalContent);
-                }
-            }, interval);
-            
-            // Backup timer
-            const timer = setTimeout(() => {
-                executeDelete(itemId, type);
-                resetLongPressElement(element, originalContent);
-            }, duration);
-            
-            // Store timers
-            deleteTimers.set(element, timer);
-            deleteProgressIntervals.set(element, progressInterval);
-        }
-
-        function cancelLongPressDelete(element) {
-            addDebugLog('Cancelling long press delete');
-            
-            // Get original content
-            const originalContent = element.getAttribute('data-original') || '🗑️';
-            
-            // Clear timers
-            if (deleteTimers.has(element)) {
-                clearTimeout(deleteTimers.get(element));
-                deleteTimers.delete(element);
-            }
-            
-            if (deleteProgressIntervals.has(element)) {
-                clearInterval(deleteProgressIntervals.get(element));
-                deleteProgressIntervals.delete(element);
-            }
-            
-            resetLongPressElement(element, originalContent);
-        }
-
-        function resetLongPressElement(element, originalContent) {
-            // Reset styles and content
-            element.style.removeProperty('--progress');
-            element.classList.remove('long-press-btn', 'delete-progress');
-            element.style.removeProperty('position');
-            element.style.removeProperty('overflow');
-            element.innerHTML = originalContent;
-            element.disabled = false;
-        }
-
-        async function executeDelete(itemId, type) {
-            addDebugLog(`Executing delete: ${type} - ${itemId}`);
-            
-            try {
-                switch (type) {
-                    case 'product':
-                        await deleteProduct(itemId);
-                        break;
-                    case 'category':
-                        await deleteCategory(itemId);
-                        break;
-                    case 'order':
-                        await deleteOrder(itemId);
-                        break;
-                    default:
-                        addDebugLog('Unknown delete type: ' + type);
-                }
-            } catch (error) {
-                addDebugLog('Delete error: ' + error.message);
-                showNotificationToast('Erro', 'Erro ao excluir item: ' + error.message, 'error');
-            }
-        }
-
-        // Make long press functions globally available
-        window.startLongPressDelete = startLongPressDelete;
-        window.cancelLongPressDelete = cancelLongPressDelete;
-
-        // Connection status check
-        async function updateConnectionStatus() {
+        // Connection status
+        function updateConnectionStatus() {
             const statusEl = document.getElementById('connectionStatus');
             
             try {
-                // Test Realtime Database connection
                 const testRef = ref(database, '.info/connected');
                 onValue(testRef, (snapshot) => {
                     const connected = snapshot.val();
-                    connectionStatus = connected ? 'connected' : 'disconnected';
+                    addDebugLog(`Firebase connection status: ${connected}`);
                     
                     if (connected) {
                         statusEl.className = 'mb-6 p-4 rounded-lg border bg-green-50 dark:bg-green-900 border-green-200 dark:border-green-700';
@@ -913,7 +603,6 @@
                                 </div>
                             </div>
                         `;
-                        addDebugLog('Realtime Database connected');
                     } else {
                         statusEl.className = 'mb-6 p-4 rounded-lg border bg-red-50 dark:bg-red-900 border-red-200 dark:border-red-700';
                         statusEl.innerHTML = `
@@ -925,45 +614,64 @@
                                 </div>
                             </div>
                         `;
-                        addDebugLog('Realtime Database disconnected');
                     }
                 });
             } catch (error) {
                 addDebugLog('Connection test error: ' + error.message);
-                statusEl.className = 'mb-6 p-4 rounded-lg border bg-yellow-50 dark:bg-yellow-900 border-yellow-200 dark:border-yellow-700';
-                statusEl.innerHTML = `
-                    <div class="flex items-center">
-                        <div class="text-yellow-500 mr-2">⚠️</div>
-                        <div>
-                            <h4 class="font-medium text-yellow-800 dark:text-yellow-200">Erro de Conexão</h4>
-                            <p class="text-sm text-yellow-600 dark:text-yellow-400">${error.message}</p>
-                        </div>
-                    </div>
-                `;
             }
         }
 
-        // Authentication and admin check with enhanced debugging
+        // Authentication with enhanced debugging
         onAuthStateChanged(auth, async (user) => {
             addDebugLog(`Auth state changed. User: ${user ? user.email : 'null'}`);
             currentUser = user;
             
             if (user) {
                 addDebugLog(`User authenticated: ${user.email}, UID: ${user.uid}`);
+                addDebugLog(`User display name: ${user.displayName}`);
+                addDebugLog(`User photo URL: ${user.photoURL}`);
+                
+                // Update user info in UI
+                updateUserInfo();
+                
+                // Check admin access
                 await checkAdminAccess();
             } else {
                 addDebugLog('No user authenticated, triggering login');
-                // Trigger Google login
-                const provider = new GoogleAuthProvider();
-                try {
-                    addDebugLog('Starting Google sign-in popup');
-                    await signInWithPopup(auth, provider);
-                } catch (error) {
-                    addDebugLog('Login error: ' + error.message);
-                    showAccessDenied();
-                }
+                triggerLogin();
             }
         });
+
+        function updateUserInfo() {
+            const userInfo = document.getElementById('userInfo');
+            const userInfoDetails = document.getElementById('userInfoDetails');
+            
+            if (userInfo) {
+                userInfo.textContent = currentUser.email;
+            }
+            
+            if (userInfoDetails) {
+                userInfoDetails.innerHTML = `
+                    <p><strong>Email:</strong> ${currentUser.email}</p>
+                    <p><strong>UID:</strong> ${currentUser.uid}</p>
+                    <p><strong>Nome:</strong> ${currentUser.displayName || 'Não definido'}</p>
+                    <p><strong>Foto:</strong> ${currentUser.photoURL ? 'Sim' : 'Não'}</p>
+                    <p><strong>Verificado:</strong> ${currentUser.emailVerified ? 'Sim' : 'Não'}</p>
+                `;
+            }
+        }
+
+        async function triggerLogin() {
+            const provider = new GoogleAuthProvider();
+            try {
+                addDebugLog('Starting Google sign-in popup');
+                const result = await signInWithPopup(auth, provider);
+                addDebugLog('Login successful: ' + result.user.email);
+            } catch (error) {
+                addDebugLog('Login error: ' + error.message);
+                showAccessDenied();
+            }
+        }
 
         async function checkAdminAccess() {
             try {
@@ -974,56 +682,61 @@
                 if (currentUser.email === 'sibemcesar@gmail.com') {
                     addDebugLog('Super admin detected by email');
                     isAdmin = true;
-                    await initializeAdminUser();
-                    updateAdminUI();
+                    await ensureAdminAccess();
                     showAdminPanel();
-                    loadData();
-                    updateConnectionStatus();
                     return;
                 }
                 
-                // Check if user is admin in Firestore
-                addDebugLog('Checking Firestore for admin document...');
-                const adminDoc = await getDoc(doc(firestore, 'admins', currentUser.uid));
+                // Check admin documents
+                await checkAdminDocuments();
                 
-                if (adminDoc.exists()) {
-                    addDebugLog('Admin document found in Firestore');
-                    isAdmin = true;
-                    updateAdminUI();
-                    showAdminPanel();
-                    loadData();
-                    updateConnectionStatus();
-                } else {
-                    addDebugLog('Admin document not found in Firestore');
-                    
-                    // Check Realtime Database as fallback
-                    addDebugLog('Checking Realtime Database for admin access...');
-                    const adminRef = ref(database, `admins/${currentUser.uid}`);
-                    onValue(adminRef, (snapshot) => {
-                        if (snapshot.exists()) {
-                            addDebugLog('Admin access found in Realtime Database');
-                            isAdmin = true;
-                            updateAdminUI();
-                            showAdminPanel();
-                            loadData();
-                            updateConnectionStatus();
-                        } else {
-                            addDebugLog('No admin access found in Realtime Database');
-                            showAccessDenied();
-                        }
-                    }, { onlyOnce: true });
-                }
             } catch (error) {
                 addDebugLog('Error checking admin access: ' + error.message);
                 showAccessDenied();
             }
         }
 
-        async function initializeAdminUser() {
+        async function checkAdminDocuments() {
+            addDebugLog('Checking admin documents...');
+            
             try {
-                addDebugLog('Initializing super admin user...');
+                // Check Firestore
+                const firestoreAdminDoc = await getDoc(doc(firestore, 'admins', currentUser.uid));
+                addDebugLog(`Firestore admin doc exists: ${firestoreAdminDoc.exists()}`);
                 
-                // Ensure super admin exists in both databases
+                if (firestoreAdminDoc.exists()) {
+                    addDebugLog('Admin access found in Firestore');
+                    isAdmin = true;
+                    showAdminPanel();
+                    return;
+                }
+                
+                // Check Realtime Database
+                const realtimeAdminRef = ref(database, `admins/${currentUser.uid}`);
+                onValue(realtimeAdminRef, (snapshot) => {
+                    const exists = snapshot.exists();
+                    addDebugLog(`Realtime Database admin doc exists: ${exists}`);
+                    
+                    if (exists) {
+                        addDebugLog('Admin access found in Realtime Database');
+                        isAdmin = true;
+                        showAdminPanel();
+                    } else {
+                        addDebugLog('No admin access found');
+                        showAccessDenied();
+                    }
+                }, { onlyOnce: true });
+                
+            } catch (error) {
+                addDebugLog('Error checking admin documents: ' + error.message);
+                showAccessDenied();
+            }
+        }
+
+        async function ensureAdminAccess() {
+            try {
+                addDebugLog('Ensuring admin access...');
+                
                 const adminData = {
                     email: currentUser.email,
                     name: currentUser.displayName || 'Super Admin',
@@ -1032,58 +745,81 @@
                     lastLogin: Date.now()
                 };
                 
-                // Save to Realtime Database
-                await set(ref(database, `admins/${currentUser.uid}`), adminData);
-                addDebugLog('Super admin saved to Realtime Database');
+                // Save to both databases
+                const promises = [
+                    set(ref(database, `admins/${currentUser.uid}`), adminData),
+                    setDoc(doc(firestore, 'admins', currentUser.uid), adminData)
+                ];
                 
-                // Save to Firestore
-                await setDoc(doc(firestore, 'admins', currentUser.uid), adminData);
-                addDebugLog('Super admin saved to Firestore');
+                await Promise.all(promises);
+                addDebugLog('Admin access ensured in both databases');
                 
             } catch (error) {
-                addDebugLog('Error initializing admin user: ' + error.message);
+                addDebugLog('Error ensuring admin access: ' + error.message);
+                // Continue anyway for super admin
             }
         }
 
-        function updateAdminUI() {
-            addDebugLog('Updating admin UI...');
-            document.getElementById('adminAvatar').src = currentUser.photoURL || 'https://via.placeholder.com/32?text=' + (currentUser.displayName?.charAt(0) || 'A');
-            document.getElementById('adminName').textContent = currentUser.displayName || currentUser.email;
+        // Force admin access function
+        async function forceAdminAccess() {
+            addDebugLog('Forcing admin access...');
+            
+            if (!currentUser) {
+                addDebugLog('No current user, cannot force access');
+                return;
+            }
+            
+            if (currentUser.email !== 'sibemcesar@gmail.com') {
+                addDebugLog('User is not super admin, cannot force access');
+                showNotificationToast('Erro', 'Apenas sibemcesar@gmail.com pode forçar acesso', 'error');
+                return;
+            }
+            
+            try {
+                await ensureAdminAccess();
+                isAdmin = true;
+                showAdminPanel();
+                showNotificationToast('Sucesso', 'Acesso administrativo forçado com sucesso!', 'success');
+            } catch (error) {
+                addDebugLog('Error forcing admin access: ' + error.message);
+                showNotificationToast('Erro', 'Erro ao forçar acesso: ' + error.message, 'error');
+            }
         }
+
+        window.forceAdminAccess = forceAdminAccess;
 
         function showAdminPanel() {
             addDebugLog('Showing admin panel...');
-            loadingScreen.style.opacity = '0';
-            setTimeout(() => {
-                loadingScreen.classList.add('hidden');
-                accessDeniedScreen.classList.add('hidden');
-                adminPanel.classList.remove('hidden');
-                adminPanel.style.opacity = '0';
-                setTimeout(() => {
-                    adminPanel.style.opacity = '1';
-                }, 50);
-            }, 300);
+            document.getElementById('adminStatus').textContent = 'Ativo ✅';
+            document.getElementById('loadingScreen').classList.add('hidden');
+            document.getElementById('accessDeniedScreen').classList.add('hidden');
+            document.getElementById('adminPanel').classList.remove('hidden');
+            
+            // Load data and initialize
+            loadData();
+            updateConnectionStatus();
         }
 
         function showAccessDenied() {
             addDebugLog('Showing access denied screen');
-            loadingScreen.classList.add('hidden');
-            adminPanel.classList.add('hidden');
-            accessDeniedScreen.classList.remove('hidden');
+            document.getElementById('adminStatus').textContent = 'Negado ❌';
+            document.getElementById('loadingScreen').classList.add('hidden');
+            document.getElementById('adminPanel').classList.add('hidden');
+            document.getElementById('accessDeniedScreen').classList.remove('hidden');
         }
 
-        // Load data from Firebase (PRIMARILY Realtime Database)
+        // Data loading
         function loadData() {
             addDebugLog('Loading data from Firebase...');
             
-            // Load categories first
+            // Load categories
             const categoriesRef = ref(database, 'categories');
             onValue(categoriesRef, (snapshot) => {
                 categories = snapshot.val() || {};
                 addDebugLog(`Categories loaded: ${Object.keys(categories).length}`);
                 renderCategories();
+                updateStats();
                 updateProductCategorySelect();
-                updateDashboardStats();
             }, (error) => {
                 addDebugLog('Error loading categories: ' + error.message);
             });
@@ -1094,20 +830,9 @@
                 products = snapshot.val() || {};
                 addDebugLog(`Products loaded: ${Object.keys(products).length}`);
                 renderProducts();
-                updateDashboardStats();
+                updateStats();
             }, (error) => {
                 addDebugLog('Error loading products: ' + error.message);
-            });
-
-            // Load orders
-            const ordersRef = ref(database, 'orders');
-            onValue(ordersRef, (snapshot) => {
-                orders = snapshot.val() || {};
-                addDebugLog(`Orders loaded: ${Object.keys(orders).length}`);
-                renderOrders();
-                updateDashboardStats();
-            }, (error) => {
-                addDebugLog('Error loading orders: ' + error.message);
             });
 
             // Load users
@@ -1115,36 +840,29 @@
             onValue(usersRef, (snapshot) => {
                 users = snapshot.val() || {};
                 addDebugLog(`Users loaded: ${Object.keys(users).length}`);
-                updateDashboardStats();
+                updateStats();
             }, (error) => {
                 addDebugLog('Error loading users: ' + error.message);
             });
         }
 
-        function updateDashboardStats() {
-            const productsCount = Object.keys(products).length;
-            const categoriesCount = Object.keys(categories).length;
-            const ordersArray = Object.values(orders);
-            const pendingCount = ordersArray.filter(order => order.status === 'pending').length;
-            const usersCount = Object.keys(users).length;
-
-            document.getElementById('totalProducts').textContent = productsCount;
-            document.getElementById('totalCategories').textContent = categoriesCount;
-            document.getElementById('pendingOrders').textContent = pendingCount;
-            document.getElementById('totalUsers').textContent = usersCount;
+        function updateStats() {
+            document.getElementById('totalProducts').textContent = Object.keys(products).length;
+            document.getElementById('totalCategories').textContent = Object.keys(categories).length;
+            document.getElementById('totalUsers').textContent = Object.keys(users).length;
         }
 
-        // Categories Management (FIXED with Realtime Database focus)
+        // Categories management
         function renderCategories() {
             const categoriesGrid = document.getElementById('categoriesGrid');
             const categoriesArray = Object.entries(categories).map(([id, category]) => ({ id, ...category }));
             
             if (categoriesArray.length === 0) {
                 categoriesGrid.innerHTML = `
-                    <div class="col-span-full text-center py-12 animate-fade-in">
+                    <div class="col-span-full text-center py-12">
                         <div class="text-4xl mb-4">📂</div>
                         <p class="text-gray-500 dark:text-gray-400">Nenhuma categoria cadastrada</p>
-                        <button onclick="openCategoryModal()" class="mt-4 px-6 py-3 bg-secondary text-white rounded-lg hover:bg-secondary-dark transition-all transform hover:scale-105">
+                        <button onclick="openCategoryModal()" class="mt-4 px-6 py-3 bg-secondary text-white rounded-lg hover:bg-secondary-dark">
                             Criar Primeira Categoria
                         </button>
                     </div>
@@ -1156,7 +874,7 @@
                 const productCount = Object.values(products).filter(p => p.category === category.id).length;
                 
                 return `
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden animate-fade-in hover:shadow-lg transition-all transform hover:scale-105">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-all">
                         <div class="p-6 text-center">
                             <div class="text-4xl mb-4">${category.icon || '📂'}</div>
                             <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">${category.name}</h3>
@@ -1164,18 +882,11 @@
                             <p class="text-xs text-gray-500 dark:text-gray-500 mb-4">${productCount} produtos</p>
                             
                             <div class="flex space-x-2 justify-center">
-                                <button onclick="editCategory('${category.id}')" class="px-3 py-2 bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded text-sm hover:bg-blue-100 dark:hover:bg-blue-800 transition-all transform hover:scale-105">
+                                <button onclick="editCategory('${category.id}')" class="px-3 py-2 bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded text-sm hover:bg-blue-100 dark:hover:bg-blue-800">
                                     ✏️ Editar
                                 </button>
-                                <button 
-                                    data-original="🗑️"
-                                    onmousedown="startLongPressDelete('${category.id}', this, 'category')" 
-                                    onmouseup="cancelLongPressDelete(this)" 
-                                    onmouseleave="cancelLongPressDelete(this)"
-                                    ontouchstart="startLongPressDelete('${category.id}', this, 'category')" 
-                                    ontouchend="cancelLongPressDelete(this)"
-                                    class="px-3 py-2 bg-red-50 dark:bg-red-900 text-red-600 dark:text-red-400 rounded text-sm hover:bg-red-100 dark:hover:bg-red-800 transition-all">
-                                    🗑️
+                                <button onclick="deleteCategory('${category.id}')" class="px-3 py-2 bg-red-50 dark:bg-red-900 text-red-600 dark:text-red-400 rounded text-sm hover:bg-red-100 dark:hover:bg-red-800">
+                                    🗑️ Excluir
                                 </button>
                             </div>
                         </div>
@@ -1210,27 +921,26 @@
                 defaultIconBtn.classList.remove('hover:bg-gray-100', 'dark:hover:bg-gray-700');
             }
             
-            if (categoryId) {
+            if (categoryId && categories[categoryId]) {
                 // Edit mode
                 title.textContent = 'Editar Categoria';
                 const category = categories[categoryId];
-                if (category) {
-                    document.getElementById('categoryName').value = category.name;
-                    document.getElementById('categoryDescription').value = category.description || '';
-                    document.getElementById('categoryIcon').value = category.icon || '📂';
-                    document.getElementById('selectedIcon').textContent = category.icon || '📂';
-                    
-                    // Highlight selected icon
-                    document.querySelectorAll('.icon-btn').forEach(btn => {
-                        btn.classList.remove('bg-primary', 'text-white');
-                        btn.classList.add('hover:bg-gray-100', 'dark:hover:bg-gray-700');
-                    });
-                    
-                    const selectedBtn = document.querySelector(`[data-icon="${category.icon}"]`);
-                    if (selectedBtn) {
-                        selectedBtn.classList.add('bg-primary', 'text-white');
-                        selectedBtn.classList.remove('hover:bg-gray-100', 'dark:hover:bg-gray-700');
-                    }
+                
+                document.getElementById('categoryName').value = category.name;
+                document.getElementById('categoryDescription').value = category.description || '';
+                document.getElementById('categoryIcon').value = category.icon || '📂';
+                document.getElementById('selectedIcon').textContent = category.icon || '📂';
+                
+                // Highlight selected icon
+                document.querySelectorAll('.icon-btn').forEach(btn => {
+                    btn.classList.remove('bg-primary', 'text-white');
+                    btn.classList.add('hover:bg-gray-100', 'dark:hover:bg-gray-700');
+                });
+                
+                const selectedBtn = document.querySelector(`[data-icon="${category.icon}"]`);
+                if (selectedBtn) {
+                    selectedBtn.classList.add('bg-primary', 'text-white');
+                    selectedBtn.classList.remove('hover:bg-gray-100', 'dark:hover:bg-gray-700');
                 }
             } else {
                 // Add mode
@@ -1240,7 +950,12 @@
             modal.classList.remove('hidden');
         }
 
-        // Enhanced category form submission - FOCUSED ON REALTIME DATABASE
+        function closeCategoryModal() {
+            document.getElementById('categoryModal').classList.add('hidden');
+            editingCategoryId = null;
+        }
+
+        // Category form submission
         document.getElementById('categoryForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             addDebugLog('Category form submitted');
@@ -1249,8 +964,14 @@
             const saveText = document.getElementById('saveCategoryText');
             const saveLoader = document.getElementById('saveCategoryLoader');
             
-            // Enhanced validation
+            // Get form data
             const name = document.getElementById('categoryName').value.trim();
+            const icon = document.getElementById('categoryIcon').value;
+            const description = document.getElementById('categoryDescription').value.trim();
+            
+            addDebugLog(`Form data - Name: ${name}, Icon: ${icon}, Description: ${description}`);
+            
+            // Validation
             if (!name) {
                 addDebugLog('Validation error: empty category name');
                 showNotificationToast('Erro', 'Por favor, insira o nome da categoria.', 'error');
@@ -1275,14 +996,14 @@
                     categoryId = editingCategoryId;
                     addDebugLog(`Editing existing category: ${categoryId}`);
                 } else {
-                    // Generate a safe and unique category ID
+                    // Generate a safe category ID
                     categoryId = name.toLowerCase()
-                        .normalize('NFD') // Normalize unicode
-                        .replace(/[\u0300-\u036f]/g, '') // Remove accents
-                        .replace(/[^a-z0-9]/g, '_') // Replace non-alphanumeric with underscore
-                        .replace(/_+/g, '_') // Replace multiple underscores with single
-                        .replace(/^_|_$/g, '') // Remove leading/trailing underscores
-                        .slice(0, 50); // Limit length
+                        .normalize('NFD')
+                        .replace(/[\u0300-\u036f]/g, '')
+                        .replace(/[^a-z0-9]/g, '_')
+                        .replace(/_+/g, '_')
+                        .replace(/^_|_$/g, '')
+                        .slice(0, 50);
                     
                     // Ensure uniqueness
                     if (categories[categoryId]) {
@@ -1300,8 +1021,8 @@
                 const categoryData = {
                     id: categoryId,
                     name: name,
-                    icon: document.getElementById('categoryIcon').value,
-                    description: document.getElementById('categoryDescription').value.trim() || '',
+                    icon: icon,
+                    description: description,
                     updatedAt: Date.now()
                 };
 
@@ -1309,16 +1030,18 @@
                     categoryData.createdAt = Date.now();
                 }
 
-                addDebugLog(`Saving category data: ${JSON.stringify(categoryData)}`);
+                addDebugLog(`Saving category data to path: categories/${categoryId}`);
+                addDebugLog(`Category data: ${JSON.stringify(categoryData)}`);
 
-                // PRIORITY: Save to Realtime Database first
-                await set(ref(database, `categories/${categoryId}`), categoryData);
-                addDebugLog('Category saved to Realtime Database');
+                // Save to Realtime Database (priority)
+                const dbRef = ref(database, `categories/${categoryId}`);
+                await set(dbRef, categoryData);
+                addDebugLog('Category saved to Realtime Database successfully');
 
-                // SECONDARY: Try to save to Firestore (non-blocking)
+                // Try to save to Firestore (secondary)
                 try {
                     await setDoc(doc(firestore, 'categories', categoryId), categoryData);
-                    addDebugLog('Category saved to Firestore');
+                    addDebugLog('Category saved to Firestore successfully');
                 } catch (firestoreError) {
                     addDebugLog('Firestore save failed (non-critical): ' + firestoreError.message);
                 }
@@ -1327,9 +1050,10 @@
                 showNotificationToast('Sucesso', `Categoria "${name}" ${action} com sucesso!`, 'success');
                 
                 closeCategoryModal();
-                updateProductCategorySelect();
+                
             } catch (error) {
                 addDebugLog('Error saving category: ' + error.message);
+                addDebugLog('Error details: ' + JSON.stringify(error));
                 showNotificationToast('Erro', 'Erro ao salvar categoria: ' + error.message, 'error');
             } finally {
                 // Reset loading state
@@ -1339,9 +1063,83 @@
             }
         });
 
-        function closeCategoryModal() {
-            document.getElementById('categoryModal').classList.add('hidden');
-            editingCategoryId = null;
+        // Products management
+        function renderProducts() {
+            const productsGrid = document.getElementById('productsGrid');
+            const productsArray = Object.entries(products).map(([id, product]) => ({ id, ...product }));
+            
+            if (productsArray.length === 0) {
+                productsGrid.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <div class="text-4xl mb-4">📦</div>
+                        <p class="text-gray-500 dark:text-gray-400">Nenhum produto cadastrado</p>
+                        <button onclick="openProductModal()" class="mt-4 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark">
+                            Adicionar Primeiro Produto
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            productsGrid.innerHTML = productsArray.map(product => {
+                const category = categories[product.category];
+                return `
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-all">
+                        <div class="p-4">
+                            <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">${product.name}</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">${category ? `${category.icon} ${category.name}` : 'Sem categoria'}</p>
+                            <p class="text-lg font-bold text-primary mb-2">${formatPrice(product.price || 0)}</p>
+                            <p class="text-xs text-gray-500 mb-4">Estoque: ${product.stock || 0}</p>
+                            
+                            <div class="flex space-x-2">
+                                <button onclick="editProduct('${product.id}')" class="flex-1 bg-blue-50 text-blue-600 py-2 px-3 rounded text-sm hover:bg-blue-100">
+                                    ✏️ Editar
+                                </button>
+                                <button onclick="deleteProduct('${product.id}')" class="bg-red-50 text-red-600 py-2 px-3 rounded text-sm hover:bg-red-100">
+                                    🗑️
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openProductModal(productId = null) {
+            addDebugLog(`Opening product modal. Edit ID: ${productId}`);
+            editingProductId = productId;
+            
+            const modal = document.getElementById('productModal');
+            const title = document.getElementById('productModalTitle');
+            const form = document.getElementById('productForm');
+            
+            // Reset form
+            form.reset();
+            
+            // Update category options
+            updateProductCategorySelect();
+            
+            if (productId && products[productId]) {
+                // Edit mode
+                title.textContent = 'Editar Produto';
+                const product = products[productId];
+                
+                document.getElementById('productName').value = product.name;
+                document.getElementById('productCategory').value = product.category;
+                document.getElementById('productPrice').value = product.price;
+                document.getElementById('productStock').value = product.stock;
+                document.getElementById('productDescription').value = product.description || '';
+            } else {
+                // Add mode
+                title.textContent = 'Adicionar Produto';
+            }
+            
+            modal.classList.remove('hidden');
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').classList.add('hidden');
+            editingProductId = null;
         }
 
         function updateProductCategorySelect() {
@@ -1360,39 +1158,233 @@
             addDebugLog(`Product category select updated with ${categoriesArray.length} categories`);
         }
 
-        async function deleteCategory(categoryId) {
+        // Product form submission
+        document.getElementById('productForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            addDebugLog('Product form submitted');
+            
+            const saveBtn = document.getElementById('saveProductBtn');
+            const saveText = document.getElementById('saveProductText');
+            const saveLoader = document.getElementById('saveProductLoader');
+            
+            // Get form data
+            const name = document.getElementById('productName').value.trim();
+            const category = document.getElementById('productCategory').value;
+            const price = parseFloat(document.getElementById('productPrice').value);
+            const stock = parseInt(document.getElementById('productStock').value);
+            const description = document.getElementById('productDescription').value.trim();
+            
+            addDebugLog(`Form data - Name: ${name}, Category: ${category}, Price: ${price}, Stock: ${stock}`);
+            
+            // Validation
+            if (!name) {
+                addDebugLog('Validation error: empty product name');
+                showNotificationToast('Erro', 'Por favor, insira o nome do produto.', 'error');
+                return;
+            }
+            
+            if (!category) {
+                addDebugLog('Validation error: no category selected');
+                showNotificationToast('Erro', 'Por favor, selecione uma categoria.', 'error');
+                return;
+            }
+            
+            if (isNaN(price) || price <= 0) {
+                addDebugLog('Validation error: invalid price');
+                showNotificationToast('Erro', 'Por favor, insira um preço válido.', 'error');
+                return;
+            }
+            
+            if (isNaN(stock) || stock < 0) {
+                addDebugLog('Validation error: invalid stock');
+                showNotificationToast('Erro', 'Por favor, insira um estoque válido.', 'error');
+                return;
+            }
+            
+            // Show loading state
+            saveText.classList.add('hidden');
+            saveLoader.classList.remove('hidden');
+            saveBtn.disabled = true;
+            
             try {
-                addDebugLog(`Deleting category: ${categoryId}`);
+                const productData = {
+                    name: name,
+                    category: category,
+                    price: price,
+                    stock: stock,
+                    description: description,
+                    updatedAt: Date.now()
+                };
+
+                if (editingProductId) {
+                    // Update existing product
+                    addDebugLog(`Updating product: ${editingProductId}`);
+                    
+                    await update(ref(database, `products/${editingProductId}`), productData);
+                    addDebugLog('Product updated in Realtime Database');
+                    
+                    showNotificationToast('Sucesso', 'Produto atualizado com sucesso!', 'success');
+                } else {
+                    // Create new product
+                    addDebugLog('Creating new product');
+                    productData.createdAt = Date.now();
+                    
+                    const newProductRef = push(ref(database, 'products'));
+                    const productId = newProductRef.key;
+                    
+                    await set(newProductRef, productData);
+                    addDebugLog('Product created in Realtime Database with ID: ' + productId);
+                    
+                    showNotificationToast('Sucesso', 'Produto adicionado com sucesso!', 'success');
+                }
+
+                closeProductModal();
                 
-                const category = categories[categoryId];
-                const productCount = Object.values(products).filter(p => p.category === categoryId).length;
-                
-                // PRIORITY: Delete from Realtime Database
+            } catch (error) {
+                addDebugLog('Error saving product: ' + error.message);
+                showNotificationToast('Erro', 'Erro ao salvar produto: ' + error.message, 'error');
+            } finally {
+                // Reset loading state
+                saveText.classList.remove('hidden');
+                saveLoader.classList.add('hidden');
+                saveBtn.disabled = false;
+            }
+        });
+
+        // Delete functions
+        async function deleteCategory(categoryId) {
+            addDebugLog(`Deleting category: ${categoryId}`);
+            
+            if (!confirm('Tem certeza que deseja excluir esta categoria?')) {
+                return;
+            }
+            
+            try {
                 await remove(ref(database, `categories/${categoryId}`));
-                addDebugLog('Category deleted from Realtime Database');
-                
-                // SECONDARY: Try to delete from Firestore (non-blocking)
-                try {
-                    await deleteDoc(doc(firestore, 'categories', categoryId));
-                    addDebugLog('Category deleted from Firestore');
-                } catch (firestoreError) {
-                    addDebugLog('Firestore delete failed (non-critical): ' + firestoreError.message);
-                }
-                
-                showNotificationToast('Sucesso', `Categoria "${category?.name}" excluída com sucesso!`, 'success');
-                
-                if (productCount > 0) {
-                    showNotificationToast('Aviso', `${productCount} produto(s) ficaram sem categoria`, 'warning');
-                }
-                
-                updateProductCategorySelect();
+                addDebugLog('Category deleted successfully');
+                showNotificationToast('Sucesso', 'Categoria excluída com sucesso!', 'success');
             } catch (error) {
                 addDebugLog('Error deleting category: ' + error.message);
                 showNotificationToast('Erro', 'Erro ao excluir categoria: ' + error.message, 'error');
             }
         }
 
-        // Icon selection for categories
+        async function deleteProduct(productId) {
+            addDebugLog(`Deleting product: ${productId}`);
+            
+            if (!confirm('Tem certeza que deseja excluir este produto?')) {
+                return;
+            }
+            
+            try {
+                await remove(ref(database, `products/${productId}`));
+                addDebugLog('Product deleted successfully');
+                showNotificationToast('Sucesso', 'Produto excluído com sucesso!', 'success');
+            } catch (error) {
+                addDebugLog('Error deleting product: ' + error.message);
+                showNotificationToast('Erro', 'Erro ao excluir produto: ' + error.message, 'error');
+            }
+        }
+
+        // Test functions
+        async function testConnection() {
+            addDebugLog('Testing Firebase connection...');
+            showNotificationToast('Teste', 'Testando conexão...', 'info');
+            
+            try {
+                const testRef = ref(database, `test/${Date.now()}`);
+                await set(testRef, { test: true, timestamp: Date.now() });
+                addDebugLog('Connection test successful');
+                
+                await remove(testRef);
+                addDebugLog('Test data cleaned up');
+                
+                showNotificationToast('Sucesso', 'Conexão funcionando!', 'success');
+            } catch (error) {
+                addDebugLog('Connection test failed: ' + error.message);
+                showNotificationToast('Erro', 'Falha na conexão: ' + error.message, 'error');
+            }
+        }
+
+        async function testAdminAccess() {
+            addDebugLog('Testing admin access...');
+            showNotificationToast('Teste', 'Testando permissões administrativas...', 'info');
+            
+            try {
+                // Test write to admins path
+                const testRef = ref(database, `admins/${currentUser.uid}/test`);
+                await set(testRef, { test: true, timestamp: Date.now() });
+                addDebugLog('Admin write test successful');
+                
+                await remove(testRef);
+                addDebugLog('Admin test data cleaned up');
+                
+                showNotificationToast('Sucesso', 'Permissões administrativas funcionando!', 'success');
+            } catch (error) {
+                addDebugLog('Admin access test failed: ' + error.message);
+                showNotificationToast('Erro', 'Falha nas permissões: ' + error.message, 'error');
+            }
+        }
+
+        async function testCategoryCreation() {
+            addDebugLog('Testing category creation...');
+            showNotificationToast('Teste', 'Testando criação de categoria...', 'info');
+            
+            try {
+                const testCategoryId = `test_category_${Date.now()}`;
+                const testCategoryData = {
+                    id: testCategoryId,
+                    name: 'Categoria de Teste',
+                    icon: '🧪',
+                    description: 'Esta é uma categoria de teste',
+                    createdAt: Date.now(),
+                    updatedAt: Date.now()
+                };
+                
+                addDebugLog(`Creating test category with ID: ${testCategoryId}`);
+                
+                const categoryRef = ref(database, `categories/${testCategoryId}`);
+                await set(categoryRef, testCategoryData);
+                addDebugLog('Test category created successfully');
+                
+                // Clean up
+                await remove(categoryRef);
+                addDebugLog('Test category cleaned up');
+                
+                showNotificationToast('Sucesso', 'Criação de categoria funcionando!', 'success');
+            } catch (error) {
+                addDebugLog('Category creation test failed: ' + error.message);
+                showNotificationToast('Erro', 'Falha na criação: ' + error.message, 'error');
+            }
+        }
+
+        async function sendTestNotification() {
+            addDebugLog('Sending test notification...');
+            showNotificationToast('Teste', 'Esta é uma notificação de teste!', 'success');
+        }
+
+        // Navigation
+        function showSection(section) {
+            addDebugLog(`Showing section: ${section}`);
+            
+            // Hide all sections
+            ['dashboard', 'products', 'categories', 'notifications'].forEach(sec => {
+                document.getElementById(`${sec}Section`).classList.add('hidden');
+            });
+            
+            // Show target section
+            document.getElementById(`${section}Section`).classList.remove('hidden');
+            
+            // Update navigation
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-primary');
+                btn.classList.add('text-gray-700', 'dark:text-gray-300');
+            });
+            
+            document.getElementById(`${section}Btn`)?.classList.add('text-primary');
+        }
+
+        // Icon selection
         document.addEventListener('click', (e) => {
             if (e.target.classList.contains('icon-btn')) {
                 e.preventDefault();
@@ -1416,699 +1408,32 @@
             }
         });
 
-        // Products Management (FIXED with Realtime Database focus)
-        function renderProducts() {
-            const productsGrid = document.getElementById('productsGrid');
-            const productsArray = Object.entries(products).map(([id, product]) => ({ id, ...product }));
-            
-            if (productsArray.length === 0) {
-                productsGrid.innerHTML = `
-                    <div class="col-span-full text-center py-12 animate-fade-in">
-                        <div class="text-4xl mb-4">📦</div>
-                        <p class="text-gray-500 dark:text-gray-400">Nenhum produto cadastrado</p>
-                        <button onclick="openProductModal()" class="mt-4 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all transform hover:scale-105">
-                            Adicionar Primeiro Produto
-                        </button>
-                    </div>
-                `;
-                return;
-            }
-
-            productsGrid.innerHTML = productsArray.map(product => {
-                const hasDiscount = product.oldPrice && product.oldPrice > product.price;
-                const discountPercent = hasDiscount ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100) : 0;
-                const category = categories[product.category];
-                
-                return `
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden animate-fade-in hover:shadow-lg transition-all transform hover:scale-105">
-                        <div class="relative aspect-w-1 aspect-h-1 w-full h-48 bg-gray-200 dark:bg-gray-700">
-                            ${product.image ? 
-                                `<img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover">` :
-                                `<div class="w-full h-full flex items-center justify-center">
-                                    <div class="text-3xl text-gray-400">🖼️</div>
-                                </div>`
-                            }
-                            ${hasDiscount ? `
-                                <div class="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded text-xs font-bold animate-bounce-in">
-                                    -${discountPercent}%
-                                </div>
-                            ` : ''}
-                            ${product.stock === 0 ? `
-                                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                                    <span class="text-white font-bold">Esgotado</span>
-                                </div>
-                            ` : ''}
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2 line-clamp-2">${product.name}</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">${category ? `${category.icon} ${category.name}` : 'Sem categoria'}</p>
-                            
-                            <div class="flex items-center space-x-2 mb-2">
-                                <span class="text-lg font-bold text-primary">${formatPrice(product.price)}</span>
-                                ${hasDiscount ? `<span class="text-sm text-gray-400 line-through">${formatPrice(product.oldPrice)}</span>` : ''}
-                            </div>
-                            
-                            <div class="flex items-center justify-between mb-3">
-                                <span class="text-xs text-gray-500 dark:text-gray-400">
-                                    📦 ${product.stock} em estoque
-                                </span>
-                            </div>
-                            
-                            <div class="flex space-x-2">
-                                <button onclick="editProduct('${product.id}')" class="flex-1 bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-400 py-2 px-3 rounded text-sm hover:bg-blue-100 dark:hover:bg-blue-800 transition-all transform hover:scale-105">
-                                    ✏️ Editar
-                                </button>
-                                <button 
-                                    data-original="🗑️"
-                                    onmousedown="startLongPressDelete('${product.id}', this, 'product')" 
-                                    onmouseup="cancelLongPressDelete(this)" 
-                                    onmouseleave="cancelLongPressDelete(this)"
-                                    ontouchstart="startLongPressDelete('${product.id}', this, 'product')" 
-                                    ontouchend="cancelLongPressDelete(this)"
-                                    class="bg-red-50 dark:bg-red-900 text-red-600 dark:text-red-400 py-2 px-3 rounded text-sm hover:bg-red-100 dark:hover:bg-red-800 transition-all">
-                                    🗑️
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function openProductModal(productId = null) {
-            addDebugLog(`Opening product modal. Edit ID: ${productId}`);
-            editingProductId = productId;
-            uploadedImageUrl = null;
-            
-            const modal = document.getElementById('productModal');
-            const title = document.getElementById('productModalTitle');
-            const form = document.getElementById('productForm');
-            const imagePreview = document.getElementById('imagePreview');
-            
-            // Reset form
-            form.reset();
-            imagePreview.innerHTML = `
-                <div class="w-32 h-32 mx-auto bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-                    <div class="text-3xl text-gray-400">📷</div>
-                </div>
-            `;
-            
-            // Update category options
-            updateProductCategorySelect();
-            
-            if (productId) {
-                // Edit mode
-                title.textContent = 'Editar Produto';
-                const product = products[productId];
-                if (product) {
-                    document.getElementById('productName').value = product.name;
-                    document.getElementById('productCategory').value = product.category;
-                    document.getElementById('productPrice').value = product.price;
-                    document.getElementById('productOldPrice').value = product.oldPrice || '';
-                    document.getElementById('productStock').value = product.stock;
-                    document.getElementById('productDescription').value = product.description || '';
-                    
-                    if (product.image) {
-                        imagePreview.innerHTML = `<img src="${product.image}" alt="Preview" class="w-32 h-32 mx-auto rounded-lg object-cover">`;
-                        uploadedImageUrl = product.image;
-                    }
-                }
-            } else {
-                // Add mode
-                title.textContent = 'Adicionar Produto';
-            }
-            
-            modal.classList.remove('hidden');
-        }
-
-        // Enhanced product image upload with better validation
-        document.getElementById('productImage').addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            addDebugLog(`Image upload started. File: ${file.name}, Size: ${file.size}`);
-
-            // Enhanced validation
-            if (file.size > 5 * 1024 * 1024) {
-                addDebugLog('Image too large');
-                showNotificationToast('Erro', 'Imagem muito grande. O tamanho máximo é 5MB.', 'error');
-                e.target.value = '';
-                return;
-            }
-
-            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-            if (!allowedTypes.includes(file.type)) {
-                addDebugLog('Invalid image format');
-                showNotificationToast('Erro', 'Formato não suportado. Use JPG, PNG ou WebP.', 'error');
-                e.target.value = '';
-                return;
-            }
-
-            // Show preview immediately
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const preview = document.getElementById('imagePreview');
-                preview.innerHTML = `<img src="${e.target.result}" alt="Preview" class="w-32 h-32 mx-auto rounded-lg object-cover">`;
-                preview.style.transform = 'scale(1.1)';
-                setTimeout(() => {
-                    preview.style.transform = 'scale(1)';
-                }, 200);
-            };
-            reader.readAsDataURL(file);
-
-            // Upload to ImgBB with progress feedback
-            try {
-                showNotificationToast('Upload', 'Fazendo upload da imagem...', 'info');
-                
-                const formData = new FormData();
-                formData.append('image', file);
-
-                const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKeyImgBB}`, {
-                    method: 'POST',
-                    body: formData
-                });
-
-                const result = await response.json();
-                if (result.success) {
-                    uploadedImageUrl = result.data.url;
-                    addDebugLog('Image uploaded successfully: ' + uploadedImageUrl);
-                    showNotificationToast('Sucesso', 'Imagem carregada com sucesso!', 'success');
-                } else {
-                    throw new Error(result.error?.message || 'Falha no upload');
-                }
-            } catch (error) {
-                addDebugLog('Image upload error: ' + error.message);
-                showNotificationToast('Erro', 'Erro ao fazer upload da imagem: ' + error.message, 'error');
-                e.target.value = '';
-                // Reset preview
-                document.getElementById('imagePreview').innerHTML = `
-                    <div class="w-32 h-32 mx-auto bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-                        <div class="text-3xl text-gray-400">📷</div>
-                    </div>
-                `;
-            }
-        });
-
-        // Enhanced product form submission - FOCUSED ON REALTIME DATABASE
-        document.getElementById('productForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            addDebugLog('Product form submitted');
-            
-            const saveBtn = document.getElementById('saveProductBtn');
-            const saveText = document.getElementById('saveProductText');
-            const saveLoader = document.getElementById('saveProductLoader');
-            
-            // Comprehensive validation
-            const name = document.getElementById('productName').value.trim();
-            const category = document.getElementById('productCategory').value;
-            const price = parseFloat(document.getElementById('productPrice').value);
-            const oldPrice = parseFloat(document.getElementById('productOldPrice').value);
-            const stock = parseInt(document.getElementById('productStock').value);
-            
-            if (!name) {
-                addDebugLog('Validation error: empty product name');
-                showNotificationToast('Erro', 'Por favor, insira o nome do produto.', 'error');
-                return;
-            }
-            
-            if (name.length < 2) {
-                addDebugLog('Validation error: product name too short');
-                showNotificationToast('Erro', 'O nome do produto deve ter pelo menos 2 caracteres.', 'error');
-                return;
-            }
-            
-            if (!category) {
-                addDebugLog('Validation error: no category selected');
-                showNotificationToast('Erro', 'Por favor, selecione uma categoria.', 'error');
-                return;
-            }
-            
-            if (isNaN(price) || price <= 0) {
-                addDebugLog('Validation error: invalid price');
-                showNotificationToast('Erro', 'Por favor, insira um preço válido maior que zero.', 'error');
-                return;
-            }
-            
-            if (oldPrice && oldPrice <= price) {
-                addDebugLog('Validation error: old price not greater than current price');
-                showNotificationToast('Erro', 'O preço antigo deve ser maior que o preço atual.', 'error');
-                return;
-            }
-            
-            if (isNaN(stock) || stock < 0) {
-                addDebugLog('Validation error: invalid stock');
-                showNotificationToast('Erro', 'Por favor, insira um estoque válido (0 ou maior).', 'error');
-                return;
-            }
-            
-            // Show loading state
-            saveText.classList.add('hidden');
-            saveLoader.classList.remove('hidden');
-            saveBtn.disabled = true;
-            
-            try {
-                const productData = {
-                    name: name,
-                    category: category,
-                    price: price,
-                    oldPrice: oldPrice || null,
-                    stock: stock,
-                    description: document.getElementById('productDescription').value.trim() || '',
-                    image: uploadedImageUrl || (editingProductId ? products[editingProductId]?.image : null),
-                    updatedAt: Date.now()
-                };
-
-                if (!editingProductId) {
-                    productData.createdAt = Date.now();
-                }
-
-                addDebugLog(`Saving product data: ${JSON.stringify(productData)}`);
-
-                if (editingProductId) {
-                    // Update existing product
-                    addDebugLog(`Updating product: ${editingProductId}`);
-                    
-                    // PRIORITY: Update in Realtime Database
-                    await update(ref(database, `products/${editingProductId}`), productData);
-                    addDebugLog('Product updated in Realtime Database');
-                    
-                    // SECONDARY: Try to update in Firestore (non-blocking)
-                    try {
-                        await setDoc(doc(firestore, 'products', editingProductId), productData, { merge: true });
-                        addDebugLog('Product updated in Firestore');
-                    } catch (firestoreError) {
-                        addDebugLog('Firestore update failed (non-critical): ' + firestoreError.message);
-                    }
-                    
-                    showNotificationToast('Sucesso', 'Produto atualizado com sucesso!', 'success');
-                } else {
-                    // Create new product
-                    addDebugLog('Creating new product');
-                    
-                    // PRIORITY: Create in Realtime Database
-                    const newProductRef = push(ref(database, 'products'));
-                    const productId = newProductRef.key;
-                    
-                    await set(newProductRef, productData);
-                    addDebugLog('Product created in Realtime Database with ID: ' + productId);
-                    
-                    // SECONDARY: Try to create in Firestore (non-blocking)
-                    try {
-                        await setDoc(doc(firestore, 'products', productId), productData);
-                        addDebugLog('Product created in Firestore');
-                    } catch (firestoreError) {
-                        addDebugLog('Firestore create failed (non-critical): ' + firestoreError.message);
-                    }
-                    
-                    showNotificationToast('Sucesso', 'Produto adicionado com sucesso!', 'success');
-                }
-
-                closeProductModal();
-            } catch (error) {
-                addDebugLog('Error saving product: ' + error.message);
-                showNotificationToast('Erro', 'Erro ao salvar produto: ' + error.message, 'error');
-            } finally {
-                // Reset loading state
-                saveText.classList.remove('hidden');
-                saveLoader.classList.add('hidden');
-                saveBtn.disabled = false;
-            }
-        });
-
-        function closeProductModal() {
-            document.getElementById('productModal').classList.add('hidden');
-            editingProductId = null;
-            uploadedImageUrl = null;
-        }
-
-        async function deleteProduct(productId) {
-            try {
-                addDebugLog(`Deleting product: ${productId}`);
-                
-                const product = products[productId];
-                
-                // PRIORITY: Delete from Realtime Database
-                await remove(ref(database, `products/${productId}`));
-                addDebugLog('Product deleted from Realtime Database');
-                
-                // SECONDARY: Try to delete from Firestore (non-blocking)
-                try {
-                    await deleteDoc(doc(firestore, 'products', productId));
-                    addDebugLog('Product deleted from Firestore');
-                } catch (firestoreError) {
-                    addDebugLog('Firestore delete failed (non-critical): ' + firestoreError.message);
-                }
-                
-                showNotificationToast('Sucesso', `Produto "${product?.name}" excluído com sucesso!`, 'success');
-            } catch (error) {
-                addDebugLog('Error deleting product: ' + error.message);
-                showNotificationToast('Erro', 'Erro ao excluir produto: ' + error.message, 'error');
-            }
-        }
-
-        // Basic implementations for orders and notifications
-        function renderOrders() {
-            const ordersGrid = document.getElementById('ordersGrid');
-            const ordersArray = Object.entries(orders).map(([id, order]) => ({ id, ...order }));
-            
-            if (ordersArray.length === 0) {
-                ordersGrid.innerHTML = `
-                    <div class="text-center py-12 animate-fade-in">
-                        <div class="text-4xl mb-4">🛒</div>
-                        <p class="text-gray-500 dark:text-gray-400">Nenhum pedido encontrado</p>
-                    </div>
-                `;
-                return;
-            }
-
-            ordersGrid.innerHTML = ordersArray.slice(0, 10).map(order => `
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 animate-fade-in">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="font-semibold text-gray-800 dark:text-gray-200">Pedido #${order.id.slice(-6)}</h3>
-                        <span class="px-2 py-1 text-xs rounded ${getOrderStatusColor(order.status)}">${getOrderStatusText(order.status)}</span>
-                    </div>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">Cliente: ${order.customer?.name || 'N/A'}</p>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">Total: ${formatPrice(order.total || 0)}</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-500">${new Date(order.createdAt || Date.now()).toLocaleDateString('pt-BR')}</p>
-                </div>
-            `).join('');
-        }
-
-        function getOrderStatusColor(status) {
-            switch (status) {
-                case 'pending': return 'bg-yellow-100 text-yellow-800';
-                case 'approved': return 'bg-blue-100 text-blue-800';
-                case 'delivered': return 'bg-green-100 text-green-800';
-                case 'rejected': return 'bg-red-100 text-red-800';
-                default: return 'bg-gray-100 text-gray-800';
-            }
-        }
-
-        function getOrderStatusText(status) {
-            switch (status) {
-                case 'pending': return 'Pendente';
-                case 'approved': return 'Aprovado';
-                case 'delivered': return 'Entregue';
-                case 'rejected': return 'Rejeitado';
-                default: return 'Desconhecido';
-            }
-        }
-
-        // Test functions
-        async function testConnection() {
-            addDebugLog('Testing Firebase connection...');
-            showNotificationToast('Teste', 'Testando conexão com Firebase...', 'info');
-            
-            try {
-                // Test write to Realtime Database
-                const testRef = ref(database, `test/${Date.now()}`);
-                await set(testRef, { test: true, timestamp: Date.now() });
-                addDebugLog('Realtime Database write test successful');
-                
-                // Clean up test data
-                await remove(testRef);
-                addDebugLog('Test data cleaned up');
-                
-                showNotificationToast('Sucesso', 'Conexão com Firebase funcionando!', 'success');
-            } catch (error) {
-                addDebugLog('Connection test failed: ' + error.message);
-                showNotificationToast('Erro', 'Falha na conexão: ' + error.message, 'error');
-            }
-        }
-
-        async function sendTestNotification() {
-            addDebugLog('Sending test notification...');
-            
-            try {
-                const notificationData = {
-                    title: '🧪 Teste de Notificação',
-                    message: 'Esta é uma notificação de teste enviada pelo admin.',
-                    type: 'info',
-                    timestamp: Date.now(),
-                    read: false,
-                    adminId: currentUser.uid,
-                    adminName: currentUser.displayName || currentUser.email,
-                    isTest: true
-                };
-                
-                const notificationId = `test_${Date.now()}`;
-                
-                // Send only to current user (self-test)
-                await set(ref(database, `notifications/${currentUser.uid}/${notificationId}`), notificationData);
-                addDebugLog('Test notification sent to self');
-                
-                showNotificationToast('Sucesso', 'Notificação de teste enviada!', 'success');
-            } catch (error) {
-                addDebugLog('Test notification failed: ' + error.message);
-                showNotificationToast('Erro', 'Falha ao enviar notificação: ' + error.message, 'error');
-            }
-        }
-
-        // Navigation and UI functions
-        function showSection(section) {
-            addDebugLog(`Showing section: ${section}`);
-            
-            // Hide all sections
-            ['dashboard', 'products', 'categories', 'orders', 'notifications'].forEach(sec => {
-                document.getElementById(`${sec}Section`).classList.add('hidden');
-            });
-            
-            // Show target section
-            document.getElementById(`${section}Section`).classList.remove('hidden');
-            currentSection = section;
-            
-            // Update navigation
-            document.querySelectorAll('.nav-btn, .mobile-nav-btn').forEach(btn => {
-                btn.classList.remove('text-primary', 'bg-primary', 'bg-opacity-10');
-                btn.classList.add('text-gray-700', 'dark:text-gray-300');
-            });
-            
-            // Activate current section
-            document.getElementById(`${section}Btn`)?.classList.add('text-primary');
-            document.getElementById(`mobile${section.charAt(0).toUpperCase() + section.slice(1)}Btn`)?.classList.add('text-primary', 'bg-primary', 'bg-opacity-10');
-            
-            // Load section-specific data
-            if (section === 'categories') {
-                renderCategories();
-            } else if (section === 'products') {
-                renderProducts();
-            } else if (section === 'orders') {
-                renderOrders();
-            }
-        }
-
         // Utility functions
         function formatPrice(price) {
             return `${Math.round(price).toLocaleString('pt-AO')} Kz`;
         }
 
-        function showCustomAlert(message) {
-            const modal = document.createElement('div');
-            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
-            modal.innerHTML = `
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full animate-scale-in">
-                    <p class="text-gray-700 dark:text-gray-300 mb-4">${message}</p>
-                    <div class="flex justify-end">
-                        <button class="px-4 py-2 bg-primary text-white hover:bg-primary-dark rounded transition-all transform hover:scale-105" onclick="this.closest('.fixed').remove()">OK</button>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(modal);
-        }
-
-        // Notification templates
-        function useNotificationTemplate(template) {
-            const templates = {
-                promotion: {
-                    title: '🎉 Promoção Especial!',
-                    message: 'Não perca! Descontos de até 50% em produtos selecionados. Aproveite agora!',
-                    type: 'warning'
-                },
-                order_update: {
-                    title: '📦 Atualização do Pedido',
-                    message: 'Seu pedido foi atualizado. Verifique o status na seção de pedidos.',
-                    type: 'info'
-                },
-                new_product: {
-                    title: '✨ Novo Produto Disponível',
-                    message: 'Acabou de chegar! Confira nosso mais novo produto na loja.',
-                    type: 'success'
-                },
-                maintenance: {
-                    title: '⚠️ Manutenção Programada',
-                    message: 'Sistema em manutenção das 02:00 às 04:00. Pedimos desculpas pelo inconveniente.',
-                    type: 'error'
-                }
-            };
-
-            const selectedTemplate = templates[template];
-            if (selectedTemplate) {
-                document.getElementById('notificationTitle').value = selectedTemplate.title;
-                document.getElementById('notificationMessage').value = selectedTemplate.message;
-                document.getElementById('notificationType').value = selectedTemplate.type;
-                addDebugLog(`Template applied: ${template}`);
-            }
-        }
-
-        // Enhanced notification form with Realtime Database focus
-        document.getElementById('notificationForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            addDebugLog('Notification form submitted');
-            
-            const sendText = document.getElementById('sendNotificationText');
-            const sendLoader = document.getElementById('sendNotificationLoader');
-            const sendBtn = document.getElementById('sendNotificationFormBtn');
-            
-            // Show loading state
-            sendText.classList.add('hidden');
-            sendLoader.classList.remove('hidden');
-            sendBtn.disabled = true;
-            
-            try {
-                const notificationData = {
-                    title: document.getElementById('notificationTitle').value,
-                    message: document.getElementById('notificationMessage').value,
-                    type: document.getElementById('notificationType').value,
-                    timestamp: Date.now(),
-                    read: false,
-                    adminId: currentUser.uid,
-                    adminName: currentUser.displayName || currentUser.email
-                };
-
-                const target = document.getElementById('notificationTarget').value;
-
-                if (target === 'all') {
-                    // Send to all users - save only in Realtime Database
-                    const notificationId = `notif_${Date.now()}`;
-                    
-                    const promises = [];
-                    
-                    // Save in global notifications
-                    promises.push(set(ref(database, `notifications/global/${notificationId}`), notificationData));
-                    
-                    // Also send to each individual user
-                    const usersArray = Object.keys(users);
-                    addDebugLog(`Sending to ${usersArray.length} users`);
-                    
-                    usersArray.forEach(userId => {
-                        if (userId !== currentUser.uid) { // Don't send to admin
-                            promises.push(set(ref(database, `notifications/${userId}/${notificationId}`), notificationData));
-                        }
-                    });
-
-                    await Promise.all(promises);
-                    addDebugLog('Global notification sent successfully');
-                    showNotificationToast('Sucesso', `Notificação enviada para ${usersArray.length} usuários!`, 'success');
-                } else {
-                    // Send to specific user
-                    const userId = document.getElementById('specificUser').value;
-                    if (!userId) {
-                        showCustomAlert('Por favor, selecione um usuário.');
-                        return;
-                    }
-
-                    const notificationId = `notif_${Date.now()}`;
-                    const user = users[userId];
-                    
-                    addDebugLog(`Sending to specific user: ${userId}`);
-
-                    // Save only in Realtime Database
-                    await set(ref(database, `notifications/${userId}/${notificationId}`), notificationData);
-
-                    addDebugLog('User-specific notification sent successfully');
-                    showNotificationToast('Sucesso', `Notificação enviada para ${user?.name || 'usuário selecionado'}!`, 'success');
-                }
-
-                // Reset form
-                document.getElementById('notificationForm').reset();
-                document.getElementById('specificUserContainer').classList.add('hidden');
-            } catch (error) {
-                addDebugLog('Error sending notification: ' + error.message);
-                showNotificationToast('Erro', 'Erro ao enviar notificação: ' + error.message, 'error');
-            } finally {
-                // Reset loading state
-                sendText.classList.remove('hidden');
-                sendLoader.classList.add('hidden');
-                sendBtn.disabled = false;
-            }
-        });
-
-        // Notification target change handler
-        document.getElementById('notificationTarget').addEventListener('change', () => {
-            if (document.getElementById('notificationTarget').value === 'specific') {
-                document.getElementById('specificUserContainer').classList.remove('hidden');
-                loadUsersForNotification();
-            } else {
-                document.getElementById('specificUserContainer').classList.add('hidden');
-            }
-        });
-
-        function loadUsersForNotification() {
-            const usersArray = Object.entries(users).map(([id, user]) => ({ id, ...user }))
-                .filter(user => user.email && user.name);
-            
-            document.getElementById('specificUser').innerHTML = usersArray.map(user => 
-                `<option value="${user.id}">${user.name} (${user.email})</option>`
-            ).join('');
-            
-            addDebugLog(`Loaded ${usersArray.length} users for notification`);
-        }
-
         // Make functions globally available
         window.openCategoryModal = openCategoryModal;
-        window.editCategory = openCategoryModal;
+        window.closeCategoryModal = closeCategoryModal;
+        window.editCategory = (categoryId) => openCategoryModal(categoryId);
+        window.deleteCategory = deleteCategory;
         window.openProductModal = openProductModal;
-        window.editProduct = openProductModal;
+        window.closeProductModal = closeProductModal;
+        window.editProduct = (productId) => openProductModal(productId);
+        window.deleteProduct = deleteProduct;
         window.showSection = showSection;
-        window.useNotificationTemplate = useNotificationTemplate;
         window.testConnection = testConnection;
+        window.testAdminAccess = testAdminAccess;
+        window.testCategoryCreation = testCategoryCreation;
         window.sendTestNotification = sendTestNotification;
-        window.signOutAdmin = async () => {
-            try {
-                await signOut(auth);
-                window.location.reload();
-            } catch (error) {
-                addDebugLog('Logout error: ' + error.message);
-            }
-        };
 
         // Event listeners
         document.getElementById('dashboardBtn').addEventListener('click', () => showSection('dashboard'));
         document.getElementById('productsBtn').addEventListener('click', () => showSection('products'));
         document.getElementById('categoriesBtn').addEventListener('click', () => showSection('categories'));
-        document.getElementById('ordersBtn').addEventListener('click', () => showSection('orders'));
         document.getElementById('notificationsBtn').addEventListener('click', () => showSection('notifications'));
 
-        // Mobile navigation
-        document.getElementById('mobileDashboardBtn').addEventListener('click', () => showSection('dashboard'));
-        document.getElementById('mobileProductsBtn').addEventListener('click', () => showSection('products'));
-        document.getElementById('mobileCategoriesBtn').addEventListener('click', () => showSection('categories'));
-        document.getElementById('mobileOrdersBtn').addEventListener('click', () => showSection('orders'));
-        document.getElementById('mobileNotificationsBtn').addEventListener('click', () => showSection('notifications'));
-
-        // Quick actions
-        document.getElementById('addProductBtn').addEventListener('click', () => {
-            showSection('products');
-            setTimeout(() => openProductModal(), 500);
-        });
-        document.getElementById('addCategoryBtn').addEventListener('click', () => {
-            showSection('categories');
-            setTimeout(() => openCategoryModal(), 500);
-        });
-        document.getElementById('addProductModalBtn').addEventListener('click', openProductModal);
-        document.getElementById('manageCategoriesBtn').addEventListener('click', () => showSection('categories'));
-        document.getElementById('addCategoryModalBtn').addEventListener('click', openCategoryModal);
-        document.getElementById('quickAddCategoryBtn').addEventListener('click', openCategoryModal);
-        document.getElementById('testConnectionBtn').addEventListener('click', testConnection);
-        document.getElementById('sendTestNotificationBtn').addEventListener('click', sendTestNotification);
-
-        // Modal close buttons
-        document.getElementById('closeProductModalBtn').addEventListener('click', closeProductModal);
-        document.getElementById('cancelProductBtn').addEventListener('click', closeProductModal);
-        document.getElementById('closeCategoryModalBtn').addEventListener('click', closeCategoryModal);
-        document.getElementById('cancelCategoryBtn').addEventListener('click', closeCategoryModal);
-
-        // Logout
         document.getElementById('logoutBtn').addEventListener('click', async () => {
             try {
                 await signOut(auth);
@@ -2117,17 +1442,6 @@
                 addDebugLog('Logout error: ' + error.message);
             }
         });
-
-        // Initialize the app
-        setTimeout(() => {
-            if (!currentUser) {
-                const provider = new GoogleAuthProvider();
-                signInWithPopup(auth, provider).catch(error => {
-                    addDebugLog('Login error: ' + error.message);
-                    showAccessDenied();
-                });
-            }
-        }, 2000);
 
         addDebugLog('Admin panel initialization complete');
     </script>
