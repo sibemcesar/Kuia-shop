@@ -878,7 +878,7 @@
                                 </div>
                             </div>
                             <div id="adminProfileInfo" class="space-y-3">
-                                <!-- Will be populated -->
+                                <!-- Content will be populated -->
                             </div>
                         </div>
                     </div>
@@ -1835,7 +1835,7 @@
             }
 
             categoriesGrid.innerHTML = categoriesArray.map(category => {
-                const productCount = Object.values(products).filter(p => p.category === category.id).length;
+                const productCount = Object.values(products).filter(p => p.category === category.name).length;
                 
                 return `
                     <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all transform hover:scale-105 animate-fade-in">
@@ -2078,7 +2078,7 @@
             productsGrid.innerHTML = productsArray.map(product => {
                 const hasDiscount = product.oldPrice && product.oldPrice > product.price;
                 const discountPercent = hasDiscount ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100) : 0;
-                const category = categories[product.category];
+                const categoryName = product.category;
                 const isLowStock = product.stock <= 5;
                 const isOutOfStock = product.stock === 0;
                 
@@ -2117,7 +2117,7 @@
                         
                         <div class="p-6">
                             <h3 class="font-bold text-lg text-gray-800 mb-2 line-clamp-2">${product.name}</h3>
-                            <p class="text-sm text-gray-600 mb-3">${category ? `${category.icon} ${category.name}` : 'Sem categoria'}</p>
+                            <p class="text-sm text-gray-600 mb-3">${categoryName || 'Sem categoria'}</p>
                             
                             <div class="flex items-center space-x-2 mb-3">
                                 <span class="text-xl font-bold text-primary">${formatPrice(product.price)}</span>
@@ -2178,7 +2178,9 @@
                 const product = products[productId];
                 
                 document.getElementById('productName').value = product.name;
-                document.getElementById('productCategory').value = product.category;
+                // Buscar categoria pelo nome
+                const categoryId = Object.entries(categories).find(([id, cat]) => cat.name === product.category)?.[0];
+                document.getElementById('productCategory').value = categoryId || '';
                 document.getElementById('productPrice').value = product.price;
                 document.getElementById('productOldPrice').value = product.oldPrice || '';
                 document.getElementById('productStock').value = product.stock;
@@ -2314,13 +2316,16 @@
             }
             
             const name = nameInput.value ? nameInput.value.trim() : '';
-            const category = categoryInput.value ? String(categoryInput.value).trim() : '';
+            const categoryId = categoryInput.value ? String(categoryInput.value).trim() : '';
             const price = priceInput.value ? parseFloat(priceInput.value) : 0;
             const oldPrice = oldPriceInput.value ? parseFloat(oldPriceInput.value) : null;
             const stock = stockInput.value ? parseInt(stockInput.value) : 0;
             const description = descriptionInput.value ? descriptionInput.value.trim() : '';
             
-            addDebugLog(`Product form data - Name: "${name}", Category: "${category}", Price: ${price}, Stock: ${stock}`);
+            // 🔥 CORREÇÃO PRINCIPAL: Obter o nome da categoria ao invés do ID
+            const categoryName = categories[categoryId] ? categories[categoryId].name : '';
+            
+            addDebugLog(`Product form data - Name: "${name}", Category ID: "${categoryId}", Category Name: "${categoryName}", Price: ${price}, Stock: ${stock}`);
             
             // Validation
             if (!name) {
@@ -2328,7 +2333,7 @@
                 return;
             }
             
-            if (!category) {
+            if (!categoryId) {
                 showNotificationToast('Erro', 'Por favor, selecione uma categoria.', 'error');
                 return;
             }
@@ -2390,7 +2395,7 @@
                 const productData = {
                     id: productId,
                     name: name,
-                    category: category,
+                    category: categoryName, // 🔥 SALVANDO O NOME DA CATEGORIA, NÃO O ID
                     price: price,
                     oldPrice: oldPrice,
                     stock: stock,
@@ -2412,7 +2417,7 @@
                     addDebugLog('Product data: ' + JSON.stringify(productData));
                     await set(ref(database, `products/${productId}`), productData);
                     addDebugLog('Product created successfully with ID: ' + productId);
-                    showNotificationToast('Sucesso', 'Produto adicionado com sucesso!', 'success');
+                    showNotificationToast('Sucesso', 'Produto adicionado com sucesso! Agora o app usuário receberá apenas o nome da categoria.', 'success');
                 }
 
                 closeProductModal();
@@ -3213,7 +3218,7 @@
                 addDebugLog(`Deleting category: ${categoryId}`);
                 
                 const category = categories[categoryId];
-                const productCount = Object.values(products).filter(p => p.category === categoryId).length;
+                const productCount = Object.values(products).filter(p => p.category === category?.name).length;
                 
                 await remove(ref(database, `categories/${categoryId}`));
                 
