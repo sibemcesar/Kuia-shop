@@ -546,14 +546,6 @@
             </div>
         </header>
 
-        <!-- Mobile Search -->
-        <div id="mobileSearchContainer" class="md:hidden card-bg border-b">
-            <div class="px-4 py-3">
-                <input type="text" id="mobileSearchInput" placeholder="Buscar produtos..." 
-                       class="w-full px-4 py-3 text-base card-bg border rounded-xl focus:ring-2 focus:ring-primary">
-            </div>
-        </div>
-
         <!-- Main Content -->
         <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <!-- Home Section -->
@@ -626,7 +618,7 @@
                     </div>
                 </div>
                 
-                <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div class="col-span-full text-center py-20">
                         <div class="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
                         <p class="text-gray-600 dark:text-gray-400 text-lg">Carregando produtos...</p>
@@ -648,7 +640,7 @@
             <!-- Favorites Section -->
             <div id="favoritesSection" class="hidden space-y-8">
                 <h2 class="text-4xl font-bold gradient-text">Meus Favoritos</h2>
-                <div id="favoritesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div id="favoritesGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div class="col-span-full text-center py-20">
                         <div class="text-6xl mb-6 animate-float">❤️</div>
                         <p class="text-gray-600 dark:text-gray-400 text-lg">Carregando favoritos...</p>
@@ -1567,14 +1559,11 @@
         // Update search visibility
         function updateSearchVisibility() {
             const searchContainer = document.getElementById('searchContainer');
-            const mobileSearchContainer = document.getElementById('mobileSearchContainer');
             
             if (currentSection === 'home') {
                 searchContainer.classList.remove('hidden');
-                mobileSearchContainer.classList.remove('hidden');
             } else {
                 searchContainer.classList.add('hidden');
-                mobileSearchContainer.classList.add('hidden');
             }
         }
 
@@ -2567,10 +2556,8 @@
 
         // Search functionality
         const searchInput = document.getElementById('searchInput');
-        const mobileSearchInput = document.getElementById('mobileSearchInput');
         
         searchInput.addEventListener('input', filterProducts);
-        mobileSearchInput.addEventListener('input', filterProducts);
 
         // Checkout functionality
         const checkoutBtn = document.getElementById('checkoutBtn');
@@ -2752,7 +2739,7 @@
         function renderProducts() {
             const productsGrid = document.getElementById('productsGrid');
             const productsArray = Object.entries(products).map(([id, product]) => ({ id, ...product }));
-            const searchTerm = (searchInput.value || mobileSearchInput.value || '').toLowerCase();
+            const searchTerm = (searchInput.value || '').toLowerCase();
             const activeCategory = document.querySelector('.category-filter-btn.btn-primary')?.dataset.category || 'all';
             
             let filteredProducts = productsArray;
