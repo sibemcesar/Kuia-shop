@@ -475,11 +475,15 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
                     <div class="flex items-center space-x-4">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center animate-float">
-                                <span class="text-white font-bold text-xl">K+</span>
-                            </div>
-                            <h1 class="text-2xl font-bold gradient-text">Kuia+ Shop</h1>
+                        <div class="flex items-center space-x-3"> 
+                            <img src="//////.png" 
+     alt="Logo da Loja" 
+     style="height: 48px; 
+       width: auto; 
+       border-radius: 6px; 
+       background-color: transparent; 
+       margin-right: 16px; 
+       display: inline-block;">
                         </div>
                         
                         <div class="hidden md:flex space-x-2">
@@ -509,9 +513,11 @@
                     <div class="flex items-center space-x-4">
                         <!-- Search -->
                         <div id="searchContainer" class="hidden sm:block relative">
-                            <input type="text" id="searchInput" placeholder="Buscar produtos..." 
-                                   class="w-64 px-4 py-2 text-base card-bg border rounded-xl focus:ring-2 focus:ring-primary pr-12">
-                            <svg class="absolute right-4 top-3 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                           <input type="text" 
+       id="searchInput" 
+       placeholder="Buscar produtos..." 
+       class="px-4 py-2 text-base card-bg border rounded-xl focus:ring-2 focus:ring-primary pr-12"
+       style="width: 30vw;">  <svg class="absolute right-4 top-3 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
                         </div>
@@ -555,7 +561,7 @@
                     
                     <!-- Filter Controls -->
                     <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
-                        <div class="flex flex-wrap items-center gap-3">
+                        <div class="flex items-center gap-3">
                             <button id="toggleCategoryFilters" class="btn-primary text-white px-6 py-3 rounded-xl hover-lift ripple flex items-center space-x-2">
                                 <span>📂</span>
                                 <span class="font-medium">Categorias</span>
@@ -618,7 +624,7 @@
                     </div>
                 </div>
                 
-                <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div id="productsGrid" class="grid grid-cols-2 lg:grid-cols-4 gap-6">
                     <div class="col-span-full text-center py-20">
                         <div class="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
                         <p class="text-gray-600 dark:text-gray-400 text-lg">Carregando produtos...</p>
@@ -640,7 +646,7 @@
             <!-- Favorites Section -->
             <div id="favoritesSection" class="hidden space-y-8">
                 <h2 class="text-4xl font-bold gradient-text">Meus Favoritos</h2>
-                <div id="favoritesGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div id="favoritesGrid" class="grid grid-cols-2 lg:grid-cols-4 gap-6">
                     <div class="col-span-full text-center py-20">
                         <div class="text-6xl mb-6 animate-float">❤️</div>
                         <p class="text-gray-600 dark:text-gray-400 text-lg">Carregando favoritos...</p>
