@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuia+ Shop - FAQ</title>
+  <style>
+    :root {
+      --roxo-escuro: #5a2ea6;
+      --roxo-claro: #7b3fe4;
+      --bg-claro: #f9f9fb;
+      --texto-claro: #222;
+      --bg-escuro: #1a1a1f;
+      --texto-escuro: #fff;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    body.light {
+      background: var(--bg-claro);
+      color: var(--texto-claro);
+    }
+
+    body.dark {
+      background: var(--bg-escuro);
+      color: var(--texto-escuro);
+    }
+
+    /* ===== Header ===== */
+    header {
+      background: linear-gradient(90deg, var(--roxo-escuro), var(--roxo-claro));
+      height: 55px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    }
+
+    /* Botão voltar */
+    .back-btn {
+      position: absolute;
+      left: 15px;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 1rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .back-btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    /* ===== FAQ ===== */
+    .faq-container {
+      max-width: 700px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+
+    .faq-item {
+      border-radius: 8px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      transition: transform 0.2s ease;
+      border: 1px solid rgba(122,63,228,0.2);
+    }
+    .faq-item:hover { transform: scale(1.01); }
+
+    .faq-question {
+      padding: 15px 20px;
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(122, 63, 228, 0.1);
+      color: var(--roxo-claro);
+      transition: background 0.3s;
+    }
+    .faq-question:hover { background: rgba(122, 63, 228, 0.2); }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      padding: 0 20px;
+      background: rgba(0,0,0,0.05);
+      transition: max-height 0.4s ease, padding 0.3s ease;
+    }
+    .faq-answer.open {
+      max-height: 500px; /* suficiente para caber texto longo */
+      padding: 15px 20px;
+    }
+
+    .arrow { transition: transform 0.3s ease; }
+    .arrow.rotate { transform: rotate(90deg); }
+  </style>
+</head>
+<body>
+  <!-- Header com botão voltar -->
+  <header>
+    <button class="back-btn" onclick="window.location.href='index.html'">←</button>
+    Perguntas Frequentes– FAQ
+  </header>
+
+  <!-- FAQ -->
+  <div class="faq-container">
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>Quais formas de pagamento vocês aceitam?</span>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="faq-answer">
+        <p>Aceitamos Multicaixa Express, referência bancária, Afrimoney e Unitel Money, e em alguns caso, pagamentos na entrega do produto, em breve cartões de crédito/débito.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>Quanto tempo demora a entrega?</span>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="faq-answer">
+  <p>
+    Se o pedido for dentro da mesma rua ou bairro no município de Benguela, a entrega pode ser feita em cerca de 1 hora ou algumas horas no mesmo dia.  
+    Para locais mais distantes, mas ainda dentro do município de Benguela, o prazo é de 2 a 3 dias úteis.  
+    No momento, não realizamos entregas fora do município de Benguela nem em outras províncias.
+  </p>
+</div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>Posso devolver um produto?</span>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="faq-answer">
+  <p>
+    Como a Kuia+ Shop funciona como marketplace, os produtos não são vendidos diretamente pela loja, mas sim por parceiros.  
+    Por isso, as condições de devolução variam de acordo com cada vendedor e com a garantia do produto.  
+    Caso haja algum problema dentro do prazo de garantia, a devolução só será possível se o vendedor aceitar e conforme as regras estipuladas por ele.  
+    Dessa forma, o prazo de devolução não é fixo e pode variar de acordo com o produto e o fornecedor.
+  </p>
+</div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>Preciso criar conta para comprar?</span>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="faq-answer">
+  <p>
+    Você pode navegar pela loja e selecionar produtos sem precisar criar uma conta.  
+    Porém, para finalizar a compra é obrigatório criar uma conta e adicionar uma foto real no seu perfil.  
+    Essa medida garante mais segurança e transparência na relação entre a Kuia+ Shop, os vendedores e os clientes.
+  </p>
+</div>
+    </div>
+  </div>
+
+  <script>
+    // Alterna FAQ (abrir/fechar)
+    document.querySelectorAll('.faq-question').forEach(q => {
+      q.addEventListener('click', () => {
+        const answer = q.nextElementSibling;
+        const arrow = q.querySelector('.arrow');
+
+        if (answer.classList.contains('open')) {
+          answer.classList.remove('open');
+          arrow.classList.remove('rotate');
+        } else {
+          document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+          document.querySelectorAll('.arrow').forEach(ar => ar.classList.remove('rotate'));
+          answer.classList.add('open');
+          arrow.classList.add('rotate');
+        }
+      });
+    });
+
+    // Tema automático por hora
+    function setThemeByTime() {
+      const hour = new Date().getHours();
+      if (hour >= 7 && hour < 19) {
+        document.body.classList.add('light');
+        document.body.classList.remove('dark');
+      } else {
+        document.body.classList.add('dark');
+        document.body.classList.remove('light');
+      }
+    }
+    setThemeByTime();
+  </script>
+</body>
+</html>

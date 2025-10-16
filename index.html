@@ -362,7 +362,7 @@
 
     <!-- Login Screen -->
     <div id="loginScreen" class="fixed inset-0 gradient-bg flex items-center justify-center z-40 hidden">
-        <div class="card-bg p-8 rounded-3xl shadow-2xl max-w-md w-full mx-4 border animate-scale-in glass">
+        <div class="card-bg p-8 rounded-3xl shadow-2xl max-w-md w-full mx-4 border animate-scale-in glass" style="background-color:white;">
             <div class="text-center mb-8">
                 <div class="w-20 h-20 gradient-bg rounded-full flex items-center justify-center mx-auto mb-4 animate-float">
                     <span class="text-white font-bold text-3xl">K+</span>
@@ -476,13 +476,13 @@
                 <div class="flex justify-between items-center h-16">
                     <div class="flex items-center space-x-4">
                         <div class="flex items-center space-x-3"> 
-                            <img src="//////.png" 
+                            <img src="chop.png" 
      alt="Logo da Loja" 
-     style="height: 48px; 
+     style="height: 58px; 
        width: auto; 
        border-radius: 6px; 
        background-color: transparent; 
-       margin-right: 16px; 
+       margin-left: -10px; 
        display: inline-block;">
                         </div>
                         
@@ -557,19 +557,16 @@
             <!-- Home Section -->
             <div id="homeSection" class="space-y-8">
                 <div>
-                    <h2 class="text-4xl font-bold gradient-text mb-6">Produtos Disponíveis</h2>
-                    
+                   
                     <!-- Filter Controls -->
                     <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
                         <div class="flex items-center gap-3">
                             <button id="toggleCategoryFilters" class="btn-primary text-white px-6 py-3 rounded-xl hover-lift ripple flex items-center space-x-2">
-                                <span>📂</span>
                                 <span class="font-medium">Categorias</span>
                                 <span id="categoryToggleIcon" class="transform transition-transform">▼</span>
                             </button>
                             
                             <button id="togglePriceFilters" class="btn-secondary px-6 py-3 rounded-xl hover-lift ripple flex items-center space-x-2">
-                                <span>💰</span>
                                 <span class="font-medium">Preços</span>
                                 <span id="priceToggleIcon" class="transform transition-transform">▼</span>
                             </button>
@@ -586,7 +583,7 @@
                         <div id="categoryFiltersContainer" class="filter-container">
                             <div class="card-bg rounded-2xl p-6 border shadow-sm">
                                 <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200 mb-4 flex items-center">
-                                    <span class="mr-2">📂</span>Filtrar por Categoria
+                                    Filtrar por Categoria
                                 </h3>
                                 <div class="flex flex-wrap gap-3" id="categoryFilters">
                                     <button class="category-filter-btn btn-primary text-white px-4 py-2 rounded-full text-sm font-medium hover-lift" data-category="all">
@@ -600,7 +597,7 @@
                         <div id="priceFiltersContainer" class="filter-container">
                             <div class="card-bg rounded-2xl p-6 border shadow-sm">
                                 <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200 mb-4 flex items-center">
-                                    <span class="mr-2">💰</span>Filtrar por Preço
+                                    Filtrar por Preço
                                 </h3>
                                 <div class="flex flex-wrap gap-3">
                                     <button class="price-filter-btn btn-primary text-white px-4 py-2 rounded-full text-sm font-medium hover-lift" data-price="all">
@@ -1117,7 +1114,7 @@
             database = getDatabase(app);
             firestore = getFirestore(app);
             console.log('✅ Firebase initialized successfully');
-            document.getElementById('loadingStatus').textContent = 'Firebase conectado!';
+            document.getElementById('loadingStatus').textContent = 'Chegou a hora das compras!';
         } catch (error) {
             console.error('❌ Firebase initialization error:', error);
             document.getElementById('loadingStatus').textContent = 'Erro na conexão. Usando modo offline';
@@ -2453,8 +2450,14 @@
                     <button id="viewNotificationsBtn" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
                         <span class="mr-3">🔔</span>Notificações
                     </button>
+                <button
+  id="faq"
+  class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all"
+  onclick="window.location.href='faq.html'">
+  <span class="mr-3">🗣️</span>FAQ
+</button>
                     <button id="logoutBtn" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-b-xl transition-all">
-                        <span class="mr-3">🚪</span>Sair
+                        <span class="mr-3"></span>Terminar Sessão
                     </button>
                 `;
                 
@@ -3429,7 +3432,7 @@
                 'pets': '🐶',
                 'servicos': '🛠️'
             };
-            return categoryIcons[category] || '🏷️';
+            return categoryIcons[category] || '🗂️';
         }
 
         function showMainApp() {
@@ -3472,6 +3475,18 @@
             }
         }, 2000);
     </script>
-    
+    <script>
+  // Espera 3 segundos (3000 ms)
+  setTimeout(function() {
+    // Seleciona os elementos pelos IDs
+    const priceBtn = document.getElementById("togglePriceFilters");
+    const categoryBtn = document.getElementById("toggleCategoryFilters");
+
+    // Se existirem, dispara o clique
+    if (priceBtn) priceBtn.click();
+    if (categoryBtn) categoryBtn.click();
+  }, 3000);
+</script>
+    4u7
 </body>
 </html>
