@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="GkSLzTU8K1ZZEUTQvKWOrUz10LpKNT47b7Oge1Cg89g" />
+    <meta name="google-site-verification" content="GkSLzTU8K1ZZEUTQvKWOrUz10LpKNT47b7Oge1Cg89g" >
     <title>Kuia+ Shop - Loja Online</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -230,12 +230,13 @@
         /* Toggle Switch para Tema */
         .theme-switch {
             position: relative;
-            width: 60px;
-            height: 30px;
+            width: 44px;
+            height: 22px;
             background: #ccc;
             border-radius: 25px;
             transition: all 0.3s ease;
             cursor: pointer;
+            flex-shrink: 0;
         }
 
         .theme-switch.dark {
@@ -245,10 +246,10 @@
         .theme-switch::before {
             content: '';
             position: absolute;
-            top: 3px;
-            left: 3px;
-            width: 24px;
-            height: 24px;
+            top: 2px;
+            left: 2px;
+            width: 18px;
+            height: 18px;
             background: white;
             border-radius: 50%;
             transition: all 0.3s ease;
@@ -258,7 +259,7 @@
         }
 
         .theme-switch.dark::before {
-            transform: translateX(30px);
+            transform: translateX(22px);
         }
 
         /* Animações de Loading */
@@ -345,6 +346,50 @@
         .ripple:active::before {
             width: 300px;
             height: 300px;
+        }
+
+        /* Inline search inside header */
+        .search-inline-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            min-width: 0;
+            opacity: 0;
+            transform: scaleX(0.85);
+            transform-origin: right center;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+        .search-inline-container.search-active {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+        .search-inline-container.hidden {
+            display: none !important;
+        }
+        .header-left-transition,
+        .header-right-transition {
+            transition: opacity 0.2s ease, transform 0.2s ease, width 0.2s ease;
+        }
+        .header-left-hidden {
+            opacity: 0;
+            transform: translateX(-20px);
+            width: 0 !important;
+            overflow: hidden;
+            pointer-events: none;
+            flex: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            min-width: 0 !important;
+        }
+        .header-right-hidden {
+            opacity: 0;
+            width: 0 !important;
+            overflow: hidden;
+            pointer-events: none;
+            flex: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            min-width: 0 !important;
         }
     </style>
 </head>
@@ -473,68 +518,54 @@
         <!-- Header -->
         <header class="card-bg shadow-lg border-b sticky top-0 z-30 glass">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center h-16">
-                    <div class="flex items-center space-x-4">
-                        <div class="flex items-center space-x-3"> 
-                            <img src="chop.png" 
-     alt="Logo da Loja" 
-     style="height: 58px; 
-       width: auto; 
-       border-radius: 6px; 
-       background-color: transparent; 
-       margin-left: -10px; 
+                <div class="flex justify-between items-center h-16 header-row">
+                    <!-- Logo + Nav (hidden when search is open) -->
+                    <div id="headerLeft" class="flex items-center space-x-4 min-w-0 header-left-transition">
+                        <div class="flex items-center space-x-3 flex-shrink-0">
+                            <img src="chop.png"
+     alt="Logo da Loja"
+     style="height: 58px;
+       width: auto;
+       border-radius: 6px;
+       background-color: transparent;
+       margin-left: -10px;
        display: inline-block;">
                         </div>
-                        
-                        <div class="hidden md:flex space-x-2">
-                            <button id="homeBtn" class="nav-btn btn-primary text-white px-4 py-2 rounded-lg text-sm font-medium">
-                                🏠 Início
+
+                    </div>
+
+                    <!-- Inline Search Bar (expands inside header, replaces logo+nav) -->
+                    <div id="searchContainer" class="search-inline-container hidden">
+                        <div class="flex items-center w-full gap-2">
+                            <button id="searchCloseBtn" class="flex-shrink-0 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors" title="Fechar pesquisa">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                                </svg>
                             </button>
-                            <button id="categoriesBtn" class="nav-btn btn-secondary px-4 py-2 rounded-lg text-sm font-medium hover-lift">
-                                📂 Categorias
-                            </button>
-                            <button id="favoritesBtn" class="nav-btn btn-secondary px-4 py-2 rounded-lg text-sm font-medium hover-lift">
-                                ❤️ Favoritos
-                            </button>
-                            <button id="ordersBtn" class="nav-btn btn-secondary px-4 py-2 rounded-lg text-sm font-medium hover-lift">
-                                📦 Pedidos
-                            </button>
-                            <button id="chatFullBtn" class="nav-btn btn-secondary px-4 py-2 rounded-lg text-sm font-medium hover-lift relative">
-                                💬 Chat
-                                <span id="chatNotification" class="absolute -top-1 -right-1 bg-green-500 text-white text-xs rounded-full h-4 w-4 items-center justify-center hidden animate-pulse">●</span>
-                            </button>
-                            <button id="notificationsBtn" class="nav-btn btn-secondary px-4 py-2 rounded-lg text-sm font-medium hover-lift relative">
-                                🔔 Notificações
-                                <span id="notificationBadge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden animate-pulse">0</span>
-                            </button>
+                            <div class="relative flex-1">
+                                <input type="text"
+                                    id="searchInput"
+                                    placeholder="Buscar produtos..."
+                                    class="w-full px-4 py-2.5 text-base card-bg border rounded-xl focus:ring-2 focus:ring-primary pr-10"
+                                >
+                                <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="flex items-center space-x-4">
-                        <!-- Search -->
-                        <div id="searchContainer" class="hidden sm:block relative">
-                           <input type="text" 
-       id="searchInput" 
-       placeholder="Buscar produtos..." 
-       class="px-4 py-2 text-base card-bg border rounded-xl focus:ring-2 focus:ring-primary pr-12"
-       style="width: 30vw;">  <svg class="absolute right-4 top-3 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
+
+                    <!-- Right side actions -->
+                    <div id="headerRight" class="flex items-center space-x-3 flex-shrink-0 header-right-transition">
+                        <!-- Search Button -->
+                        <div id="searchWrapper" class="relative flex items-center">
+                            <button id="searchToggleBtn" class="p-3 btn-secondary rounded-xl hover-lift" title="Pesquisar">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </button>
                         </div>
-                        
-                        <!-- Theme Toggle -->
-                        <button id="themeToggle" class="theme-switch" title="Alternar tema">
-                            <span id="themeIcon" class="absolute left-1 top-1 text-sm">🌙</span>
-                        </button>
-                        
-                        <!-- Cart -->
-                        <button id="cartBtn" class="relative p-3 btn-secondary rounded-xl hover-lift">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m2.6 8L6 5H3m4 8v6a1 1 0 001 1h10a1 1 0 001-1v-6m-5 3h.01"></path>
-                            </svg>
-                            <span id="cartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-bold">0</span>
-                        </button>
-                        
+
                         <!-- User Menu -->
                         <div class="relative">
                             <button id="userMenuBtn" class="flex items-center space-x-3 p-2 btn-secondary rounded-xl hover-lift">
@@ -711,7 +742,7 @@
   placeholder="Digite sua mensagem..." 
   class="flex-1 px-4 py-3 text-base card-bg border rounded-xl focus:ring-2 focus:ring-primary" 
   style="width:60%;"
-/>
+>
                             <input type="file" id="chatFullImageInput" accept="image/*" class="hidden">
                             <button id="chatFullImageBtn" class="btn-secondary px-4 py-3 rounded-xl hover-lift">
                                 📷
@@ -1088,6 +1119,7 @@
 
     <!-- Firebase SDK -->
     <script type="module">
+        /* eslint-disable no-restricted-globals */
         console.log('🚀 Iniciando Kuia+ Shop...');
         document.getElementById('loadingStatus').textContent = 'Carregando Firebase';
 
@@ -1138,39 +1170,42 @@
             const html = document.documentElement;
             const themeToggle = document.getElementById('themeToggle');
             const themeIcon = document.getElementById('themeIcon');
-            
+
             if (isDark) {
                 html.classList.add('dark');
-                themeToggle.classList.add('dark');
-                themeIcon.textContent = '☀️';
-                themeIcon.style.left = '33px';
+                if (themeToggle) themeToggle.classList.add('dark');
+                if (themeIcon) {
+                    themeIcon.textContent = '☀️';
+                    themeIcon.style.left = '24px';
+                }
             } else {
                 html.classList.remove('dark');
-                themeToggle.classList.remove('dark');
-                themeIcon.textContent = '🌙';
-                themeIcon.style.left = '4px';
+                if (themeToggle) themeToggle.classList.remove('dark');
+                if (themeIcon) {
+                    themeIcon.textContent = '🌙';
+                    themeIcon.style.left = '3px';
+                }
             }
-            
+
             localStorage.setItem('kuia-theme', isDark ? 'dark' : 'light');
         }
 
         function toggleTheme() {
             const isDark = document.documentElement.classList.contains('dark');
             updateTheme(!isDark);
-            
+
             // Add visual feedback
             const themeToggle = document.getElementById('themeToggle');
-            themeToggle.style.transform = 'scale(1.1)';
-            setTimeout(() => {
-                themeToggle.style.transform = 'scale(1)';
-            }, 150);
+            if (themeToggle) {
+                themeToggle.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    themeToggle.style.transform = 'scale(1)';
+                }, 150);
+            }
         }
 
         // Initialize theme
         initializeTheme();
-
-        // Theme toggle event listener
-        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
 
         // Global variables
         let currentUser = null;
@@ -1356,12 +1391,14 @@
         function updateNotificationBadge() {
             const unreadCount = notifications.filter(n => !n.read && !n.deleted).length;
             const badge = document.getElementById('notificationBadge');
-            
-            if (unreadCount > 0) {
-                badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
-                badge.classList.remove('hidden');
-            } else {
-                badge.classList.add('hidden');
+
+            if (badge) {
+                if (unreadCount > 0) {
+                    badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
+                    badge.classList.remove('hidden');
+                } else {
+                    badge.classList.add('hidden');
+                }
             }
         }
 
@@ -1566,14 +1603,80 @@
 
         // Update search visibility
         function updateSearchVisibility() {
-            const searchContainer = document.getElementById('searchContainer');
-            
+            var searchWrapper = document.getElementById('searchWrapper');
+            var searchContainer = document.getElementById('searchContainer');
+
             if (currentSection === 'home') {
-                searchContainer.classList.remove('hidden');
+                searchWrapper.classList.remove('hidden');
             } else {
-                searchContainer.classList.add('hidden');
+                searchWrapper.classList.add('hidden');
+                closeInlineSearch();
             }
         }
+
+        // Inline search open/close helpers
+        function openInlineSearch() {
+            var headerLeft = document.getElementById('headerLeft');
+            var headerRight = document.getElementById('headerRight');
+            var searchContainer = document.getElementById('searchContainer');
+            var searchInput = document.getElementById('searchInput');
+
+            // Hide logo+nav and right actions
+            headerLeft.classList.add('header-left-hidden');
+            headerRight.classList.add('header-right-hidden');
+
+            // Show inline search
+            searchContainer.classList.remove('hidden');
+            requestAnimationFrame(function() {
+                searchContainer.classList.add('search-active');
+            });
+            setTimeout(function() { searchInput.focus(); }, 150);
+        }
+
+        function closeInlineSearch() {
+            var headerLeft = document.getElementById('headerLeft');
+            var headerRight = document.getElementById('headerRight');
+            var searchContainer = document.getElementById('searchContainer');
+            var searchInput = document.getElementById('searchInput');
+
+            searchContainer.classList.remove('search-active');
+
+            setTimeout(function() {
+                searchContainer.classList.add('hidden');
+                headerLeft.classList.remove('header-left-hidden');
+                headerRight.classList.remove('header-right-hidden');
+            }, 250);
+
+            // Clear search and re-filter
+            searchInput.value = '';
+            if (typeof filterProducts === 'function') {
+                filterProducts();
+            }
+        }
+
+        // Search toggle functionality
+        (function() {
+            var searchToggleBtn = document.getElementById('searchToggleBtn');
+            var searchCloseBtn = document.getElementById('searchCloseBtn');
+            var searchInput = document.getElementById('searchInput');
+
+            searchToggleBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                openInlineSearch();
+            });
+
+            searchCloseBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                closeInlineSearch();
+            });
+
+            // Close search on Escape key
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeInlineSearch();
+                }
+            });
+        })();
 
         // Enhanced chat functionality with corrected user loading and overlay
         function initializeChat() {
@@ -1624,7 +1727,8 @@
                 }
                 
                 // Show notification
-                document.getElementById('chatNotification').classList.remove('hidden');
+                const chatNotifEl = document.getElementById('chatNotification');
+                if (chatNotifEl) chatNotifEl.classList.remove('hidden');
                 document.getElementById('footerChatNotification').classList.remove('hidden');
                 
                 const activeMessage = `
@@ -1656,7 +1760,8 @@
                 }
                 
                 // Hide notification
-                document.getElementById('chatNotification').classList.add('hidden');
+                const chatNotifElOff = document.getElementById('chatNotification');
+                if (chatNotifElOff) chatNotifElOff.classList.add('hidden');
                 document.getElementById('footerChatNotification').classList.add('hidden');
                 
                 const offlineMessage = `
@@ -2455,12 +2560,24 @@
                     <button id="viewNotificationsBtn" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
                         <span class="mr-3">🔔</span>Notificações
                     </button>
+                    <button id="menuOrdersBtn" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
+                        <span class="mr-3">📦</span>Pedidos
+                    </button>
+                    <button id="menuChatBtn" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
+                        <span class="mr-3">💬</span>Chat
+                    </button>
                 <button
   id="faq"
   class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all"
   onclick="window.location.href='faq.html'">
   <span class="mr-3">🗣️</span>FAQ
 </button>
+                    <button id="menuThemeToggle" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all flex items-center justify-between">
+                        <span><span id="menuThemeIcon" class="mr-3">${document.documentElement.classList.contains('dark') ? '☀️' : '🌙'}</span>${document.documentElement.classList.contains('dark') ? 'Modo Claro' : 'Modo Escuro'}</span>
+                        <div id="themeToggle" class="theme-switch ${document.documentElement.classList.contains('dark') ? 'dark' : ''}" style="width:44px;height:22px;flex-shrink:0;">
+                            <span id="themeIcon" class="absolute text-xs" style="left:${document.documentElement.classList.contains('dark') ? '24px' : '3px'};top:2px;">${document.documentElement.classList.contains('dark') ? '☀️' : '🌙'}</span>
+                        </div>
+                    </button>
                     <button id="logoutBtn" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-b-xl transition-all">
                         <span class="mr-3"></span>Terminar Sessão
                     </button>
@@ -2475,7 +2592,23 @@
                     showSection('notifications');
                     userMenu.classList.add('hidden');
                 });
-                
+
+                document.getElementById('menuOrdersBtn').addEventListener('click', () => {
+                    showSection('orders');
+                    userMenu.classList.add('hidden');
+                });
+
+                document.getElementById('menuChatBtn').addEventListener('click', () => {
+                    showSection('chatFull');
+                    userMenu.classList.add('hidden');
+                });
+
+                document.getElementById('menuThemeToggle').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    toggleTheme();
+                    updateUserUI();
+                });
+
                 document.getElementById('logoutBtn').addEventListener('click', async () => {
                     try {
                         await signOut(auth);
@@ -2488,20 +2621,48 @@
                         console.error('Logout error:', error);
                     }
                 });
-                
+
             } else if (isGuest) {
                 userAvatar.src = 'https://via.placeholder.com/32?text=👤';
                 userName.textContent = 'Visitante';
                 
                 userMenuContent.innerHTML = `
-                    <button id="guestLoginBtn" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition-all">
+                    <button id="guestLoginBtn" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
                         <span class="mr-3">🔑</span>Fazer Login
                     </button>
+                    <button id="menuOrdersBtnGuest" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
+                        <span class="mr-3">📦</span>Pedidos
+                    </button>
+                    <button id="menuChatBtnGuest" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
+                        <span class="mr-3">💬</span>Chat
+                    </button>
+                    <button id="menuThemeToggleGuest" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-b-xl transition-all flex items-center justify-between">
+                        <span><span class="mr-3">${document.documentElement.classList.contains('dark') ? '☀️' : '🌙'}</span>${document.documentElement.classList.contains('dark') ? 'Modo Claro' : 'Modo Escuro'}</span>
+                        <div id="themeToggle" class="theme-switch ${document.documentElement.classList.contains('dark') ? 'dark' : ''}" style="width:44px;height:22px;flex-shrink:0;">
+                            <span id="themeIcon" class="absolute text-xs" style="left:${document.documentElement.classList.contains('dark') ? '24px' : '3px'};top:2px;">${document.documentElement.classList.contains('dark') ? '☀️' : '🌙'}</span>
+                        </div>
+                    </button>
                 `;
-                
+
                 document.getElementById('guestLoginBtn').addEventListener('click', () => {
                     showLoginScreen();
                     userMenu.classList.add('hidden');
+                });
+
+                document.getElementById('menuOrdersBtnGuest').addEventListener('click', () => {
+                    showSection('orders');
+                    userMenu.classList.add('hidden');
+                });
+
+                document.getElementById('menuChatBtnGuest').addEventListener('click', () => {
+                    showSection('chatFull');
+                    userMenu.classList.add('hidden');
+                });
+
+                document.getElementById('menuThemeToggleGuest').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    toggleTheme();
+                    updateUserUI();
                 });
             }
         }
@@ -2521,13 +2682,11 @@
         });
 
         // Cart functionality
-        const cartBtn = document.getElementById('cartBtn');
         const cartSidebar = document.getElementById('cartSidebar');
         const cartOverlay = document.getElementById('cartOverlay');
         const closeCartBtn = document.getElementById('closeCartBtn');
         const footerCartBtn = document.getElementById('footerCartBtn');
-        
-        cartBtn.addEventListener('click', openCart);
+
         footerCartBtn.addEventListener('click', openCart);
         closeCartBtn.addEventListener('click', closeCart);
         cartOverlay.addEventListener('click', closeCart);
@@ -3068,7 +3227,6 @@
         // Cart functions
         const cartItems = document.getElementById('cartItems');
         const cartTotal = document.getElementById('cartTotal');
-        const cartCount = document.getElementById('cartCount');
         const footerCartCount = document.getElementById('footerCartCount');
 
         window.addToCart = function(productId) {
@@ -3126,7 +3284,6 @@
             const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
             const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             
-            cartCount.textContent = totalItems;
             footerCartCount.textContent = totalItems;
             cartTotal.textContent = formatPrice(totalPrice);
             checkoutBtn.disabled = cart.length === 0;
