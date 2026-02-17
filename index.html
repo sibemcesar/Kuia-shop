@@ -303,6 +303,167 @@
             }
         }
 
+        /* ===== Footer Estilo Loja Online ===== */
+        .shop-footer {
+            background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(248,247,255,1) 100%);
+            border-top: 1px solid rgba(93,92,222,0.08);
+            box-shadow: 0 -4px 24px rgba(93,92,222,0.06), 0 -1px 4px rgba(0,0,0,0.03);
+            padding: 0;
+            transition: all 0.3s ease;
+        }
+        .dark .shop-footer {
+            background: linear-gradient(180deg, rgba(24,24,24,0.98) 0%, rgba(18,18,30,1) 100%);
+            border-top: 1px solid rgba(93,92,222,0.15);
+            box-shadow: 0 -4px 24px rgba(0,0,0,0.3), 0 -1px 4px rgba(93,92,222,0.08);
+        }
+        .shop-footer .footer-nav-item {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            padding: 6px 0 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #9ca3af;
+            transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+        }
+        .dark .shop-footer .footer-nav-item {
+            color: #6b7280;
+        }
+        .shop-footer .footer-nav-item .footer-icon-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 30px;
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+        }
+        .shop-footer .footer-nav-item.active .footer-icon-wrap {
+            background: rgba(93,92,222,0.12);
+            transform: scale(1.08);
+        }
+        .dark .shop-footer .footer-nav-item.active .footer-icon-wrap {
+            background: rgba(93,92,222,0.22);
+        }
+        .shop-footer .footer-nav-item .footer-icon-wrap svg {
+            width: 22px;
+            height: 22px;
+            stroke-width: 1.8;
+            transition: all 0.25s ease;
+        }
+        .shop-footer .footer-nav-item.active .footer-icon-wrap svg {
+            stroke-width: 2.4;
+            filter: drop-shadow(0 1px 3px rgba(93,92,222,0.25));
+        }
+        .shop-footer .footer-nav-item .footer-label {
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            line-height: 1;
+            transition: all 0.25s ease;
+            opacity: 0.7;
+        }
+        .shop-footer .footer-nav-item.active .footer-label {
+            font-weight: 700;
+            opacity: 1;
+            color: var(--primary);
+        }
+        .shop-footer .footer-nav-item.active {
+            color: var(--primary);
+        }
+        .shop-footer .footer-nav-item:not(.active):hover {
+            color: var(--primary-light);
+        }
+        .shop-footer .footer-nav-item:not(.active):hover .footer-icon-wrap {
+            background: rgba(93,92,222,0.06);
+        }
+        .dark .shop-footer .footer-nav-item:not(.active):hover .footer-icon-wrap {
+            background: rgba(93,92,222,0.1);
+        }
+        /* Active indicator bar */
+        .shop-footer .footer-nav-item .footer-active-bar {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 18px;
+            height: 3px;
+            border-radius: 3px 3px 0 0;
+            background: var(--primary);
+            transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+        }
+        .shop-footer .footer-nav-item.active .footer-active-bar {
+            transform: translateX(-50%) scaleX(1);
+        }
+        /* Cart badge e-commerce style */
+        .shop-footer .footer-cart-badge {
+            position: absolute;
+            top: -3px;
+            right: -8px;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 800;
+            border-radius: 9px;
+            box-shadow: 0 2px 6px rgba(239,68,68,0.4);
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            line-height: 1;
+        }
+        .shop-footer .footer-cart-badge.bounce-anim {
+            animation: cartBadgeBounce 0.4s ease;
+        }
+        @keyframes cartBadgeBounce {
+            0% { transform: scale(1); }
+            30% { transform: scale(1.35); }
+            60% { transform: scale(0.9); }
+            100% { transform: scale(1); }
+        }
+        /* Chat notification dot */
+        .shop-footer .footer-chat-dot {
+            position: absolute;
+            top: 0;
+            right: 2px;
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            box-shadow: 0 0 0 2px rgba(255,255,255,0.95);
+            animation: chatDotPulse 2s ease-in-out infinite;
+        }
+        .dark .shop-footer .footer-chat-dot {
+            box-shadow: 0 0 0 2px rgba(24,24,24,0.95);
+        }
+        @keyframes chatDotPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.2); }
+        }
+        /* Press/tap effect */
+        .shop-footer .footer-nav-item:active .footer-icon-wrap {
+            transform: scale(0.9);
+            transition-duration: 0.1s;
+        }
+        .shop-footer .footer-nav-item.active:active .footer-icon-wrap {
+            transform: scale(1.02);
+            transition-duration: 0.1s;
+        }
+        /* Safe area for iPhones */
+        .shop-footer-safe {
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
         /* Estados de Focus melhorados */
         input:focus, textarea:focus, select:focus {
             outline: none;
@@ -332,6 +493,108 @@
             background: var(--primary-dark);
         }
 
+        /* ===== Header Roxo ===== */
+        .header-purple {
+            background: linear-gradient(135deg, #6B21A8 0%, #7C3AED 40%, #9333EA 100%);
+            border-color: rgba(255,255,255,0.12) !important;
+            color: #fff;
+        }
+        .dark .header-purple {
+            background: linear-gradient(135deg, #4C1D95 0%, #5B21B6 40%, #6D28D9 100%);
+            border-color: rgba(255,255,255,0.08) !important;
+        }
+        .header-purple .btn-secondary {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+        }
+        .header-purple .btn-secondary:hover {
+            background: rgba(255,255,255,0.25);
+        }
+        .header-purple #userName {
+            color: #fff;
+        }
+        .header-purple #userAvatar {
+            border-color: rgba(255,255,255,0.6);
+        }
+        .header-purple .search-inline-container input {
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.25);
+            color: #fff;
+        }
+        .header-purple .search-inline-container input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+        .header-purple .search-inline-container svg {
+            color: rgba(255,255,255,0.5);
+        }
+        .header-purple .search-inline-container button {
+            color: #fff;
+        }
+        .header-purple .search-inline-container button:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        /* ===== Category Cards com Imagem de Fundo ===== */
+        .category-card-bg {
+            position: relative;
+            overflow: hidden;
+            border: none;
+            min-height: 200px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 1rem;
+        }
+        .category-card-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.55) 100%);
+            z-index: 1;
+            transition: background 0.3s ease;
+        }
+        .dark .category-card-bg::before {
+            background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%);
+        }
+        .category-card-bg:hover::before {
+            background: linear-gradient(180deg, rgba(93,92,222,0.15) 0%, rgba(0,0,0,0.6) 100%);
+        }
+        .category-card-bg .category-card-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            height: 100%;
+            padding: 1.5rem;
+        }
+        .category-card-bg .category-card-content h3,
+        .category-card-bg .category-card-content p {
+            color: #fff !important;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+        }
+        .category-card-bg .category-card-content p {
+            opacity: 0.85;
+        }
+        .category-card-bg .category-card-icon {
+            width: 52px;
+            height: 52px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.75rem;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+        .category-card-bg:hover .category-card-icon {
+            transform: scale(1.1);
+            background: rgba(255,255,255,0.3);
+        }
+
         /* Efeitos de ripple */
         .ripple {
             position: relative;
@@ -354,6 +617,89 @@
         .ripple:active::before {
             width: 300px;
             height: 300px;
+        }
+
+        /* ===== Login Animations ===== */
+        .login-particles {
+            position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+        }
+        .particle {
+            position: absolute; border-radius: 50%; opacity: 0.15;
+            background: rgba(255,255,255,0.6);
+            animation: particleFloat 8s ease-in-out infinite;
+        }
+        .particle-1 { width:80px; height:80px; top:10%; left:5%; animation-delay:0s; }
+        .particle-2 { width:50px; height:50px; top:60%; left:80%; animation-delay:1.5s; }
+        .particle-3 { width:120px; height:120px; top:70%; left:15%; animation-delay:3s; }
+        .particle-4 { width:40px; height:40px; top:20%; left:70%; animation-delay:4.5s; }
+        .particle-5 { width:60px; height:60px; top:45%; left:50%; animation-delay:2s; }
+        .particle-6 { width:90px; height:90px; top:80%; left:60%; animation-delay:5s; }
+        @keyframes particleFloat {
+            0%,100% { transform: translateY(0) scale(1); opacity: 0.1; }
+            50% { transform: translateY(-40px) scale(1.15); opacity: 0.25; }
+        }
+
+        .login-card-entrance {
+            animation: loginCardPop 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards;
+        }
+        @keyframes loginCardPop {
+            0% { opacity:0; transform:scale(0.85) translateY(30px); }
+            100% { opacity:1; transform:scale(1) translateY(0); }
+        }
+
+        .login-logo-pulse {
+            animation: logoPulse 2s ease-in-out infinite, float 3s ease-in-out infinite;
+        }
+        @keyframes logoPulse {
+            0%,100% { box-shadow:0 0 0 0 rgba(93,92,222,0.4); }
+            50% { box-shadow:0 0 0 12px rgba(93,92,222,0); }
+        }
+
+        .login-title-entrance {
+            animation: titleSlide 0.5s ease-out 0.2s both;
+        }
+        .login-subtitle-entrance {
+            animation: titleSlide 0.5s ease-out 0.3s both;
+        }
+        @keyframes titleSlide {
+            0% { opacity:0; transform:translateY(10px); }
+            100% { opacity:1; transform:translateY(0); }
+        }
+
+        .login-btn-stagger {
+            animation: btnSlideUp 0.45s ease-out both;
+        }
+        @keyframes btnSlideUp {
+            0% { opacity:0; transform:translateY(20px); }
+            100% { opacity:1; transform:translateY(0); }
+        }
+
+        .login-error-banner {
+            background-color: #FEF2F2; border-color: #FECACA; color: #991B1B;
+            animation: shakeError 0.5s ease-out;
+        }
+        .dark .login-error-banner {
+            background-color: rgba(127,29,29,0.3); border-color: rgba(252,165,165,0.3); color: #FCA5A5;
+        }
+        @keyframes shakeError {
+            0%,100% { transform:translateX(0); }
+            15% { transform:translateX(-8px); }
+            30% { transform:translateX(6px); }
+            45% { transform:translateX(-4px); }
+            60% { transform:translateX(2px); }
+        }
+
+        .login-success-overlay {
+            animation: successPop 0.6s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        @keyframes successPop {
+            0% { opacity:0; transform:scale(0.5); }
+            100% { opacity:1; transform:scale(1); }
+        }
+
+        /* Login button disabled/loading state */
+        .login-btn-loading {
+            opacity: 0.7; pointer-events: none; cursor: wait;
         }
 
         /* Inline search inside header */
@@ -415,34 +761,56 @@
 
     <!-- Login Screen -->
     <div id="loginScreen" class="fixed inset-0 gradient-bg flex items-center justify-center z-40 hidden">
-        <div class="card-bg p-8 rounded-3xl shadow-2xl max-w-md w-full mx-4 border animate-scale-in glass" style="background-color:white;">
+        <!-- Partículas decorativas animadas -->
+        <div class="login-particles" aria-hidden="true">
+            <div class="particle particle-1"></div>
+            <div class="particle particle-2"></div>
+            <div class="particle particle-3"></div>
+            <div class="particle particle-4"></div>
+            <div class="particle particle-5"></div>
+            <div class="particle particle-6"></div>
+        </div>
+        <div class="card-bg p-8 rounded-3xl shadow-2xl max-w-md w-full mx-4 border login-card-entrance glass" style="background-color:white;">
             <div class="text-center mb-8">
-                <div class="w-20 h-20 gradient-bg rounded-full flex items-center justify-center mx-auto mb-4 animate-float">
+                <div class="w-20 h-20 gradient-bg rounded-full flex items-center justify-center mx-auto mb-4 login-logo-pulse">
                     <span class="text-white font-bold text-3xl">K+</span>
                 </div>
-                <h1 class="text-3xl font-bold gradient-text mb-2">Kuia+ Shop</h1>
-                <p class="text-gray-600 dark:text-gray-400">Bem-vindo à nossa loja</p>
-                <p class="text-sm text-gray-500 dark:text-gray-500 mt-2">Escolha como deseja continuar</p>
+                <h1 class="text-3xl font-bold gradient-text mb-2 login-title-entrance">Kuia+ Shop</h1>
+                <p class="text-gray-600 dark:text-gray-400 login-subtitle-entrance">Bem-vindo à nossa loja</p>
+                <p class="text-sm text-gray-500 dark:text-gray-500 mt-2 login-subtitle-entrance" style="animation-delay:0.15s">Escolha como deseja continuar</p>
+            </div>
+
+            <!-- Área de erro inline para login -->
+            <div id="loginErrorBanner" class="hidden mb-4 p-4 rounded-xl border flex items-start space-x-3 login-error-banner">
+                <span class="text-xl flex-shrink-0">⚠️</span>
+                <div class="flex-1 min-w-0">
+                    <p id="loginErrorText" class="text-sm font-medium"></p>
+                    <p id="loginErrorHint" class="text-xs mt-1 opacity-80"></p>
+                </div>
+                <button onclick="hideLoginError()" class="text-lg flex-shrink-0 opacity-60 hover:opacity-100 transition-opacity">×</button>
             </div>
 
             <!-- Login Options -->
             <div class="space-y-4" id="loginOptions">
-                <button id="guestBtn" class="w-full btn-secondary py-4 px-6 rounded-xl hover-lift ripple flex items-center justify-center space-x-3">
+                <button id="guestBtn" class="w-full btn-secondary py-4 px-6 rounded-xl hover-lift ripple flex items-center justify-center space-x-3 login-btn-stagger" style="animation-delay:0.1s">
                     <span class="text-2xl">👤</span>
                     <span class="font-medium">Continuar como Visitante</span>
                 </button>
 
-                <button id="googleLoginBtn" class="w-full card-bg border py-4 px-6 rounded-xl hover-lift ripple flex items-center justify-center space-x-3">
-                    <svg class="w-6 h-6" viewBox="0 0 24 24">
+                <button id="googleLoginBtn" class="w-full card-bg border py-4 px-6 rounded-xl hover-lift ripple flex items-center justify-center space-x-3 login-btn-stagger" style="animation-delay:0.2s">
+                    <svg class="w-6 h-6 flex-shrink-0" viewBox="0 0 24 24">
                         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                         <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                         <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                         <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                     </svg>
-                    <span class="font-medium">Continuar com Google</span>
+                    <span class="font-medium" id="googleBtnText">Continuar com Google</span>
+                    <span id="googleBtnLoader" class="hidden flex items-center">
+                        <div class="animate-spin rounded-full h-5 w-5 border-2 border-gray-600 border-t-transparent"></div>
+                    </span>
                 </button>
 
-                <button id="showEmailLoginBtn" class="w-full btn-primary text-white py-4 px-6 rounded-xl hover-lift ripple flex items-center justify-center space-x-3">
+                <button id="showEmailLoginBtn" class="w-full btn-primary text-white py-4 px-6 rounded-xl hover-lift ripple flex items-center justify-center space-x-3 login-btn-stagger" style="animation-delay:0.3s">
                     <span class="text-2xl">📧</span>
                     <span class="font-medium">Entrar com Email</span>
                 </button>
@@ -467,9 +835,49 @@
                     </button>
                 </form>
 
-                <div class="text-center">
-                    <span class="text-sm text-gray-500 dark:text-gray-400">Não tem conta? </span>
-                    <button id="showRegisterBtn" class="text-sm text-primary hover:underline font-medium">Criar conta</button>
+                <div class="text-center space-y-2">
+                    <div>
+                        <button id="showForgotPasswordBtn" class="text-sm text-primary hover:underline font-medium">Esqueceu a senha?</button>
+                    </div>
+                    <div>
+                        <span class="text-sm text-gray-500 dark:text-gray-400">Não tem conta? </span>
+                        <button id="showRegisterBtn" class="text-sm text-primary hover:underline font-medium">Criar conta</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Forgot Password Form -->
+            <div id="forgotPasswordForm" class="hidden space-y-6 animate-fade-in">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200">Recuperar Senha</h3>
+                    <button id="backToLoginFromForgotBtn" class="text-gray-500 hover:text-primary transition-colors font-medium">
+                        ← Voltar
+                    </button>
+                </div>
+
+                <div class="text-center mb-4">
+                    <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <span class="text-3xl">🔑</span>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Digite seu email e enviaremos um link para redefinir sua senha.</p>
+                </div>
+
+                <form id="forgotPasswordFormEl" class="space-y-4">
+                    <input type="email" id="forgotEmail" placeholder="Seu email cadastrado" required
+                           class="w-full px-4 py-4 text-base card-bg border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent">
+                    <button type="submit" id="forgotPasswordSubmitBtn" class="w-full btn-primary text-white py-4 rounded-xl hover-lift ripple font-medium">
+                        <span id="forgotBtnText">Enviar Link de Recuperação</span>
+                        <span id="forgotBtnLoader" class="hidden flex items-center justify-center">
+                            <div class="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-2"></div>
+                            Enviando...
+                        </span>
+                    </button>
+                </form>
+
+                <div id="forgotPasswordSuccess" class="hidden text-center p-4 rounded-xl bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700">
+                    <span class="text-3xl block mb-2">✅</span>
+                    <p class="text-sm font-medium text-green-800 dark:text-green-200">Email de recuperação enviado!</p>
+                    <p class="text-xs text-green-600 dark:text-green-400 mt-1">Verifique sua caixa de entrada e pasta de spam.</p>
                 </div>
             </div>
 
@@ -524,7 +932,7 @@
         </div>
 
         <!-- Header -->
-        <header class="card-bg shadow-lg border-b sticky top-0 z-30 glass">
+        <header id="mainHeader" class="shadow-lg border-b sticky top-0 z-30 header-purple">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16 header-row">
                     <!-- Logo + Nav (hidden when search is open) -->
@@ -574,6 +982,13 @@
                             </button>
                         </div>
 
+                        <!-- Toggle Filters Button -->
+                        <button id="headerFilterToggleBtn" class="p-3 btn-secondary rounded-xl hover-lift" title="Mostrar/Ocultar Filtros">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+                            </svg>
+                        </button>
+
                         <!-- User Menu -->
                         <div class="relative">
                             <button id="userMenuBtn" class="flex items-center space-x-3 p-2 btn-secondary rounded-xl hover-lift">
@@ -597,25 +1012,26 @@
             <div id="homeSection" class="space-y-8">
                 <div>
                    
-                    <!-- Filter Controls -->
+                    <!-- Filter Controls (hidden by default, toggled from header) -->
+                    <div id="filterControlsWrapper" class="filter-container collapsed">
                     <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
                         <div class="flex items-center gap-3">
                             <button id="toggleCategoryFilters" class="btn-primary text-white px-6 py-3 rounded-xl hover-lift ripple flex items-center space-x-2">
                                 <span class="font-medium">Categorias</span>
                                 <span id="categoryToggleIcon" class="transform transition-transform">▼</span>
                             </button>
-                            
+
                             <button id="togglePriceFilters" class="btn-secondary px-6 py-3 rounded-xl hover-lift ripple flex items-center space-x-2">
                                 <span class="font-medium">Preços</span>
                                 <span id="priceToggleIcon" class="transform transition-transform">▼</span>
                             </button>
                         </div>
-                        
+
                         <div class="text-sm text-gray-600 dark:text-gray-400 font-medium">
                             <span id="productsCount">0 produtos encontrados</span>
                         </div>
                     </div>
-                    
+
                     <!-- Filters -->
                     <div class="space-y-4 mb-8">
                         <!-- Category Filters -->
@@ -658,9 +1074,10 @@
                             </div>
                         </div>
                     </div>
+                    </div>
                 </div>
-                
-                <div id="productsGrid" class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+
+                <div id="productsGrid" class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
                     <div class="col-span-full text-center py-20">
                         <div class="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
                         <p class="text-gray-600 dark:text-gray-400 text-lg">Carregando produtos...</p>
@@ -682,7 +1099,7 @@
             <!-- Favorites Section -->
             <div id="favoritesSection" class="hidden space-y-8">
                 <h2 class="text-4xl font-bold gradient-text">Meus Favoritos</h2>
-                <div id="favoritesGrid" class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                <div id="favoritesGrid" class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
                     <div class="col-span-full text-center py-20">
                         <div class="text-6xl mb-6 animate-float">❤️</div>
                         <p class="text-gray-600 dark:text-gray-400 text-lg">Carregando favoritos...</p>
@@ -834,47 +1251,73 @@
             </div>
         </main>
 
-        <!-- Bottom Navigation Footer -->
-        <footer class="fixed bottom-0 left-0 right-0 card-bg border-t z-30 glass">
-            <div class="grid grid-cols-6 h-16 footer-grid-responsive">
-                <button id="footerHomeBtn" class="footer-nav-btn flex flex-col items-center justify-center text-primary hover-lift">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                    </svg>
-                    <span class="text-xs mt-1 font-medium">Início</span>
-                </button>
-                <button id="footerCategoriesBtn" class="footer-nav-btn flex flex-col items-center justify-center text-gray-500 dark:text-gray-400 hover:text-primary hover-lift">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6a1.125 1.125 0 0 1-1.125-1.125v-3.75ZM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-8.25ZM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-2.25Z" />
-                    </svg>
-                    <span class="text-xs mt-1 font-medium">Categorias</span>
-                </button>
-                <button id="footerFavoritesBtn" class="footer-nav-btn flex flex-col items-center justify-center text-gray-500 dark:text-gray-400 hover:text-primary hover-lift">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                    </svg>
-                    <span class="text-xs mt-1 font-medium">Favoritos</span>
-                </button>
-                <button id="footerOrdersBtn" class="footer-nav-btn flex flex-col items-center justify-center text-gray-500 dark:text-gray-400 hover:text-primary hover-lift">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 3.75H6.912a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H15M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859M12 3v8.25m0 0-3-3m3 3 3-3" />
-                    </svg>
-                    <span class="text-xs mt-1 font-medium">Pedidos</span>
-                </button>
-                <button id="footerChatBtn" class="footer-nav-btn flex flex-col items-center justify-center text-gray-500 dark:text-gray-400 hover:text-primary hover-lift relative">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
-                    </svg>
-                    <span class="text-xs mt-1 font-medium">Chat</span>
-                    <span id="footerChatNotification" class="absolute -top-1 -right-1 bg-green-500 text-white text-xs rounded-full h-4 w-4 items-center justify-center hidden animate-pulse">●</span>
-                </button>
-                <button id="footerCartBtn" class="footer-nav-btn flex flex-col items-center justify-center text-gray-500 dark:text-gray-400 hover:text-primary hover-lift relative">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-                    </svg>
-                    <span class="text-xs mt-1 font-medium">Carrinho</span>
-                    <span id="footerCartCount" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">0</span>
-                </button>
+        <!-- Bottom Navigation Footer - Estilo Loja Online -->
+        <footer class="fixed bottom-0 left-0 right-0 z-30 shop-footer">
+            <div class="shop-footer-safe">
+                <div class="grid grid-cols-6 footer-grid-responsive" style="height:60px;">
+                    <!-- Início -->
+                    <button id="footerHomeBtn" class="footer-nav-btn footer-nav-item active">
+                        <span class="footer-icon-wrap">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                            </svg>
+                        </span>
+                        <span class="footer-label">Início</span>
+                        <span class="footer-active-bar"></span>
+                    </button>
+                    <!-- Categorias -->
+                    <button id="footerCategoriesBtn" class="footer-nav-btn footer-nav-item">
+                        <span class="footer-icon-wrap">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25a2.25 2.25 0 0 1-2.25-2.25v-2.25Z" />
+                            </svg>
+                        </span>
+                        <span class="footer-label">Categorias</span>
+                        <span class="footer-active-bar"></span>
+                    </button>
+                    <!-- Favoritos -->
+                    <button id="footerFavoritesBtn" class="footer-nav-btn footer-nav-item">
+                        <span class="footer-icon-wrap">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                            </svg>
+                        </span>
+                        <span class="footer-label">Favoritos</span>
+                        <span class="footer-active-bar"></span>
+                    </button>
+                    <!-- Pedidos -->
+                    <button id="footerOrdersBtn" class="footer-nav-btn footer-nav-item">
+                        <span class="footer-icon-wrap">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                            </svg>
+                        </span>
+                        <span class="footer-label">Pedidos</span>
+                        <span class="footer-active-bar"></span>
+                    </button>
+                    <!-- Chat -->
+                    <button id="footerChatBtn" class="footer-nav-btn footer-nav-item">
+                        <span class="footer-icon-wrap">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
+                            </svg>
+                            <span id="footerChatNotification" class="footer-chat-dot hidden"></span>
+                        </span>
+                        <span class="footer-label">Chat</span>
+                        <span class="footer-active-bar"></span>
+                    </button>
+                    <!-- Carrinho -->
+                    <button id="footerCartBtn" class="footer-nav-btn footer-nav-item">
+                        <span class="footer-icon-wrap">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                            </svg>
+                            <span id="footerCartCount" class="footer-cart-badge hidden">0</span>
+                        </span>
+                        <span class="footer-label">Carrinho</span>
+                        <span class="footer-active-bar"></span>
+                    </button>
+                </div>
             </div>
         </footer>
     </div>
@@ -1074,52 +1517,63 @@
         </div>
     </div>
 
-    <!-- Product Detail Modal -->
-    <div id="productDetailModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden">
-        <div class="card-bg rounded-2xl max-w-2xl w-full max-h-96 overflow-y-auto animate-scale-in shadow-2xl">
-            <div class="p-8">
-                <div class="flex justify-between items-start mb-6">
-                    <h3 id="detailModalTitle" class="text-2xl font-bold gradient-text">Detalhes do Produto</h3>
-                    <button id="closeDetailModalBtn" class="text-gray-500 hover:text-red-500 text-2xl hover-lift">
-                        ❌
-                    </button>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div>
-                        <div id="detailImage" class="w-full h-64 bg-gray-200 dark:bg-gray-700 rounded-xl flex items-center justify-center">
-                            <div class="text-4xl text-gray-400">🖼️</div>
-                        </div>
+    <!-- Product Detail Full-Screen Overlay -->
+    <div id="productDetailModal" class="fixed inset-0 z-50 hidden" style="transition: opacity 0.3s ease, transform 0.3s ease;">
+        <div class="absolute inset-0 bg-white dark:bg-gray-900 flex flex-col" style="transition: background-color 0.3s ease;">
+            <!-- Overlay Header -->
+            <header class="relative flex items-center px-4 sm:px-6 h-14 border-b border-gray-200 dark:border-gray-700 flex-shrink-0" style="background:inherit;">
+                <!-- Left: Back button -->
+                <button id="closeDetailModalBtn" class="relative z-10 flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-primary transition-colors p-2 -ml-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 flex-shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    <span class="text-sm font-medium hidden sm:inline">Voltar</span>
+                </button>
+                <!-- Center: Title (absolutely centered) -->
+                <h3 id="detailModalTitle" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-base font-bold gradient-text truncate max-w-[55%] text-center pointer-events-none">Detalhes do Produto</h3>
+                <!-- Right: Favorite button -->
+                <button id="detailFavoriteBtn" class="relative z-10 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex-shrink-0 ml-auto">
+                    <span id="detailFavoriteIcon" class="text-xl leading-none">🤍</span>
+                </button>
+            </header>
+
+            <!-- Scrollable Content -->
+            <div class="flex-1 overflow-y-auto">
+                <div class="max-w-3xl mx-auto px-4 sm:px-6 py-6">
+                    <!-- Product Image -->
+                    <div id="detailImage" class="w-full aspect-square max-h-[420px] bg-gray-100 dark:bg-gray-800 rounded-2xl flex items-center justify-center overflow-hidden mb-6">
+                        <div class="text-6xl text-gray-400">🖼️</div>
                     </div>
-                    
-                    <div class="space-y-6">
+
+                    <!-- Product Info -->
+                    <div class="space-y-5">
                         <div>
-                            <h4 id="detailName" class="text-2xl font-bold text-gray-800 dark:text-gray-200"></h4>
-                            <p id="detailCategory" class="text-gray-600 dark:text-gray-400 capitalize text-lg"></p>
+                            <p id="detailCategory" class="text-primary font-semibold capitalize text-sm tracking-wide mb-1"></p>
+                            <h4 id="detailName" class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 leading-tight"></h4>
                         </div>
-                        
-                        <div id="detailPriceContainer" class="flex items-center space-x-3">
-                            <span id="detailPrice" class="text-3xl font-bold gradient-text"></span>
-                            <span id="detailOldPrice" class="text-xl text-gray-400 line-through hidden"></span>
-                            <span id="detailDiscount" class="bg-red-500 text-white px-3 py-1 rounded-full text-sm hidden"></span>
+
+                        <div id="detailPriceContainer" class="flex flex-wrap items-center gap-3">
+                            <span id="detailPrice" class="text-3xl sm:text-4xl font-extrabold gradient-text"></span>
+                            <span id="detailOldPrice" class="text-lg text-gray-400 line-through hidden"></span>
+                            <span id="detailDiscount" class="bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold hidden"></span>
                         </div>
-                        
+
                         <p id="detailStock" class="text-sm text-gray-600 dark:text-gray-400"></p>
-                        
+
                         <div id="detailDescriptionContainer" class="hidden">
-                            <h5 class="font-bold text-gray-800 dark:text-gray-200 mb-2">Descrição</h5>
-                            <p id="detailDescription" class="text-gray-600 dark:text-gray-400"></p>
-                        </div>
-                        
-                        <div class="flex space-x-3">
-                            <button id="detailFavoriteBtn" class="btn-secondary px-6 py-3 rounded-xl hover-lift">
-                                <span id="detailFavoriteIcon">🤍</span>
-                            </button>
-                            <button id="detailAddToCartBtn" class="flex-1 btn-primary text-white py-3 rounded-xl hover-lift ripple disabled:opacity-50">
-                                <span class="mr-2">🛒</span>Adicionar ao Carrinho
-                            </button>
+                            <h5 class="font-bold text-gray-800 dark:text-gray-200 mb-2 text-lg">Descrição</h5>
+                            <p id="detailDescription" class="text-gray-600 dark:text-gray-400 leading-relaxed"></p>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Sticky Bottom Actions -->
+            <div class="flex-shrink-0 border-t border-gray-200 dark:border-gray-700 px-4 sm:px-6 py-3" style="background:inherit;">
+                <div class="max-w-3xl mx-auto flex items-center gap-3">
+                    <button id="detailAddToCartBtn" class="flex-1 btn-primary text-white py-3.5 rounded-xl hover-lift ripple disabled:opacity-50 font-semibold text-base">
+                        <span class="mr-2">🛒</span>Adicionar ao Carrinho
+                    </button>
                 </div>
             </div>
         </div>
@@ -1133,7 +1587,7 @@
 
         // Firebase imports
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js';
-        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js';
+        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js';
         import { getDatabase, ref, onValue, push, set, remove, update } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js';
         import { getFirestore, collection, doc, setDoc, getDoc, getDocs, query, where, orderBy } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js';
 
@@ -1246,6 +1700,25 @@
         const priceFiltersContainer = document.getElementById('priceFiltersContainer');
         const categoryToggleIcon = document.getElementById('categoryToggleIcon');
         const priceToggleIcon = document.getElementById('priceToggleIcon');
+
+        // Header filter toggle (show/hide the entire filter controls area)
+        const headerFilterToggleBtn = document.getElementById('headerFilterToggleBtn');
+        const filterControlsWrapper = document.getElementById('filterControlsWrapper');
+
+        function setupHeaderFilterToggle() {
+            headerFilterToggleBtn.addEventListener('click', () => {
+                const isCollapsed = filterControlsWrapper.classList.contains('collapsed');
+                if (isCollapsed) {
+                    filterControlsWrapper.classList.remove('collapsed');
+                    headerFilterToggleBtn.classList.add('btn-primary', 'text-white');
+                    headerFilterToggleBtn.classList.remove('btn-secondary');
+                } else {
+                    filterControlsWrapper.classList.add('collapsed');
+                    headerFilterToggleBtn.classList.remove('btn-primary', 'text-white');
+                    headerFilterToggleBtn.classList.add('btn-secondary');
+                }
+            });
+        }
 
         // Enhanced Filter toggle functionality
         function setupFilterToggles() {
@@ -2189,9 +2662,13 @@
             });
             
             // Update navigation buttons
-            document.querySelectorAll('.nav-btn, .footer-nav-btn').forEach(btn => {
+            document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('btn-primary', 'text-white');
                 btn.classList.add('btn-secondary');
+            });
+            // Reset footer nav items
+            document.querySelectorAll('.footer-nav-item').forEach(btn => {
+                btn.classList.remove('active');
             });
             
             // Show selected section and update nav
@@ -2310,18 +2787,130 @@
                 navBtn.classList.add('btn-primary', 'text-white');
             }
             if (footerBtn) {
-                footerBtn.classList.remove('text-gray-500', 'dark:text-gray-400');
-                footerBtn.classList.add('text-primary');
+                footerBtn.classList.add('active');
             }
         }
 
-        // Authentication handlers
+        // ===== Sistema de tradução de erros Firebase =====
+        function getFirebaseErrorMessage(error) {
+            const code = error.code || '';
+            const errorMap = {
+                'auth/invalid-email': {
+                    msg: 'O endereço de email não é válido.',
+                    hint: 'Verifique se digitou o email corretamente (ex: nome@email.com)'
+                },
+                'auth/user-disabled': {
+                    msg: 'Esta conta foi desativada.',
+                    hint: 'Entre em contato com o suporte para mais informações.'
+                },
+                'auth/user-not-found': {
+                    msg: 'Nenhuma conta encontrada com este email.',
+                    hint: 'Verifique o email ou crie uma nova conta.'
+                },
+                'auth/wrong-password': {
+                    msg: 'Senha incorreta.',
+                    hint: 'Verifique sua senha e tente novamente.'
+                },
+                'auth/invalid-credential': {
+                    msg: 'Email ou senha incorretos.',
+                    hint: 'Verifique suas credenciais. Se usou login com Google, tente o botão "Continuar com Google".'
+                },
+                'auth/email-already-in-use': {
+                    msg: 'Este email já está em uso.',
+                    hint: 'Tente fazer login ou use outro email para criar uma conta.'
+                },
+                'auth/weak-password': {
+                    msg: 'A senha é muito fraca.',
+                    hint: 'Use pelo menos 6 caracteres com letras e números.'
+                },
+                'auth/too-many-requests': {
+                    msg: 'Muitas tentativas de login.',
+                    hint: 'Aguarde alguns minutos antes de tentar novamente.'
+                },
+                'auth/network-request-failed': {
+                    msg: 'Erro de conexão com a internet.',
+                    hint: 'Verifique sua conexão e tente novamente.'
+                },
+                'auth/popup-closed-by-user': {
+                    msg: 'A janela de login foi fechada.',
+                    hint: 'Clique no botão novamente para abrir a janela de autenticação.'
+                },
+                'auth/popup-blocked': {
+                    msg: 'A janela de login foi bloqueada pelo navegador.',
+                    hint: 'Permita pop-ups para este site nas configurações do navegador.'
+                },
+                'auth/cancelled-popup-request': {
+                    msg: 'Operação cancelada.',
+                    hint: 'Uma nova tentativa de login foi iniciada.'
+                },
+                'auth/account-exists-with-different-credential': {
+                    msg: 'Já existe uma conta com este email usando outro método.',
+                    hint: 'Tente fazer login com Google ou com email/senha.'
+                },
+                'auth/operation-not-allowed': {
+                    msg: 'Este método de login não está habilitado.',
+                    hint: 'Entre em contato com o suporte.'
+                },
+                'auth/requires-recent-login': {
+                    msg: 'Faça login novamente para continuar.',
+                    hint: 'Por segurança, é necessário fazer login recente.'
+                },
+                'auth/internal-error': {
+                    msg: 'Erro interno do servidor.',
+                    hint: 'Tente novamente em alguns instantes.'
+                },
+                'auth/missing-password': {
+                    msg: 'A senha é obrigatória.',
+                    hint: 'Digite sua senha para continuar.'
+                }
+            };
+
+            return errorMap[code] || {
+                msg: 'Ocorreu um erro inesperado.',
+                hint: 'Tente novamente. Se o problema persistir, entre em contato com o suporte.'
+            };
+        }
+
+        function showLoginError(error) {
+            const { msg, hint } = getFirebaseErrorMessage(error);
+            const banner = document.getElementById('loginErrorBanner');
+            document.getElementById('loginErrorText').textContent = msg;
+            document.getElementById('loginErrorHint').textContent = hint;
+            banner.classList.remove('hidden');
+            // Re-trigger shake animation
+            banner.style.animation = 'none';
+            void banner.offsetHeight; // force reflow
+            banner.style.animation = '';
+        }
+
+        function hideLoginError() {
+            document.getElementById('loginErrorBanner').classList.add('hidden');
+        }
+        window.hideLoginError = hideLoginError;
+
+        function setLoginBtnLoading(btnEl, textEl, loaderEl, loading) {
+            if (loading) {
+                btnEl.classList.add('login-btn-loading');
+                textEl.classList.add('hidden');
+                loaderEl.classList.remove('hidden');
+            } else {
+                btnEl.classList.remove('login-btn-loading');
+                textEl.classList.remove('hidden');
+                loaderEl.classList.add('hidden');
+            }
+        }
+
+        // ===== Authentication handlers =====
         const guestBtn = document.getElementById('guestBtn');
         const googleLoginBtn = document.getElementById('googleLoginBtn');
         const showEmailLoginBtn = document.getElementById('showEmailLoginBtn');
         const backToOptionsBtn = document.getElementById('backToOptionsBtn');
         const showRegisterBtn = document.getElementById('showRegisterBtn');
         const backToLoginBtn = document.getElementById('backToLoginBtn');
+        const showForgotPasswordBtn = document.getElementById('showForgotPasswordBtn');
+        const backToLoginFromForgotBtn = document.getElementById('backToLoginFromForgotBtn');
+        const forgotPasswordFormEl = document.getElementById('forgotPasswordFormEl');
+        const forgotPasswordForm = document.getElementById('forgotPasswordForm');
         const loginForm = document.getElementById('loginForm');
         const registerForm = document.getElementById('registerForm');
         const loginOptions = document.getElementById('loginOptions');
@@ -2329,6 +2918,7 @@
         const emailRegisterForm = document.getElementById('emailRegisterForm');
 
         guestBtn.addEventListener('click', () => {
+            hideLoginError();
             isGuest = true;
             currentUser = null;
             updateUserUI();
@@ -2337,12 +2927,20 @@
             updateCartUI();
         });
 
-        googleLoginBtn.addEventListener('click', async () => {
+        // Função para login com Google
+        async function handleGoogleAuth() {
+            const btn = googleLoginBtn;
+            const textEl = document.getElementById('googleBtnText');
+            const loaderEl = document.getElementById('googleBtnLoader');
+
+            hideLoginError();
+            setLoginBtnLoading(btn, textEl, loaderEl, true);
+
             try {
                 const provider = new GoogleAuthProvider();
                 const result = await signInWithPopup(auth, provider);
                 const user = result.user;
-                
+
                 const userDoc = await getDoc(doc(firestore, 'users', user.uid));
                 if (!userDoc.exists()) {
                     await setDoc(doc(firestore, 'users', user.uid), {
@@ -2370,7 +2968,7 @@
                             role: 'super_admin',
                             createdAt: new Date()
                         });
-                        
+
                         await set(ref(database, `admins/${user.uid}`), {
                             email: user.email,
                             role: 'super_admin',
@@ -2378,45 +2976,126 @@
                         });
                     }
                 }
-                
+
                 console.log('Google login successful:', user.email);
-                
+                showNotificationToast('Sucesso', 'Login realizado com sucesso! Bem-vindo, ' + (user.displayName || user.email), 'success');
+
             } catch (error) {
                 console.error('Login error:', error);
-                showNotificationToast('Erro', 'Erro no login: ' + error.message, 'error');
+                showLoginError(error);
+                showNotificationToast('Erro', getFirebaseErrorMessage(error).msg, 'error');
+            } finally {
+                setLoginBtnLoading(btn, textEl, loaderEl, false);
             }
-        });
+        }
+
+        googleLoginBtn.addEventListener('click', () => handleGoogleAuth());
 
         showEmailLoginBtn.addEventListener('click', () => {
+            hideLoginError();
             loginOptions.classList.add('hidden');
             emailLoginForm.classList.remove('hidden');
         });
 
         backToOptionsBtn.addEventListener('click', () => {
+            hideLoginError();
             emailLoginForm.classList.add('hidden');
             loginOptions.classList.remove('hidden');
         });
 
         showRegisterBtn.addEventListener('click', () => {
+            hideLoginError();
             emailLoginForm.classList.add('hidden');
             emailRegisterForm.classList.remove('hidden');
         });
 
+        // Forgot Password navigation
+        showForgotPasswordBtn.addEventListener('click', () => {
+            hideLoginError();
+            emailLoginForm.classList.add('hidden');
+            forgotPasswordForm.classList.remove('hidden');
+            document.getElementById('forgotPasswordSuccess').classList.add('hidden');
+            document.getElementById('forgotPasswordFormEl').classList.remove('hidden');
+            document.getElementById('forgotEmail').value = document.getElementById('loginEmail').value || '';
+        });
+
+        backToLoginFromForgotBtn.addEventListener('click', () => {
+            hideLoginError();
+            forgotPasswordForm.classList.add('hidden');
+            emailLoginForm.classList.remove('hidden');
+        });
+
+        forgotPasswordFormEl.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideLoginError();
+            const email = document.getElementById('forgotEmail').value.trim();
+
+            if (!email) {
+                showLoginError({ code: 'auth/invalid-email' });
+                return;
+            }
+
+            const submitBtn = document.getElementById('forgotPasswordSubmitBtn');
+            const btnText = document.getElementById('forgotBtnText');
+            const btnLoader = document.getElementById('forgotBtnLoader');
+
+            submitBtn.disabled = true;
+            btnText.classList.add('hidden');
+            btnLoader.classList.remove('hidden');
+
+            try {
+                await sendPasswordResetEmail(auth, email);
+                document.getElementById('forgotPasswordFormEl').classList.add('hidden');
+                document.getElementById('forgotPasswordSuccess').classList.remove('hidden');
+                showNotificationToast('Sucesso', 'Email de recuperação enviado para ' + email, 'success');
+            } catch (error) {
+                console.error('Password reset error:', error);
+                showLoginError(error);
+                showNotificationToast('Erro', getFirebaseErrorMessage(error).msg, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                btnText.classList.remove('hidden');
+                btnLoader.classList.add('hidden');
+            }
+        });
+
         backToLoginBtn.addEventListener('click', () => {
+            hideLoginError();
             emailRegisterForm.classList.add('hidden');
             emailLoginForm.classList.remove('hidden');
         });
 
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
+            hideLoginError();
+            const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
-            
+
+            // Validação local antes de enviar
+            if (!email) {
+                showLoginError({ code: 'auth/invalid-email' });
+                return;
+            }
+            if (!password) {
+                showLoginError({ code: 'auth/missing-password' });
+                return;
+            }
+
+            const submitBtn = loginForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<div class="flex items-center justify-center"><div class="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-2"></div>Entrando...</div>';
+
             try {
                 await signInWithEmailAndPassword(auth, email, password);
+                showNotificationToast('Sucesso', 'Login realizado com sucesso!', 'success');
             } catch (error) {
                 console.error('Login error:', error);
-                showNotificationToast('Erro', 'Erro no login: ' + error.message, 'error');
+                showLoginError(error);
+                showNotificationToast('Erro', getFirebaseErrorMessage(error).msg, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
             }
         });
 
@@ -2517,7 +3196,8 @@
                 
             } catch (error) {
                 console.error('Register error:', error);
-                showNotificationToast('Erro', 'Erro no cadastro: ' + error.message, 'error');
+                showLoginError(error);
+                showNotificationToast('Erro', getFirebaseErrorMessage(error).msg, 'error');
             } finally {
                 registerBtnText.classList.remove('hidden');
                 registerBtnLoader.classList.add('hidden');
@@ -2971,57 +3651,47 @@
             productsGrid.innerHTML = filteredProducts.map(product => {
                 const hasDiscount = product.oldPrice && product.oldPrice > product.price;
                 const discountPercent = hasDiscount ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100) : 0;
-                const isFavorite = favorites.includes(product.id);
-                
+
+                const isFav = favorites.includes(product.id);
                 return `
-                <div class="card-bg rounded-2xl border overflow-hidden hover-lift animate-fade-in group cursor-pointer"
+                <div class="card-bg rounded-xl border overflow-hidden hover-lift animate-fade-in group cursor-pointer"
                      onclick="showProductDetail('${product.id}')">
-                    <div class="relative h-48 bg-gray-200 dark:bg-gray-700">
-                        ${product.image ? 
+                    <div class="relative h-28 sm:h-32 bg-gray-200 dark:bg-gray-700">
+                        ${product.image ?
                             `<img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">` :
                             `<div class="w-full h-full flex items-center justify-center">
-                                <div class="text-4xl text-gray-400 animate-pulse">🖼️</div>
+                                <div class="text-2xl text-gray-400 animate-pulse">🖼️</div>
                             </div>`
                         }
-                        ${currentUser ? `
-                            <button onclick="event.stopPropagation(); toggleFavorite('${product.id}')" 
-                                    class="absolute top-3 right-3 p-2 bg-white dark:bg-gray-800 rounded-full shadow-lg hover-lift opacity-80 hover:opacity-100">
-                                <span class="text-lg">${isFavorite ? '❤️' : '🤍'}</span>
-                            </button>
-                        ` : ''}
+                        <button onclick="event.stopPropagation(); toggleFavorite('${product.id}')"
+                                class="absolute top-1.5 right-1.5 w-7 h-7 rounded-full bg-white/80 dark:bg-black/50 flex items-center justify-center hover:scale-110 transition-transform shadow-sm backdrop-blur-sm"
+                                title="${isFav ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}">
+                            <span class="text-sm">${isFav ? '❤️' : '🤍'}</span>
+                        </button>
                         ${hasDiscount ? `
-                            <div class="absolute top-3 left-3 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold animate-bounce-in">
+                            <div class="absolute top-1.5 left-1.5 bg-red-500 text-white px-2 py-0.5 rounded-full text-xs font-bold">
                                 -${discountPercent}%
                             </div>
                         ` : ''}
                         ${product.stock === 0 ? `
                             <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                                <span class="text-white font-bold bg-red-500 px-4 py-2 rounded-xl">Esgotado</span>
+                                <span class="text-white font-bold bg-red-500 px-2 py-1 rounded-lg text-xs">Esgotado</span>
                             </div>
                         ` : ''}
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-gray-800 dark:text-gray-200 mb-2 text-lg line-clamp-2">${product.name}</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-3 capitalize">${getCategoryName(product.category)}</p>
-                        
-                        <div class="flex items-center space-x-2 mb-3">
-                            <span class="text-2xl font-bold gradient-text">${formatPrice(product.price)}</span>
-                            ${hasDiscount ? `<span class="text-lg text-gray-400 line-through">${formatPrice(product.oldPrice)}</span>` : ''}
+                    <div class="p-2.5">
+                        <h3 class="font-bold text-gray-800 dark:text-gray-200 mb-0.5 text-xs line-clamp-2 leading-tight">${product.name}</h3>
+                        <p class="text-[10px] text-gray-600 dark:text-gray-400 mb-1 capitalize">${getCategoryName(product.category)}</p>
+
+                        <div class="flex items-center gap-1 mb-1.5">
+                            <span class="text-sm font-bold gradient-text">${formatPrice(product.price)}</span>
+                            ${hasDiscount ? `<span class="text-[10px] text-gray-400 line-through">${formatPrice(product.oldPrice)}</span>` : ''}
                         </div>
-                        
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="text-sm text-gray-500 dark:text-gray-400">
-                                📦 ${product.stock} disponível
-                            </span>
-                            ${product.stock > 0 && product.stock <= 5 ? `
-                                <span class="text-xs text-orange-500 font-bold animate-pulse">Últimas unidades!</span>
-                            ` : ''}
-                        </div>
-                        
-                        <button onclick="event.stopPropagation(); addToCart('${product.id}')" 
-                                class="w-full btn-primary text-white py-3 rounded-xl hover-lift ripple ${product.stock === 0 ? 'opacity-50 cursor-not-allowed' : ''}"
+
+                        <button onclick="event.stopPropagation(); addToCart('${product.id}')"
+                                class="w-full btn-primary text-white py-1.5 rounded-lg hover-lift ripple text-xs ${product.stock === 0 ? 'opacity-50 cursor-not-allowed' : ''}"
                                 ${product.stock === 0 ? 'disabled' : ''}>
-                            <span class="mr-2">🛒</span>${product.stock === 0 ? 'Sem Estoque' : 'Adicionar ao Carrinho'}
+                            <span class="mr-1">🛒</span>${product.stock === 0 ? 'Esgotado' : 'Comprar'}
                         </button>
                     </div>
                 </div>
@@ -3075,54 +3745,46 @@
             favoritesGrid.innerHTML = favoriteProducts.map(product => {
                 const hasDiscount = product.oldPrice && product.oldPrice > product.price;
                 const discountPercent = hasDiscount ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100) : 0;
-                
+
                 return `
-                <div class="card-bg rounded-2xl border overflow-hidden hover-lift animate-fade-in group cursor-pointer"
+                <div class="card-bg rounded-xl border overflow-hidden hover-lift animate-fade-in group cursor-pointer"
                      onclick="showProductDetail('${product.id}')">
-                    <div class="relative h-48 bg-gray-200 dark:bg-gray-700">
-                        ${product.image ? 
+                    <div class="relative h-28 sm:h-32 bg-gray-200 dark:bg-gray-700">
+                        ${product.image ?
                             `<img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">` :
                             `<div class="w-full h-full flex items-center justify-center">
-                                <div class="text-4xl text-gray-400 animate-pulse">🖼️</div>
+                                <div class="text-2xl text-gray-400 animate-pulse">🖼️</div>
                             </div>`
                         }
-                        <button onclick="event.stopPropagation(); toggleFavorite('${product.id}')" 
-                                class="absolute top-3 right-3 p-2 bg-white dark:bg-gray-800 rounded-full shadow-lg hover-lift">
-                            <span class="text-lg">❤️</span>
+                        <button onclick="event.stopPropagation(); toggleFavorite('${product.id}')"
+                                class="absolute top-1.5 right-1.5 w-7 h-7 rounded-full bg-white/80 dark:bg-black/50 flex items-center justify-center hover:scale-110 transition-transform shadow-sm backdrop-blur-sm"
+                                title="Remover dos favoritos">
+                            <span class="text-sm">❤️</span>
                         </button>
                         ${hasDiscount ? `
-                            <div class="absolute top-3 left-3 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold animate-bounce-in">
+                            <div class="absolute top-1.5 left-1.5 bg-red-500 text-white px-2 py-0.5 rounded-full text-xs font-bold">
                                 -${discountPercent}%
                             </div>
                         ` : ''}
                         ${product.stock === 0 ? `
                             <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                                <span class="text-white font-bold bg-red-500 px-4 py-2 rounded-xl">Esgotado</span>
+                                <span class="text-white font-bold bg-red-500 px-2 py-1 rounded-lg text-xs">Esgotado</span>
                             </div>
                         ` : ''}
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-gray-800 dark:text-gray-200 mb-2 text-lg line-clamp-2">${product.name}</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-3 capitalize">${getCategoryName(product.category)}</p>
-                        
-                        <div class="flex items-center space-x-2 mb-3">
-                            <span class="text-2xl font-bold gradient-text">${formatPrice(product.price)}</span>
-                            ${hasDiscount ? `<span class="text-lg text-gray-400 line-through">${formatPrice(product.oldPrice)}</span>` : ''}
+                    <div class="p-2.5">
+                        <h3 class="font-bold text-gray-800 dark:text-gray-200 mb-0.5 text-xs line-clamp-2 leading-tight">${product.name}</h3>
+                        <p class="text-[10px] text-gray-600 dark:text-gray-400 mb-1 capitalize">${getCategoryName(product.category)}</p>
+
+                        <div class="flex items-center gap-1 mb-1.5">
+                            <span class="text-sm font-bold gradient-text">${formatPrice(product.price)}</span>
+                            ${hasDiscount ? `<span class="text-[10px] text-gray-400 line-through">${formatPrice(product.oldPrice)}</span>` : ''}
                         </div>
-                        
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="text-sm text-gray-500 dark:text-gray-400">
-                                📦 ${product.stock} disponível
-                            </span>
-                            ${product.stock > 0 && product.stock <= 5 ? `
-                                <span class="text-xs text-orange-500 font-bold animate-pulse">Últimas unidades!</span>
-                            ` : ''}
-                        </div>
-                        
-                        <button onclick="event.stopPropagation(); addToCart('${product.id}')" 
-                                class="w-full btn-primary text-white py-3 rounded-xl hover-lift ripple ${product.stock === 0 ? 'opacity-50 cursor-not-allowed' : ''}"
+
+                        <button onclick="event.stopPropagation(); addToCart('${product.id}')"
+                                class="w-full btn-primary text-white py-1.5 rounded-lg hover-lift ripple text-xs ${product.stock === 0 ? 'opacity-50 cursor-not-allowed' : ''}"
                                 ${product.stock === 0 ? 'disabled' : ''}>
-                            <span class="mr-2">🛒</span>${product.stock === 0 ? 'Sem Estoque' : 'Adicionar ao Carrinho'}
+                            <span class="mr-1">🛒</span>${product.stock === 0 ? 'Esgotado' : 'Comprar'}
                         </button>
                     </div>
                 </div>
@@ -3192,15 +3854,15 @@
 
             categoriesGrid.innerHTML = categories.map(category => {
                 const categoryProducts = Object.values(products).filter(p => p.category === category);
+                const bgImage = getCategoryBackground(category);
                 return `
-                    <div class="card-bg rounded-2xl border p-8 hover-lift animate-fade-in group cursor-pointer"
+                    <div class="category-card-bg hover-lift animate-fade-in cursor-pointer"
+                         style="background-image: ${bgImage};"
                          onclick="filterByCategory('${category}')">
-                        <div class="text-center">
-                            <div class="w-20 h-20 gradient-bg rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                                <div class="text-3xl text-white">${getCategoryIcon(category)}</div>
-                            </div>
-                            <h3 class="font-bold text-gray-800 dark:text-gray-200 mb-2 text-xl">${getCategoryName(category)}</h3>
-                            <p class="text-gray-500 dark:text-gray-400">${categoryProducts.length} produto${categoryProducts.length !== 1 ? 's' : ''}</p>
+                        <div class="category-card-content">
+                            <div class="category-card-icon">${getCategoryIcon(category)}</div>
+                            <h3 class="font-bold mb-1 text-xl">${getCategoryName(category)}</h3>
+                            <p class="text-sm">${categoryProducts.length} produto${categoryProducts.length !== 1 ? 's' : ''}</p>
                         </div>
                     </div>
                 `;
@@ -3298,10 +3960,10 @@
             
             if (totalItems > 0) {
                 footerCartCount.classList.remove('hidden');
-                footerCartCount.style.transform = 'scale(1.2)';
+                footerCartCount.classList.add('bounce-anim');
                 setTimeout(() => {
-                    footerCartCount.style.transform = 'scale(1)';
-                }, 200);
+                    footerCartCount.classList.remove('bounce-anim');
+                }, 400);
             } else {
                 footerCartCount.classList.add('hidden');
             }
@@ -3399,19 +4061,16 @@
             }
             
             if (product.image) {
-                detailImage.innerHTML = `<img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover rounded-xl">`;
+                detailImage.innerHTML = `<img src="${product.image}" alt="${product.name}" class="w-full h-full object-contain rounded-2xl">`;
             } else {
                 detailImage.innerHTML = '<div class="text-6xl text-gray-400">🖼️</div>';
             }
 
-            if (currentUser) {
-                const isFavorite = favorites.includes(productId);
-                detailFavoriteIcon.textContent = isFavorite ? '❤️' : '🤍';
-                detailFavoriteBtn.onclick = () => toggleFavorite(productId);
-                detailFavoriteBtn.style.display = 'block';
-            } else {
-                detailFavoriteBtn.style.display = 'none';
-            }
+            window._currentDetailProductId = productId;
+            const isFavorite = currentUser && favorites.includes(productId);
+            detailFavoriteIcon.textContent = isFavorite ? '❤️' : '🤍';
+            detailFavoriteBtn.onclick = () => toggleFavorite(productId);
+            detailFavoriteBtn.style.display = '';
             
             detailAddToCartBtn.onclick = () => {
                 if (product.stock > 0) {
@@ -3421,10 +4080,24 @@
             };
             
             productDetailModal.classList.remove('hidden');
+            productDetailModal.style.opacity = '0';
+            productDetailModal.style.transform = 'translateY(24px)';
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    productDetailModal.style.opacity = '1';
+                    productDetailModal.style.transform = 'translateY(0)';
+                });
+            });
         };
 
         function closeProductDetail() {
-            productDetailModal.classList.add('hidden');
+            productDetailModal.style.opacity = '0';
+            productDetailModal.style.transform = 'translateY(24px)';
+            setTimeout(() => {
+                productDetailModal.classList.add('hidden');
+                productDetailModal.style.opacity = '';
+                productDetailModal.style.transform = '';
+            }, 300);
         }
 
         window.filterByCategory = function(category) {
@@ -3605,6 +4278,29 @@
             return categoryIcons[category] || '🗂️';
         }
 
+        function getCategoryBackground(category) {
+            const bgs = {
+                'eletronicos': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23141E30'/%3E%3Cstop offset='1' stop-color='%23243B55'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='320' cy='60' r='80' fill='%230ea5e9' opacity='.18'/%3E%3Ccircle cx='80' cy='220' r='100' fill='%236366f1' opacity='.15'/%3E%3Crect x='150' y='80' width='120' height='80' rx='12' fill='%2338bdf8' opacity='.12'/%3E%3Cline x1='0' y1='150' x2='400' y2='150' stroke='%2338bdf8' stroke-width='.5' opacity='.15'/%3E%3Cline x1='200' y1='0' x2='200' y2='300' stroke='%2338bdf8' stroke-width='.5' opacity='.1'/%3E%3C/svg%3E\")",
+                'roupas': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23831843'/%3E%3Cstop offset='1' stop-color='%23be185d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='340' cy='250' r='120' fill='%23ec4899' opacity='.15'/%3E%3Ccircle cx='60' cy='40' r='80' fill='%23f472b6' opacity='.12'/%3E%3Cpath d='M100 300 Q200 180 300 300' fill='%23fda4af' opacity='.08'/%3E%3Crect x='180' y='60' width='60' height='100' rx='30' fill='%23fb7185' opacity='.1'/%3E%3C/svg%3E\")",
+                'casa': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23064e3b'/%3E%3Cstop offset='1' stop-color='%23065f46'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='100' cy='80' r='60' fill='%2334d399' opacity='.12'/%3E%3Ccircle cx='330' cy='220' r='90' fill='%2310b981' opacity='.1'/%3E%3Cpath d='M200 50 L280 120 L120 120Z' fill='%236ee7b7' opacity='.1'/%3E%3Crect x='160' y='120' width='80' height='80' fill='%23a7f3d0' opacity='.06'/%3E%3C/svg%3E\")",
+                'livros': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2378350f'/%3E%3Cstop offset='1' stop-color='%2392400e'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Crect x='50' y='80' width='40' height='160' rx='4' fill='%23fbbf24' opacity='.15'/%3E%3Crect x='100' y='60' width='35' height='180' rx='4' fill='%23f59e0b' opacity='.12'/%3E%3Crect x='145' y='90' width='38' height='150' rx='4' fill='%23fcd34d' opacity='.1'/%3E%3Ccircle cx='320' cy='80' r='60' fill='%23fbbf24' opacity='.08'/%3E%3Ccircle cx='300' cy='240' r='80' fill='%23f59e0b' opacity='.07'/%3E%3C/svg%3E\")",
+                'esportes': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23172554'/%3E%3Cstop offset='1' stop-color='%231e3a5f'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='200' cy='150' r='70' fill='none' stroke='%2360a5fa' stroke-width='3' opacity='.2'/%3E%3Ccircle cx='80' cy='60' r='50' fill='%233b82f6' opacity='.1'/%3E%3Ccircle cx='350' cy='250' r='70' fill='%232563eb' opacity='.12'/%3E%3Cpath d='M50 200 Q150 100 250 200 T450 200' fill='none' stroke='%2393c5fd' stroke-width='1.5' opacity='.12'/%3E%3C/svg%3E\")",
+                'beleza': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%234a044e'/%3E%3Cstop offset='1' stop-color='%2386198f'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='100' cy='100' r='80' fill='%23d946ef' opacity='.12'/%3E%3Ccircle cx='320' cy='60' r='50' fill='%23e879f9' opacity='.1'/%3E%3Ccircle cx='280' cy='230' r='90' fill='%23a855f7' opacity='.1'/%3E%3Cellipse cx='180' cy='200' rx='60' ry='40' fill='%23f0abfc' opacity='.08'/%3E%3C/svg%3E\")",
+                'acessorios': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2344403c'/%3E%3Cstop offset='1' stop-color='%2357534e'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='200' cy='140' r='50' fill='%23fbbf24' opacity='.15'/%3E%3Ccircle cx='200' cy='140' r='35' fill='%2344403c'/%3E%3Ccircle cx='80' cy='60' r='40' fill='%23f59e0b' opacity='.08'/%3E%3Ccircle cx='340' cy='240' r='60' fill='%23d97706' opacity='.1'/%3E%3Cpath d='M160 100 Q200 60 240 100' fill='none' stroke='%23fbbf24' stroke-width='2' opacity='.2'/%3E%3C/svg%3E\")",
+                'calcados': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%231c1917'/%3E%3Cstop offset='1' stop-color='%23292524'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Cellipse cx='200' cy='180' rx='130' ry='40' fill='%23f97316' opacity='.1'/%3E%3Ccircle cx='100' cy='80' r='60' fill='%23fb923c' opacity='.08'/%3E%3Ccircle cx='330' cy='100' r='50' fill='%23ea580c' opacity='.1'/%3E%3Cpath d='M60 220 Q200 160 340 220' fill='none' stroke='%23fdba74' stroke-width='2' opacity='.15'/%3E%3C/svg%3E\")",
+                'alimentacao': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237f1d1d'/%3E%3Cstop offset='1' stop-color='%23991b1b'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='140' cy='120' r='70' fill='%23ef4444' opacity='.12'/%3E%3Ccircle cx='300' cy='200' r='90' fill='%23f87171' opacity='.08'/%3E%3Ccircle cx='60' cy='250' r='40' fill='%23fca5a5' opacity='.1'/%3E%3Crect x='220' y='50' width='100' height='60' rx='30' fill='%23fecaca' opacity='.06'/%3E%3C/svg%3E\")",
+                'saude': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23042f2e'/%3E%3Cstop offset='1' stop-color='%23134e4a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Crect x='175' y='80' width='50' height='140' rx='6' fill='%232dd4bf' opacity='.12'/%3E%3Crect x='130' y='125' width='140' height='50' rx='6' fill='%232dd4bf' opacity='.12'/%3E%3Ccircle cx='80' cy='60' r='50' fill='%2314b8a6' opacity='.08'/%3E%3Ccircle cx='340' cy='250' r='60' fill='%235eead4' opacity='.07'/%3E%3C/svg%3E\")",
+                'automotivo': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%231e293b'/%3E%3Cstop offset='1' stop-color='%23334155'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='130' cy='200' r='50' fill='none' stroke='%2394a3b8' stroke-width='6' opacity='.15'/%3E%3Ccircle cx='280' cy='200' r='50' fill='none' stroke='%2394a3b8' stroke-width='6' opacity='.15'/%3E%3Crect x='80' y='130' width='250' height='70' rx='20' fill='%2364748b' opacity='.1'/%3E%3Ccircle cx='320' cy='60' r='40' fill='%23475569' opacity='.12'/%3E%3C/svg%3E\")",
+                'brinquedos': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23701a75'/%3E%3Cstop offset='1' stop-color='%23a21caf'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='100' cy='80' r='40' fill='%23f472b6' opacity='.15'/%3E%3Ccircle cx='300' cy='100' r='55' fill='%2338bdf8' opacity='.12'/%3E%3Ccircle cx='200' cy='230' r='60' fill='%23a3e635' opacity='.1'/%3E%3Crect x='150' y='50' width='30' height='30' rx='4' fill='%23fbbf24' opacity='.15' transform='rotate(15 165 65)'/%3E%3Crect x='280' y='200' width='25' height='25' rx='4' fill='%23fb7185' opacity='.15' transform='rotate(-20 292 212)'/%3E%3C/svg%3E\")",
+                'musica': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23312e81'/%3E%3Cstop offset='1' stop-color='%234338ca'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='280' cy='200' r='50' fill='%23818cf8' opacity='.15'/%3E%3Cline x1='280' y1='200' x2='280' y2='60' stroke='%23a5b4fc' stroke-width='3' opacity='.15'/%3E%3Ccircle cx='100' cy='100' r='70' fill='%236366f1' opacity='.1'/%3E%3Cpath d='M50 250 Q120 200 190 250 Q260 300 330 250' fill='none' stroke='%23c7d2fe' stroke-width='1.5' opacity='.12'/%3E%3C/svg%3E\")",
+                'arte': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%239d174d'/%3E%3Cstop offset='1' stop-color='%23be185d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='80' cy='80' r='50' fill='%23fbbf24' opacity='.15'/%3E%3Ccircle cx='200' cy='200' r='60' fill='%233b82f6' opacity='.12'/%3E%3Ccircle cx='320' cy='100' r='45' fill='%2322c55e' opacity='.12'/%3E%3Crect x='260' y='200' width='80' height='60' rx='4' fill='%23e879f9' opacity='.1'/%3E%3Cpath d='M40 280 Q100 180 180 250' fill='none' stroke='%23fcd34d' stroke-width='3' opacity='.15'/%3E%3C/svg%3E\")",
+                'pets': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23365314'/%3E%3Cstop offset='1' stop-color='%233f6212'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='160' cy='120' r='30' fill='%2384cc16' opacity='.15'/%3E%3Ccircle cx='240' cy='120' r='30' fill='%2384cc16' opacity='.15'/%3E%3Ccircle cx='200' cy='170' r='50' fill='%23a3e635' opacity='.1'/%3E%3Ccircle cx='80' cy='60' r='20' fill='%23bef264' opacity='.1'/%3E%3Ccircle cx='340' cy='50' r='20' fill='%23bef264' opacity='.1'/%3E%3Ccircle cx='60' cy='260' r='50' fill='%234ade80' opacity='.07'/%3E%3C/svg%3E\")",
+                'servicos': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23374151'/%3E%3Cstop offset='1' stop-color='%234b5563'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='200' cy='130' r='60' fill='%239ca3af' opacity='.1'/%3E%3Crect x='180' y='100' width='40' height='60' rx='4' fill='%23d1d5db' opacity='.1'/%3E%3Ccircle cx='80' cy='240' r='50' fill='%236b7280' opacity='.1'/%3E%3Ccircle cx='340' cy='80' r='40' fill='%239ca3af' opacity='.08'/%3E%3Cpath d='M100 50 L350 250' stroke='%23d1d5db' stroke-width='1' opacity='.08'/%3E%3C/svg%3E\")"
+            };
+            const fallback = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23374151'/%3E%3Cstop offset='1' stop-color='%234b5563'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='200' cy='150' r='80' fill='%236b7280' opacity='.1'/%3E%3Ccircle cx='80' cy='60' r='40' fill='%239ca3af' opacity='.08'/%3E%3C/svg%3E\")";
+            return bgs[category] || fallback;
+        }
+
         function showMainApp() {
             loadingScreen.style.opacity = '0';
             setTimeout(() => {
@@ -3623,10 +4319,14 @@
             loadingScreen.classList.add('hidden');
             mainApp.classList.add('hidden');
             loginScreen.classList.remove('hidden');
-            
+
             loginOptions.classList.remove('hidden');
             emailLoginForm.classList.add('hidden');
             emailRegisterForm.classList.add('hidden');
+
+            // Reset error banner
+            const errorBanner = document.getElementById('loginErrorBanner');
+            if (errorBanner) errorBanner.classList.add('hidden');
         }
 
         // Make functions available globally
@@ -3637,6 +4337,7 @@
 
         // Setup filter toggles
         setupFilterToggles();
+        setupHeaderFilterToggle();
 
         // Initialize the app
         setTimeout(() => {
@@ -3657,6 +4358,5 @@
     if (categoryBtn) categoryBtn.click();
   }, 3000);
 </script>
-    4u7
 </body>
 </html>
