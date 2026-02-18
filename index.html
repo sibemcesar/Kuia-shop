@@ -2399,6 +2399,26 @@
 
         function openChatOverlay() {
             const overlay = document.getElementById('chatOverlay');
+            const messagesEl = document.getElementById('chatOverlayMessages');
+            const inputContainer = document.getElementById('chatOverlayInputContainer');
+
+            // Verificação de login: mostrar mensagem se não estiver logado
+            if (!currentUser && !isGuest) {
+                messagesEl.innerHTML = `
+                    <div class="text-center text-gray-500 dark:text-gray-400 py-20 animate-fade-in">
+                        <div class="text-8xl mb-6 animate-float">🔑</div>
+                        <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">Login Necessário</h3>
+                        <p class="text-gray-500 dark:text-gray-400 mb-6">Faça login para usar o chat</p>
+                        <button onclick="closeChatOverlay(); showLoginScreen();" class="btn-primary text-white px-8 py-4 rounded-xl hover-lift ripple">
+                            Fazer Login
+                        </button>
+                    </div>
+                `;
+                inputContainer.classList.add('hidden');
+            } else {
+                isFullChatMode = true;
+            }
+
             overlay.classList.remove('hidden');
             overlay.style.opacity = '0';
             overlay.style.transform = 'translateY(24px)';
@@ -2709,6 +2729,11 @@
 
         // Enhanced navigation with smooth transitions
         function showSection(section) {
+            // Chat agora abre como overlay tela cheia (igual ao checkout)
+            if (section === 'chatFull') {
+                openChatOverlay();
+                return;
+            }
             currentSection = section;
             updateSearchVisibility();
             
