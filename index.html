@@ -1419,15 +1419,15 @@
             <!-- Sticky Bottom Input -->
             <div id="chatOverlayInputContainer" class="flex-shrink-0 border-t border-gray-200 dark:border-gray-700 px-4 sm:px-6 py-3 hidden" style="background:inherit;">
                 <div class="max-w-3xl mx-auto">
-                    <div class="flex space-x-3 mb-2">
-                        <input type="text" id="chatOverlayInput" placeholder="Digite sua mensagem..."
-                               class="flex-1 px-4 py-3.5 text-base card-bg border rounded-xl focus:ring-2 focus:ring-primary">
+                    <div class="flex items-center gap-3 mb-2">
                         <input type="file" id="chatOverlayImageInput" accept="image/*" class="hidden">
-                        <button id="chatOverlayImageBtn" class="btn-secondary px-4 py-3.5 rounded-xl hover-lift">
-                            📷
+                        <button id="chatOverlayImageBtn" class="btn-secondary flex-shrink-0 w-11 h-11 flex items-center justify-center rounded-xl hover-lift" aria-label="Enviar imagem">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h2l2-3h10l2 3h2a1 1 0 011 1v11a1 1 0 01-1 1H3a1 1 0 01-1-1V8a1 1 0 011-1zm9 3a3 3 0 100 6 3 3 0 000-6z"/></svg>
                         </button>
-                        <button id="sendChatOverlayBtn" class="btn-primary text-white px-6 py-3.5 rounded-xl hover-lift">
-                            📤
+                        <input type="text" id="chatOverlayInput" placeholder="Digite sua mensagem..."
+                               class="flex-1 min-w-0 px-4 py-3 text-base card-bg border rounded-xl focus:ring-2 focus:ring-primary">
+                        <button id="sendChatOverlayBtn" class="btn-primary flex-shrink-0 text-white w-11 h-11 flex items-center justify-center rounded-xl hover-lift" aria-label="Enviar mensagem">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12L3 2l18 10L3 22l3-10zm0 0h8"/></svg>
                         </button>
                     </div>
                     <p class="text-xs text-gray-500 dark:text-gray-400">Pressione Enter para enviar • Clique em 📷 para enviar imagem</p>
