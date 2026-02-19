@@ -83,7 +83,7 @@
         }
     </script>
     <style>
-        /* CSS Base para Modo Escuro e Transições */
+
         * {
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
@@ -96,7 +96,6 @@
             color-scheme: dark;
         }
 
-        /* Variáveis CSS para cores */
         :root {
             --primary: #5D5CDE;
             --primary-dark: #4845BE;
@@ -111,19 +110,16 @@
             --border-dark: #374151;
         }
 
-        /* Tema Claro */
         body {
             background-color: var(--bg-light);
             color: var(--text-light);
         }
 
-        /* Tema Escuro */
         .dark body {
             background-color: var(--bg-dark);
             color: var(--text-dark);
         }
 
-        /* Cards e Containers */
         .card-bg {
             background-color: var(--card-light);
             border-color: var(--border-light);
@@ -134,7 +130,6 @@
             border-color: var(--border-dark);
         }
 
-        /* Efeitos de Hover Melhorados */
         .hover-lift {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -148,7 +143,6 @@
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
         }
 
-        /* Gradientes Dinâmicos */
         .gradient-bg {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
         }
@@ -160,7 +154,6 @@
             background-clip: text;
         }
 
-        /* Botões Modernos */
         .btn-primary {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             border: none;
@@ -184,7 +177,6 @@
             border: 1px solid rgba(93, 92, 222, 0.3);
         }
 
-        /* Filtros Colapsáveis */
         .filter-container {
             max-height: 500px;
             overflow: hidden;
@@ -201,7 +193,25 @@
             margin-bottom: 0;
         }
 
-        /* Glassmorphism Effect */
+        .filter-scroll-row {
+            display: flex;
+            overflow-x: auto;
+            gap: 8px;
+            padding: 4px 2px;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .filter-scroll-row::-webkit-scrollbar {
+            display: none;
+        }
+        .filter-scroll-row .category-filter-btn,
+        .filter-scroll-row .price-filter-btn {
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
         .glass {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
@@ -213,7 +223,6 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Notificações Modernas */
         .notification {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
@@ -227,7 +236,6 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
-        /* Toggle Switch para Tema */
         .theme-switch {
             position: relative;
             width: 44px;
@@ -262,7 +270,6 @@
             transform: translateX(22px);
         }
 
-        /* Animações de Loading */
         .loading-dots {
             display: inline-block;
         }
@@ -280,7 +287,6 @@
             80%, 100% { content: '...'; }
         }
 
-        /* Line clamp para textos */
         .line-clamp-2 {
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -288,12 +294,11 @@
             overflow: hidden;
         }
 
-        /* Melhor responsividade */
         @media (max-width: 768px) {
             .filter-container {
-                max-height: 300px;
+                max-height: 400px;
             }
-            /* Ocultar Pedidos e Chat/Mensagens no mobile */
+
             #footerOrdersBtn,
             #footerChatBtn {
                 display: none !important;
@@ -303,7 +308,6 @@
             }
         }
 
-        /* ===== Footer Estilo Loja Online ===== */
         .shop-footer {
             background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(248,247,255,1) 100%);
             border-top: 1px solid rgba(93,92,222,0.08);
@@ -387,7 +391,7 @@
         .dark .shop-footer .footer-nav-item:not(.active):hover .footer-icon-wrap {
             background: rgba(93,92,222,0.1);
         }
-        /* Active indicator bar */
+
         .shop-footer .footer-nav-item .footer-active-bar {
             position: absolute;
             bottom: 0;
@@ -402,7 +406,7 @@
         .shop-footer .footer-nav-item.active .footer-active-bar {
             transform: translateX(-50%) scaleX(1);
         }
-        /* Cart badge e-commerce style */
+
         .shop-footer .footer-cart-badge {
             position: absolute;
             top: -3px;
@@ -431,7 +435,7 @@
             60% { transform: scale(0.9); }
             100% { transform: scale(1); }
         }
-        /* Chat notification dot */
+
         .shop-footer .footer-chat-dot {
             position: absolute;
             top: 0;
@@ -450,7 +454,7 @@
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.6; transform: scale(1.2); }
         }
-        /* Press/tap effect */
+
         .shop-footer .footer-nav-item:active .footer-icon-wrap {
             transform: scale(0.9);
             transition-duration: 0.1s;
@@ -459,19 +463,17 @@
             transform: scale(1.02);
             transition-duration: 0.1s;
         }
-        /* Safe area for iPhones */
+
         .shop-footer-safe {
             padding-bottom: env(safe-area-inset-bottom, 0px);
         }
 
-        /* Estados de Focus melhorados */
         input:focus, textarea:focus, select:focus {
             outline: none;
             box-shadow: 0 0 0 3px rgba(93, 92, 222, 0.1);
             border-color: var(--primary);
         }
 
-        /* Scrollbar personalizada */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -493,7 +495,6 @@
             background: var(--primary-dark);
         }
 
-        /* ===== Header Roxo ===== */
         .header-purple {
             background: linear-gradient(135deg, #6B21A8 0%, #7C3AED 40%, #9333EA 100%);
             border-color: rgba(255,255,255,0.12) !important;
@@ -535,7 +536,6 @@
             background: rgba(255,255,255,0.15);
         }
 
-        /* ===== Category Cards com Imagem de Fundo ===== */
         .category-card-bg {
             position: relative;
             overflow: hidden;
@@ -595,7 +595,6 @@
             background: rgba(255,255,255,0.3);
         }
 
-        /* Efeitos de ripple */
         .ripple {
             position: relative;
             overflow: hidden;
@@ -619,7 +618,6 @@
             height: 300px;
         }
 
-        /* ===== Login Animations ===== */
         .login-particles {
             position: absolute; inset: 0; overflow: hidden; pointer-events: none;
         }
@@ -697,12 +695,10 @@
             100% { opacity:1; transform:scale(1); }
         }
 
-        /* Login button disabled/loading state */
         .login-btn-loading {
             opacity: 0.7; pointer-events: none; cursor: wait;
         }
 
-        /* Inline search inside header */
         .search-inline-container {
             flex: 1;
             display: flex;
@@ -748,7 +744,7 @@
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
+
     <div id="loadingScreen" class="fixed inset-0 card-bg flex items-center justify-center z-50">
         <div class="text-center">
             <div class="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
@@ -759,9 +755,8 @@
         </div>
     </div>
 
-    <!-- Login Screen -->
     <div id="loginScreen" class="fixed inset-0 gradient-bg flex items-center justify-center z-40 hidden">
-        <!-- Partículas decorativas animadas -->
+
         <div class="login-particles" aria-hidden="true">
             <div class="particle particle-1"></div>
             <div class="particle particle-2"></div>
@@ -773,14 +768,13 @@
         <div class="card-bg p-8 rounded-3xl shadow-2xl max-w-md w-full mx-4 border login-card-entrance glass" style="background-color:white;">
             <div class="text-center mb-8">
                 <div class="w-20 h-20 gradient-bg rounded-full flex items-center justify-center mx-auto mb-4 login-logo-pulse">
-                    <span class="text-white font-bold text-3xl">K+</span>
+                    <span class="text-4xl">🛍️</span>
                 </div>
                 <h1 class="text-3xl font-bold gradient-text mb-2 login-title-entrance">Kuia+ Shop</h1>
                 <p class="text-gray-600 dark:text-gray-400 login-subtitle-entrance">Bem-vindo à nossa loja</p>
                 <p class="text-sm text-gray-500 dark:text-gray-500 mt-2 login-subtitle-entrance" style="animation-delay:0.15s">Escolha como deseja continuar</p>
             </div>
 
-            <!-- Área de erro inline para login -->
             <div id="loginErrorBanner" class="hidden mb-4 p-4 rounded-xl border flex items-start space-x-3 login-error-banner">
                 <span class="text-xl flex-shrink-0">⚠️</span>
                 <div class="flex-1 min-w-0">
@@ -790,7 +784,6 @@
                 <button onclick="hideLoginError()" class="text-lg flex-shrink-0 opacity-60 hover:opacity-100 transition-opacity">×</button>
             </div>
 
-            <!-- Login Options -->
             <div class="space-y-4" id="loginOptions">
                 <button id="guestBtn" class="w-full btn-secondary py-4 px-6 rounded-xl hover-lift ripple flex items-center justify-center space-x-3 login-btn-stagger" style="animation-delay:0.1s">
                     <span class="text-2xl">👤</span>
@@ -816,7 +809,6 @@
                 </button>
             </div>
 
-            <!-- Email Login Form -->
             <div id="emailLoginForm" class="hidden space-y-6 animate-fade-in">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200">Login</h3>
@@ -846,7 +838,6 @@
                 </div>
             </div>
 
-            <!-- Forgot Password Form -->
             <div id="forgotPasswordForm" class="hidden space-y-6 animate-fade-in">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200">Recuperar Senha</h3>
@@ -881,7 +872,6 @@
                 </div>
             </div>
 
-            <!-- Email Register Form -->
             <div id="emailRegisterForm" class="hidden space-y-6 animate-fade-in">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200">Criar Conta</h3>
@@ -911,7 +901,7 @@
                            class="w-full px-4 py-4 text-base card-bg border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent">
                     <input type="password" id="registerPassword" placeholder="Senha (mín. 6 caracteres)" required minlength="6"
                            class="w-full px-4 py-4 text-base card-bg border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent">
-                    
+
                     <button type="submit" id="registerSubmitBtn" class="w-full btn-primary text-white py-4 rounded-xl hover-lift ripple font-medium">
                         <span id="registerBtnText">Criar Conta</span>
                         <span id="registerBtnLoader" class="hidden flex items-center justify-center">
@@ -924,18 +914,16 @@
         </div>
     </div>
 
-    <!-- Main App -->
     <div id="mainApp" class="hidden pb-20 min-h-screen">
-        <!-- Notifications Area -->
+
         <div id="notificationArea" class="fixed top-4 right-4 z-50 space-y-3 max-w-sm pointer-events-none">
-            <!-- Notifications will be added here -->
+
         </div>
 
-        <!-- Header -->
         <header id="mainHeader" class="shadow-lg border-b sticky top-0 z-30 header-purple">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16 header-row">
-                    <!-- Logo + Nav (hidden when search is open) -->
+
                     <div id="headerLeft" class="flex items-center space-x-4 min-w-0 header-left-transition">
                         <div class="flex items-center space-x-3 flex-shrink-0">
                             <img src="chop.png"
@@ -950,7 +938,6 @@
 
                     </div>
 
-                    <!-- Inline Search Bar (expands inside header, replaces logo+nav) -->
                     <div id="searchContainer" class="search-inline-container hidden">
                         <div class="flex items-center w-full gap-2">
                             <button id="searchCloseBtn" class="flex-shrink-0 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors" title="Fechar pesquisa">
@@ -971,9 +958,8 @@
                         </div>
                     </div>
 
-                    <!-- Right side actions -->
                     <div id="headerRight" class="flex items-center space-x-3 flex-shrink-0 header-right-transition">
-                        <!-- Search Button -->
+
                         <div id="searchWrapper" class="relative flex items-center">
                             <button id="searchToggleBtn" class="p-3 btn-secondary rounded-xl hover-lift" title="Pesquisar">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -982,14 +968,12 @@
                             </button>
                         </div>
 
-                        <!-- Toggle Filters Button -->
                         <button id="headerFilterToggleBtn" class="p-3 btn-secondary rounded-xl hover-lift" title="Mostrar/Ocultar Filtros">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
                             </svg>
                         </button>
 
-                        <!-- User Menu -->
                         <div class="relative">
                             <button id="userMenuBtn" class="flex items-center space-x-3 p-2 btn-secondary rounded-xl hover-lift">
                                 <img id="userAvatar" src="https://via.placeholder.com/32?text=👤" alt="Avatar" class="w-8 h-8 rounded-full border-2 border-primary">
@@ -997,7 +981,7 @@
                             </button>
                             <div id="userMenu" class="hidden absolute right-0 mt-2 w-48 card-bg rounded-xl shadow-lg border z-50 animate-scale-in">
                                 <div id="userMenuContent">
-                                    <!-- Content will be populated dynamically -->
+
                                 </div>
                             </div>
                         </div>
@@ -1006,74 +990,39 @@
             </div>
         </header>
 
-        <!-- Main Content -->
         <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <!-- Home Section -->
+
             <div id="homeSection" class="space-y-8">
                 <div>
-                   
-                    <!-- Filter Controls (hidden by default, toggled from header) -->
+
                     <div id="filterControlsWrapper" class="filter-container collapsed">
-                    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
-                        <div class="flex items-center gap-3">
-                            <button id="toggleCategoryFilters" class="btn-primary text-white px-6 py-3 rounded-xl hover-lift ripple flex items-center space-x-2">
-                                <span class="font-medium">Categorias</span>
-                                <span id="categoryToggleIcon" class="transform transition-transform">▼</span>
-                            </button>
-
-                            <button id="togglePriceFilters" class="btn-secondary px-6 py-3 rounded-xl hover-lift ripple flex items-center space-x-2">
-                                <span class="font-medium">Preços</span>
-                                <span id="priceToggleIcon" class="transform transition-transform">▼</span>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">📂 Categorias</span>
+                            <span id="productsCount" class="text-xs text-gray-500 dark:text-gray-400 font-medium">0 produtos encontrados</span>
+                        </div>
+                        <div class="filter-scroll-row mb-3" id="categoryFilters">
+                            <button class="category-filter-btn btn-primary text-white px-4 py-2 rounded-full text-sm font-medium hover-lift" data-category="all">
+                                Todos
                             </button>
                         </div>
-
-                        <div class="text-sm text-gray-600 dark:text-gray-400 font-medium">
-                            <span id="productsCount">0 produtos encontrados</span>
+                        <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 block">💰 Preço</span>
+                        <div class="filter-scroll-row mb-2" id="priceFiltersRow">
+                            <button class="price-filter-btn btn-primary text-white px-4 py-2 rounded-full text-sm font-medium hover-lift" data-price="all">
+                                Todos
+                            </button>
+                            <button class="price-filter-btn btn-secondary px-4 py-2 rounded-full text-sm font-medium hover-lift" data-price="0-1000">
+                                Até 1.000 Kz
+                            </button>
+                            <button class="price-filter-btn btn-secondary px-4 py-2 rounded-full text-sm font-medium hover-lift" data-price="1000-5000">
+                                1.000 - 5.000 Kz
+                            </button>
+                            <button class="price-filter-btn btn-secondary px-4 py-2 rounded-full text-sm font-medium hover-lift" data-price="5000-10000">
+                                5.000 - 10.000 Kz
+                            </button>
+                            <button class="price-filter-btn btn-secondary px-4 py-2 rounded-full text-sm font-medium hover-lift" data-price="10000+">
+                                +10.000 Kz
+                            </button>
                         </div>
-                    </div>
-
-                    <!-- Filters -->
-                    <div class="space-y-4 mb-8">
-                        <!-- Category Filters -->
-                        <div id="categoryFiltersContainer" class="filter-container">
-                            <div class="card-bg rounded-2xl p-6 border shadow-sm">
-                                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200 mb-4 flex items-center">
-                                    Filtrar por Categoria
-                                </h3>
-                                <div class="flex flex-wrap gap-3" id="categoryFilters">
-                                    <button class="category-filter-btn btn-primary text-white px-4 py-2 rounded-full text-sm font-medium hover-lift" data-category="all">
-                                        Todos
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Price Filters -->
-                        <div id="priceFiltersContainer" class="filter-container">
-                            <div class="card-bg rounded-2xl p-6 border shadow-sm">
-                                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200 mb-4 flex items-center">
-                                    Filtrar por Preço
-                                </h3>
-                                <div class="flex flex-wrap gap-3">
-                                    <button class="price-filter-btn btn-primary text-white px-4 py-2 rounded-full text-sm font-medium hover-lift" data-price="all">
-                                        Todos os preços
-                                    </button>
-                                    <button class="price-filter-btn btn-secondary px-4 py-2 rounded-full text-sm font-medium hover-lift" data-price="0-1000">
-                                        Até 1.000 Kz
-                                    </button>
-                                    <button class="price-filter-btn btn-secondary px-4 py-2 rounded-full text-sm font-medium hover-lift" data-price="1000-5000">
-                                        1.000 - 5.000 Kz
-                                    </button>
-                                    <button class="price-filter-btn btn-secondary px-4 py-2 rounded-full text-sm font-medium hover-lift" data-price="5000-10000">
-                                        5.000 - 10.000 Kz
-                                    </button>
-                                    <button class="price-filter-btn btn-secondary px-4 py-2 rounded-full text-sm font-medium hover-lift" data-price="10000+">
-                                        Acima de 10.000 Kz
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     </div>
                 </div>
 
@@ -1085,7 +1034,6 @@
                 </div>
             </div>
 
-            <!-- Categories Section -->
             <div id="categoriesSection" class="hidden space-y-8">
                 <h2 class="text-4xl font-bold gradient-text">Categorias</h2>
                 <div id="categoriesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -1096,7 +1044,6 @@
                 </div>
             </div>
 
-            <!-- Favorites Section -->
             <div id="favoritesSection" class="hidden space-y-8">
                 <h2 class="text-4xl font-bold gradient-text">Meus Favoritos</h2>
                 <div id="favoritesGrid" class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
@@ -1107,7 +1054,6 @@
                 </div>
             </div>
 
-            <!-- Orders Section -->
             <div id="ordersSection" class="hidden space-y-8">
                 <h2 class="text-4xl font-bold gradient-text">Meus Pedidos</h2>
                 <div id="ordersGrid" class="space-y-6">
@@ -1118,7 +1064,6 @@
                 </div>
             </div>
 
-            <!-- Chat Section -->
             <div id="chatFullSection" class="hidden space-y-8">
                 <div class="card-bg rounded-2xl shadow-lg border h-96 flex flex-col">
                     <div class="flex items-center justify-between p-6 border-b">
@@ -1143,7 +1088,7 @@
                             </span>
                         </div>
                     </div>
-                    
+
                     <div id="chatFullContainer" class="flex-1 overflow-y-auto p-6 bg-gray-50 dark:bg-gray-900">
                         <div id="chatFullMessages" class="space-y-4">
                             <div class="text-center text-gray-500 dark:text-gray-400">
@@ -1158,7 +1103,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div id="chatFullInputContainer" class="p-6 border-t hidden">
                         <div class="flex space-x-3 mb-3">
                            <input 
@@ -1181,7 +1126,6 @@
                 </div>
             </div>
 
-            <!-- Notifications Section -->
             <div id="notificationsSection" class="hidden space-y-8">
                 <div class="flex flex-wrap items-center justify-between gap-4">
                     <h2 class="text-4xl font-bold gradient-text">Notificações</h2>
@@ -1202,11 +1146,10 @@
                 </div>
             </div>
 
-            <!-- Profile Section -->
             <div id="profileSection" class="hidden space-y-8">
                 <h2 class="text-4xl font-bold gradient-text">Meu Perfil</h2>
                 <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <!-- Profile Info -->
+
                     <div class="card-bg rounded-2xl shadow-lg border p-8">
                         <div class="flex items-center space-x-6 mb-8">
                             <div class="relative">
@@ -1228,7 +1171,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="space-y-6">
                             <h4 class="text-xl font-bold text-gray-800 dark:text-gray-200">Meus Pedidos</h4>
                             <div id="userOrders" class="space-y-4">
@@ -1243,19 +1186,140 @@
                         </div>
                     </div>
 
-                    <!-- Chat Section (Hidden for now) -->
                     <div style="display:none;" class="card-bg rounded-2xl shadow-lg border flex flex-col h-96">
-                        <!-- Chat content here -->
+
                     </div>
                 </div>
             </div>
+
+            <div id="aboutSection" class="hidden space-y-8">
+                <h2 class="text-4xl font-bold gradient-text">Sobre Nós</h2>
+                <div class="max-w-4xl mx-auto space-y-8">
+
+                    <div class="card-bg rounded-2xl shadow-lg border overflow-hidden">
+                        <div class="gradient-bg p-8 text-center">
+                            <div class="text-6xl mb-4 animate-float">🛍️</div>
+                            <h3 class="text-3xl font-bold text-white mb-2">Kuia+ Shop</h3>
+                            <p class="text-white/80 text-lg">A sua loja online de confiança</p>
+                        </div>
+                        <div class="p-8 space-y-5">
+                            <p class="text-gray-700 dark:text-gray-300 text-base leading-relaxed">
+                                A <strong class="gradient-text">Kuia+ Shop</strong> é a sua loja online dedicada a oferecer os melhores produtos com qualidade, preços acessíveis e um atendimento de excelência. Trabalhamos para garantir que cada cliente tenha uma experiência de compra simples, segura e satisfatória.
+                            </p>
+                            <p class="text-gray-700 dark:text-gray-300 text-base leading-relaxed">
+                                Estamos comprometidos em trazer as melhores opções do mercado directamente até si, com entregas rápidas e suporte dedicado para resolver qualquer dúvida ou problema.
+                            </p>
+                            <div class="flex flex-wrap gap-4 pt-2">
+                                <span class="inline-flex items-center gap-2 px-4 py-2 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full text-sm font-medium">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    Produtos de Qualidade
+                                </span>
+                                <span class="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-full text-sm font-medium">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                    Entregas Rápidas
+                                </span>
+                                <span class="inline-flex items-center gap-2 px-4 py-2 bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 rounded-full text-sm font-medium">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                                    Compras Seguras
+                                </span>
+                                <span class="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 rounded-full text-sm font-medium">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    Preços Acessíveis
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-bg rounded-2xl shadow-lg border p-8">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-12 h-12 rounded-full gradient-bg flex items-center justify-center text-white text-xl">
+                                📞
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-200">Contactos de Suporte</h3>
+                                <p class="text-gray-500 dark:text-gray-400 text-sm">Estamos aqui para ajudar!</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4">
+
+                            <a href="tel:+244932435389" class="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60 hover:bg-primary/5 dark:hover:bg-primary/10 transition-all group">
+                                <div class="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                                    <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Telefone 1</p>
+                                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200">932 435 389</p>
+                                </div>
+                                <svg class="w-5 h-5 text-gray-400 ml-auto group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </a>
+
+                            <a href="tel:+244955597211" class="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60 hover:bg-primary/5 dark:hover:bg-primary/10 transition-all group">
+                                <div class="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                                    <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Telefone 2</p>
+                                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200">955 597 211</p>
+                                </div>
+                                <svg class="w-5 h-5 text-gray-400 ml-auto group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </a>
+
+                            <a href="/cdn-cgi/l/email-protection#442f312d25372c2b34042329252d286a272b29" class="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60 hover:bg-primary/5 dark:hover:bg-primary/10 transition-all group">
+                                <div class="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                                    <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Email de Suporte</p>
+                                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200"><span class="__cf_email__" data-cfemail="0368766a62706b6c7343646e626a6f2d606c6e">[email&#160;protected]</span></p>
+                                </div>
+                                <svg class="w-5 h-5 text-gray-400 ml-auto group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card-bg rounded-2xl shadow-lg border p-8">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-12 h-12 rounded-full gradient-bg flex items-center justify-center text-white text-xl">
+                                🕐
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-200">Horário de Atendimento</h3>
+                                <p class="text-gray-500 dark:text-gray-400 text-sm">Quando pode nos contactar</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60">
+                                <p class="text-sm text-gray-500 dark:text-gray-400 mb-1">Segunda a Sexta</p>
+                                <p class="text-lg font-bold text-gray-800 dark:text-gray-200">08:00 - 18:00</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60">
+                                <p class="text-sm text-gray-500 dark:text-gray-400 mb-1">Sábado</p>
+                                <p class="text-lg font-bold text-gray-800 dark:text-gray-200">09:00 - 14:00</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center pb-8">
+                        <button onclick="showSection('home')" class="btn-primary text-white px-10 py-4 rounded-xl hover-lift ripple text-lg font-semibold">
+                            🏠 Voltar ao Início
+                        </button>
+                    </div>
+                </div>
+            </div>
+
         </main>
 
-        <!-- Bottom Navigation Footer - Estilo Loja Online -->
         <footer class="fixed bottom-0 left-0 right-0 z-30 shop-footer">
             <div class="shop-footer-safe">
                 <div class="grid grid-cols-6 footer-grid-responsive" style="height:60px;">
-                    <!-- Início -->
+
                     <button id="footerHomeBtn" class="footer-nav-btn footer-nav-item active">
                         <span class="footer-icon-wrap">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1265,7 +1329,7 @@
                         <span class="footer-label">Início</span>
                         <span class="footer-active-bar"></span>
                     </button>
-                    <!-- Categorias -->
+
                     <button id="footerCategoriesBtn" class="footer-nav-btn footer-nav-item">
                         <span class="footer-icon-wrap">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1275,7 +1339,7 @@
                         <span class="footer-label">Categorias</span>
                         <span class="footer-active-bar"></span>
                     </button>
-                    <!-- Favoritos -->
+
                     <button id="footerFavoritesBtn" class="footer-nav-btn footer-nav-item">
                         <span class="footer-icon-wrap">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1285,7 +1349,7 @@
                         <span class="footer-label">Favoritos</span>
                         <span class="footer-active-bar"></span>
                     </button>
-                    <!-- Pedidos -->
+
                     <button id="footerOrdersBtn" class="footer-nav-btn footer-nav-item">
                         <span class="footer-icon-wrap">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1295,7 +1359,7 @@
                         <span class="footer-label">Pedidos</span>
                         <span class="footer-active-bar"></span>
                     </button>
-                    <!-- Chat -->
+
                     <button id="footerChatBtn" class="footer-nav-btn footer-nav-item">
                         <span class="footer-icon-wrap">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1306,7 +1370,7 @@
                         <span class="footer-label">Chat</span>
                         <span class="footer-active-bar"></span>
                     </button>
-                    <!-- Carrinho -->
+
                     <button id="footerCartBtn" class="footer-nav-btn footer-nav-item">
                         <span class="footer-icon-wrap">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1322,25 +1386,23 @@
         </footer>
     </div>
 
-    <!-- Profile Picture Full-Screen Overlay -->
     <div id="profilePictureModal" class="fixed inset-0 z-50 hidden" style="transition: opacity 0.3s ease, transform 0.3s ease;">
         <div class="absolute inset-0 bg-white dark:bg-gray-900 flex flex-col" style="transition: background-color 0.3s ease;">
-            <!-- Overlay Header -->
+
             <header class="relative flex items-center px-4 sm:px-6 h-14 border-b border-gray-200 dark:border-gray-700 flex-shrink-0" style="background:inherit;">
-                <!-- Left: Back button -->
+
                 <button id="closeProfilePictureBtn" class="relative z-10 flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-primary transition-colors p-2 -ml-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 flex-shrink-0">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>
                     <span class="text-sm font-medium hidden sm:inline">Voltar</span>
                 </button>
-                <!-- Center: Title -->
+
                 <h3 class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-base font-bold gradient-text truncate max-w-[55%] text-center pointer-events-none">Alterar Foto do Perfil</h3>
-                <!-- Right: spacer -->
+
                 <div class="relative z-10 ml-auto flex-shrink-0 w-9"></div>
             </header>
 
-            <!-- Scrollable Content -->
             <div class="flex-1 overflow-y-auto">
                 <div class="max-w-3xl mx-auto px-4 sm:px-6 py-10">
                     <div class="text-center">
@@ -1359,7 +1421,6 @@
                 </div>
             </div>
 
-            <!-- Sticky Bottom Actions -->
             <div class="flex-shrink-0 border-t border-gray-200 dark:border-gray-700 px-4 sm:px-6 py-3" style="background:inherit;">
                 <div class="max-w-3xl mx-auto flex items-center gap-3">
                     <button id="cancelProfilePictureBtn" class="flex-1 btn-secondary py-3.5 rounded-xl hover-lift font-semibold text-base">
@@ -1377,21 +1438,20 @@
         </div>
     </div>
 
-    <!-- Chat Full Screen Overlay -->
     <div id="chatOverlay" class="fixed inset-0 z-50 hidden" style="transition: opacity 0.3s ease, transform 0.3s ease;">
         <div class="absolute inset-0 bg-white dark:bg-gray-900 flex flex-col" style="transition: background-color 0.3s ease;">
-            <!-- Overlay Header -->
+
             <header class="relative flex items-center px-4 sm:px-6 h-14 border-b border-gray-200 dark:border-gray-700 flex-shrink-0" style="background:inherit;">
-                <!-- Left: Back button -->
+
                 <button id="closeChatOverlayBtn" class="relative z-10 flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-primary transition-colors p-2 -ml-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 flex-shrink-0">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>
                     <span class="text-sm font-medium hidden sm:inline">Voltar</span>
                 </button>
-                <!-- Center: Title -->
+
                 <h3 class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-base font-bold gradient-text truncate max-w-[55%] text-center pointer-events-none">Suporte ao Cliente</h3>
-                <!-- Right: Status -->
+
                 <div id="chatOverlayStatus" class="relative z-10 ml-auto flex-shrink-0">
                     <span class="inline-flex items-center px-3 py-1 text-xs rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400">
                         <span class="w-2 h-2 bg-gray-400 rounded-full mr-2"></span>
@@ -1400,7 +1460,6 @@
                 </div>
             </header>
 
-            <!-- Scrollable Chat Content -->
             <div id="chatOverlayContainer" class="flex-1 overflow-y-auto p-4 sm:p-6 bg-gray-50 dark:bg-gray-900">
                 <div id="chatOverlayMessages" class="space-y-4 max-w-3xl mx-auto">
                     <div class="text-center text-gray-500 dark:text-gray-400">
@@ -1416,7 +1475,6 @@
                 </div>
             </div>
 
-            <!-- Sticky Bottom Input -->
             <div id="chatOverlayInputContainer" class="flex-shrink-0 border-t border-gray-200 dark:border-gray-700 px-4 sm:px-6 py-3 hidden" style="background:inherit;">
                 <div class="max-w-3xl mx-auto">
                     <div class="flex items-center gap-3 mb-2">
@@ -1436,7 +1494,6 @@
         </div>
     </div>
 
-    <!-- Cart Sidebar -->
     <div id="cartSidebar" class="fixed inset-y-0 right-0 w-80 card-bg shadow-2xl transform translate-x-full transition-transform z-50 border-l">
         <div class="flex flex-col h-full">
             <div class="flex items-center justify-between p-6 border-b gradient-bg">
@@ -1445,7 +1502,7 @@
                     ❌
                 </button>
             </div>
-            
+
             <div id="cartItems" class="flex-1 overflow-y-auto p-6">
                 <div class="text-center py-20">
                     <div class="text-6xl mb-6 animate-float">🛒</div>
@@ -1453,7 +1510,7 @@
                     <p class="text-sm text-gray-400 dark:text-gray-500 mt-2">Adicione produtos para começar</p>
                 </div>
             </div>
-            
+
             <div class="border-t p-6">
                 <div class="flex justify-between items-center mb-6">
                     <span class="text-xl font-bold text-gray-800 dark:text-gray-200">Total:</span>
@@ -1466,31 +1523,28 @@
         </div>
     </div>
 
-    <!-- Cart Overlay -->
     <div id="cartOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
 
-    <!-- Checkout Full-Screen Overlay -->
     <div id="checkoutModal" class="fixed inset-0 z-50 hidden" style="transition: opacity 0.3s ease, transform 0.3s ease;">
         <div class="absolute inset-0 bg-white dark:bg-gray-900 flex flex-col" style="transition: background-color 0.3s ease;">
-            <!-- Overlay Header -->
+
             <header class="relative flex items-center px-4 sm:px-6 h-14 border-b border-gray-200 dark:border-gray-700 flex-shrink-0" style="background:inherit;">
-                <!-- Left: Back button -->
+
                 <button id="closeCheckoutBtn" class="relative z-10 flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-primary transition-colors p-2 -ml-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 flex-shrink-0">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>
                     <span class="text-sm font-medium hidden sm:inline">Voltar</span>
                 </button>
-                <!-- Center: Title -->
+
                 <h3 class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-base font-bold gradient-text truncate max-w-[55%] text-center pointer-events-none">Finalizar Compra</h3>
-                <!-- Right: spacer -->
+
                 <div class="relative z-10 ml-auto flex-shrink-0 w-9"></div>
             </header>
 
-            <!-- Scrollable Content -->
             <div class="flex-1 overflow-y-auto">
                 <div class="max-w-3xl mx-auto px-4 sm:px-6 py-6">
-                    <!-- Login Required Message -->
+
                     <div id="loginRequiredMessage" class="hidden bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded-xl p-6 mb-6">
                         <div class="flex items-center">
                             <span class="text-yellow-600 dark:text-yellow-400 text-2xl mr-4">⚠️</span>
@@ -1536,7 +1590,6 @@
                 </div>
             </div>
 
-            <!-- Sticky Bottom Actions -->
             <div class="flex-shrink-0 border-t border-gray-200 dark:border-gray-700 px-4 sm:px-6 py-3" style="background:inherit;">
                 <div class="max-w-3xl mx-auto flex items-center gap-3">
                     <button type="button" id="cancelCheckoutBtn" class="flex-1 btn-secondary py-3.5 rounded-xl hover-lift font-semibold text-base">
@@ -1550,35 +1603,32 @@
         </div>
     </div>
 
-    <!-- Product Detail Full-Screen Overlay -->
     <div id="productDetailModal" class="fixed inset-0 z-50 hidden" style="transition: opacity 0.3s ease, transform 0.3s ease;">
         <div class="absolute inset-0 bg-white dark:bg-gray-900 flex flex-col" style="transition: background-color 0.3s ease;">
-            <!-- Overlay Header -->
+
             <header class="relative flex items-center px-4 sm:px-6 h-14 border-b border-gray-200 dark:border-gray-700 flex-shrink-0" style="background:inherit;">
-                <!-- Left: Back button -->
+
                 <button id="closeDetailModalBtn" class="relative z-10 flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-primary transition-colors p-2 -ml-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 flex-shrink-0">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>
                     <span class="text-sm font-medium hidden sm:inline">Voltar</span>
                 </button>
-                <!-- Center: Title (absolutely centered) -->
+
                 <h3 id="detailModalTitle" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-base font-bold gradient-text truncate max-w-[55%] text-center pointer-events-none">Detalhes do Produto</h3>
-                <!-- Right: Favorite button -->
+
                 <button id="detailFavoriteBtn" class="relative z-10 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex-shrink-0 ml-auto">
                     <span id="detailFavoriteIcon" class="text-xl leading-none">🤍</span>
                 </button>
             </header>
 
-            <!-- Scrollable Content -->
             <div class="flex-1 overflow-y-auto">
                 <div class="max-w-3xl mx-auto px-4 sm:px-6 py-6">
-                    <!-- Product Image -->
+
                     <div id="detailImage" class="w-full aspect-square max-h-[420px] bg-gray-100 dark:bg-gray-800 rounded-2xl flex items-center justify-center overflow-hidden mb-6">
                         <div class="text-6xl text-gray-400">🖼️</div>
                     </div>
 
-                    <!-- Product Info -->
                     <div class="space-y-5">
                         <div>
                             <p id="detailCategory" class="text-primary font-semibold capitalize text-sm tracking-wide mb-1"></p>
@@ -1601,7 +1651,6 @@
                 </div>
             </div>
 
-            <!-- Sticky Bottom Actions -->
             <div class="flex-shrink-0 border-t border-gray-200 dark:border-gray-700 px-4 sm:px-6 py-3" style="background:inherit;">
                 <div class="max-w-3xl mx-auto flex items-center gap-3">
                     <button id="detailAddToCartBtn" class="flex-1 btn-primary text-white py-3.5 rounded-xl hover-lift ripple disabled:opacity-50 font-semibold text-base">
@@ -1612,8 +1661,7 @@
         </div>
     </div>
 
-    <!-- Firebase SDK -->
-    <script type="module">
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
         /* eslint-disable no-restricted-globals */
         console.log('🚀 Iniciando Kuia+ Shop...');
         document.getElementById('loadingStatus').textContent = 'Carregando Firebase';
@@ -1657,7 +1705,7 @@
             const savedTheme = localStorage.getItem('kuia-theme');
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const isDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
-            
+
             updateTheme(isDark);
         }
 
@@ -1713,6 +1761,7 @@
         let notifications = [];
         let currentSection = 'home';
         let currentPriceFilter = 'all';
+        let productsVisibleLimit = 21;
         let currentChatId = null;
         let chatMessages = [];
         let isFullChatMode = false;
@@ -1725,14 +1774,6 @@
         const loadingScreen = document.getElementById('loadingScreen');
         const loginScreen = document.getElementById('loginScreen');
         const mainApp = document.getElementById('mainApp');
-
-        // Filter toggle elements
-        const toggleCategoryFilters = document.getElementById('toggleCategoryFilters');
-        const togglePriceFilters = document.getElementById('togglePriceFilters');
-        const categoryFiltersContainer = document.getElementById('categoryFiltersContainer');
-        const priceFiltersContainer = document.getElementById('priceFiltersContainer');
-        const categoryToggleIcon = document.getElementById('categoryToggleIcon');
-        const priceToggleIcon = document.getElementById('priceToggleIcon');
 
         // Header filter toggle (show/hide the entire filter controls area)
         const headerFilterToggleBtn = document.getElementById('headerFilterToggleBtn');
@@ -1753,56 +1794,30 @@
             });
         }
 
-        // Enhanced Filter toggle functionality
+        // setupFilterToggles is no longer needed (horizontal scroll replaces collapsible panels)
         function setupFilterToggles() {
-            toggleCategoryFilters.addEventListener('click', () => {
-                const isCollapsed = categoryFiltersContainer.classList.contains('collapsed');
-                
-                if (isCollapsed) {
-                    categoryFiltersContainer.classList.remove('collapsed');
-                    categoryToggleIcon.style.transform = 'rotate(180deg)';
-                    categoryToggleIcon.textContent = '▲';
-                } else {
-                    categoryFiltersContainer.classList.add('collapsed');
-                    categoryToggleIcon.style.transform = 'rotate(0deg)';
-                    categoryToggleIcon.textContent = '▼';
-                }
-            });
-
-            togglePriceFilters.addEventListener('click', () => {
-                const isCollapsed = priceFiltersContainer.classList.contains('collapsed');
-                
-                if (isCollapsed) {
-                    priceFiltersContainer.classList.remove('collapsed');
-                    priceToggleIcon.style.transform = 'rotate(180deg)';
-                    priceToggleIcon.textContent = '▲';
-                } else {
-                    priceFiltersContainer.classList.add('collapsed');
-                    priceToggleIcon.style.transform = 'rotate(0deg)';
-                    priceToggleIcon.textContent = '▼';
-                }
-            });
+            // No-op: filters are now always visible in horizontal scroll rows
         }
 
         // Enhanced notification system
         function showNotificationToast(title, message, type = 'info') {
             const notificationArea = document.getElementById('notificationArea');
             const toast = document.createElement('div');
-            
+
             const typeStyles = {
                 info: 'bg-blue-500',
                 success: 'bg-green-500', 
                 warning: 'bg-yellow-500',
                 error: 'bg-red-500'
             };
-            
+
             const typeIcons = {
                 info: 'ℹ️',
                 success: '✅',
                 warning: '⚠️',
                 error: '❌'
             };
-            
+
             toast.className = `notification ${typeStyles[type]} text-white p-4 rounded-xl shadow-lg animate-notification-slide pointer-events-auto max-w-sm`;
             toast.innerHTML = `
                 <div class="flex items-start space-x-3">
@@ -1816,9 +1831,9 @@
                     </button>
                 </div>
             `;
-            
+
             notificationArea.appendChild(toast);
-            
+
             // Auto remove
             setTimeout(() => {
                 if (toast.parentElement) {
@@ -1831,7 +1846,7 @@
         // Enhanced notification system with localStorage fallback
         function loadNotifications() {
             if (!currentUser) return;
-            
+
             const notificationsRef = ref(database, `notifications/${currentUser.uid}`);
             onValue(notificationsRef, (snapshot) => {
                 const notificationsData = snapshot.val() || {};
@@ -1841,7 +1856,7 @@
 
                 allNotifications = applyLocalStorageFilters(allNotifications);
                 notifications = allNotifications.sort((a, b) => b.timestamp - a.timestamp);
-                
+
                 updateNotificationBadge();
                 renderNotifications();
             });
@@ -1861,7 +1876,7 @@
         function applyLocalStorageFilters(notificationsList) {
             const deletedNotifications = getLocalDeletedNotifications();
             const readNotifications = getLocalReadNotifications();
-            
+
             return notificationsList.map(notification => {
                 if (readNotifications.includes(notification.id)) {
                     notification.read = true;
@@ -1983,7 +1998,7 @@
 
         window.markNotificationAsRead = async function(notificationId) {
             if (!currentUser) return;
-            
+
             try {
                 await update(ref(database, `notifications/${currentUser.uid}/${notificationId}`), {
                     read: true,
@@ -1993,21 +2008,21 @@
             } catch (error) {
                 console.error('❌ Error marking notification as read:', error);
                 addToLocalReadNotifications(notificationId);
-                
+
                 const notification = notifications.find(n => n.id === notificationId);
                 if (notification) {
                     notification.read = true;
                     renderNotifications();
                     updateNotificationBadge();
                 }
-                
+
                 showNotificationToast('Aviso', 'Notificação marcada como lida localmente', 'warning');
             }
         };
 
         window.deleteNotification = async function(notificationId) {
             if (!currentUser) return;
-            
+
             showConfirmDialog('Tem certeza que deseja excluir esta notificação?', async () => {
                 try {
                     await remove(ref(database, `notifications/${currentUser.uid}/${notificationId}`));
@@ -2015,7 +2030,7 @@
                     showNotificationToast('Sucesso', 'Notificação excluída', 'success');
                 } catch (error) {
                     console.error('❌ Error deleting notification:', error);
-                    
+
                     addToLocalDeletedNotifications(notificationId);
                     const index = notifications.findIndex(n => n.id === notificationId);
                     if (index > -1) {
@@ -2023,7 +2038,7 @@
                         renderNotifications();
                         updateNotificationBadge();
                     }
-                    
+
                     showNotificationToast('Aviso', 'Notificação excluída localmente', 'warning');
                 }
             });
@@ -2032,7 +2047,7 @@
         // Mark all notifications as read
         document.getElementById('markAllAsReadBtn').addEventListener('click', async () => {
             if (!currentUser) return;
-            
+
             showConfirmDialog('Marcar todas as notificações como lidas?', async () => {
                 const unreadNotifications = notifications.filter(n => !n.read);
                 let successCount = 0;
@@ -2066,7 +2081,7 @@
         // Delete all notifications
         document.getElementById('deleteAllNotificationsBtn').addEventListener('click', async () => {
             if (!currentUser) return;
-            
+
             showConfirmDialog('Tem certeza que deseja excluir TODAS as notificações?', async () => {
                 try {
                     await remove(ref(database, `notifications/${currentUser.uid}`));
@@ -2074,15 +2089,15 @@
                     showNotificationToast('Sucesso', 'Todas as notificações foram excluídas', 'success');
                 } catch (error) {
                     console.error('❌ Error deleting all notifications:', error);
-                    
+
                     notifications.forEach(notification => {
                         addToLocalDeletedNotifications(notification.id);
                     });
-                    
+
                     notifications = [];
                     renderNotifications();
                     updateNotificationBadge();
-                    
+
                     showNotificationToast('Aviso', 'Notificações excluídas localmente', 'warning');
                 }
             });
@@ -2229,22 +2244,22 @@
                 document.getElementById('chatFullStatus').innerHTML = statusHTML;
                 document.getElementById('adminOnlineFullStatus').classList.remove('hidden');
                 document.getElementById('chatFullInputContainer').classList.remove('hidden');
-                
+
                 // Overlay chat status
                 document.getElementById('chatOverlayStatus').innerHTML = statusHTML;
                 document.getElementById('chatOverlayInputContainer').classList.remove('hidden');
-                
+
                 // Profile chat status
                 const chatStatus = document.getElementById('chatStatus');
                 if (chatStatus) {
                     chatStatus.innerHTML = statusHTML;
                 }
-                
+
                 // Show notification
                 const chatNotifEl = document.getElementById('chatNotification');
                 if (chatNotifEl) chatNotifEl.classList.remove('hidden');
                 document.getElementById('footerChatNotification').classList.remove('hidden');
-                
+
                 const activeMessage = `
                     <div class="text-center text-gray-500 dark:text-gray-400 mb-4">
                         <div class="bg-green-50 dark:bg-green-900 rounded-2xl p-6 border border-green-200 dark:border-green-700 animate-bounce-in inline-block">
@@ -2253,10 +2268,10 @@
                         </div>
                     </div>
                 `;
-                
+
                 document.getElementById('chatFullMessages').innerHTML = activeMessage;
                 document.getElementById('chatOverlayMessages').innerHTML = activeMessage;
-                
+
                 // Show toast notification
                 showNotificationToast('Chat Ativo', 'O administrador iniciou um chat com você', 'success');
             } else {
@@ -2264,20 +2279,20 @@
                 document.getElementById('chatFullStatus').innerHTML = statusHTML;
                 document.getElementById('adminOnlineFullStatus').classList.add('hidden');
                 document.getElementById('chatFullInputContainer').classList.add('hidden');
-                
+
                 document.getElementById('chatOverlayStatus').innerHTML = statusHTML;
                 document.getElementById('chatOverlayInputContainer').classList.add('hidden');
-                
+
                 const chatStatus = document.getElementById('chatStatus');
                 if (chatStatus) {
                     chatStatus.innerHTML = statusHTML;
                 }
-                
+
                 // Hide notification
                 const chatNotifElOff = document.getElementById('chatNotification');
                 if (chatNotifElOff) chatNotifElOff.classList.add('hidden');
                 document.getElementById('footerChatNotification').classList.add('hidden');
-                
+
                 const offlineMessage = `
                     <div class="text-center text-gray-500 dark:text-gray-400">
                         <div class="card-bg rounded-2xl p-6 border inline-block animate-fade-in">
@@ -2290,7 +2305,7 @@
                         </div>
                     </div>
                 `;
-                
+
                 document.getElementById('chatFullMessages').innerHTML = offlineMessage;
                 document.getElementById('chatOverlayMessages').innerHTML = offlineMessage;
             }
@@ -2328,7 +2343,7 @@
             const messagesHTML = messages.map(msg => {
                 const isUser = msg.senderId === currentUser.uid;
                 let messageContent = '';
-                
+
                 if (msg.type === 'image') {
                     messageContent = `
                         <img src="${msg.imageUrl}" alt="Imagem" class="max-w-full h-auto rounded-lg cursor-pointer hover-lift" 
@@ -2338,7 +2353,7 @@
                 } else {
                     messageContent = `<p class="text-sm">${msg.text}</p>`;
                 }
-                
+
                 return `
                     <div class="flex ${isUser ? 'justify-end' : 'justify-start'} mb-4 animate-fade-in">
                         <div class="${isUser ? 'bg-primary text-white' : 'card-bg border'} 
@@ -2420,6 +2435,7 @@
             }
 
             overlay.classList.remove('hidden');
+            overlay.scrollTop = 0;
             overlay.style.opacity = '0';
             overlay.style.transform = 'translateY(24px)';
             requestAnimationFrame(() => {
@@ -2559,7 +2575,7 @@
         // Load orders for the user with enhanced status support
         function loadUserOrders() {
             if (!currentUser) return;
-            
+
             const ordersRef = ref(database, 'orders');
             onValue(ordersRef, (snapshot) => {
                 const allOrders = snapshot.val() || {};
@@ -2567,12 +2583,12 @@
                     .filter(([id, order]) => order.customer && order.customer.userId === currentUser.uid)
                     .map(([id, order]) => ({ id, ...order }))
                     .sort((a, b) => b.createdAt - a.createdAt);
-                
+
                 orders = userOrders_array.reduce((acc, order) => {
                     acc[order.id] = order;
                     return acc;
                 }, {});
-                
+
                 console.log('User orders loaded:', userOrders_array.length);
                 displayUserOrders(userOrders_array);
                 displayOrdersInGrid(userOrders_array);
@@ -2581,7 +2597,7 @@
 
         function displayUserOrders(userOrders_array) {
             const userOrders = document.getElementById('userOrders');
-            
+
             if (userOrders_array.length === 0) {
                 userOrders.innerHTML = `
                     <div class="text-center py-12 text-gray-500 dark:text-gray-400 animate-fade-in">
@@ -2596,7 +2612,7 @@
                 userOrders.innerHTML = recentOrders.map(order => {
                     const statusColor = getOrderStatusColor(order.status);
                     const statusText = getOrderStatusText(order.status);
-                    
+
                     return `
                         <div class="card-bg rounded-2xl p-6 border animate-fade-in hover-lift">
                             <div class="flex justify-between items-start mb-4">
@@ -2620,7 +2636,7 @@
 
         function displayOrdersInGrid(userOrders_array) {
             const ordersGrid = document.getElementById('ordersGrid');
-            
+
             if (userOrders_array.length === 0) {
                 ordersGrid.innerHTML = `
                     <div class="text-center py-20 animate-fade-in">
@@ -2636,7 +2652,7 @@
                 ordersGrid.innerHTML = userOrders_array.map(order => {
                     const statusColor = getOrderStatusColor(order.status);
                     const statusText = getOrderStatusText(order.status);
-                    
+
                     return `
                         <div class="card-bg rounded-2xl border p-8 animate-fade-in hover-lift">
                             <div class="flex justify-between items-start mb-6">
@@ -2648,7 +2664,7 @@
                                     ${statusText}
                                 </span>
                             </div>
-                            
+
                             <div class="space-y-4 mb-6">
                                 <div>
                                     <h4 class="font-bold text-gray-800 dark:text-gray-200 mb-3">Itens (${order.items.length})</h4>
@@ -2661,7 +2677,7 @@
                                         ${order.items.length > 3 ? `<p class="text-gray-500 dark:text-gray-500">+${order.items.length - 3} mais...</p>` : ''}
                                     </div>
                                 </div>
-                                
+
                                 <div class="pt-4 border-t border-gray-200 dark:border-gray-600">
                                     <div class="flex justify-between items-center">
                                         <span class="font-bold text-gray-800 dark:text-gray-200">Total:</span>
@@ -2669,7 +2685,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="flex justify-between items-center text-sm">
                                 ${getOrderStatusMessage(order.status)}
                                 <span class="text-gray-500 dark:text-gray-500">
@@ -2729,20 +2745,20 @@
 
         // Enhanced navigation with smooth transitions
         function showSection(section) {
-            // Chat agora abre como overlay tela cheia (igual ao checkout)
             if (section === 'chatFull') {
                 openChatOverlay();
                 return;
             }
             currentSection = section;
             updateSearchVisibility();
-            
+            window.scrollTo(0, 0);
+
             // Hide all sections
-            const sections = ['homeSection', 'categoriesSection', 'favoritesSection', 'ordersSection', 'chatFullSection', 'profileSection', 'notificationsSection'];
+            const sections = ['homeSection', 'categoriesSection', 'favoritesSection', 'ordersSection', 'chatFullSection', 'profileSection', 'notificationsSection', 'aboutSection'];
             sections.forEach(id => {
                 document.getElementById(id).classList.add('hidden');
             });
-            
+
             // Update navigation buttons
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('btn-primary', 'text-white');
@@ -2752,10 +2768,10 @@
             document.querySelectorAll('.footer-nav-item').forEach(btn => {
                 btn.classList.remove('active');
             });
-            
+
             // Show selected section and update nav
             let targetSection, navBtn, footerBtn;
-            
+
             switch (section) {
                 case 'home':
                     targetSection = document.getElementById('homeSection');
@@ -2829,6 +2845,9 @@
                         `;
                     }
                     break;
+                case 'about':
+                    targetSection = document.getElementById('aboutSection');
+                    break;
                 case 'profile':
                     targetSection = document.getElementById('profileSection');
                     if (currentUser && !isGuest) {
@@ -2856,7 +2875,7 @@
                 targetSection.classList.remove('hidden');
                 targetSection.style.opacity = '0';
                 targetSection.style.transform = 'translateY(20px)';
-                
+
                 setTimeout(() => {
                     targetSection.style.opacity = '1';
                     targetSection.style.transform = 'translateY(0)';
@@ -3226,24 +3245,24 @@
             const name = document.getElementById('registerName').value;
             const email = document.getElementById('registerEmail').value;
             const password = document.getElementById('registerPassword').value;
-            
+
             const registerBtnText = document.getElementById('registerBtnText');
             const registerBtnLoader = document.getElementById('registerBtnLoader');
             const registerSubmitBtn = document.getElementById('registerSubmitBtn');
-            
+
             registerBtnText.classList.add('hidden');
             registerBtnLoader.classList.remove('hidden');
             registerSubmitBtn.disabled = true;
-            
+
             try {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
-                
+
                 await updateProfile(user, { 
                     displayName: name,
                     photoURL: uploadedPhotoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=5D5CDE&color=fff&size=200`
                 });
-                
+
                 await setDoc(doc(firestore, 'users', user.uid), {
                     name: name,
                     email: email,
@@ -3266,16 +3285,16 @@
                         role: 'super_admin',
                         createdAt: new Date()
                     });
-                    
+
                     await set(ref(database, `admins/${user.uid}`), {
                         email: email,
                         role: 'super_admin',
                         createdAt: Date.now()
                     });
                 }
-                
+
                 showNotificationToast('Sucesso', 'Conta criada com sucesso!', 'success');
-                
+
             } catch (error) {
                 console.error('Register error:', error);
                 showLoginError(error);
@@ -3292,12 +3311,12 @@
             console.log('Auth state changed:', user);
             currentUser = user;
             isGuest = false;
-            
+
             if (user) {
                 if (cart.length > 0) {
                     localStorage.removeItem('guestCart');
                 }
-                
+
                 updateUserUI();
                 showMainApp();
                 loadData();
@@ -3322,7 +3341,7 @@
             if (currentUser) {
                 userAvatar.src = currentUser.photoURL || 'https://via.placeholder.com/32?text=' + (currentUser.displayName?.charAt(0) || '👤');
                 userName.textContent = currentUser.displayName || currentUser.email;
-                
+
                 userMenuContent.innerHTML = `
                     <button id="viewProfileBtn" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
                         <span class="mr-3">👤</span>Meu Perfil
@@ -3342,6 +3361,9 @@
   onclick="window.location.href='faq.html'">
   <span class="mr-3">🗣️</span>FAQ
 </button>
+                    <button id="menuAboutBtn" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
+                        <span class="mr-3">ℹ️</span>Sobre Nós
+                    </button>
                     <button id="menuThemeToggle" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all flex items-center justify-between">
                         <span><span id="menuThemeIcon" class="mr-3">${document.documentElement.classList.contains('dark') ? '☀️' : '🌙'}</span>${document.documentElement.classList.contains('dark') ? 'Modo Claro' : 'Modo Escuro'}</span>
                         <div id="themeToggle" class="theme-switch ${document.documentElement.classList.contains('dark') ? 'dark' : ''}" style="width:44px;height:22px;flex-shrink:0;">
@@ -3352,12 +3374,12 @@
                         <span class="mr-3"></span>Terminar Sessão
                     </button>
                 `;
-                
+
                 document.getElementById('viewProfileBtn').addEventListener('click', () => {
                     showSection('profile');
                     userMenu.classList.add('hidden');
                 });
-                
+
                 document.getElementById('viewNotificationsBtn').addEventListener('click', () => {
                     showSection('notifications');
                     userMenu.classList.add('hidden');
@@ -3370,6 +3392,11 @@
 
                 document.getElementById('menuChatBtn').addEventListener('click', () => {
                     showSection('chatFull');
+                    userMenu.classList.add('hidden');
+                });
+
+                document.getElementById('menuAboutBtn').addEventListener('click', () => {
+                    showSection('about');
                     userMenu.classList.add('hidden');
                 });
 
@@ -3395,7 +3422,7 @@
             } else if (isGuest) {
                 userAvatar.src = 'https://via.placeholder.com/32?text=👤';
                 userName.textContent = 'Visitante';
-                
+
                 userMenuContent.innerHTML = `
                     <button id="guestLoginBtn" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
                         <span class="mr-3">🔑</span>Fazer Login
@@ -3405,6 +3432,9 @@
                     </button>
                     <button id="menuChatBtnGuest" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
                         <span class="mr-3">💬</span>Chat
+                    </button>
+                    <button id="menuAboutBtnGuest" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
+                        <span class="mr-3">ℹ️</span>Sobre Nós
                     </button>
                     <button id="menuThemeToggleGuest" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-b-xl transition-all flex items-center justify-between">
                         <span><span class="mr-3">${document.documentElement.classList.contains('dark') ? '☀️' : '🌙'}</span>${document.documentElement.classList.contains('dark') ? 'Modo Claro' : 'Modo Escuro'}</span>
@@ -3426,6 +3456,11 @@
 
                 document.getElementById('menuChatBtnGuest').addEventListener('click', () => {
                     showSection('chatFull');
+                    userMenu.classList.add('hidden');
+                });
+
+                document.getElementById('menuAboutBtnGuest').addEventListener('click', () => {
+                    showSection('about');
                     userMenu.classList.add('hidden');
                 });
 
@@ -3465,7 +3500,7 @@
             cartSidebar.style.transform = 'translateX(100%)';
             cartSidebar.classList.remove('translate-x-full');
             cartOverlay.classList.remove('hidden');
-            
+
             setTimeout(() => {
                 cartSidebar.style.transform = 'translateX(0)';
             }, 50);
@@ -3486,7 +3521,7 @@
         document.getElementById('ordersBtn')?.addEventListener('click', () => showSection('orders'));
         document.getElementById('chatFullBtn')?.addEventListener('click', () => showSection('chatFull'));
         document.getElementById('notificationsBtn')?.addEventListener('click', () => showSection('notifications'));
-        
+
         document.getElementById('footerHomeBtn').addEventListener('click', () => showSection('home'));
         document.getElementById('footerCategoriesBtn').addEventListener('click', () => showSection('categories'));
         document.getElementById('footerFavoritesBtn').addEventListener('click', () => showSection('favorites'));
@@ -3499,7 +3534,7 @@
 
         // Search functionality
         const searchInput = document.getElementById('searchInput');
-        
+
         searchInput.addEventListener('input', filterProducts);
 
         // Checkout functionality
@@ -3535,15 +3570,15 @@
 
         function openCheckout() {
             if (cart.length === 0) return;
-            
+
             if (!currentUser && !isGuest) {
                 showNotificationToast('Aviso', 'Faça login para finalizar a compra', 'warning');
                 return;
             }
-            
+
             const loginRequiredMessage = document.getElementById('loginRequiredMessage');
             const checkoutForm = document.getElementById('checkoutForm');
-            
+
             if (isGuest) {
                 loginRequiredMessage.classList.remove('hidden');
                 checkoutForm.classList.add('hidden');
@@ -3552,9 +3587,10 @@
                 loginRequiredMessage.classList.add('hidden');
                 checkoutForm.classList.remove('hidden');
             }
-            
+
             updateCheckoutSummary();
             checkoutModal.classList.remove('hidden');
+            checkoutModal.scrollTop = 0;
             checkoutModal.style.opacity = '0';
             checkoutModal.style.transform = 'translateY(24px)';
             requestAnimationFrame(() => {
@@ -3582,25 +3618,25 @@
             const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             const checkoutSummary = document.getElementById('checkoutSummary');
             const checkoutTotal = document.getElementById('checkoutTotal');
-            
+
             checkoutSummary.innerHTML = cart.map(item => `
                 <div class="flex justify-between text-sm">
                     <span>${item.name} (${item.quantity}x)</span>
                     <span>${formatPrice(item.price * item.quantity)}</span>
                 </div>
             `).join('');
-            
+
             checkoutTotal.textContent = formatPrice(totalPrice);
         }
 
         async function processOrder(e) {
             e.preventDefault();
-            
+
             if (!currentUser) {
                 showNotificationToast('Erro', 'Você precisa estar logado para finalizar a compra', 'error');
                 return;
             }
-            
+
             const orderData = {
                 customer: {
                     name: document.getElementById('customerName').value,
@@ -3620,19 +3656,19 @@
                 status: 'pending',
                 createdAt: Date.now()
             };
-            
+
             try {
                 const newOrderRef = push(ref(database, 'orders'));
                 await set(newOrderRef, orderData);
                 await setDoc(doc(firestore, 'orders', newOrderRef.key), orderData);
-                
+
                 cart = [];
                 updateCartUI();
                 closeCheckout();
                 closeCart();
-                
+
                 showNotificationToast('Sucesso', 'Pedido realizado com sucesso! Em breve entraremos em contato.', 'success');
-                
+
                 if (currentSection === 'orders' || currentSection === 'profile') {
                     loadUserOrders();
                 }
@@ -3670,18 +3706,18 @@
 
         async function loadUserProfile() {
             if (!currentUser) return;
-            
+
             try {
                 const profileAvatar = document.getElementById('profileAvatar');
                 const profileName = document.getElementById('profileName');
                 const profileEmail = document.getElementById('profileEmail');
-                
+
                 profileAvatar.src = currentUser.photoURL || 'https://via.placeholder.com/80?text=' + (currentUser.displayName?.charAt(0) || '👤');
                 profileName.textContent = currentUser.displayName || 'Usuário';
                 profileEmail.textContent = currentUser.email;
-                
+
                 loadUserOrders();
-                
+
             } catch (error) {
                 console.error('Error loading user profile:', error);
                 document.getElementById('userOrders').innerHTML = `
@@ -3698,9 +3734,9 @@
             const productsArray = Object.entries(products).map(([id, product]) => ({ id, ...product }));
             const searchTerm = (searchInput.value || '').toLowerCase();
             const activeCategory = document.querySelector('.category-filter-btn.btn-primary')?.dataset.category || 'all';
-            
+
             let filteredProducts = productsArray;
-            
+
             if (searchTerm) {
                 filteredProducts = filteredProducts.filter(product => 
                     product.name.toLowerCase().includes(searchTerm) ||
@@ -3708,7 +3744,7 @@
                     product.category.toLowerCase().includes(searchTerm)
                 );
             }
-            
+
             if (activeCategory !== 'all') {
                 filteredProducts = filteredProducts.filter(product => product.category === activeCategory);
             }
@@ -3744,7 +3780,11 @@
                 return;
             }
 
-            productsGrid.innerHTML = filteredProducts.map(product => {
+            const visibleProducts = filteredProducts.slice(0, productsVisibleLimit);
+            const hasMore = filteredProducts.length > productsVisibleLimit;
+            const remaining = filteredProducts.length - productsVisibleLimit;
+
+            productsGrid.innerHTML = visibleProducts.map(product => {
                 const hasDiscount = product.oldPrice && product.oldPrice > product.price;
                 const discountPercent = hasDiscount ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100) : 0;
 
@@ -3793,6 +3833,37 @@
                 </div>
             `;
             }).join('');
+
+            if (hasMore) {
+                productsGrid.insertAdjacentHTML('beforeend', `
+                    <div class="col-span-full flex flex-col items-center justify-center py-8 pb-20 animate-fade-in">
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">
+                            A mostrar ${visibleProducts.length} de ${filteredProducts.length} produtos
+                        </p>
+                        <button id="loadMoreBtn" class="btn-primary text-white px-8 py-3 rounded-xl hover-lift ripple text-sm font-semibold flex items-center gap-2 shadow-lg relative z-10 active:scale-95 transition-transform">
+                            <span>Ver mais produtos</span>
+                            <span class="text-xs opacity-80">(+${remaining > 21 ? 21 : remaining})</span>
+                        </button>
+                    </div>
+                `);
+                document.getElementById('loadMoreBtn').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    loadMoreProducts();
+                });
+            }
+        }
+
+        function loadMoreProducts() {
+            // Salvar posição exata do scroll antes de re-renderizar
+            const scrollY = window.scrollY || window.pageYOffset;
+            productsVisibleLimit += 21;
+            renderProducts();
+            // Restaurar posição do scroll imediatamente após o render
+            window.scrollTo(0, scrollY);
+            requestAnimationFrame(() => {
+                window.scrollTo(0, scrollY);
+            });
         }
 
         function renderFavorites() {
@@ -3891,7 +3962,7 @@
         function updateCategories() {
             const productCategories = [...new Set(Object.values(products).map(p => p.category))];
             categories = productCategories;
-            
+
             const categoryFilters = document.getElementById('categoryFilters');
             if (categoryFilters) {
                 categoryFilters.innerHTML = `
@@ -3900,11 +3971,11 @@
                     </button>
                     ${categories.map(category => `
                         <button class="category-filter-btn btn-secondary px-4 py-2 rounded-full text-sm font-medium hover-lift" data-category="${category}">
-                            ${getCategoryName(category)}
+                            ${getCategoryIcon(category)}&nbsp;${getCategoryName(category)}
                         </button>
                     `).join('')}
                 `;
-                
+
                 document.querySelectorAll('.category-filter-btn').forEach(btn => {
                     btn.addEventListener('click', () => {
                         document.querySelectorAll('.category-filter-btn').forEach(b => {
@@ -3913,6 +3984,7 @@
                         });
                         btn.classList.remove('btn-secondary');
                         btn.classList.add('btn-primary', 'text-white');
+                        productsVisibleLimit = 21;
                         renderProducts();
                     });
                 });
@@ -3927,10 +3999,11 @@
                     btn.classList.remove('btn-secondary');
                     btn.classList.add('btn-primary', 'text-white');
                     currentPriceFilter = btn.dataset.price;
+                    productsVisibleLimit = 21;
                     renderProducts();
                 });
             });
-            
+
             renderCategories();
         }
 
@@ -3974,7 +4047,7 @@
 
             try {
                 const userFavoritesRef = ref(database, `favorites/${currentUser.uid}/${productId}`);
-                
+
                 if (favorites.includes(productId)) {
                     await remove(userFavoritesRef);
                     console.log('Removed from favorites:', productId);
@@ -3998,7 +4071,7 @@
         window.addToCart = function(productId) {
             const product = products[productId];
             if (!product || product.stock === 0) return;
-            
+
             const existingItem = cart.find(item => item.id === productId);
             if (existingItem) {
                 if (existingItem.quantity < product.stock) {
@@ -4007,41 +4080,41 @@
             } else {
                 cart.push({ ...product, id: productId, quantity: 1 });
             }
-            
+
             if (isGuest) {
                 localStorage.setItem('guestCart', JSON.stringify(cart));
             }
-            
+
             updateCartUI();
             showNotificationToast('Carrinho', 'Produto adicionado ao carrinho!', 'success');
         };
 
         function removeFromCart(productId) {
             cart = cart.filter(item => item.id !== productId);
-            
+
             if (isGuest) {
                 localStorage.setItem('guestCart', JSON.stringify(cart));
             }
-            
+
             updateCartUI();
         }
 
         function updateQuantity(productId, change) {
             const item = cart.find(item => item.id === productId);
             if (!item) return;
-            
+
             const product = products[productId];
             const newQuantity = item.quantity + change;
-            
+
             if (newQuantity <= 0) {
                 removeFromCart(productId);
             } else if (newQuantity <= product.stock) {
                 item.quantity = newQuantity;
-                
+
                 if (isGuest) {
                     localStorage.setItem('guestCart', JSON.stringify(cart));
                 }
-                
+
                 updateCartUI();
             }
         }
@@ -4049,11 +4122,11 @@
         function updateCartUI() {
             const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
             const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            
+
             footerCartCount.textContent = totalItems;
             cartTotal.textContent = formatPrice(totalPrice);
             checkoutBtn.disabled = cart.length === 0;
-            
+
             if (totalItems > 0) {
                 footerCartCount.classList.remove('hidden');
                 footerCartCount.classList.add('bounce-anim');
@@ -4063,7 +4136,7 @@
             } else {
                 footerCartCount.classList.add('hidden');
             }
-            
+
             if (cart.length === 0) {
                 cartItems.innerHTML = `
                     <div class="text-center py-20 animate-fade-in">
@@ -4108,7 +4181,7 @@
         window.showProductDetail = function(productId) {
             const product = products[productId];
             if (!product) return;
-            
+
             const detailModalTitle = document.getElementById('detailModalTitle');
             const detailName = document.getElementById('detailName');
             const detailCategory = document.getElementById('detailCategory');
@@ -4122,12 +4195,12 @@
             const detailFavoriteBtn = document.getElementById('detailFavoriteBtn');
             const detailFavoriteIcon = document.getElementById('detailFavoriteIcon');
             const detailAddToCartBtn = document.getElementById('detailAddToCartBtn');
-            
+
             detailModalTitle.textContent = 'Detalhes do Produto';
             detailName.textContent = product.name;
             detailCategory.textContent = getCategoryName(product.category);
             detailPrice.textContent = formatPrice(product.price);
-            
+
             if (product.oldPrice && product.oldPrice > product.price) {
                 const discountPercent = Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100);
                 detailOldPrice.textContent = formatPrice(product.oldPrice);
@@ -4138,7 +4211,7 @@
                 detailOldPrice.classList.add('hidden');
                 detailDiscount.classList.add('hidden');
             }
-            
+
             if (product.stock > 0) {
                 detailStock.innerHTML = `<span class="mr-2">✅</span>${product.stock} unidades em estoque`;
                 detailAddToCartBtn.disabled = false;
@@ -4148,14 +4221,14 @@
                 detailAddToCartBtn.disabled = true;
                 detailAddToCartBtn.innerHTML = '<span class="mr-2">🚫</span>Sem Estoque';
             }
-            
+
             if (product.description && product.description.trim()) {
                 detailDescription.textContent = product.description;
                 detailDescriptionContainer.classList.remove('hidden');
             } else {
                 detailDescriptionContainer.classList.add('hidden');
             }
-            
+
             if (product.image) {
                 detailImage.innerHTML = `<img src="${product.image}" alt="${product.name}" class="w-full h-full object-contain rounded-2xl">`;
             } else {
@@ -4167,15 +4240,16 @@
             detailFavoriteIcon.textContent = isFavorite ? '❤️' : '🤍';
             detailFavoriteBtn.onclick = () => toggleFavorite(productId);
             detailFavoriteBtn.style.display = '';
-            
+
             detailAddToCartBtn.onclick = () => {
                 if (product.stock > 0) {
                     addToCart(productId);
                     closeProductDetail();
                 }
             };
-            
+
             productDetailModal.classList.remove('hidden');
+            productDetailModal.scrollTop = 0;
             productDetailModal.style.opacity = '0';
             productDetailModal.style.transform = 'translateY(24px)';
             requestAnimationFrame(() => {
@@ -4198,22 +4272,33 @@
 
         window.filterByCategory = function(category) {
             showSection('home');
-            
+
+            // Ensure filters are visible
+            if (filterControlsWrapper.classList.contains('collapsed')) {
+                filterControlsWrapper.classList.remove('collapsed');
+                headerFilterToggleBtn.classList.add('btn-primary', 'text-white');
+                headerFilterToggleBtn.classList.remove('btn-secondary');
+            }
+
             document.querySelectorAll('.category-filter-btn').forEach(btn => {
                 btn.classList.remove('btn-primary', 'text-white');
                 btn.classList.add('btn-secondary');
             });
-            
+
             const categoryBtn = document.querySelector(`.category-filter-btn[data-category="${category}"]`);
             if (categoryBtn) {
                 categoryBtn.classList.remove('btn-secondary');
                 categoryBtn.classList.add('btn-primary', 'text-white');
+                // Scroll the selected category into view in the horizontal scroll row
+                categoryBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
             }
-            
+
+            productsVisibleLimit = 21;
             renderProducts();
         };
 
         function filterProducts() {
+            productsVisibleLimit = 21;
             renderProducts();
         }
 
@@ -4223,7 +4308,7 @@
                 showNotificationToast('Aviso', 'Faça login para alterar sua foto de perfil', 'warning');
                 return;
             }
-            
+
             const profilePicturePreview = document.getElementById('profilePicturePreview');
             profilePicturePreview.src = currentUser.photoURL || 'https://via.placeholder.com/128?text=👤';
             uploadedPhotoURL = null;
@@ -4391,26 +4476,7 @@
         }
 
         function getCategoryBackground(category) {
-            const bgs = {
-                'eletronicos': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23141E30'/%3E%3Cstop offset='1' stop-color='%23243B55'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='320' cy='60' r='80' fill='%230ea5e9' opacity='.18'/%3E%3Ccircle cx='80' cy='220' r='100' fill='%236366f1' opacity='.15'/%3E%3Crect x='150' y='80' width='120' height='80' rx='12' fill='%2338bdf8' opacity='.12'/%3E%3Cline x1='0' y1='150' x2='400' y2='150' stroke='%2338bdf8' stroke-width='.5' opacity='.15'/%3E%3Cline x1='200' y1='0' x2='200' y2='300' stroke='%2338bdf8' stroke-width='.5' opacity='.1'/%3E%3C/svg%3E\")",
-                'roupas': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23831843'/%3E%3Cstop offset='1' stop-color='%23be185d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='340' cy='250' r='120' fill='%23ec4899' opacity='.15'/%3E%3Ccircle cx='60' cy='40' r='80' fill='%23f472b6' opacity='.12'/%3E%3Cpath d='M100 300 Q200 180 300 300' fill='%23fda4af' opacity='.08'/%3E%3Crect x='180' y='60' width='60' height='100' rx='30' fill='%23fb7185' opacity='.1'/%3E%3C/svg%3E\")",
-                'casa': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23064e3b'/%3E%3Cstop offset='1' stop-color='%23065f46'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='100' cy='80' r='60' fill='%2334d399' opacity='.12'/%3E%3Ccircle cx='330' cy='220' r='90' fill='%2310b981' opacity='.1'/%3E%3Cpath d='M200 50 L280 120 L120 120Z' fill='%236ee7b7' opacity='.1'/%3E%3Crect x='160' y='120' width='80' height='80' fill='%23a7f3d0' opacity='.06'/%3E%3C/svg%3E\")",
-                'livros': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2378350f'/%3E%3Cstop offset='1' stop-color='%2392400e'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Crect x='50' y='80' width='40' height='160' rx='4' fill='%23fbbf24' opacity='.15'/%3E%3Crect x='100' y='60' width='35' height='180' rx='4' fill='%23f59e0b' opacity='.12'/%3E%3Crect x='145' y='90' width='38' height='150' rx='4' fill='%23fcd34d' opacity='.1'/%3E%3Ccircle cx='320' cy='80' r='60' fill='%23fbbf24' opacity='.08'/%3E%3Ccircle cx='300' cy='240' r='80' fill='%23f59e0b' opacity='.07'/%3E%3C/svg%3E\")",
-                'esportes': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23172554'/%3E%3Cstop offset='1' stop-color='%231e3a5f'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='200' cy='150' r='70' fill='none' stroke='%2360a5fa' stroke-width='3' opacity='.2'/%3E%3Ccircle cx='80' cy='60' r='50' fill='%233b82f6' opacity='.1'/%3E%3Ccircle cx='350' cy='250' r='70' fill='%232563eb' opacity='.12'/%3E%3Cpath d='M50 200 Q150 100 250 200 T450 200' fill='none' stroke='%2393c5fd' stroke-width='1.5' opacity='.12'/%3E%3C/svg%3E\")",
-                'beleza': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%234a044e'/%3E%3Cstop offset='1' stop-color='%2386198f'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='100' cy='100' r='80' fill='%23d946ef' opacity='.12'/%3E%3Ccircle cx='320' cy='60' r='50' fill='%23e879f9' opacity='.1'/%3E%3Ccircle cx='280' cy='230' r='90' fill='%23a855f7' opacity='.1'/%3E%3Cellipse cx='180' cy='200' rx='60' ry='40' fill='%23f0abfc' opacity='.08'/%3E%3C/svg%3E\")",
-                'acessorios': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2344403c'/%3E%3Cstop offset='1' stop-color='%2357534e'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='200' cy='140' r='50' fill='%23fbbf24' opacity='.15'/%3E%3Ccircle cx='200' cy='140' r='35' fill='%2344403c'/%3E%3Ccircle cx='80' cy='60' r='40' fill='%23f59e0b' opacity='.08'/%3E%3Ccircle cx='340' cy='240' r='60' fill='%23d97706' opacity='.1'/%3E%3Cpath d='M160 100 Q200 60 240 100' fill='none' stroke='%23fbbf24' stroke-width='2' opacity='.2'/%3E%3C/svg%3E\")",
-                'calcados': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%231c1917'/%3E%3Cstop offset='1' stop-color='%23292524'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Cellipse cx='200' cy='180' rx='130' ry='40' fill='%23f97316' opacity='.1'/%3E%3Ccircle cx='100' cy='80' r='60' fill='%23fb923c' opacity='.08'/%3E%3Ccircle cx='330' cy='100' r='50' fill='%23ea580c' opacity='.1'/%3E%3Cpath d='M60 220 Q200 160 340 220' fill='none' stroke='%23fdba74' stroke-width='2' opacity='.15'/%3E%3C/svg%3E\")",
-                'alimentacao': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237f1d1d'/%3E%3Cstop offset='1' stop-color='%23991b1b'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='140' cy='120' r='70' fill='%23ef4444' opacity='.12'/%3E%3Ccircle cx='300' cy='200' r='90' fill='%23f87171' opacity='.08'/%3E%3Ccircle cx='60' cy='250' r='40' fill='%23fca5a5' opacity='.1'/%3E%3Crect x='220' y='50' width='100' height='60' rx='30' fill='%23fecaca' opacity='.06'/%3E%3C/svg%3E\")",
-                'saude': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23042f2e'/%3E%3Cstop offset='1' stop-color='%23134e4a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Crect x='175' y='80' width='50' height='140' rx='6' fill='%232dd4bf' opacity='.12'/%3E%3Crect x='130' y='125' width='140' height='50' rx='6' fill='%232dd4bf' opacity='.12'/%3E%3Ccircle cx='80' cy='60' r='50' fill='%2314b8a6' opacity='.08'/%3E%3Ccircle cx='340' cy='250' r='60' fill='%235eead4' opacity='.07'/%3E%3C/svg%3E\")",
-                'automotivo': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%231e293b'/%3E%3Cstop offset='1' stop-color='%23334155'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='130' cy='200' r='50' fill='none' stroke='%2394a3b8' stroke-width='6' opacity='.15'/%3E%3Ccircle cx='280' cy='200' r='50' fill='none' stroke='%2394a3b8' stroke-width='6' opacity='.15'/%3E%3Crect x='80' y='130' width='250' height='70' rx='20' fill='%2364748b' opacity='.1'/%3E%3Ccircle cx='320' cy='60' r='40' fill='%23475569' opacity='.12'/%3E%3C/svg%3E\")",
-                'brinquedos': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23701a75'/%3E%3Cstop offset='1' stop-color='%23a21caf'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='100' cy='80' r='40' fill='%23f472b6' opacity='.15'/%3E%3Ccircle cx='300' cy='100' r='55' fill='%2338bdf8' opacity='.12'/%3E%3Ccircle cx='200' cy='230' r='60' fill='%23a3e635' opacity='.1'/%3E%3Crect x='150' y='50' width='30' height='30' rx='4' fill='%23fbbf24' opacity='.15' transform='rotate(15 165 65)'/%3E%3Crect x='280' y='200' width='25' height='25' rx='4' fill='%23fb7185' opacity='.15' transform='rotate(-20 292 212)'/%3E%3C/svg%3E\")",
-                'musica': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23312e81'/%3E%3Cstop offset='1' stop-color='%234338ca'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='280' cy='200' r='50' fill='%23818cf8' opacity='.15'/%3E%3Cline x1='280' y1='200' x2='280' y2='60' stroke='%23a5b4fc' stroke-width='3' opacity='.15'/%3E%3Ccircle cx='100' cy='100' r='70' fill='%236366f1' opacity='.1'/%3E%3Cpath d='M50 250 Q120 200 190 250 Q260 300 330 250' fill='none' stroke='%23c7d2fe' stroke-width='1.5' opacity='.12'/%3E%3C/svg%3E\")",
-                'arte': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%239d174d'/%3E%3Cstop offset='1' stop-color='%23be185d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='80' cy='80' r='50' fill='%23fbbf24' opacity='.15'/%3E%3Ccircle cx='200' cy='200' r='60' fill='%233b82f6' opacity='.12'/%3E%3Ccircle cx='320' cy='100' r='45' fill='%2322c55e' opacity='.12'/%3E%3Crect x='260' y='200' width='80' height='60' rx='4' fill='%23e879f9' opacity='.1'/%3E%3Cpath d='M40 280 Q100 180 180 250' fill='none' stroke='%23fcd34d' stroke-width='3' opacity='.15'/%3E%3C/svg%3E\")",
-                'pets': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23365314'/%3E%3Cstop offset='1' stop-color='%233f6212'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='160' cy='120' r='30' fill='%2384cc16' opacity='.15'/%3E%3Ccircle cx='240' cy='120' r='30' fill='%2384cc16' opacity='.15'/%3E%3Ccircle cx='200' cy='170' r='50' fill='%23a3e635' opacity='.1'/%3E%3Ccircle cx='80' cy='60' r='20' fill='%23bef264' opacity='.1'/%3E%3Ccircle cx='340' cy='50' r='20' fill='%23bef264' opacity='.1'/%3E%3Ccircle cx='60' cy='260' r='50' fill='%234ade80' opacity='.07'/%3E%3C/svg%3E\")",
-                'servicos': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23374151'/%3E%3Cstop offset='1' stop-color='%234b5563'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='200' cy='130' r='60' fill='%239ca3af' opacity='.1'/%3E%3Crect x='180' y='100' width='40' height='60' rx='4' fill='%23d1d5db' opacity='.1'/%3E%3Ccircle cx='80' cy='240' r='50' fill='%236b7280' opacity='.1'/%3E%3Ccircle cx='340' cy='80' r='40' fill='%239ca3af' opacity='.08'/%3E%3Cpath d='M100 50 L350 250' stroke='%23d1d5db' stroke-width='1' opacity='.08'/%3E%3C/svg%3E\")"
-            };
-            const fallback = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23374151'/%3E%3Cstop offset='1' stop-color='%234b5563'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ccircle cx='200' cy='150' r='80' fill='%236b7280' opacity='.1'/%3E%3Ccircle cx='80' cy='60' r='40' fill='%239ca3af' opacity='.08'/%3E%3C/svg%3E\")";
-            return bgs[category] || fallback;
+            return "url('fundo.jpg')";
         }
 
         function showMainApp() {
@@ -4459,16 +4525,372 @@
         }, 2000);
     </script>
     <script>
-  // Espera 3 segundos (3000 ms)
-  setTimeout(function() {
-    // Seleciona os elementos pelos IDs
-    const priceBtn = document.getElementById("togglePriceFilters");
-    const categoryBtn = document.getElementById("toggleCategoryFilters");
 
-    // Se existirem, dispara o clique
-    if (priceBtn) priceBtn.click();
-    if (categoryBtn) categoryBtn.click();
+  setTimeout(function() {
+    const wrapper = document.getElementById("filterControlsWrapper");
+    const toggleBtn = document.getElementById("headerFilterToggleBtn");
+    if (wrapper && wrapper.classList.contains('collapsed')) {
+      wrapper.classList.remove('collapsed');
+      if (toggleBtn) {
+        toggleBtn.classList.add('btn-primary', 'text-white');
+        toggleBtn.classList.remove('btn-secondary');
+      }
+    }
   }, 3000);
+</script>
+
+<!-- ===== OVERLAY FORA DO HORÁRIO DE ATENDIMENTO ===== -->
+<style>
+    .offhours-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+    .offhours-overlay.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+    .offhours-overlay .offhours-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0.55);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+    }
+    .offhours-card {
+        position: relative;
+        max-width: 420px;
+        width: 100%;
+        border-radius: 24px;
+        padding: 32px 24px 24px;
+        text-align: center;
+        transform: translateY(30px) scale(0.95);
+        transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1);
+        background: #fff;
+        box-shadow: 0 25px 60px rgba(0,0,0,0.18), 0 0 0 1px rgba(93,92,222,0.08);
+    }
+    .dark .offhours-card {
+        background: #1e2130;
+        box-shadow: 0 25px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(93,92,222,0.15);
+    }
+    .offhours-overlay.visible .offhours-card {
+        transform: translateY(0) scale(1);
+    }
+    .offhours-moon {
+        width: 72px;
+        height: 72px;
+        margin: 0 auto 20px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 30px rgba(251,191,36,0.35);
+        animation: offhours-float 3s ease-in-out infinite;
+        position: relative;
+        overflow: hidden;
+    }
+    .offhours-moon::after {
+        content: '';
+        position: absolute;
+        top: 10px;
+        right: 12px;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.2);
+    }
+    .offhours-moon svg {
+        width: 36px;
+        height: 36px;
+        color: #fff;
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+    }
+    @keyframes offhours-float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
+    }
+    .offhours-title {
+        font-size: 22px;
+        font-weight: 800;
+        margin-bottom: 8px;
+        color: #1f2937;
+        letter-spacing: -0.02em;
+    }
+    .dark .offhours-title {
+        color: #f3f4f6;
+    }
+    .offhours-subtitle {
+        font-size: 15px;
+        color: #6b7280;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+    .dark .offhours-subtitle {
+        color: #9ca3af;
+    }
+    .offhours-schedule {
+        background: #f8f7ff;
+        border-radius: 16px;
+        padding: 16px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(93,92,222,0.1);
+    }
+    .dark .offhours-schedule {
+        background: rgba(93,92,222,0.08);
+        border-color: rgba(93,92,222,0.15);
+    }
+    .offhours-schedule-title {
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--primary);
+        margin-bottom: 10px;
+    }
+    .offhours-schedule-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 6px 0;
+        font-size: 14px;
+    }
+    .offhours-schedule-row:not(:last-child) {
+        border-bottom: 1px solid rgba(93,92,222,0.06);
+    }
+    .dark .offhours-schedule-row:not(:last-child) {
+        border-bottom-color: rgba(93,92,222,0.1);
+    }
+    .offhours-schedule-day {
+        font-weight: 600;
+        color: #374151;
+    }
+    .dark .offhours-schedule-day {
+        color: #d1d5db;
+    }
+    .offhours-schedule-time {
+        color: #6b7280;
+        font-weight: 500;
+        font-variant-numeric: tabular-nums;
+    }
+    .dark .offhours-schedule-time {
+        color: #9ca3af;
+    }
+    .offhours-schedule-row.today-row {
+        background: rgba(93,92,222,0.08);
+        border-radius: 8px;
+        padding: 6px 8px;
+        margin: 2px -8px;
+    }
+    .dark .offhours-schedule-row.today-row {
+        background: rgba(93,92,222,0.15);
+    }
+    .offhours-tip {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        background: rgba(34,197,94,0.08);
+        border-radius: 12px;
+        padding: 12px 14px;
+        margin-bottom: 20px;
+        text-align: left;
+        border: 1px solid rgba(34,197,94,0.12);
+    }
+    .dark .offhours-tip {
+        background: rgba(34,197,94,0.1);
+        border-color: rgba(34,197,94,0.15);
+    }
+    .offhours-tip-icon {
+        flex-shrink: 0;
+        width: 22px;
+        height: 22px;
+        color: #22c55e;
+        margin-top: 1px;
+    }
+    .offhours-tip-text {
+        font-size: 13.5px;
+        color: #374151;
+        line-height: 1.55;
+    }
+    .dark .offhours-tip-text {
+        color: #d1d5db;
+    }
+    .offhours-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        padding: 14px 24px;
+        border-radius: 14px;
+        font-size: 15px;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+        color: #fff;
+        box-shadow: 0 4px 15px rgba(93,92,222,0.35);
+        transition: all 0.3s ease;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .offhours-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(93,92,222,0.45);
+    }
+    .offhours-btn:active {
+        transform: translateY(0) scale(0.98);
+    }
+    .offhours-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+    .offhours-status-dot {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        margin-right: 6px;
+        vertical-align: middle;
+        animation: offhours-pulse-dot 2s ease-in-out infinite;
+    }
+    .offhours-status-dot.closed { background: #ef4444; }
+    .offhours-status-dot.open { background: #22c55e; }
+    @keyframes offhours-pulse-dot {
+        0%, 100% { opacity: 1; box-shadow: 0 0 0 0 currentColor; }
+        50% { opacity: 0.6; box-shadow: 0 0 0 4px currentColor; }
+    }
+</style>
+
+<div id="offhoursOverlay" class="offhours-overlay">
+    <div class="offhours-backdrop"></div>
+    <div class="offhours-card">
+        <div class="offhours-moon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+            </svg>
+        </div>
+        <h2 class="offhours-title">
+            <span class="offhours-status-dot closed" style="color:#ef4444;"></span>
+            Estamos fora do horário
+        </h2>
+        <p class="offhours-subtitle">
+            Neste momento a nossa equipa não está disponível para atender, mas fique tranquilo!
+        </p>
+        <div class="offhours-schedule">
+            <div class="offhours-schedule-title">🕐 Horário de Atendimento</div>
+            <div class="offhours-schedule-row" data-days="1,2,3,4">
+                <span class="offhours-schedule-day">Segunda a Quinta</span>
+                <span class="offhours-schedule-time">08:00 – 18:00</span>
+            </div>
+            <div class="offhours-schedule-row" data-days="5">
+                <span class="offhours-schedule-day">Sexta-feira</span>
+                <span class="offhours-schedule-time">09:00 – 14:00</span>
+            </div>
+            <div class="offhours-schedule-row" data-days="0,6">
+                <span class="offhours-schedule-day">Sábado e Domingo</span>
+                <span class="offhours-schedule-time" style="color:#ef4444;font-weight:600;">Encerrado</span>
+            </div>
+        </div>
+        <div class="offhours-tip">
+            <svg class="offhours-tip-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="offhours-tip-text">
+                Pode fazer as suas compras à vontade! Quando o atendimento abrir, vamos processar e responder ao seu pedido. 😊
+            </span>
+        </div>
+        <button class="offhours-btn" id="offhoursCloseBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+            </svg>
+            Entendi, quero ver a loja!
+        </button>
+    </div>
+</div>
+
+<script>
+(function() {
+    // Horário de atendimento (hora local do utilizador)
+    // Dia da semana: 0 = Domingo, 1 = Segunda, ..., 6 = Sábado
+    var schedule = {
+        0: null,                       // Domingo - encerrado
+        1: { open: 8, close: 18 },   // Segunda
+        2: { open: 8, close: 18 },   // Terça
+        3: { open: 8, close: 18 },   // Quarta
+        4: { open: 8, close: 18 },   // Quinta
+        5: { open: 9, close: 14 },   // Sexta
+        6: null                        // Sábado - encerrado
+    };
+
+    function isOutsideBusinessHours() {
+        var now = new Date();
+        var day = now.getDay();
+        var hours = now.getHours();
+        var minutes = now.getMinutes();
+        var currentTime = hours + minutes / 60;
+
+        var todaySchedule = schedule[day];
+        if (!todaySchedule) return true; // Dia encerrado
+        if (currentTime < todaySchedule.open || currentTime >= todaySchedule.close) return true;
+        return false;
+    }
+
+    function highlightToday() {
+        var day = new Date().getDay();
+        var rows = document.querySelectorAll('.offhours-schedule-row');
+        rows.forEach(function(row) {
+            var days = row.getAttribute('data-days');
+            if (days) {
+                var dayList = days.split(',').map(Number);
+                if (dayList.indexOf(day) !== -1) {
+                    row.classList.add('today-row');
+                }
+            }
+        });
+    }
+
+    function showOverlay() {
+        var overlay = document.getElementById('offhoursOverlay');
+        if (overlay) {
+            highlightToday();
+            // Pequeno delay para animação funcionar
+            setTimeout(function() {
+                overlay.classList.add('visible');
+            }, 2200); // Aparece após o loading screen
+        }
+    }
+
+    function hideOverlay() {
+        var overlay = document.getElementById('offhoursOverlay');
+        if (overlay) {
+            overlay.classList.remove('visible');
+        }
+    }
+
+    // Verificar se está fora do horário
+    if (isOutsideBusinessHours()) {
+        showOverlay();
+    }
+
+    // Botão para fechar
+    var closeBtn = document.getElementById('offhoursCloseBtn');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', hideOverlay);
+    }
+
+    // Clicar no backdrop também fecha
+    var backdrop = document.querySelector('.offhours-backdrop');
+    if (backdrop) {
+        backdrop.addEventListener('click', hideOverlay);
+    }
+})();
 </script>
 </body>
 </html>
