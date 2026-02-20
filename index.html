@@ -1666,7 +1666,6 @@
         console.log('🚀 Iniciando Kuia+ Shop...');
         document.getElementById('loadingStatus').textContent = 'Carregando Firebase';
 
-        // Firebase imports
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js';
         import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js';
         import { getDatabase, ref, onValue, push, set, remove, update } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js';
@@ -1675,7 +1674,6 @@
         console.log('✅ Firebase modules loaded');
         document.getElementById('loadingStatus').textContent = 'Conectando ao Firebase';
 
-        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyArmhNnjraGaY017AP5uRcM8w0WWditrIs",
             authDomain: "kuia-shop.firebaseapp.com",
@@ -1686,7 +1684,6 @@
             measurementId: "G-LTZ8VLN3LN"
         };
 
-        // Initialize Firebase
         let app, auth, database, firestore;
         try {
             app = initializeApp(firebaseConfig);
@@ -1700,7 +1697,6 @@
             document.getElementById('loadingStatus').textContent = 'Erro na conexão. Usando modo offline';
         }
 
-        // Enhanced Dark mode setup with proper theme switching
         function initializeTheme() {
             const savedTheme = localStorage.getItem('kuia-theme');
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -1737,7 +1733,6 @@
             const isDark = document.documentElement.classList.contains('dark');
             updateTheme(!isDark);
 
-            // Add visual feedback
             const themeToggle = document.getElementById('themeToggle');
             if (themeToggle) {
                 themeToggle.style.transform = 'scale(1.1)';
@@ -1747,10 +1742,8 @@
             }
         }
 
-        // Initialize theme
         initializeTheme();
 
-        // Global variables
         let currentUser = null;
         let isGuest = false;
         let cart = JSON.parse(localStorage.getItem('guestCart') || '[]');
@@ -1767,15 +1760,12 @@
         let isFullChatMode = false;
         let uploadedPhotoURL = null;
 
-        // API Key for image upload
         const apiKeyImgBB = 'e073e02267a1f0259cd69c562e780659';
 
-        // DOM elements
         const loadingScreen = document.getElementById('loadingScreen');
         const loginScreen = document.getElementById('loginScreen');
         const mainApp = document.getElementById('mainApp');
 
-        // Header filter toggle (show/hide the entire filter controls area)
         const headerFilterToggleBtn = document.getElementById('headerFilterToggleBtn');
         const filterControlsWrapper = document.getElementById('filterControlsWrapper');
 
@@ -1794,12 +1784,9 @@
             });
         }
 
-        // setupFilterToggles is no longer needed (horizontal scroll replaces collapsible panels)
         function setupFilterToggles() {
-            // No-op: filters are now always visible in horizontal scroll rows
         }
 
-        // Enhanced notification system
         function showNotificationToast(title, message, type = 'info') {
             const notificationArea = document.getElementById('notificationArea');
             const toast = document.createElement('div');
@@ -1834,7 +1821,6 @@
 
             notificationArea.appendChild(toast);
 
-            // Auto remove
             setTimeout(() => {
                 if (toast.parentElement) {
                     toast.style.animation = 'fadeOut 0.3s ease-out forwards';
@@ -1843,7 +1829,6 @@
             }, 5000);
         }
 
-        // Enhanced notification system with localStorage fallback
         function loadNotifications() {
             if (!currentUser) return;
 
@@ -2044,7 +2029,6 @@
             });
         };
 
-        // Mark all notifications as read
         document.getElementById('markAllAsReadBtn').addEventListener('click', async () => {
             if (!currentUser) return;
 
@@ -2078,7 +2062,6 @@
             });
         });
 
-        // Delete all notifications
         document.getElementById('deleteAllNotificationsBtn').addEventListener('click', async () => {
             if (!currentUser) return;
 
@@ -2103,7 +2086,6 @@
             });
         });
 
-        // Enhanced custom confirmation dialog
         function showConfirmDialog(message, onConfirm) {
             const modal = document.createElement('div');
             modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
@@ -2130,7 +2112,6 @@
             };
         }
 
-        // Update search visibility
         function updateSearchVisibility() {
             var searchWrapper = document.getElementById('searchWrapper');
             var searchContainer = document.getElementById('searchContainer');
@@ -2143,18 +2124,15 @@
             }
         }
 
-        // Inline search open/close helpers
         function openInlineSearch() {
             var headerLeft = document.getElementById('headerLeft');
             var headerRight = document.getElementById('headerRight');
             var searchContainer = document.getElementById('searchContainer');
             var searchInput = document.getElementById('searchInput');
 
-            // Hide logo+nav and right actions
             headerLeft.classList.add('header-left-hidden');
             headerRight.classList.add('header-right-hidden');
 
-            // Show inline search
             searchContainer.classList.remove('hidden');
             requestAnimationFrame(function() {
                 searchContainer.classList.add('search-active');
@@ -2176,14 +2154,12 @@
                 headerRight.classList.remove('header-right-hidden');
             }, 250);
 
-            // Clear search and re-filter
             searchInput.value = '';
             if (typeof filterProducts === 'function') {
                 filterProducts();
             }
         }
 
-        // Search toggle functionality
         (function() {
             var searchToggleBtn = document.getElementById('searchToggleBtn');
             var searchCloseBtn = document.getElementById('searchCloseBtn');
@@ -2199,7 +2175,6 @@
                 closeInlineSearch();
             });
 
-            // Close search on Escape key
             searchInput.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
                     closeInlineSearch();
@@ -2207,11 +2182,9 @@
             });
         })();
 
-        // Enhanced chat functionality with corrected user loading and overlay
         function initializeChat() {
             if (!currentUser) return;
 
-            // Listen for admin-initiated chats
             const userChatsRef = ref(database, `chats/users/${currentUser.uid}`);
             onValue(userChatsRef, (snapshot) => {
                 const chatData = snapshot.val();
@@ -2240,22 +2213,18 @@
             `;
 
             if (isActive) {
-                // Full chat status
                 document.getElementById('chatFullStatus').innerHTML = statusHTML;
                 document.getElementById('adminOnlineFullStatus').classList.remove('hidden');
                 document.getElementById('chatFullInputContainer').classList.remove('hidden');
 
-                // Overlay chat status
                 document.getElementById('chatOverlayStatus').innerHTML = statusHTML;
                 document.getElementById('chatOverlayInputContainer').classList.remove('hidden');
 
-                // Profile chat status
                 const chatStatus = document.getElementById('chatStatus');
                 if (chatStatus) {
                     chatStatus.innerHTML = statusHTML;
                 }
 
-                // Show notification
                 const chatNotifEl = document.getElementById('chatNotification');
                 if (chatNotifEl) chatNotifEl.classList.remove('hidden');
                 document.getElementById('footerChatNotification').classList.remove('hidden');
@@ -2272,10 +2241,8 @@
                 document.getElementById('chatFullMessages').innerHTML = activeMessage;
                 document.getElementById('chatOverlayMessages').innerHTML = activeMessage;
 
-                // Show toast notification
                 showNotificationToast('Chat Ativo', 'O administrador iniciou um chat com você', 'success');
             } else {
-                // Update all chat interfaces to offline state
                 document.getElementById('chatFullStatus').innerHTML = statusHTML;
                 document.getElementById('adminOnlineFullStatus').classList.add('hidden');
                 document.getElementById('chatFullInputContainer').classList.add('hidden');
@@ -2288,7 +2255,6 @@
                     chatStatus.innerHTML = statusHTML;
                 }
 
-                // Hide notification
                 const chatNotifElOff = document.getElementById('chatNotification');
                 if (chatNotifElOff) chatNotifElOff.classList.add('hidden');
                 document.getElementById('footerChatNotification').classList.add('hidden');
@@ -2367,11 +2333,9 @@
                 `;
             }).join('');
 
-            // Update all chat interfaces
             document.getElementById('chatFullMessages').innerHTML = messagesHTML;
             document.getElementById('chatOverlayMessages').innerHTML = messagesHTML;
 
-            // Scroll to bottom
             setTimeout(() => {
                 const chatFullContainer = document.getElementById('chatFullContainer');
                 const chatOverlayContainer = document.getElementById('chatOverlayContainer');
@@ -2407,7 +2371,6 @@
             }
         }
 
-        // Chat overlay handlers
         document.getElementById('closeChatOverlayBtn').addEventListener('click', () => {
             closeChatOverlay();
         });
@@ -2417,7 +2380,6 @@
             const messagesEl = document.getElementById('chatOverlayMessages');
             const inputContainer = document.getElementById('chatOverlayInputContainer');
 
-            // Verificação de login: mostrar mensagem se não estiver logado
             if (!currentUser && !isGuest) {
                 messagesEl.innerHTML = `
                     <div class="text-center text-gray-500 dark:text-gray-400 py-20 animate-fade-in">
@@ -2457,9 +2419,7 @@
             }, 300);
         }
 
-        // Enhanced chat image upload handlers for all interfaces
         function setupChatImageHandlers() {
-            // Full chat
             document.getElementById('chatFullImageBtn').addEventListener('click', () => {
                 document.getElementById('chatFullImageInput').click();
             });
@@ -2467,7 +2427,6 @@
                 await handleImageUpload(e, document.getElementById('chatFullImageBtn'));
             });
 
-            // Overlay chat
             document.getElementById('chatOverlayImageBtn').addEventListener('click', () => {
                 document.getElementById('chatOverlayImageInput').click();
             });
@@ -2479,7 +2438,6 @@
                 const file = e.target.files[0];
                 if (!file) return;
 
-                // Show loading state
                 btnElement.innerHTML = '⏳';
                 btnElement.disabled = true;
 
@@ -2502,7 +2460,6 @@
                     console.error('Image upload error:', error);
                     showNotificationToast('Erro', 'Erro ao fazer upload da imagem.', 'error');
                 } finally {
-                    // Reset button state
                     btnElement.innerHTML = '📷';
                     btnElement.disabled = false;
                     e.target.value = '';
@@ -2510,9 +2467,7 @@
             }
         }
 
-        // Enhanced chat event handlers for all interfaces
         function setupChatEventHandlers() {
-            // Full chat handlers
             document.getElementById('sendChatFullBtn').addEventListener('click', () => {
                 const messageText = document.getElementById('chatFullInput').value.trim();
                 if (messageText) {
@@ -2531,7 +2486,6 @@
                 }
             });
 
-            // Overlay chat handlers
             document.getElementById('sendChatOverlayBtn').addEventListener('click', () => {
                 const messageText = document.getElementById('chatOverlayInput').value.trim();
                 if (messageText) {
@@ -2550,7 +2504,6 @@
                 }
             });
 
-            // Open chat overlay button
             const openFullChatBtn = document.createElement('button');
             openFullChatBtn.className = 'w-full btn-secondary py-3 rounded-xl hover-lift text-sm';
             openFullChatBtn.innerHTML = '💬 Abrir Chat em Tela Cheia';
@@ -2558,7 +2511,6 @@
                 openChatOverlay();
             });
 
-            // Add smooth transitions for chat interactions
             const chatInputs = [document.getElementById('chatFullInput'), document.getElementById('chatOverlayInput')];
             chatInputs.forEach(input => {
                 if (input) {
@@ -2572,7 +2524,6 @@
             });
         }
 
-        // Load orders for the user with enhanced status support
         function loadUserOrders() {
             if (!currentUser) return;
 
@@ -2607,7 +2558,6 @@
                     </div>
                 `;
             } else {
-                // Show only the latest 3 orders in profile
                 const recentOrders = userOrders_array.slice(0, 3);
                 userOrders.innerHTML = recentOrders.map(order => {
                     const statusColor = getOrderStatusColor(order.status);
@@ -2743,7 +2693,6 @@
             }
         }
 
-        // Enhanced navigation with smooth transitions
         function showSection(section) {
             if (section === 'chatFull') {
                 openChatOverlay();
@@ -2753,23 +2702,19 @@
             updateSearchVisibility();
             window.scrollTo(0, 0);
 
-            // Hide all sections
             const sections = ['homeSection', 'categoriesSection', 'favoritesSection', 'ordersSection', 'chatFullSection', 'profileSection', 'notificationsSection', 'aboutSection'];
             sections.forEach(id => {
                 document.getElementById(id).classList.add('hidden');
             });
 
-            // Update navigation buttons
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('btn-primary', 'text-white');
                 btn.classList.add('btn-secondary');
             });
-            // Reset footer nav items
             document.querySelectorAll('.footer-nav-item').forEach(btn => {
                 btn.classList.remove('active');
             });
 
-            // Show selected section and update nav
             let targetSection, navBtn, footerBtn;
 
             switch (section) {
@@ -2870,7 +2815,6 @@
                     break;
             }
 
-            // Show target section with animation
             if (targetSection) {
                 targetSection.classList.remove('hidden');
                 targetSection.style.opacity = '0';
@@ -2882,7 +2826,6 @@
                 }, 50);
             }
 
-            // Update navigation button states
             if (navBtn) {
                 navBtn.classList.remove('btn-secondary');
                 navBtn.classList.add('btn-primary', 'text-white');
@@ -2892,7 +2835,6 @@
             }
         }
 
-        // ===== Sistema de tradução de erros Firebase =====
         function getFirebaseErrorMessage(error) {
             const code = error.code || '';
             const errorMap = {
@@ -2978,7 +2920,6 @@
             document.getElementById('loginErrorText').textContent = msg;
             document.getElementById('loginErrorHint').textContent = hint;
             banner.classList.remove('hidden');
-            // Re-trigger shake animation
             banner.style.animation = 'none';
             void banner.offsetHeight; // force reflow
             banner.style.animation = '';
@@ -3001,7 +2942,6 @@
             }
         }
 
-        // ===== Authentication handlers =====
         const guestBtn = document.getElementById('guestBtn');
         const googleLoginBtn = document.getElementById('googleLoginBtn');
         const showEmailLoginBtn = document.getElementById('showEmailLoginBtn');
@@ -3028,7 +2968,6 @@
             updateCartUI();
         });
 
-        // Função para login com Google
         async function handleGoogleAuth() {
             const btn = googleLoginBtn;
             const textEl = document.getElementById('googleBtnText');
@@ -3110,7 +3049,6 @@
             emailRegisterForm.classList.remove('hidden');
         });
 
-        // Forgot Password navigation
         showForgotPasswordBtn.addEventListener('click', () => {
             hideLoginError();
             emailLoginForm.classList.add('hidden');
@@ -3172,7 +3110,6 @@
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
 
-            // Validação local antes de enviar
             if (!email) {
                 showLoginError({ code: 'auth/invalid-email' });
                 return;
@@ -3200,7 +3137,6 @@
             }
         });
 
-        // Profile picture upload for registration
         const profilePictureInput = document.getElementById('profilePicture');
         const previewAvatar = document.getElementById('previewAvatar');
 
@@ -3306,7 +3242,6 @@
             }
         });
 
-        // Authentication state observer
         onAuthStateChanged(auth, (user) => {
             console.log('Auth state changed:', user);
             currentUser = user;
@@ -3361,6 +3296,9 @@
   onclick="window.location.href='faq.html'">
   <span class="mr-3">🗣️</span>FAQ
 </button>
+                    <a id="menuRateDeliveryBtn" href="https://LINK-AVALIAR-ENTREGADORES" target="_blank" rel="noopener noreferrer" class="block w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all" style="text-decoration:none;">
+                        <span class="mr-3">⭐</span>Avaliar Entregadores
+                    </a>
                     <button id="menuAboutBtn" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
                         <span class="mr-3">ℹ️</span>Sobre Nós
                     </button>
@@ -3433,6 +3371,9 @@
                     <button id="menuChatBtnGuest" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
                         <span class="mr-3">💬</span>Chat
                     </button>
+                    <a id="menuRateDeliveryBtnGuest" href="https://LINK-AVALIAR-ENTREGADORES" target="_blank" rel="noopener noreferrer" class="block w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all" style="text-decoration:none;">
+                        <span class="mr-3">⭐</span>Avaliar Entregadores
+                    </a>
                     <button id="menuAboutBtnGuest" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
                         <span class="mr-3">ℹ️</span>Sobre Nós
                     </button>
@@ -3472,7 +3413,6 @@
             }
         }
 
-        // User menu toggle
         const userMenuBtn = document.getElementById('userMenuBtn');
         const userMenu = document.getElementById('userMenu');
 
@@ -3486,7 +3426,6 @@
             }
         });
 
-        // Cart functionality
         const cartSidebar = document.getElementById('cartSidebar');
         const cartOverlay = document.getElementById('cartOverlay');
         const closeCartBtn = document.getElementById('closeCartBtn');
@@ -3514,7 +3453,6 @@
             }, 300);
         }
 
-        // Navigation event listeners
         document.getElementById('homeBtn')?.addEventListener('click', () => showSection('home'));
         document.getElementById('categoriesBtn')?.addEventListener('click', () => showSection('categories'));
         document.getElementById('favoritesBtn')?.addEventListener('click', () => showSection('favorites'));
@@ -3532,12 +3470,10 @@
             showSection('orders');
         });
 
-        // Search functionality
         const searchInput = document.getElementById('searchInput');
 
         searchInput.addEventListener('input', filterProducts);
 
-        // Checkout functionality
         const checkoutBtn = document.getElementById('checkoutBtn');
         const checkoutModal = document.getElementById('checkoutModal');
         const closeCheckoutBtn = document.getElementById('closeCheckoutBtn');
@@ -3562,7 +3498,6 @@
             showRegisterBtn.click();
         });
 
-        // Product detail modal
         const productDetailModal = document.getElementById('productDetailModal');
         const closeDetailModalBtn = document.getElementById('closeDetailModalBtn');
 
@@ -3678,7 +3613,6 @@
             }
         }
 
-        // Load data from Firebase
         function loadData() {
             const productsRef = ref(database, 'products');
             onValue(productsRef, (snapshot) => {
@@ -3855,11 +3789,9 @@
         }
 
         function loadMoreProducts() {
-            // Salvar posição exata do scroll antes de re-renderizar
             const scrollY = window.scrollY || window.pageYOffset;
             productsVisibleLimit += 21;
             renderProducts();
-            // Restaurar posição do scroll imediatamente após o render
             window.scrollTo(0, scrollY);
             requestAnimationFrame(() => {
                 window.scrollTo(0, scrollY);
@@ -4038,7 +3970,6 @@
             }).join('');
         }
 
-        // Favorites functions
         window.toggleFavorite = async function(productId) {
             if (!currentUser) {
                 showNotificationToast('Aviso', 'Faça login para adicionar favoritos', 'warning');
@@ -4063,7 +3994,6 @@
             }
         };
 
-        // Cart functions
         const cartItems = document.getElementById('cartItems');
         const cartTotal = document.getElementById('cartTotal');
         const footerCartCount = document.getElementById('footerCartCount');
@@ -4177,7 +4107,6 @@
             }
         }
 
-        // Product detail functions
         window.showProductDetail = function(productId) {
             const product = products[productId];
             if (!product) return;
@@ -4273,7 +4202,6 @@
         window.filterByCategory = function(category) {
             showSection('home');
 
-            // Ensure filters are visible
             if (filterControlsWrapper.classList.contains('collapsed')) {
                 filterControlsWrapper.classList.remove('collapsed');
                 headerFilterToggleBtn.classList.add('btn-primary', 'text-white');
@@ -4289,7 +4217,6 @@
             if (categoryBtn) {
                 categoryBtn.classList.remove('btn-secondary');
                 categoryBtn.classList.add('btn-primary', 'text-white');
-                // Scroll the selected category into view in the horizontal scroll row
                 categoryBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
             }
 
@@ -4302,7 +4229,6 @@
             renderProducts();
         }
 
-        // Profile picture modal functionality
         window.openProfilePictureModal = function() {
             if (!currentUser || isGuest) {
                 showNotificationToast('Aviso', 'Faça login para alterar sua foto de perfil', 'warning');
@@ -4335,7 +4261,6 @@
             const file = e.target.files[0];
             if (!file) return;
 
-            // Show preview
             const reader = new FileReader();
             reader.onload = (e) => {
                 profilePicturePreview.src = e.target.result;
@@ -4343,7 +4268,6 @@
             };
             reader.readAsDataURL(file);
 
-            // Upload to ImgBB
             try {
                 const formData = new FormData();
                 formData.append('image', file);
@@ -4371,30 +4295,25 @@
         saveProfilePictureBtn.addEventListener('click', async () => {
             if (!uploadedPhotoURL || !currentUser) return;
 
-            // Show loading state
             saveProfilePictureText.classList.add('hidden');
             saveProfilePictureLoader.classList.remove('hidden');
             saveProfilePictureBtn.disabled = true;
 
             try {
-                // Update profile photo in Firebase Auth
                 await updateProfile(currentUser, {
                     photoURL: uploadedPhotoURL
                 });
 
-                // Update in Firestore
                 await setDoc(doc(firestore, 'users', currentUser.uid), {
                     photoURL: uploadedPhotoURL,
                     updatedAt: new Date()
                 }, { merge: true });
 
-                // Update in Realtime Database
                 await update(ref(database, `users/${currentUser.uid}`), {
                     photoURL: uploadedPhotoURL,
                     updatedAt: Date.now()
                 });
 
-                // Update UI
                 document.getElementById('userAvatar').src = uploadedPhotoURL;
                 document.getElementById('profileAvatar').src = uploadedPhotoURL;
 
@@ -4404,7 +4323,6 @@
                 console.error('Error updating profile picture:', error);
                 showNotificationToast('Erro', 'Erro ao atualizar foto de perfil. Tente novamente.', 'error');
             } finally {
-                // Reset loading state
                 saveProfilePictureText.classList.remove('hidden');
                 saveProfilePictureLoader.classList.add('hidden');
                 saveProfilePictureBtn.disabled = false;
@@ -4426,7 +4344,6 @@
         document.getElementById('closeProfilePictureBtn').addEventListener('click', closeProfilePictureModal);
         document.getElementById('cancelProfilePictureBtn').addEventListener('click', closeProfilePictureModal);
 
-        // Utility functions
         function formatPrice(price) {
             return `${Math.round(price).toLocaleString('pt-AO')} Kz`;
         }
@@ -4502,22 +4419,18 @@
             emailLoginForm.classList.add('hidden');
             emailRegisterForm.classList.add('hidden');
 
-            // Reset error banner
             const errorBanner = document.getElementById('loginErrorBanner');
             if (errorBanner) errorBanner.classList.add('hidden');
         }
 
-        // Make functions available globally
         window.updateQuantity = updateQuantity;
         window.removeFromCart = removeFromCart;
         window.showLoginScreen = showLoginScreen;
         window.showSection = showSection;
 
-        // Setup filter toggles
         setupFilterToggles();
         setupHeaderFilterToggle();
 
-        // Initialize the app
         setTimeout(() => {
             if (!currentUser && !isGuest) {
                 showLoginScreen();
@@ -4539,7 +4452,6 @@
   }, 3000);
 </script>
 
-<!-- ===== OVERLAY FORA DO HORÁRIO DE ATENDIMENTO ===== -->
 <style>
     .offhours-overlay {
         position: fixed;
@@ -4548,7 +4460,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 16px;
+        padding: 0;
         opacity: 0;
         visibility: hidden;
         transition: opacity 0.4s ease, visibility 0.4s ease;
@@ -4558,30 +4470,36 @@
         visibility: visible;
     }
     .offhours-overlay .offhours-backdrop {
-        position: absolute;
-        inset: 0;
-        background: rgba(0,0,0,0.55);
-        backdrop-filter: blur(6px);
-        -webkit-backdrop-filter: blur(6px);
+        display: none;
     }
     .offhours-card {
         position: relative;
-        max-width: 420px;
         width: 100%;
-        border-radius: 24px;
-        padding: 32px 24px 24px;
+        height: 100%;
+        border-radius: 0;
+        padding: 0;
         text-align: center;
-        transform: translateY(30px) scale(0.95);
-        transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1);
+        transform: translateY(30px);
+        opacity: 0;
+        transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s ease;
         background: #fff;
-        box-shadow: 0 25px 60px rgba(0,0,0,0.18), 0 0 0 1px rgba(93,92,222,0.08);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow-y: auto;
     }
     .dark .offhours-card {
         background: #1e2130;
-        box-shadow: 0 25px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(93,92,222,0.15);
     }
     .offhours-overlay.visible .offhours-card {
-        transform: translateY(0) scale(1);
+        transform: translateY(0);
+        opacity: 1;
+    }
+    .offhours-card-inner {
+        width: 100%;
+        max-width: 420px;
+        padding: 32px 24px 24px;
     }
     .offhours-moon {
         width: 72px;
@@ -4771,6 +4689,7 @@
 <div id="offhoursOverlay" class="offhours-overlay">
     <div class="offhours-backdrop"></div>
     <div class="offhours-card">
+        <div class="offhours-card-inner">
         <div class="offhours-moon">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
@@ -4812,13 +4731,12 @@
             </svg>
             Entendi, quero ver a loja!
         </button>
+        </div>
     </div>
 </div>
 
 <script>
 (function() {
-    // Horário de atendimento (hora local do utilizador)
-    // Dia da semana: 0 = Domingo, 1 = Segunda, ..., 6 = Sábado
     var schedule = {
         0: null,                       // Domingo - encerrado
         1: { open: 8, close: 18 },   // Segunda
@@ -4829,12 +4747,25 @@
         6: null                        // Sábado - encerrado
     };
 
-    function isOutsideBusinessHours() {
+    function getAngolaTime() {
         var now = new Date();
-        var day = now.getDay();
-        var hours = now.getHours();
-        var minutes = now.getMinutes();
-        var currentTime = hours + minutes / 60;
+        var options = { timeZone: 'Africa/Luanda', hour: 'numeric', minute: 'numeric', hour12: false };
+        var parts = new Intl.DateTimeFormat('en-US', options).formatToParts(now);
+        var h = 0, m = 0;
+        parts.forEach(function(p) {
+            if (p.type === 'hour') h = parseInt(p.value, 10);
+            if (p.type === 'minute') m = parseInt(p.value, 10);
+        });
+        var dayStr = new Intl.DateTimeFormat('en-US', { timeZone: 'Africa/Luanda', weekday: 'short' }).format(now);
+        var dayMap = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+        var day = dayMap[dayStr] !== undefined ? dayMap[dayStr] : now.getDay();
+        return { day: day, hours: h, minutes: m };
+    }
+
+    function isOutsideBusinessHours() {
+        var angola = getAngolaTime();
+        var day = angola.day;
+        var currentTime = angola.hours + angola.minutes / 60;
 
         var todaySchedule = schedule[day];
         if (!todaySchedule) return true; // Dia encerrado
@@ -4843,7 +4774,7 @@
     }
 
     function highlightToday() {
-        var day = new Date().getDay();
+        var day = getAngolaTime().day;
         var rows = document.querySelectorAll('.offhours-schedule-row');
         rows.forEach(function(row) {
             var days = row.getAttribute('data-days');
@@ -4860,7 +4791,6 @@
         var overlay = document.getElementById('offhoursOverlay');
         if (overlay) {
             highlightToday();
-            // Pequeno delay para animação funcionar
             setTimeout(function() {
                 overlay.classList.add('visible');
             }, 2200); // Aparece após o loading screen
@@ -4874,18 +4804,15 @@
         }
     }
 
-    // Verificar se está fora do horário
     if (isOutsideBusinessHours()) {
         showOverlay();
     }
 
-    // Botão para fechar
     var closeBtn = document.getElementById('offhoursCloseBtn');
     if (closeBtn) {
         closeBtn.addEventListener('click', hideOverlay);
     }
 
-    // Clicar no backdrop também fecha
     var backdrop = document.querySelector('.offhours-backdrop');
     if (backdrop) {
         backdrop.addEventListener('click', hideOverlay);
