@@ -82,7 +82,46 @@
             }
         }
     </script>
+    <script>
+    
+    (function() {
+        var ua = navigator.userAgent || navigator.vendor || window.opera || '';
+        var isWebView = false;
+        var webviewPatterns = [
+            /\bwv\b/,
+            /WebView/i,
+            /FBAN|FBAV/i,
+            /Instagram/i,
+            /Twitter|X\//i,
+            /Line\//i,
+            /MicroMessenger/i,
+            /Snapchat/i,
+            /Pinterest/i,
+            /TikTok|BytedanceWebview|musical_ly/i,
+            /Telegram/i,
+            /WhatsApp/i,
+            /GSA\//i,
+            /LinkedIn/i
+        ];
+        for (var i = 0; i < webviewPatterns.length; i++) {
+            if (webviewPatterns[i].test(ua)) { isWebView = true; break; }
+        }
+        if (!isWebView && /iPhone|iPod|iPad/i.test(ua)) {
+            if (!/Safari/i.test(ua) && /AppleWebKit/i.test(ua)) { isWebView = true; }
+        }
+        if (!isWebView && /Android/i.test(ua)) {
+            if (/; wv\)/.test(ua) || (/Version\/[\d.]+/.test(ua) && !/Chrome\/[\d.]+/.test(ua))) { isWebView = true; }
+        }
+        if (isWebView) { document.documentElement.classList.add('is-webview'); }
+    })();
+    </script>
     <style>
+
+        
+        .is-webview #btnGetApp,
+        .is-webview #googleLoginBtn {
+            display: none !important;
+        }
 
         * {
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
@@ -212,7 +251,7 @@
             white-space: nowrap;
         }
 
-        /* Swipe navigation for product detail */
+        
         .detail-swipe-container {
             position: relative;
             overflow: hidden;
@@ -653,7 +692,7 @@
             background: rgba(255,255,255,0.15);
         }
 
-        /* Obter APP button - centered in header */
+        
         .btn-get-app {
             display: inline-flex;
             align-items: center;
@@ -684,7 +723,7 @@
             }
         }
 
-        /* App modal overlay */
+        
         .app-modal-overlay {
             position: fixed;
             inset: 0;
@@ -2041,7 +2080,7 @@
     </div>
 
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
-        /* eslint-disable no-restricted-globals */
+        
         console.log('🚀 Iniciando Kuia+ Shop...');
         document.getElementById('loadingStatus').textContent = 'Carregando Firebase';
 
@@ -2135,7 +2174,7 @@
         let currentPriceFilter = 'all';
         let productsVisibleLimit = 21;
 
-        /* ===== Randomização de produtos por sessão ===== */
+        
         let shuffledProductIds = null;
 
         function shuffleArray(arr) {
@@ -2167,7 +2206,7 @@
                 return (orderMap.get(a.id) !== undefined ? orderMap.get(a.id) : 9999) - (orderMap.get(b.id) !== undefined ? orderMap.get(b.id) : 9999);
             });
         }
-        /* ===== Fim randomização ===== */
+        
         let currentChatId = null;
         let chatMessages = [];
         let isFullChatMode = false;
@@ -3334,7 +3373,7 @@
             document.getElementById('loginErrorHint').textContent = hint;
             banner.classList.remove('hidden');
             banner.style.animation = 'none';
-            void banner.offsetHeight; // force reflow
+            void banner.offsetHeight; 
             banner.style.animation = '';
         }
 
@@ -4612,7 +4651,7 @@
             }, 300);
         }
 
-        /* ===== Swipe navigation between products of same category ===== */
+        
         (function initDetailSwipeNavigation() {
             const swipeContainer = document.getElementById('detailSwipeContainer');
             const swipeContent = document.getElementById('detailSwipeContent');
@@ -4815,7 +4854,7 @@
                 updateNavUI();
             };
         })();
-        /* ===== End swipe navigation ===== */
+        
 
         window.filterByCategory = function(category) {
             showSection('home');
@@ -5356,13 +5395,13 @@
 <script>
 (function() {
     var schedule = {
-        0: null,                       // Domingo - encerrado
-        1: { open: 8, close: 18 },   // Segunda
-        2: { open: 8, close: 18 },   // Terça
-        3: { open: 8, close: 18 },   // Quarta
-        4: { open: 8, close: 18 },   // Quinta
-        5: { open: 9, close: 14 },   // Sexta
-        6: null                        // Sábado - encerrado
+        0: null,                       
+        1: { open: 8, close: 18 },   
+        2: { open: 8, close: 18 },   
+        3: { open: 8, close: 18 },   
+        4: { open: 8, close: 18 },   
+        5: { open: 9, close: 14 },   
+        6: null                        
     };
 
     function getAngolaTime() {
@@ -5386,7 +5425,7 @@
         var currentTime = angola.hours + angola.minutes / 60;
 
         var todaySchedule = schedule[day];
-        if (!todaySchedule) return true; // Dia encerrado
+        if (!todaySchedule) return true; 
         if (currentTime < todaySchedule.open || currentTime >= todaySchedule.close) return true;
         return false;
     }
@@ -5411,7 +5450,7 @@
             highlightToday();
             setTimeout(function() {
                 overlay.classList.add('visible');
-            }, 2200); // Aparece após o loading screen
+            }, 2200); 
         }
     }
 
@@ -5437,7 +5476,7 @@
     }
 })();
 </script>
-<!-- Modal Obter a APP -->
+
 <div id="appModal" class="app-modal-overlay">
     <div class="app-modal-box">
         <div class="app-modal-scrollable">
