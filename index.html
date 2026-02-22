@@ -5550,17 +5550,12 @@ function isWebView() {
   return false;
 }
 
-// Oculta botões conforme o ambiente
+// Oculta botões apenas na WebView (navegador externo mostra tudo)
 (function applyWebViewVisibility() {
-  const btnGetApp = document.getElementById('btnGetApp');
-  const googleLoginBtn = document.getElementById('googleLoginBtn');
-
   if (isWebView()) {
-    // WebView: oculta "Obter a APP" e botão de login com Google
-    if (btnGetApp) btnGetApp.style.display = 'none';
-    if (googleLoginBtn) googleLoginBtn.style.display = 'none';
-  } else {
-    // Navegador externo: oculta "Obter a APP" e botão de login com Google
+    const btnGetApp = document.getElementById('btnGetApp');
+    const googleLoginBtn = document.getElementById('googleLoginBtn');
+
     if (btnGetApp) btnGetApp.style.display = 'none';
     if (googleLoginBtn) googleLoginBtn.style.display = 'none';
   }
