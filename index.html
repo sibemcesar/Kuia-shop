@@ -5535,31 +5535,5 @@
     }
 })();
 </script>
-
-<script>
-// Detecta se está rodando em WebView
-function isWebView() {
-  const ua = navigator.userAgent || navigator.vendor || window.opera;
-
-  // Android WebView geralmente contém "wv"
-  if (/wv/.test(ua)) return true;
-
-  // iOS WebView não mostra "Safari"
-  if (/iPhone|iPod|iPad/.test(ua) && !/Safari/.test(ua)) return true;
-
-  return false;
-}
-
-// Oculta botões apenas na WebView (navegador externo mostra tudo)
-(function applyWebViewVisibility() {
-  if (isWebView()) {
-    const btnGetApp = document.getElementById('btnGetApp');
-    const googleLoginBtn = document.getElementById('googleLoginBtn');
-
-    if (btnGetApp) btnGetApp.style.display = 'none';
-    if (googleLoginBtn) googleLoginBtn.style.display = 'none';
-  }
-})();
-</script>
 </body>
 </html>
