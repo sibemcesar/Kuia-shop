@@ -2090,8 +2090,8 @@
         // Products Management
         function renderProducts() {
             const productsGrid = document.getElementById('productsGrid');
-            const productsArray = Object.entries(products).map(([id, product]) => ({ id, ...product }));
-            
+            let productsArray = Object.entries(products).map(([id, product]) => ({ id, ...product }));
+
             if (productsArray.length === 0) {
                 productsGrid.innerHTML = `
                     <div class="col-span-full text-center py-16 animate-fade-in">
@@ -2101,6 +2101,71 @@
                         <button onclick="openProductModal()" class="px-8 py-4 bg-primary text-white rounded-xl hover:bg-primary-dark transition-all font-bold text-lg shadow-lg">
                             ➕ Adicionar Primeiro Produto
                         </button>
+                    </div>
+                `;
+                return;
+            }
+
+            // --- Apply search filter ---
+            const searchInput = document.getElementById('productSearch');
+            const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : '';
+            if (searchTerm) {
+                productsArray = productsArray.filter(function(product) {
+                    var name = (product.name || '').toLowerCase();
+                    var description = (product.description || '').toLowerCase();
+                    var cat = (product.category || '').toLowerCase();
+                    return name.indexOf(searchTerm) !== -1 || description.indexOf(searchTerm) !== -1 || cat.indexOf(searchTerm) !== -1;
+                });
+            }
+
+            // --- Apply category filter ---
+            const categoryFilterEl = document.getElementById('productCategoryFilter');
+            const categoryFilterValue = categoryFilterEl ? categoryFilterEl.value : '';
+            if (categoryFilterValue) {
+                const selectedCategory = categories[categoryFilterValue];
+                if (selectedCategory) {
+                    productsArray = productsArray.filter(function(product) {
+                        return product.category === selectedCategory.name;
+                    });
+                }
+            }
+
+            // --- Apply stock filter ---
+            const stockFilterEl = document.getElementById('productStockFilter');
+            const stockFilterValue = stockFilterEl ? stockFilterEl.value : '';
+            if (stockFilterValue) {
+                productsArray = productsArray.filter(function(product) {
+                    var stock = Number(product.stock) || 0;
+                    if (stockFilterValue === 'in_stock') return stock > 5;
+                    if (stockFilterValue === 'low_stock') return stock >= 1 && stock <= 5;
+                    if (stockFilterValue === 'out_of_stock') return stock === 0;
+                    return true;
+                });
+            }
+
+            // --- Apply sorting ---
+            const sortByEl = document.getElementById('productSortBy');
+            const sortByValue = sortByEl ? sortByEl.value : 'name';
+            productsArray.sort(function(a, b) {
+                if (sortByValue === 'name') {
+                    return (a.name || '').localeCompare(b.name || '', 'pt-BR');
+                } else if (sortByValue === 'price') {
+                    return (Number(a.price) || 0) - (Number(b.price) || 0);
+                } else if (sortByValue === 'stock') {
+                    return (Number(a.stock) || 0) - (Number(b.stock) || 0);
+                } else if (sortByValue === 'created') {
+                    return (Number(b.createdAt) || 0) - (Number(a.createdAt) || 0);
+                }
+                return 0;
+            });
+
+            // --- Show empty state if filters returned no results ---
+            if (productsArray.length === 0) {
+                productsGrid.innerHTML = `
+                    <div class="col-span-full text-center py-16 animate-fade-in">
+                        <div class="text-6xl mb-6">🔍</div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Nenhum produto encontrado</h3>
+                        <p class="text-gray-600 mb-6">Tente ajustar os filtros ou a busca</p>
                     </div>
                 `;
                 return;
