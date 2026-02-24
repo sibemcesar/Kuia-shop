@@ -2762,21 +2762,78 @@
             `).join('');
         }
 
-        // Users Management - CORRIGIDO COM TEMPO ATIVO
+        // Users Management - CORRIGIDO COM TEMPO ATIVO E PESQUISA/FILTRO
         function renderUsers() {
             const usersGrid = document.getElementById('usersGrid');
-            const usersArray = Object.entries(users).map(([id, user]) => ({ 
-                id, 
+            let usersArray = Object.entries(users).map(([id, user]) => ({
+                id,
                 ...user,
                 uid: id // Garantir que temos o uid correto
             }));
-            
+
             if (usersArray.length === 0) {
                 usersGrid.innerHTML = `
                     <div class="col-span-full text-center py-16 animate-fade-in">
                         <div class="text-6xl mb-6">👥</div>
                         <h3 class="text-xl font-bold text-gray-800 mb-2">Nenhum usuário registrado</h3>
                         <p class="text-gray-600">Os usuários aparecerão aqui quando se registrarem na loja</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // --- Apply search filter ---
+            var searchInput = document.getElementById('userSearch');
+            var searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : '';
+            if (searchTerm) {
+                usersArray = usersArray.filter(function(user) {
+                    var name = (user.name || '').toLowerCase();
+                    var email = (user.email || '').toLowerCase();
+                    var phone = (user.phone || user.telefone || '').toLowerCase();
+                    var uid = (user.uid || user.id || '').toLowerCase();
+                    return name.indexOf(searchTerm) !== -1 || email.indexOf(searchTerm) !== -1 || phone.indexOf(searchTerm) !== -1 || uid.indexOf(searchTerm) !== -1;
+                });
+            }
+
+            // --- Apply status filter ---
+            var statusFilterEl = document.getElementById('userStatusFilter');
+            var statusFilterValue = statusFilterEl ? statusFilterEl.value : '';
+            if (statusFilterValue) {
+                var now = Date.now();
+                usersArray = usersArray.filter(function(user) {
+                    var lastActive = user.lastActive || user.createdAt || 0;
+                    var isActive = (now - lastActive) < (24 * 60 * 60 * 1000);
+                    var isNew = user.createdAt && (now - user.createdAt) < (7 * 24 * 60 * 60 * 1000);
+                    if (statusFilterValue === 'active') return isActive;
+                    if (statusFilterValue === 'inactive') return !isActive;
+                    if (statusFilterValue === 'new') return isNew;
+                    return true;
+                });
+            }
+
+            // --- Apply sorting ---
+            var sortByEl = document.getElementById('userSortBy');
+            var sortByValue = sortByEl ? sortByEl.value : 'newest';
+            usersArray.sort(function(a, b) {
+                if (sortByValue === 'newest') {
+                    return (Number(b.createdAt) || 0) - (Number(a.createdAt) || 0);
+                } else if (sortByValue === 'oldest') {
+                    return (Number(a.createdAt) || 0) - (Number(b.createdAt) || 0);
+                } else if (sortByValue === 'name') {
+                    return (a.name || '').localeCompare(b.name || '', 'pt-BR');
+                } else if (sortByValue === 'email') {
+                    return (a.email || '').localeCompare(b.email || '', 'pt-BR');
+                }
+                return 0;
+            });
+
+            // --- Show empty state if filters returned no results ---
+            if (usersArray.length === 0) {
+                usersGrid.innerHTML = `
+                    <div class="col-span-full text-center py-16 animate-fade-in">
+                        <div class="text-6xl mb-6">🔍</div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Nenhum usuário encontrado</h3>
+                        <p class="text-gray-600 mb-6">Tente ajustar os filtros ou a busca</p>
                     </div>
                 `;
                 return;
