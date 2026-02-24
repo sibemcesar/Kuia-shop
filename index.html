@@ -368,6 +368,145 @@
             20%, 80% { opacity: 1; }
         }
 
+        .hidden-cat-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9998;
+            background: rgba(0,0,0,0.45);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .hidden-cat-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .hidden-cat-panel {
+            background: #fff;
+            border-radius: 20px 20px 0 0;
+            width: 100%;
+            max-width: 480px;
+            max-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            transform: translateY(100%);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 -8px 40px rgba(0,0,0,0.15);
+        }
+        .dark .hidden-cat-panel {
+            background: #1F2937;
+            box-shadow: 0 -8px 40px rgba(0,0,0,0.4);
+        }
+        .hidden-cat-overlay.active .hidden-cat-panel {
+            transform: translateY(0);
+        }
+        .hidden-cat-panel-header {
+            padding: 18px 20px 12px;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+        .dark .hidden-cat-panel-header {
+            border-bottom-color: rgba(255,255,255,0.08);
+        }
+        .hidden-cat-handle {
+            width: 36px;
+            height: 4px;
+            background: #ccc;
+            border-radius: 2px;
+            margin: 0 auto 12px;
+        }
+        .dark .hidden-cat-handle {
+            background: #555;
+        }
+        .hidden-cat-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 16px 20px;
+            -webkit-overflow-scrolling: touch;
+        }
+        .hidden-cat-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            user-select: none;
+        }
+        .hidden-cat-item:hover {
+            background: rgba(93, 92, 222, 0.06);
+        }
+        .dark .hidden-cat-item:hover {
+            background: rgba(93, 92, 222, 0.15);
+        }
+        .hidden-cat-item.is-hidden {
+            opacity: 0.5;
+        }
+        .hidden-cat-check {
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            border: 2px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+            font-size: 13px;
+            color: transparent;
+        }
+        .dark .hidden-cat-check {
+            border-color: #555;
+        }
+        .hidden-cat-item.is-hidden .hidden-cat-check {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+        }
+        .hidden-cat-icon {
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+        .hidden-cat-name {
+            font-size: 15px;
+            font-weight: 500;
+            color: #1F2937;
+            flex: 1;
+        }
+        .dark .hidden-cat-name {
+            color: #F9FAFB;
+        }
+        .hidden-cat-count {
+            font-size: 12px;
+            color: #888;
+            flex-shrink: 0;
+        }
+        .hidden-cat-item.is-hidden .hidden-cat-name {
+            text-decoration: line-through;
+        }
+        .long-press-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 0 0 9999px 9999px;
+            width: 0;
+            transition: none;
+        }
+        .long-press-progress.active {
+            transition: width 1s linear;
+            width: 100%;
+        }
+
         .glass {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
@@ -1670,19 +1809,14 @@
                                 </div>
                                 <svg class="w-5 h-5 text-gray-400 ml-auto group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </a>
-
-                            <a href="/cdn-cgi/l/email-protection#2e455b474f5d46415e196e49434f4742004d4143" class="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60 hover:bg-primary/5 dark:hover:bg-primary/10 transition-all group">
-                                <div class="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                                    <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                                    </svg>
+                             <a href="malito:kuiashop7@gmail.com class="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60 hover:bg-primary/5 dark:hover:bg-primary/10 transition-all group">
                                 </div>
                                 <div>
+                                    
                                     <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Email de Suporte</p>
-                                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200"><span class="__cf_email__" data-cfemail="fd9688949c8e95928dcabd9a909c9491d39e9290"><span class="__cf_email__" data-cfemail="2e455b474f5d46415e196e49434f4742004d4143">[email&#160;protected]</span></span></p>
+                                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200"><span class="__cf_email__" data-cfemail="fd9688949c8e95928dcabd9a909c9491d39e9290"><span class="__cf_email__" data-cfemail="2e455b474f5d46415e196e49434f4742004d4143"><span class="__cf_email__" data-cfemail="bcd7c9d5ddcfd4d3cc8bfcdbd1ddd5d092dfd3d1">Kuiashop7@gmail.com</span></span></span></p>
                                 </div>
-                                <svg class="w-5 h-5 text-gray-400 ml-auto group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                            </a>
+                               </a>
                         </div>
                     </div>
 
@@ -1927,6 +2061,26 @@
 
     <div id="cartOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
 
+    <div id="hiddenCategoriesOverlay" class="hidden-cat-overlay" onclick="if(event.target===this)closeHiddenCategoriesModal()">
+        <div class="hidden-cat-panel">
+            <div class="hidden-cat-handle"></div>
+            <div class="hidden-cat-panel-header">
+                <div>
+                    <h3 class="text-base font-bold text-gray-800 dark:text-gray-100">🚫 Ocultar Categorias</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Marque as categorias que deseja ocultar</p>
+                </div>
+                <button onclick="closeHiddenCategoriesModal()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 transition-colors">✕</button>
+            </div>
+            <div id="hiddenCatList" class="hidden-cat-list"></div>
+            <div class="px-4 pb-4 pt-2 flex-shrink-0 border-t border-gray-100 dark:border-gray-700">
+                <div class="flex items-center justify-between">
+                    <span id="hiddenCatCounter" class="text-xs text-gray-500 dark:text-gray-400">0 categorias ocultas</span>
+                    <button onclick="clearAllHiddenCategories()" class="text-xs font-medium text-primary hover:underline">Limpar tudo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="checkoutModal" class="fixed inset-0 z-50 hidden" style="transition: opacity 0.3s ease, transform 0.3s ease;">
         <div class="absolute inset-0 bg-white dark:bg-gray-900 flex flex-col" style="transition: background-color 0.3s ease;">
 
@@ -2079,7 +2233,7 @@
         </div>
     </div>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
         
         console.log('🚀 Iniciando Kuia+ Shop...');
         document.getElementById('loadingStatus').textContent = 'Carregando Firebase';
@@ -2115,8 +2269,21 @@
             document.getElementById('loadingStatus').textContent = 'Erro na conexão. Usando modo offline';
         }
 
+        const safeStorage = {
+            _data: {},
+            getItem(key) {
+                try { return window.localStorage.getItem(key); } catch(e) { return this._data[key] || null; }
+            },
+            setItem(key, value) {
+                try { window.localStorage.setItem(key, value); } catch(e) { this._data[key] = String(value); }
+            },
+            removeItem(key) {
+                try { window.localStorage.removeItem(key); } catch(e) { delete this._data[key]; }
+            }
+        };
+
         function initializeTheme() {
-            const savedTheme = localStorage.getItem('kuia-theme');
+            const savedTheme = safeStorage.getItem('kuia-theme');
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const isDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
 
@@ -2144,7 +2311,7 @@
                 }
             }
 
-            localStorage.setItem('kuia-theme', isDark ? 'dark' : 'light');
+            safeStorage.setItem('kuia-theme', isDark ? 'dark' : 'light');
         }
 
         function toggleTheme() {
@@ -2164,7 +2331,7 @@
 
         let currentUser = null;
         let isGuest = false;
-        let cart = JSON.parse(localStorage.getItem('guestCart') || '[]');
+        let cart = JSON.parse(safeStorage.getItem('guestCart') || '[]');
         let products = {};
         let categories = [];
         let favorites = [];
@@ -2173,6 +2340,7 @@
         let currentSection = 'home';
         let currentPriceFilter = 'all';
         let productsVisibleLimit = 21;
+        let hiddenCategories = new Set();
 
         
         let shuffledProductIds = null;
@@ -2302,11 +2470,11 @@
             onValue(globalNotificationsRef, (snapshot) => {
                 const globalNotifications = snapshot.val() || {};
                 Object.entries(globalNotifications).forEach(([id, notification]) => {
-                    if (notification.timestamp > (localStorage.getItem('lastGlobalNotificationSeen') || 0)) {
+                    if (notification.timestamp > (safeStorage.getItem('lastGlobalNotificationSeen') || 0)) {
                         showNotificationToast(notification.title, notification.message, notification.type);
                     }
                 });
-                localStorage.setItem('lastGlobalNotificationSeen', Date.now());
+                safeStorage.setItem('lastGlobalNotificationSeen', Date.now());
             });
         }
 
@@ -2326,7 +2494,7 @@
 
         function getLocalDeletedNotifications() {
             const key = `deletedNotifications_${currentUser?.uid || 'guest'}`;
-            const deleted = localStorage.getItem(key);
+            const deleted = safeStorage.getItem(key);
             return deleted ? JSON.parse(deleted) : [];
         }
 
@@ -2335,13 +2503,13 @@
             const deleted = getLocalDeletedNotifications();
             if (!deleted.includes(notificationId)) {
                 deleted.push(notificationId);
-                localStorage.setItem(key, JSON.stringify(deleted));
+                safeStorage.setItem(key, JSON.stringify(deleted));
             }
         }
 
         function getLocalReadNotifications() {
             const key = `readNotifications_${currentUser?.uid || 'guest'}`;
-            const read = localStorage.getItem(key);
+            const read = safeStorage.getItem(key);
             return read ? JSON.parse(read) : [];
         }
 
@@ -2350,7 +2518,7 @@
             const read = getLocalReadNotifications();
             if (!read.includes(notificationId)) {
                 read.push(notificationId);
-                localStorage.setItem(key, JSON.stringify(read));
+                safeStorage.setItem(key, JSON.stringify(read));
             }
         }
 
@@ -3701,7 +3869,7 @@
 
             if (user) {
                 if (cart.length > 0) {
-                    localStorage.removeItem('guestCart');
+                    safeStorage.removeItem('guestCart');
                 }
 
                 updateUserUI();
@@ -4135,6 +4303,10 @@
                 filteredProducts = filteredProducts.filter(product => product.category === activeCategory);
             }
 
+            if (hiddenCategories.size > 0) {
+                filteredProducts = filteredProducts.filter(product => !hiddenCategories.has(product.category));
+            }
+
             if (currentPriceFilter !== 'all') {
                 filteredProducts = filteredProducts.filter(product => {
                     const price = product.price;
@@ -4349,12 +4521,14 @@
 
             const categoryFilters = document.getElementById('categoryFilters');
             if (categoryFilters) {
+                const hiddenCount = hiddenCategories.size;
                 categoryFilters.innerHTML = `
-                    <button class="category-filter-btn btn-primary text-white px-4 py-2 rounded-full text-sm font-medium hover-lift" data-category="all">
-                        Todos
+                    <button class="category-filter-btn btn-primary text-white px-4 py-2 rounded-full text-sm font-medium hover-lift" data-category="all" style="position:relative;overflow:hidden;">
+                        Todos${hiddenCount > 0 ? ` <span style="background:rgba(255,255,255,0.3);font-size:10px;padding:1px 6px;border-radius:9999px;margin-left:4px;">${hiddenCount}🚫</span>` : ''}
+                        <span class="long-press-progress" id="longPressBar"></span>
                     </button>
                     ${categories.map(category => `
-                        <button class="category-filter-btn btn-secondary px-4 py-2 rounded-full text-sm font-medium hover-lift" data-category="${category}">
+                        <button class="category-filter-btn btn-secondary px-4 py-2 rounded-full text-sm font-medium hover-lift${hiddenCategories.has(category) ? ' opacity-40' : ''}" data-category="${category}">
                             ${getCategoryIcon(category)}&nbsp;${getCategoryName(category)}
                         </button>
                     `).join('')}
@@ -4372,6 +4546,39 @@
                         renderProducts();
                     });
                 });
+
+                const allBtn = categoryFilters.querySelector('[data-category="all"]');
+                if (allBtn) {
+                    let lpTimer = null;
+                    let lpTriggered = false;
+                    const bar = allBtn.querySelector('#longPressBar');
+
+                    function startLongPress(e) {
+                        lpTriggered = false;
+                        if (bar) { bar.classList.remove('active'); void bar.offsetWidth; bar.classList.add('active'); }
+                        lpTimer = setTimeout(() => {
+                            lpTriggered = true;
+                            if (bar) bar.classList.remove('active');
+                            openHiddenCategoriesModal();
+                        }, 500);
+                    }
+                    function cancelLongPress() {
+                        if (lpTimer) { clearTimeout(lpTimer); lpTimer = null; }
+                        if (bar) { bar.classList.remove('active'); bar.style.width = ''; void bar.offsetWidth; }
+                    }
+                    function handleEnd(e) {
+                        cancelLongPress();
+                        if (lpTriggered) { e.preventDefault(); e.stopPropagation(); }
+                    }
+
+                    allBtn.addEventListener('mousedown', startLongPress);
+                    allBtn.addEventListener('mouseup', handleEnd);
+                    allBtn.addEventListener('mouseleave', cancelLongPress);
+                    allBtn.addEventListener('touchstart', startLongPress, { passive: true });
+                    allBtn.addEventListener('touchend', function(e) { cancelLongPress(); if (lpTriggered) { e.preventDefault(); } });
+                    allBtn.addEventListener('touchcancel', cancelLongPress);
+                    allBtn.addEventListener('touchmove', cancelLongPress);
+                }
             }
 
             document.querySelectorAll('.price-filter-btn').forEach(btn => {
@@ -4464,7 +4671,7 @@
             }
 
             if (isGuest) {
-                localStorage.setItem('guestCart', JSON.stringify(cart));
+                safeStorage.setItem('guestCart', JSON.stringify(cart));
             }
 
             updateCartUI();
@@ -4475,7 +4682,7 @@
             cart = cart.filter(item => item.id !== productId);
 
             if (isGuest) {
-                localStorage.setItem('guestCart', JSON.stringify(cart));
+                safeStorage.setItem('guestCart', JSON.stringify(cart));
             }
 
             updateCartUI();
@@ -4494,7 +4701,7 @@
                 item.quantity = newQuantity;
 
                 if (isGuest) {
-                    localStorage.setItem('guestCart', JSON.stringify(cart));
+                    safeStorage.setItem('guestCart', JSON.stringify(cart));
                 }
 
                 updateCartUI();
@@ -4855,6 +5062,72 @@
             };
         })();
         
+
+        function openHiddenCategoriesModal() {
+            const overlay = document.getElementById('hiddenCategoriesOverlay');
+            const list = document.getElementById('hiddenCatList');
+
+            list.innerHTML = categories.map(cat => {
+                const isHidden = hiddenCategories.has(cat);
+                const count = Object.values(products).filter(p => p.category === cat).length;
+                return `
+                    <div class="hidden-cat-item${isHidden ? ' is-hidden' : ''}" data-cat="${cat}" onclick="toggleHiddenCategory('${cat}')">
+                        <div class="hidden-cat-check">${isHidden ? '✓' : ''}</div>
+                        <span class="hidden-cat-icon">${getCategoryIcon(cat)}</span>
+                        <span class="hidden-cat-name">${getCategoryName(cat)}</span>
+                        <span class="hidden-cat-count">${count} produto${count !== 1 ? 's' : ''}</span>
+                    </div>
+                `;
+            }).join('');
+
+            updateHiddenCatCounter();
+            overlay.classList.add('active');
+        }
+
+        window.closeHiddenCategoriesModal = function() {
+            const overlay = document.getElementById('hiddenCategoriesOverlay');
+            overlay.classList.remove('active');
+        }
+
+        window.toggleHiddenCategory = function(cat) {
+            if (hiddenCategories.has(cat)) {
+                hiddenCategories.delete(cat);
+            } else {
+                hiddenCategories.add(cat);
+            }
+
+            const item = document.querySelector(`.hidden-cat-item[data-cat="${cat}"]`);
+            if (item) {
+                const isHidden = hiddenCategories.has(cat);
+                item.classList.toggle('is-hidden', isHidden);
+                const check = item.querySelector('.hidden-cat-check');
+                if (check) check.textContent = isHidden ? '✓' : '';
+            }
+
+            updateHiddenCatCounter();
+            updateCategories();
+            renderProducts();
+        };
+
+        window.clearAllHiddenCategories = function() {
+            hiddenCategories.clear();
+            document.querySelectorAll('.hidden-cat-item').forEach(item => {
+                item.classList.remove('is-hidden');
+                const check = item.querySelector('.hidden-cat-check');
+                if (check) check.textContent = '';
+            });
+            updateHiddenCatCounter();
+            updateCategories();
+            renderProducts();
+        };
+
+        function updateHiddenCatCounter() {
+            const counter = document.getElementById('hiddenCatCounter');
+            if (counter) {
+                const n = hiddenCategories.size;
+                counter.textContent = `${n} categoria${n !== 1 ? 's' : ''} oculta${n !== 1 ? 's' : ''}`;
+            }
+        }
 
         window.filterByCategory = function(category) {
             showSection('home');
@@ -5568,7 +5841,7 @@
 
     if (btnDownloadApp) {
         btnDownloadApp.addEventListener('click', function() {
-            window.open('https://www.mediafire.com/file/s57ae54sfhh7va7/BETEGAMING_EFOOTBALL_2026_PSP_ISO.rar/file', '_blank');
+            window.open('https://www.mediafire.com/file/i1emd8gv4b3wlz5/Kuia+Shop+1.0.apk/file', '_blank');
             closeAppModal();
         });
     }
