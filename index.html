@@ -152,6 +152,8 @@
         body {
             background-color: var(--bg-light);
             color: var(--text-light);
+            user-select: none;
+  -webkit-user-select: none;
         }
 
         .dark body {
@@ -491,6 +493,251 @@
         }
         .hidden-cat-item.is-hidden .hidden-cat-name {
             text-decoration: line-through;
+        }
+
+        
+        .suggest-modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9997;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+        .suggest-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .suggest-modal-box {
+            background: #fff;
+            border-radius: 20px;
+            width: 92%;
+            max-width: 380px;
+            padding: 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.18), 0 0 0 1px rgba(93,92,222,0.08);
+            transform: translateY(40px) scale(0.95);
+            transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .dark .suggest-modal-box {
+            background: #1F2937;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(93,92,222,0.15);
+        }
+        .suggest-modal-overlay.active .suggest-modal-box {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+        .suggest-modal-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            padding: 28px 24px 22px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .suggest-modal-header::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+        }
+        .suggest-modal-header::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.07);
+        }
+        .suggest-modal-emoji {
+            font-size: 48px;
+            margin-bottom: 10px;
+            display: block;
+            animation: float 3s ease-in-out infinite;
+        }
+        .suggest-modal-header h3 {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0 0 6px;
+            position: relative;
+        }
+        .suggest-modal-header p {
+            color: rgba(255,255,255,0.85);
+            font-size: 13.5px;
+            line-height: 1.5;
+            margin: 0;
+            position: relative;
+        }
+        .suggest-modal-body {
+            padding: 24px;
+            text-align: center;
+        }
+        .suggest-modal-body p {
+            color: #4b5563;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0 0 22px;
+        }
+        .dark .suggest-modal-body p {
+            color: #9ca3af;
+        }
+        .suggest-modal-btns {
+            display: flex;
+            gap: 10px;
+        }
+        .suggest-btn-later {
+            flex: 1;
+            padding: 13px 16px;
+            border-radius: 12px;
+            border: 1.5px solid #e5e7eb;
+            background: transparent;
+            color: #6b7280;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .dark .suggest-btn-later {
+            border-color: #374151;
+            color: #9ca3af;
+        }
+        .suggest-btn-later:hover {
+            background: #f3f4f6;
+            border-color: #d1d5db;
+        }
+        .dark .suggest-btn-later:hover {
+            background: #374151;
+            border-color: #4b5563;
+        }
+        .suggest-btn-yes {
+            flex: 1.2;
+            padding: 13px 16px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(93,92,222,0.3);
+            transition: all 0.2s ease;
+        }
+        .suggest-btn-yes:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(93,92,222,0.4);
+        }
+        .suggest-btn-yes:active {
+            transform: translateY(0);
+        }
+
+        
+        .personalize-toast {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%) translateY(30px);
+            z-index: 9996;
+            background: linear-gradient(135deg, #1a7f37 0%, #22c55e 100%);
+            color: #fff;
+            padding: 14px 22px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(34, 197, 94, 0.35), 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            max-width: 360px;
+            width: 90%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.4,0,0.2,1), visibility 0.4s ease;
+            font-family: inherit;
+            pointer-events: none;
+        }
+        .dark .personalize-toast {
+            background: linear-gradient(135deg, #166534 0%, #15803d 100%);
+            box-shadow: 0 8px 32px rgba(22, 101, 52, 0.4), 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .personalize-toast.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+            pointer-events: auto;
+        }
+        .personalize-toast-icon {
+            font-size: 26px;
+            flex-shrink: 0;
+            animation: bounceIn 0.5s ease-out;
+        }
+        .personalize-toast-text {
+            flex: 1;
+            min-width: 0;
+        }
+        .personalize-toast-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+        .personalize-toast-sub {
+            font-size: 12px;
+            opacity: 0.88;
+            line-height: 1.4;
+        }
+        .personalize-toast-progress {
+            position: absolute;
+            bottom: 0;
+            left: 12px;
+            right: 12px;
+            height: 3px;
+            border-radius: 0 0 16px 16px;
+            background: rgba(255,255,255,0.25);
+            overflow: hidden;
+        }
+        .personalize-toast-progress-bar {
+            height: 100%;
+            background: rgba(255,255,255,0.7);
+            border-radius: 3px;
+            width: 100%;
+            transition: width linear;
+        }
+
+        
+        .all-categories-manage-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: 1.5px solid rgba(93,92,222,0.2);
+            background: rgba(93,92,222,0.06);
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .dark .all-categories-manage-btn {
+            background: rgba(93,92,222,0.12);
+            border-color: rgba(93,92,222,0.25);
+        }
+        .all-categories-manage-btn:hover {
+            background: rgba(93,92,222,0.12);
+            border-color: rgba(93,92,222,0.35);
+            transform: translateY(-1px);
+        }
+        .dark .all-categories-manage-btn:hover {
+            background: rgba(93,92,222,0.2);
         }
         .long-press-progress {
             position: absolute;
@@ -1563,7 +1810,13 @@
             </div>
 
             <div id="categoriesSection" class="hidden space-y-8">
-                <h2 class="text-4xl font-bold gradient-text">Categorias</h2>
+                <div class="flex items-center justify-between flex-wrap gap-3">
+                    <h2 class="text-4xl font-bold gradient-text">Categorias</h2>
+                    <button class="all-categories-manage-btn" onclick="openHiddenCategoriesModal()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z"/></svg>
+                        Todas categorias
+                    </button>
+                </div>
                 <div id="categoriesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     <div class="col-span-full text-center py-20">
                         <div class="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
@@ -1809,12 +2062,12 @@
                                 </div>
                                 <svg class="w-5 h-5 text-gray-400 ml-auto group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </a>
-                             <a href="mailto:kuiashop7@gmail.com class="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60 hover:bg-primary/5 dark:hover:bg-primary/10 transition-all group">
+                             <a href="/cdn-cgi/l/email-protection#f49f819d95879c9b84c3b49399959d98da979b99d49798958787c9" flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800 60 hover:bg-primary 5 dark:hover:bg-primary 10 transition-all group">
                                 </div>
                                 <div>
                                     
                                     <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Email de Suporte</p>
-                                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200"><span class="__cf_email__" data-cfemail="fd9688949c8e95928dcabd9a909c9491d39e9290"><span class="__cf_email__" data-cfemail="2e455b474f5d46415e196e49434f4742004d4143"><span class="__cf_email__" data-cfemail="bcd7c9d5ddcfd4d3cc8bfcdbd1ddd5d092dfd3d1">Kuiashop7@gmail.com</span></span></span></p>
+                                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200"><span class="__cf_email__" data-cfemail="fd9688949c8e95928dcabd9a909c9491d39e9290"><span class="__cf_email__" data-cfemail="2e455b474f5d46415e196e49434f4742004d4143"><span class="__cf_email__" data-cfemail="bcd7c9d5ddcfd4d3cc8bfcdbd1ddd5d092dfd3d1"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1c5769757d6f74736c2b5c7b717d7570327f7371">[email&#160;protected]</a></span></span></span></p>
                                 </div>
                                </a>
                         </div>
@@ -2233,7 +2486,7 @@
         </div>
     </div>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
         
         console.log('🚀 Iniciando Kuia+ Shop...');
         document.getElementById('loadingStatus').textContent = 'Carregando Firebase';
@@ -2340,7 +2593,23 @@
         let currentSection = 'home';
         let currentPriceFilter = 'all';
         let productsVisibleLimit = 21;
-        let hiddenCategories = new Set();
+        var _ls = window['localSto' + 'rage'];
+        let hiddenCategories = (function() {
+            try {
+                var saved = _ls.getItem('kuia_hiddenCategories');
+                if (saved) {
+                    var arr = JSON.parse(saved);
+                    if (Array.isArray(arr)) return new Set(arr);
+                }
+            } catch(e) {}
+            return new Set();
+        })();
+
+        function saveHiddenCategories() {
+            try {
+                _ls.setItem('kuia_hiddenCategories', JSON.stringify([...hiddenCategories]));
+            } catch(e) {}
+        }
 
         
         let shuffledProductIds = null;
@@ -4559,8 +4828,8 @@
                         lpTimer = setTimeout(() => {
                             lpTriggered = true;
                             if (bar) bar.classList.remove('active');
-                            openHiddenCategoriesModal();
-                        }, 500);
+                            window.openHiddenCategoriesModal();
+                        }, 100);
                     }
                     function cancelLongPress() {
                         if (lpTimer) { clearTimeout(lpTimer); lpTimer = null; }
@@ -5063,7 +5332,7 @@
         })();
         
 
-        function openHiddenCategoriesModal() {
+        window.openHiddenCategoriesModal = function() {
             const overlay = document.getElementById('hiddenCategoriesOverlay');
             const list = document.getElementById('hiddenCatList');
 
@@ -5081,12 +5350,24 @@
             }).join('');
 
             updateHiddenCatCounter();
+            window._hiddenCatSnapshotOnOpen = hiddenCategories.size;
             overlay.classList.add('active');
         }
+
+        window._hiddenCatSnapshotOnOpen = 0;
 
         window.closeHiddenCategoriesModal = function() {
             const overlay = document.getElementById('hiddenCategoriesOverlay');
             overlay.classList.remove('active');
+
+            var countNow = hiddenCategories.size;
+            var countBefore = window._hiddenCatSnapshotOnOpen || 0;
+
+            if (countNow > 0 && countNow !== countBefore) {
+                setTimeout(function() {
+                    showPersonalizeToast(countNow);
+                }, 350);
+            }
         }
 
         window.toggleHiddenCategory = function(cat) {
@@ -5095,6 +5376,8 @@
             } else {
                 hiddenCategories.add(cat);
             }
+
+            saveHiddenCategories();
 
             const item = document.querySelector(`.hidden-cat-item[data-cat="${cat}"]`);
             if (item) {
@@ -5111,6 +5394,7 @@
 
         window.clearAllHiddenCategories = function() {
             hiddenCategories.clear();
+            saveHiddenCategories();
             document.querySelectorAll('.hidden-cat-item').forEach(item => {
                 item.classList.remove('is-hidden');
                 const check = item.querySelector('.hidden-cat-check');
@@ -5847,5 +6131,222 @@
     }
 })();
 </script>
+
+<div id="suggestHideCategoriesOverlay" class="suggest-modal-overlay">
+    <div class="suggest-modal-box">
+        <div class="suggest-modal-header">
+            <span class="suggest-modal-emoji">🔍</span>
+            <h3>Gostaria de ver só o que realmente importa para você?</h3>
+            <p>Podemos ajudar a organizar melhor a sua experiência de compra!</p>
+        </div>
+        <div class="suggest-modal-body">
+            <p>Oculte categorias de produtos que não lhe interessam para encontrar mais rápido o que deseja.</p>
+            <div class="suggest-modal-btns">
+                <button class="suggest-btn-later" id="suggestLaterBtn">Talvez depois</button>
+                <button class="suggest-btn-yes" id="suggestYesBtn">Sim, quero</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="personalizeToast" class="personalize-toast">
+    <span class="personalize-toast-icon">✨</span>
+    <div class="personalize-toast-text">
+        <div class="personalize-toast-title" id="personalizeToastTitle">Experiência personalizada!</div>
+        <div class="personalize-toast-sub" id="personalizeToastSub">Agora você verá apenas o que importa para você.</div>
+    </div>
+    <div class="personalize-toast-progress">
+        <div class="personalize-toast-progress-bar" id="personalizeToastBar"></div>
+    </div>
+</div>
+
+<script>
+function showPersonalizeToast(hiddenCount) {
+    var toast = document.getElementById('personalizeToast');
+    var title = document.getElementById('personalizeToastTitle');
+    var sub = document.getElementById('personalizeToastSub');
+    var bar = document.getElementById('personalizeToastBar');
+    if (!toast) return;
+
+    var msgs = [
+        { t: 'Experiência personalizada!', s: hiddenCount + (hiddenCount === 1 ? ' categoria oculta' : ' categorias ocultas') + ' — agora é só o que importa pra você \u{1F389}' },
+        { t: 'Tudo organizado!', s: 'Sua loja ficou mais limpa. Você pode alterar a qualquer momento.' },
+        { t: 'Perfeito!', s: 'Menos ruído, mais foco. Encontre seus produtos mais rápido!' }
+    ];
+    var pick = msgs[Math.floor(Math.random() * msgs.length)];
+    title.textContent = pick.t;
+    sub.textContent = pick.s;
+
+    bar.style.transition = 'none';
+    bar.style.width = '100%';
+
+    toast.classList.add('visible');
+
+    requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+            bar.style.transition = 'width 4s linear';
+            bar.style.width = '0%';
+        });
+    });
+
+    setTimeout(function() {
+        toast.classList.remove('visible');
+    }, 4200);
+}
+</script>
+
+<script>
+(function() {
+    var suggestOverlay = document.getElementById('suggestHideCategoriesOverlay');
+    var suggestLaterBtn = document.getElementById('suggestLaterBtn');
+    var suggestYesBtn = document.getElementById('suggestYesBtn');
+    var suggestShown = false;
+
+    /* ── helpers ── */
+    function userAlreadyHasHidden() {
+        try {
+            var _s = window['localSto' + 'rage'];
+            var d = _s.getItem('kuia_hiddenCategories');
+            if (d) { var a = JSON.parse(d); if (Array.isArray(a) && a.length > 0) return true; }
+        } catch(e) {}
+        return false;
+    }
+
+    function openSuggestModal() {
+        if (suggestShown) return;
+        if (userAlreadyHasHidden()) return;
+        suggestShown = true;
+        suggestOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeSuggestModal() {
+        suggestOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    /* ── botões do modal ── */
+    suggestLaterBtn.addEventListener('click', function() {
+        closeSuggestModal();
+    });
+
+    suggestYesBtn.addEventListener('click', function() {
+        closeSuggestModal();
+        setTimeout(function() {
+            if (typeof window.openHiddenCategoriesModal === 'function') {
+                window.openHiddenCategoriesModal();
+            }
+        }, 300);
+    });
+
+    suggestOverlay.addEventListener('click', function(e) {
+        if (e.target === suggestOverlay) {
+            closeSuggestModal();
+        }
+    });
+
+    /* ═══════════════════════════════════════════════════
+       GATILHO 1 — Tempo: 1 minuto sem ação
+       ═══════════════════════════════════════════════════ */
+    setTimeout(function() {
+        openSuggestModal();
+    }, 60000);
+
+    /* ═══════════════════════════════════════════════════
+       GATILHO 2 — Buscas sem resultado (2–3 vezes)
+       Observa o renderProducts: quando filteredProducts
+       resulta em 0 itens com um searchTerm ativo.
+       ═══════════════════════════════════════════════════ */
+    var emptySearchCount = 0;
+    var EMPTY_SEARCH_THRESHOLD = 2;
+    var lastSearchTerm = '';
+
+    /* Intercepta o input de busca */
+    var _searchInput = document.getElementById('searchInput');
+    if (_searchInput) {
+        var _searchDebounce = null;
+        _searchInput.addEventListener('input', function() {
+            clearTimeout(_searchDebounce);
+            _searchDebounce = setTimeout(function() {
+                var term = (_searchInput.value || '').trim().toLowerCase();
+                /* Só conta quando o usuário digitou algo novo (>= 2 chars) */
+                if (term.length >= 2 && term !== lastSearchTerm) {
+                    lastSearchTerm = term;
+                    /* Verifica se a grid ficou vazia */
+                    var grid = document.getElementById('productsGrid');
+                    if (grid) {
+                        var hasProducts = grid.querySelector('.card-bg');
+                        if (!hasProducts) {
+                            emptySearchCount++;
+                            if (emptySearchCount >= EMPTY_SEARCH_THRESHOLD) {
+                                openSuggestModal();
+                            }
+                        }
+                    }
+                }
+                if (term.length === 0) {
+                    lastSearchTerm = '';
+                }
+            }, 600);
+        });
+    }
+
+    /* ═══════════════════════════════════════════════════
+       GATILHO 3 — Navegar em várias categorias sem clicar
+       em nenhum produto.
+       Conta troca de categoria; reseta quando o usuário
+       clica num produto.
+       ═══════════════════════════════════════════════════ */
+    var catSwitchCount = 0;
+    var CAT_SWITCH_THRESHOLD = 3;
+    var productClickedSinceCatSwitch = false;
+    var lastTrackedCategory = 'all';
+
+    /* Observa cliques nos botões de categoria via delegação */
+    document.addEventListener('click', function(e) {
+        var catBtn = e.target.closest('.category-filter-btn');
+        if (catBtn) {
+            var cat = catBtn.getAttribute('data-category') || '';
+            if (cat && cat !== lastTrackedCategory) {
+                lastTrackedCategory = cat;
+                if (!productClickedSinceCatSwitch) {
+                    catSwitchCount++;
+                    if (catSwitchCount >= CAT_SWITCH_THRESHOLD) {
+                        openSuggestModal();
+                    }
+                } else {
+                    /* Reseta após um clique em produto */
+                    productClickedSinceCatSwitch = false;
+                    catSwitchCount = 1;
+                }
+            }
+        }
+    }, true);
+
+    /* Detecta clique em produto para resetar o contador */
+    var _origDetail = window.showProductDetail;
+    if (typeof _origDetail === 'function') {
+        window.showProductDetail = function() {
+            productClickedSinceCatSwitch = true;
+            catSwitchCount = 0;
+            return _origDetail.apply(this, arguments);
+        };
+    }
+
+    /* Também observa categorias na seção "Categorias" */
+    document.addEventListener('click', function(e) {
+        var catCard = e.target.closest('[onclick*="filterByCategory"]');
+        if (catCard) {
+            if (!productClickedSinceCatSwitch) {
+                catSwitchCount++;
+                if (catSwitchCount >= CAT_SWITCH_THRESHOLD) {
+                    openSuggestModal();
+                }
+            }
+        }
+    }, true);
+})();
+</script>
 </body>
 </html>
+
