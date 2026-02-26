@@ -83,7 +83,6 @@
         }
     </script>
     <script>
-    
     (function() {
         var ua = navigator.userAgent || navigator.vendor || window.opera || '';
         var isWebView = false;
@@ -2062,12 +2061,12 @@
                                 </div>
                                 <svg class="w-5 h-5 text-gray-400 ml-auto group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </a>
-                             <a href="/cdn-cgi/l/email-protection#f49f819d95879c9b84c3b49399959d98da979b99d49798958787c9" flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800 60 hover:bg-primary 5 dark:hover:bg-primary 10 transition-all group">
+                             <a href="mailto:kuiashop7@gmail.com" flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800 60 hover:bg-primary 5 dark:hover:bg-primary 10 transition-all group">
                                 </div>
                                 <div>
                                     
                                     <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Email de Suporte</p>
-                                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200"><span class="__cf_email__" data-cfemail="fd9688949c8e95928dcabd9a909c9491d39e9290"><span class="__cf_email__" data-cfemail="2e455b474f5d46415e196e49434f4742004d4143"><span class="__cf_email__" data-cfemail="bcd7c9d5ddcfd4d3cc8bfcdbd1ddd5d092dfd3d1"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1c5769757d6f74736c2b5c7b717d7570327f7371">[email&#160;protected]</a></span></span></span></p>
+                                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200"><span class="__cf_email__" data-cfemail="fd9688949c8e95928dcabd9a909c9491d39e9290"><span class="__cf_email__" data-cfemail="2e455b474f5d46415e196e49434f4742004d4143"><span class="__cf_email__" data-cfemail="bcd7c9d5ddcfd4d3cc8bfcdbd1ddd5d092dfd3d1"><a href="mailto:kuiashop7@gmail.com class="__cf_email__" data-cfemail="1c5769757d6f74736c2b5c7b717d7570327f7371">KUIASHOP7@GMAIL.COM</a></span></span></span></p>
                                 </div>
                                </a>
                         </div>
@@ -4191,6 +4190,9 @@
                     <button id="menuAboutBtn" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
                         <span class="mr-3">ℹ️</span>Sobre Nós
                     </button>
+                    <button id="menuPolicyBtn" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all" onclick="window.location.href='politicy.html'">
+                        <span class="mr-3">📜</span>Políticas da Loja
+                    </button>
                     <button id="menuThemeToggle" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all flex items-center justify-between">
                         <span><span id="menuThemeIcon" class="mr-3">${document.documentElement.classList.contains('dark') ? '☀️' : '🌙'}</span>${document.documentElement.classList.contains('dark') ? 'Modo Claro' : 'Modo Escuro'}</span>
                         <div id="themeToggle" class="theme-switch ${document.documentElement.classList.contains('dark') ? 'dark' : ''}" style="width:44px;height:22px;flex-shrink:0;">
@@ -4265,6 +4267,9 @@
                     </a>
                     <button id="menuAboutBtnGuest" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
                         <span class="mr-3">ℹ️</span>Sobre Nós
+                    </button>
+                    <button id="menuPolicyBtnGuest" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all" onclick="window.location.href='politicy.html'">
+                        <span class="mr-3">📜</span>Políticas da Loja
                     </button>
                     <button id="menuThemeToggleGuest" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-b-xl transition-all flex items-center justify-between">
                         <span><span class="mr-3">${document.documentElement.classList.contains('dark') ? '☀️' : '🌙'}</span>${document.documentElement.classList.contains('dark') ? 'Modo Claro' : 'Modo Escuro'}</span>
@@ -5652,7 +5657,6 @@
         }, 2000);
     </script>
     <script>
-
   setTimeout(function() {
     const wrapper = document.getElementById("filterControlsWrapper");
     const toggleBtn = document.getElementById("headerFilterToggleBtn");
@@ -5960,7 +5964,6 @@
         5: { open: 9, close: 14 },   
         6: null                        
     };
-
     function getAngolaTime() {
         var now = new Date();
         var options = { timeZone: 'Africa/Luanda', hour: 'numeric', minute: 'numeric', hour12: false };
@@ -5975,18 +5978,15 @@
         var day = dayMap[dayStr] !== undefined ? dayMap[dayStr] : now.getDay();
         return { day: day, hours: h, minutes: m };
     }
-
     function isOutsideBusinessHours() {
         var angola = getAngolaTime();
         var day = angola.day;
         var currentTime = angola.hours + angola.minutes / 60;
-
         var todaySchedule = schedule[day];
         if (!todaySchedule) return true; 
         if (currentTime < todaySchedule.open || currentTime >= todaySchedule.close) return true;
         return false;
     }
-
     function highlightToday() {
         var day = getAngolaTime().day;
         var rows = document.querySelectorAll('.offhours-schedule-row');
@@ -6000,7 +6000,6 @@
             }
         });
     }
-
     function showOverlay() {
         var overlay = document.getElementById('offhoursOverlay');
         if (overlay) {
@@ -6010,23 +6009,19 @@
             }, 2200); 
         }
     }
-
     function hideOverlay() {
         var overlay = document.getElementById('offhoursOverlay');
         if (overlay) {
             overlay.classList.remove('visible');
         }
     }
-
     if (isOutsideBusinessHours()) {
         showOverlay();
     }
-
     var closeBtn = document.getElementById('offhoursCloseBtn');
     if (closeBtn) {
         closeBtn.addEventListener('click', hideOverlay);
     }
-
     var backdrop = document.querySelector('.offhours-backdrop');
     if (backdrop) {
         backdrop.addEventListener('click', hideOverlay);
@@ -6105,7 +6100,6 @@
     var appModalCloseX = document.getElementById('appModalCloseX');
     var appModalCloseBtn = document.getElementById('appModalCloseBtn');
     var btnDownloadApp = document.getElementById('btnDownloadApp');
-
     function openAppModal() {
         appModal.classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -6114,15 +6108,12 @@
         appModal.classList.remove('active');
         document.body.style.overflow = '';
     }
-
     if (btnGetApp) btnGetApp.addEventListener('click', openAppModal);
     if (appModalCloseX) appModalCloseX.addEventListener('click', closeAppModal);
     if (appModalCloseBtn) appModalCloseBtn.addEventListener('click', closeAppModal);
-
     appModal.addEventListener('click', function(e) {
         if (e.target === appModal) closeAppModal();
     });
-
     if (btnDownloadApp) {
         btnDownloadApp.addEventListener('click', function() {
             window.open('https://www.mediafire.com/file/i1emd8gv4b3wlz5/Kuia+Shop+1.0.apk/file', '_blank');
@@ -6167,7 +6158,6 @@ function showPersonalizeToast(hiddenCount) {
     var sub = document.getElementById('personalizeToastSub');
     var bar = document.getElementById('personalizeToastBar');
     if (!toast) return;
-
     var msgs = [
         { t: 'Experiência personalizada!', s: hiddenCount + (hiddenCount === 1 ? ' categoria oculta' : ' categorias ocultas') + ' — agora é só o que importa pra você \u{1F389}' },
         { t: 'Tudo organizado!', s: 'Sua loja ficou mais limpa. Você pode alterar a qualquer momento.' },
@@ -6176,19 +6166,15 @@ function showPersonalizeToast(hiddenCount) {
     var pick = msgs[Math.floor(Math.random() * msgs.length)];
     title.textContent = pick.t;
     sub.textContent = pick.s;
-
     bar.style.transition = 'none';
     bar.style.width = '100%';
-
     toast.classList.add('visible');
-
     requestAnimationFrame(function() {
         requestAnimationFrame(function() {
             bar.style.transition = 'width 4s linear';
             bar.style.width = '0%';
         });
     });
-
     setTimeout(function() {
         toast.classList.remove('visible');
     }, 4200);
@@ -6201,8 +6187,7 @@ function showPersonalizeToast(hiddenCount) {
     var suggestLaterBtn = document.getElementById('suggestLaterBtn');
     var suggestYesBtn = document.getElementById('suggestYesBtn');
     var suggestShown = false;
-
-    /* ── helpers ── */
+    
     function userAlreadyHasHidden() {
         try {
             var _s = window['localSto' + 'rage'];
@@ -6211,7 +6196,6 @@ function showPersonalizeToast(hiddenCount) {
         } catch(e) {}
         return false;
     }
-
     function openSuggestModal() {
         if (suggestShown) return;
         if (userAlreadyHasHidden()) return;
@@ -6219,17 +6203,14 @@ function showPersonalizeToast(hiddenCount) {
         suggestOverlay.classList.add('active');
         document.body.style.overflow = 'hidden';
     }
-
     function closeSuggestModal() {
         suggestOverlay.classList.remove('active');
         document.body.style.overflow = '';
     }
-
-    /* ── botões do modal ── */
+    
     suggestLaterBtn.addEventListener('click', function() {
         closeSuggestModal();
     });
-
     suggestYesBtn.addEventListener('click', function() {
         closeSuggestModal();
         setTimeout(function() {
@@ -6238,30 +6219,20 @@ function showPersonalizeToast(hiddenCount) {
             }
         }, 300);
     });
-
     suggestOverlay.addEventListener('click', function(e) {
         if (e.target === suggestOverlay) {
             closeSuggestModal();
         }
     });
-
-    /* ═══════════════════════════════════════════════════
-       GATILHO 1 — Tempo: 1 minuto sem ação
-       ═══════════════════════════════════════════════════ */
+    
     setTimeout(function() {
         openSuggestModal();
     }, 60000);
-
-    /* ═══════════════════════════════════════════════════
-       GATILHO 2 — Buscas sem resultado (2–3 vezes)
-       Observa o renderProducts: quando filteredProducts
-       resulta em 0 itens com um searchTerm ativo.
-       ═══════════════════════════════════════════════════ */
+    
     var emptySearchCount = 0;
     var EMPTY_SEARCH_THRESHOLD = 2;
     var lastSearchTerm = '';
-
-    /* Intercepta o input de busca */
+    
     var _searchInput = document.getElementById('searchInput');
     if (_searchInput) {
         var _searchDebounce = null;
@@ -6269,10 +6240,8 @@ function showPersonalizeToast(hiddenCount) {
             clearTimeout(_searchDebounce);
             _searchDebounce = setTimeout(function() {
                 var term = (_searchInput.value || '').trim().toLowerCase();
-                /* Só conta quando o usuário digitou algo novo (>= 2 chars) */
                 if (term.length >= 2 && term !== lastSearchTerm) {
                     lastSearchTerm = term;
-                    /* Verifica se a grid ficou vazia */
                     var grid = document.getElementById('productsGrid');
                     if (grid) {
                         var hasProducts = grid.querySelector('.card-bg');
@@ -6290,19 +6259,12 @@ function showPersonalizeToast(hiddenCount) {
             }, 600);
         });
     }
-
-    /* ═══════════════════════════════════════════════════
-       GATILHO 3 — Navegar em várias categorias sem clicar
-       em nenhum produto.
-       Conta troca de categoria; reseta quando o usuário
-       clica num produto.
-       ═══════════════════════════════════════════════════ */
+    
     var catSwitchCount = 0;
     var CAT_SWITCH_THRESHOLD = 3;
     var productClickedSinceCatSwitch = false;
     var lastTrackedCategory = 'all';
-
-    /* Observa cliques nos botões de categoria via delegação */
+    
     document.addEventListener('click', function(e) {
         var catBtn = e.target.closest('.category-filter-btn');
         if (catBtn) {
@@ -6315,15 +6277,13 @@ function showPersonalizeToast(hiddenCount) {
                         openSuggestModal();
                     }
                 } else {
-                    /* Reseta após um clique em produto */
                     productClickedSinceCatSwitch = false;
                     catSwitchCount = 1;
                 }
             }
         }
     }, true);
-
-    /* Detecta clique em produto para resetar o contador */
+    
     var _origDetail = window.showProductDetail;
     if (typeof _origDetail === 'function') {
         window.showProductDetail = function() {
@@ -6332,8 +6292,7 @@ function showPersonalizeToast(hiddenCount) {
             return _origDetail.apply(this, arguments);
         };
     }
-
-    /* Também observa categorias na seção "Categorias" */
+    
     document.addEventListener('click', function(e) {
         var catCard = e.target.closest('[onclick*="filterByCategory"]');
         if (catCard) {
