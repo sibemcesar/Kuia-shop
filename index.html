@@ -845,6 +845,398 @@
             80%, 100% { content: '...'; }
         }
 
+        /* ========== SPLASH SCREEN ========== */
+        .splash-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .splash-bg-orbs {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .splash-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.35;
+            animation: splashOrbFloat 6s ease-in-out infinite alternate;
+        }
+        .splash-orb-1 {
+            width: 260px; height: 260px;
+            background: var(--primary);
+            top: -60px; left: -60px;
+            animation-delay: 0s;
+        }
+        .splash-orb-2 {
+            width: 200px; height: 200px;
+            background: #a78bfa;
+            bottom: -40px; right: -40px;
+            animation-delay: 2s;
+        }
+        .splash-orb-3 {
+            width: 140px; height: 140px;
+            background: #60a5fa;
+            top: 40%; right: 10%;
+            animation-delay: 4s;
+        }
+        .dark .splash-orb { opacity: 0.2; }
+        @keyframes splashOrbFloat {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(20px, -20px) scale(1.1); }
+        }
+
+        .splash-logo-wrap {
+            position: relative;
+            width: 100px; height: 100px;
+            margin-bottom: 28px;
+            animation: splashLogoIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+        .splash-logo-ring {
+            position: absolute; inset: 0;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: var(--primary);
+            border-right-color: var(--primary-light);
+            animation: splashRingSpin 1.8s linear infinite;
+        }
+        .splash-logo-ring-2 {
+            position: absolute; inset: 6px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-bottom-color: #a78bfa;
+            border-left-color: #c4b5fd;
+            animation: splashRingSpin 2.4s linear infinite reverse;
+        }
+        .splash-logo-inner {
+            position: absolute; inset: 14px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 32px rgba(93, 92, 222, 0.35);
+            animation: splashLogoPulse 2s ease-in-out infinite;
+        }
+        .dark .splash-logo-inner {
+            box-shadow: 0 8px 32px rgba(93, 92, 222, 0.5);
+        }
+        .splash-logo-icon {
+            font-size: 36px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+            animation: splashIconBounce 2s ease-in-out infinite;
+        }
+        @keyframes splashLogoIn {
+            0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        @keyframes splashRingSpin {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes splashLogoPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        @keyframes splashIconBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        .splash-brand {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), #a78bfa, var(--primary-light));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: splashBrandIn 0.6s ease-out 0.3s both, splashGradientShift 3s linear infinite;
+            letter-spacing: -0.5px;
+        }
+        @keyframes splashBrandIn {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes splashGradientShift {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .splash-tagline {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 4px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: splashBrandIn 0.5s ease-out 0.45s both;
+        }
+        .dark .splash-tagline { color: #6b7280; }
+
+        .splash-status {
+            font-size: 13px;
+            color: #6b7280;
+            margin-top: 24px;
+            animation: splashStatusIn 0.5s ease-out 0.5s both;
+            min-height: 20px;
+            transition: opacity 0.3s;
+        }
+        .dark .splash-status { color: #9ca3af; }
+        @keyframes splashStatusIn {
+            0% { transform: translateY(10px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .splash-progress-wrap {
+            width: 200px;
+            height: 3px;
+            background: rgba(93,92,222,0.08);
+            border-radius: 4px;
+            margin-top: 14px;
+            overflow: hidden;
+            animation: splashProgressIn 0.4s ease-out 0.6s both;
+        }
+        .dark .splash-progress-wrap {
+            background: rgba(93,92,222,0.15);
+        }
+        .splash-progress-bar {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--primary), #a78bfa, var(--primary-light));
+            background-size: 200% 100%;
+            animation: splashProgressGlide 2.2s ease-in-out infinite, splashGradientShift 2s linear infinite;
+            width: 30%;
+        }
+        @keyframes splashProgressIn {
+            0% { transform: scaleX(0); opacity: 0; }
+            100% { transform: scaleX(1); opacity: 1; }
+        }
+        @keyframes splashProgressGlide {
+            0% { transform: translateX(-120%); }
+            50% { transform: translateX(280%); }
+            100% { transform: translateX(-120%); }
+        }
+
+        .splash-floating-icons {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .splash-float-item {
+            position: absolute;
+            font-size: 22px;
+            opacity: 0;
+            animation: splashItemFloat 5s ease-in-out infinite;
+        }
+        .splash-float-item:nth-child(1) { left: 10%; top: 18%; animation-delay: 0s; }
+        .splash-float-item:nth-child(2) { right: 12%; top: 22%; animation-delay: 1s; }
+        .splash-float-item:nth-child(3) { left: 18%; bottom: 22%; animation-delay: 2s; }
+        .splash-float-item:nth-child(4) { right: 16%; bottom: 28%; animation-delay: 3s; }
+        .splash-float-item:nth-child(5) { left: 6%; top: 48%; animation-delay: 0.5s; }
+        .splash-float-item:nth-child(6) { right: 8%; top: 52%; animation-delay: 1.5s; }
+        .splash-float-item:nth-child(7) { left: 30%; top: 12%; animation-delay: 2.5s; }
+        .splash-float-item:nth-child(8) { right: 28%; bottom: 15%; animation-delay: 3.5s; }
+        @keyframes splashItemFloat {
+            0% { opacity: 0; transform: translateY(30px) scale(0.5) rotate(0deg); }
+            15% { opacity: 0.45; }
+            50% { opacity: 0.25; transform: translateY(-25px) scale(1) rotate(12deg); }
+            85% { opacity: 0.45; }
+            100% { opacity: 0; transform: translateY(30px) scale(0.5) rotate(-12deg); }
+        }
+
+        /* ========== PRODUCT SKELETON ========== */
+        .product-skeleton {
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--card-light);
+            border: 1px solid var(--border-light);
+        }
+        .dark .product-skeleton {
+            background: var(--card-dark);
+            border-color: var(--border-dark);
+        }
+        .product-skeleton .sk-img {
+            width: 100%;
+            height: 112px;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 37%, #f0f0f0 63%);
+            background-size: 400% 100%;
+            animation: skeletonShimmer 1.4s ease infinite;
+            position: relative;
+            overflow: hidden;
+        }
+        .dark .product-skeleton .sk-img {
+            background: linear-gradient(90deg, #252535 25%, #30304a 37%, #252535 63%);
+            background-size: 400% 100%;
+        }
+        .product-skeleton .sk-img-icon {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 36px; height: 36px;
+            border-radius: 10px;
+            background: rgba(93,92,222,0.06);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .dark .product-skeleton .sk-img-icon {
+            background: rgba(93,92,222,0.1);
+        }
+        .product-skeleton .sk-img-icon svg {
+            width: 18px; height: 18px;
+            color: rgba(93,92,222,0.2);
+        }
+        .dark .product-skeleton .sk-img-icon svg {
+            color: rgba(93,92,222,0.3);
+        }
+        .product-skeleton .sk-fav {
+            position: absolute;
+            top: 6px; right: 6px;
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+        }
+        .dark .product-skeleton .sk-fav {
+            background: rgba(0,0,0,0.3);
+        }
+        .product-skeleton .sk-fav-heart {
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.8);
+        }
+        .dark .product-skeleton .sk-fav-heart {
+            background: rgba(0,0,0,0.5);
+        }
+        .product-skeleton .sk-fav-heart span {
+            font-size: 12px;
+            animation: skFavPulse 1.6s ease-in-out infinite;
+        }
+        @keyframes skFavPulse {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.3); opacity: 1; }
+        }
+        .product-skeleton .sk-body {
+            padding: 10px;
+        }
+        .product-skeleton .sk-line {
+            border-radius: 6px;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 37%, #f0f0f0 63%);
+            background-size: 400% 100%;
+            animation: skeletonShimmer 1.4s ease infinite;
+            margin-bottom: 8px;
+        }
+        .dark .product-skeleton .sk-line {
+            background: linear-gradient(90deg, #252535 25%, #30304a 37%, #252535 63%);
+            background-size: 400% 100%;
+        }
+        .product-skeleton .sk-title { width: 85%; height: 10px; }
+        .product-skeleton .sk-title-2 { width: 55%; height: 10px; }
+        .product-skeleton .sk-cat { width: 35%; height: 8px; margin-bottom: 10px; }
+        .product-skeleton .sk-price {
+            height: 14px; width: 50%; border-radius: 6px;
+            background: linear-gradient(90deg, rgba(93,92,222,0.06) 25%, rgba(93,92,222,0.12) 37%, rgba(93,92,222,0.06) 63%);
+            background-size: 400% 100%;
+            animation: skeletonShimmer 1.4s ease infinite;
+            margin-bottom: 10px;
+        }
+        .dark .product-skeleton .sk-price {
+            background: linear-gradient(90deg, rgba(93,92,222,0.1) 25%, rgba(93,92,222,0.2) 37%, rgba(93,92,222,0.1) 63%);
+            background-size: 400% 100%;
+        }
+        .product-skeleton .sk-btn {
+            width: 100%; height: 30px;
+            border-radius: 8px;
+            background: linear-gradient(90deg, rgba(93,92,222,0.08) 25%, rgba(93,92,222,0.15) 37%, rgba(93,92,222,0.08) 63%);
+            background-size: 400% 100%;
+            animation: skeletonShimmer 1.4s ease infinite;
+        }
+        .dark .product-skeleton .sk-btn {
+            background: linear-gradient(90deg, rgba(93,92,222,0.12) 25%, rgba(93,92,222,0.22) 37%, rgba(93,92,222,0.12) 63%);
+            background-size: 400% 100%;
+        }
+        @keyframes skeletonShimmer {
+            0% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .product-skeleton-enter {
+            opacity: 0;
+            transform: translateY(14px);
+            animation: skeletonEnter 0.45s ease-out forwards;
+        }
+        @keyframes skeletonEnter {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ========== CATEGORY SKELETON ========== */
+        .category-skeleton {
+            border-radius: 16px;
+            overflow: hidden;
+            min-height: 160px;
+            position: relative;
+            background: linear-gradient(135deg, #f0f0f5, #e5e5ee);
+        }
+        .dark .category-skeleton {
+            background: linear-gradient(135deg, #1c1c2e, #2a2a40);
+        }
+        .category-skeleton::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.25) 50%, transparent 60%);
+            animation: catSkeletonWave 2s ease-in-out infinite;
+        }
+        .dark .category-skeleton::before {
+            background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.05) 50%, transparent 60%);
+        }
+        @keyframes catSkeletonWave {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .category-skeleton .cat-sk-content {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 20px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.1));
+        }
+        .dark .category-skeleton .cat-sk-content {
+            background: linear-gradient(transparent, rgba(0,0,0,0.25));
+        }
+        .category-skeleton .cat-sk-icon {
+            width: 42px; height: 42px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.2);
+            margin-bottom: 10px;
+        }
+        .dark .category-skeleton .cat-sk-icon {
+            background: rgba(255,255,255,0.08);
+        }
+        .category-skeleton .cat-sk-line {
+            border-radius: 7px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.12) 25%, rgba(255,255,255,0.25) 37%, rgba(255,255,255,0.12) 63%);
+            background-size: 400% 100%;
+            animation: skeletonShimmer 1.4s ease infinite;
+            margin-bottom: 8px;
+        }
+        .dark .category-skeleton .cat-sk-line {
+            background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.1) 37%, rgba(255,255,255,0.04) 63%);
+            background-size: 400% 100%;
+        }
+        .category-skeleton .cat-sk-title { height: 16px; width: 60%; }
+        .category-skeleton .cat-sk-desc { height: 10px; width: 80%; }
+        .category-skeleton .cat-sk-count { height: 10px; width: 35%; }
+        .category-skeleton-enter {
+            opacity: 0;
+            transform: scale(0.94) translateY(10px);
+            animation: catSkEnter 0.5s ease-out forwards;
+        }
+        @keyframes catSkEnter {
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        @media (min-width: 640px) {
+            .product-skeleton .sk-img { height: 128px; }
+        }
+
         .line-clamp-2 {
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -1406,6 +1798,274 @@
             height: 300px;
         }
 
+        /* ===== FLY TO CART ANIMATION ===== */
+        .fly-to-cart-item {
+            position: fixed;
+            z-index: 99999;
+            pointer-events: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 20px rgba(93, 92, 222, 0.5), 0 0 30px rgba(93, 92, 222, 0.3);
+            transition: none;
+        }
+        .fly-to-cart-item.flying {
+            transition: all 0.65s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        /* ===== BUY BUTTON ANIMATIONS ===== */
+        @keyframes buyBtnSuccess {
+            0% { transform: scale(1); }
+            15% { transform: scale(0.92); }
+            30% { transform: scale(1.08); }
+            45% { transform: scale(0.97); }
+            60% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+        @keyframes buyBtnCheckmark {
+            0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+            50% { transform: scale(1.3) rotate(0deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        .buy-btn-success {
+            animation: buyBtnSuccess 0.55s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+            background: linear-gradient(135deg, #10b981 0%, #34d399 100%) !important;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4) !important;
+        }
+
+        /* ===== PARTICLE BURST ===== */
+        .buy-particle {
+            position: fixed;
+            z-index: 99998;
+            pointer-events: none;
+            border-radius: 50%;
+            opacity: 1;
+        }
+        @keyframes particleBurst {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* ===== CONFETTI PIECES ===== */
+        .confetti-piece {
+            position: fixed;
+            z-index: 99997;
+            pointer-events: none;
+            width: 8px;
+            height: 8px;
+        }
+        @keyframes confettiFall {
+            0% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
+            100% { opacity: 0; transform: translateY(120px) rotate(720deg) scale(0.3); }
+        }
+
+        /* ===== CART BADGE PULSE ===== */
+        @keyframes cartBadgePop {
+            0% { transform: scale(1); }
+            30% { transform: scale(1.6); }
+            50% { transform: scale(0.85); }
+            70% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .cart-badge-pop {
+            animation: cartBadgePop 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+        }
+
+        /* ===== UPGRADED CART SIDEBAR ===== */
+        #cartSidebar {
+            background: rgba(255, 255, 255, 0.97) !important;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-left: 1px solid rgba(93, 92, 222, 0.1) !important;
+            transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1) !important;
+        }
+        .dark #cartSidebar {
+            background: rgba(17, 24, 39, 0.97) !important;
+            border-left: 1px solid rgba(93, 92, 222, 0.15) !important;
+        }
+
+        .cart-header-premium {
+            background: linear-gradient(135deg, #5D5CDE 0%, #7B7AE8 50%, #9B8FFF 100%) !important;
+            position: relative;
+            overflow: hidden;
+        }
+        .cart-header-premium::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+        }
+        .cart-header-premium::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            left: -20%;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .cart-item-card {
+            background: rgba(249, 250, 251, 0.8);
+            border: 1px solid rgba(229, 231, 235, 0.6);
+            border-radius: 16px;
+            padding: 12px;
+            margin-bottom: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .dark .cart-item-card {
+            background: rgba(31, 41, 55, 0.6);
+            border-color: rgba(55, 65, 81, 0.6);
+        }
+        .cart-item-card:hover {
+            border-color: rgba(93, 92, 222, 0.3);
+            box-shadow: 0 4px 16px rgba(93, 92, 222, 0.08);
+            transform: translateX(-2px);
+        }
+        .dark .cart-item-card:hover {
+            border-color: rgba(93, 92, 222, 0.4);
+            box-shadow: 0 4px 16px rgba(93, 92, 222, 0.15);
+        }
+        .cart-item-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary), var(--primary-light));
+            border-radius: 3px 0 0 3px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .cart-item-card:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes cartItemSlideIn {
+            0% { transform: translateX(40px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+        .cart-item-enter {
+            animation: cartItemSlideIn 0.35s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+        }
+
+        .cart-qty-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 10px;
+            border: 1.5px solid rgba(93, 92, 222, 0.25);
+            background: rgba(93, 92, 222, 0.06);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .cart-qty-btn:hover {
+            background: rgba(93, 92, 222, 0.15);
+            border-color: rgba(93, 92, 222, 0.5);
+            transform: scale(1.1);
+        }
+        .cart-qty-btn:active {
+            transform: scale(0.95);
+        }
+        .dark .cart-qty-btn {
+            background: rgba(93, 92, 222, 0.12);
+            border-color: rgba(93, 92, 222, 0.3);
+        }
+
+        .cart-remove-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 10px;
+            background: rgba(239, 68, 68, 0.08);
+            border: 1.5px solid rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s ease;
+        }
+        .cart-remove-btn:hover {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.3);
+            transform: scale(1.1);
+        }
+        .cart-remove-btn:active {
+            transform: scale(0.9);
+        }
+
+        .cart-footer-premium {
+            background: rgba(249, 250, 251, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(93, 92, 222, 0.1);
+        }
+        .dark .cart-footer-premium {
+            background: rgba(17, 24, 39, 0.95);
+            border-top-color: rgba(93, 92, 222, 0.15);
+        }
+
+        .cart-total-glow {
+            text-shadow: 0 0 20px rgba(93, 92, 222, 0.3);
+        }
+
+        @keyframes cartEmptyFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-12px) scale(1.05); }
+        }
+        .cart-empty-icon {
+            animation: cartEmptyFloat 3.5s ease-in-out infinite;
+            filter: grayscale(30%);
+        }
+
+        @keyframes shimmerSlide {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .cart-checkout-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        .cart-checkout-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            animation: shimmerSlide 2.5s ease-in-out infinite;
+        }
+
+        @keyframes removeItemShrink {
+            0% { transform: scale(1); opacity: 1; max-height: 120px; margin-bottom: 10px; }
+            100% { transform: scale(0.8) translateX(60px); opacity: 0; max-height: 0; margin-bottom: 0; padding: 0; border-width: 0; }
+        }
+        .cart-item-removing {
+            animation: removeItemShrink 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            pointer-events: none;
+        }
+
         .login-particles {
             position: absolute; inset: 0; overflow: hidden; pointer-events: none;
         }
@@ -1586,6 +2246,34 @@
         }
         .dark .promo-banner-slide-img-placeholder {
             background: rgba(93, 92, 222, 0.15);
+        }
+        .img-error-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            color: #9ca3af;
+            font-size: 1.5rem;
+            overflow: hidden;
+        }
+        .img-error-placeholder svg {
+            width: 32px;
+            height: 32px;
+            opacity: 0.5;
+        }
+        .dark .img-error-placeholder {
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            color: #6b7280;
+        }
+        .img-error-placeholder.placeholder-sm svg {
+            width: 24px;
+            height: 24px;
+        }
+        .img-error-placeholder.placeholder-lg svg {
+            width: 48px;
+            height: 48px;
         }
         .promo-banner-slide-info {
             flex: 1;
@@ -1793,12 +2481,35 @@
 </head>
 <body>
 
-    <div id="loadingScreen" class="fixed inset-0 card-bg flex items-center justify-center z-50">
-        <div class="text-center">
-            <div class="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-            <div class="space-y-2">
-                <h2 class="text-2xl font-bold gradient-text">Kuia+ Shop</h2>
-                <p id="loadingStatus" class="text-gray-600 dark:text-gray-400 loading-dots">Carregando</p>
+    <div id="loadingScreen" class="fixed inset-0 card-bg flex items-center justify-center z-50 splash-container">
+        <div class="splash-bg-orbs">
+            <div class="splash-orb splash-orb-1"></div>
+            <div class="splash-orb splash-orb-2"></div>
+            <div class="splash-orb splash-orb-3"></div>
+        </div>
+        <div class="splash-floating-icons" aria-hidden="true">
+            <span class="splash-float-item">🛍️</span>
+            <span class="splash-float-item">👗</span>
+            <span class="splash-float-item">👟</span>
+            <span class="splash-float-item">💎</span>
+            <span class="splash-float-item">🎁</span>
+            <span class="splash-float-item">✨</span>
+            <span class="splash-float-item">📦</span>
+            <span class="splash-float-item">💳</span>
+        </div>
+        <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;">
+            <div class="splash-logo-wrap">
+                <div class="splash-logo-ring"></div>
+                <div class="splash-logo-ring-2"></div>
+                <div class="splash-logo-inner">
+                    <span class="splash-logo-icon">🛒</span>
+                </div>
+            </div>
+            <div class="splash-brand">Kuia+ Shop</div>
+            <div class="splash-tagline">Sua loja online</div>
+            <p id="loadingStatus" class="splash-status loading-dots">Carregando</p>
+            <div class="splash-progress-wrap">
+                <div class="splash-progress-bar"></div>
             </div>
         </div>
     </div>
@@ -1931,8 +2642,8 @@
                 <form id="registerForm" class="space-y-4">
                     <div class="text-center">
                         <div class="relative inline-block">
-                            <img id="previewAvatar" src="https://via.placeholder.com/80?text=📷" alt="Preview" 
-                                 class="w-20 h-20 rounded-full object-cover border-4 border-gray-300 dark:border-gray-600 hover-lift">
+                            <img id="previewAvatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='50' fill='%235D5CDE'/%3E%3Ccircle cx='50' cy='40' r='14' fill='white' opacity='0.9'/%3E%3Cellipse cx='50' cy='78' rx='24' ry='16' fill='white' opacity='0.9'/%3E%3C/svg%3E" alt="Preview"
+                                 class="w-20 h-20 rounded-full object-cover border-4 border-gray-300 dark:border-gray-600 hover-lift" onerror="handleAvatarError(this)">
                             <label for="profilePicture" class="absolute -bottom-1 -right-1 btn-primary text-white rounded-full p-2 cursor-pointer hover-lift">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
@@ -2027,7 +2738,7 @@
 
                         <div class="relative">
                             <button id="userMenuBtn" class="flex items-center space-x-3 p-2 btn-secondary rounded-xl hover-lift">
-                                <img id="userAvatar" src="https://via.placeholder.com/32?text=👤" alt="Avatar" class="w-8 h-8 rounded-full border-2 border-primary">
+                                <img id="userAvatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='50' fill='%235D5CDE'/%3E%3Ccircle cx='50' cy='40' r='14' fill='white' opacity='0.9'/%3E%3Cellipse cx='50' cy='78' rx='24' ry='16' fill='white' opacity='0.9'/%3E%3C/svg%3E" alt="Avatar" class="w-8 h-8 rounded-full border-2 border-primary object-cover" onerror="handleAvatarError(this)">
                                 <span id="userName" class="hidden sm:block text-sm font-medium">Visitante</span>
                             </button>
                             <div id="userMenu" class="hidden absolute right-0 mt-2 w-48 card-bg rounded-xl shadow-lg border z-50 animate-scale-in">
@@ -2130,9 +2841,41 @@
                 </div>
 
                 <div id="productsGrid" class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
-                    <div class="col-span-full text-center py-20">
-                        <div class="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-                        <p class="text-gray-600 dark:text-gray-400 text-lg">Carregando produtos...</p>
+                    <div class="product-skeleton product-skeleton-enter" style="animation-delay:0s">
+                        <div class="sk-img"><div class="sk-fav"></div><div class="sk-img-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg></div></div>
+                        <div class="sk-body"><div class="sk-line sk-title"></div><div class="sk-line sk-title-2"></div><div class="sk-line sk-cat"></div><div class="sk-price"></div><div class="sk-btn"></div></div>
+                    </div>
+                    <div class="product-skeleton product-skeleton-enter" style="animation-delay:.07s">
+                        <div class="sk-img"><div class="sk-fav"></div><div class="sk-img-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg></div></div>
+                        <div class="sk-body"><div class="sk-line sk-title"></div><div class="sk-line sk-title-2"></div><div class="sk-line sk-cat"></div><div class="sk-price"></div><div class="sk-btn"></div></div>
+                    </div>
+                    <div class="product-skeleton product-skeleton-enter" style="animation-delay:.14s">
+                        <div class="sk-img"><div class="sk-fav"></div><div class="sk-img-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg></div></div>
+                        <div class="sk-body"><div class="sk-line sk-title"></div><div class="sk-line sk-title-2"></div><div class="sk-line sk-cat"></div><div class="sk-price"></div><div class="sk-btn"></div></div>
+                    </div>
+                    <div class="product-skeleton product-skeleton-enter" style="animation-delay:.21s">
+                        <div class="sk-img"><div class="sk-fav"></div><div class="sk-img-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg></div></div>
+                        <div class="sk-body"><div class="sk-line sk-title"></div><div class="sk-line sk-title-2"></div><div class="sk-line sk-cat"></div><div class="sk-price"></div><div class="sk-btn"></div></div>
+                    </div>
+                    <div class="product-skeleton product-skeleton-enter" style="animation-delay:.28s">
+                        <div class="sk-img"><div class="sk-fav"></div><div class="sk-img-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg></div></div>
+                        <div class="sk-body"><div class="sk-line sk-title"></div><div class="sk-line sk-title-2"></div><div class="sk-line sk-cat"></div><div class="sk-price"></div><div class="sk-btn"></div></div>
+                    </div>
+                    <div class="product-skeleton product-skeleton-enter" style="animation-delay:.35s">
+                        <div class="sk-img"><div class="sk-fav"></div><div class="sk-img-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg></div></div>
+                        <div class="sk-body"><div class="sk-line sk-title"></div><div class="sk-line sk-title-2"></div><div class="sk-line sk-cat"></div><div class="sk-price"></div><div class="sk-btn"></div></div>
+                    </div>
+                    <div class="product-skeleton product-skeleton-enter" style="animation-delay:.42s">
+                        <div class="sk-img"><div class="sk-fav"></div><div class="sk-img-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg></div></div>
+                        <div class="sk-body"><div class="sk-line sk-title"></div><div class="sk-line sk-title-2"></div><div class="sk-line sk-cat"></div><div class="sk-price"></div><div class="sk-btn"></div></div>
+                    </div>
+                    <div class="product-skeleton product-skeleton-enter" style="animation-delay:.49s">
+                        <div class="sk-img"><div class="sk-fav"></div><div class="sk-img-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg></div></div>
+                        <div class="sk-body"><div class="sk-line sk-title"></div><div class="sk-line sk-title-2"></div><div class="sk-line sk-cat"></div><div class="sk-price"></div><div class="sk-btn"></div></div>
+                    </div>
+                    <div class="product-skeleton product-skeleton-enter" style="animation-delay:.56s">
+                        <div class="sk-img"><div class="sk-fav"></div><div class="sk-img-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg></div></div>
+                        <div class="sk-body"><div class="sk-line sk-title"></div><div class="sk-line sk-title-2"></div><div class="sk-line sk-cat"></div><div class="sk-price"></div><div class="sk-btn"></div></div>
                     </div>
                 </div>
             </div>
@@ -2146,9 +2889,37 @@
                     </button>
                 </div>
                 <div id="categoriesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    <div class="col-span-full text-center py-20">
-                        <div class="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-                        <p class="text-gray-600 dark:text-gray-400 text-lg">Carregando categorias...</p>
+                    <div class="category-skeleton category-skeleton-enter" style="animation-delay:0s">
+                        <div class="cat-sk-content">
+                            <div class="cat-sk-icon"></div>
+                            <div class="cat-sk-line cat-sk-title"></div>
+                            <div class="cat-sk-line cat-sk-desc"></div>
+                            <div class="cat-sk-line cat-sk-count"></div>
+                        </div>
+                    </div>
+                    <div class="category-skeleton category-skeleton-enter" style="animation-delay:.12s">
+                        <div class="cat-sk-content">
+                            <div class="cat-sk-icon"></div>
+                            <div class="cat-sk-line cat-sk-title"></div>
+                            <div class="cat-sk-line cat-sk-desc"></div>
+                            <div class="cat-sk-line cat-sk-count"></div>
+                        </div>
+                    </div>
+                    <div class="category-skeleton category-skeleton-enter" style="animation-delay:.24s">
+                        <div class="cat-sk-content">
+                            <div class="cat-sk-icon"></div>
+                            <div class="cat-sk-line cat-sk-title"></div>
+                            <div class="cat-sk-line cat-sk-desc"></div>
+                            <div class="cat-sk-line cat-sk-count"></div>
+                        </div>
+                    </div>
+                    <div class="category-skeleton category-skeleton-enter" style="animation-delay:.36s">
+                        <div class="cat-sk-content">
+                            <div class="cat-sk-icon"></div>
+                            <div class="cat-sk-line cat-sk-title"></div>
+                            <div class="cat-sk-line cat-sk-desc"></div>
+                            <div class="cat-sk-line cat-sk-count"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2156,9 +2927,29 @@
             <div id="favoritesSection" class="hidden space-y-8">
                 <h2 class="text-4xl font-bold gradient-text">Meus Favoritos</h2>
                 <div id="favoritesGrid" class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
-                    <div class="col-span-full text-center py-20">
-                        <div class="text-6xl mb-6 animate-float">❤️</div>
-                        <p class="text-gray-600 dark:text-gray-400 text-lg">Carregando favoritos...</p>
+                    <div class="product-skeleton product-skeleton-enter" style="animation-delay:0s">
+                        <div class="sk-img"><div class="sk-fav sk-fav-heart"><span>❤️</span></div><div class="sk-img-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg></div></div>
+                        <div class="sk-body"><div class="sk-line sk-title"></div><div class="sk-line sk-title-2"></div><div class="sk-line sk-cat"></div><div class="sk-price"></div><div class="sk-btn"></div></div>
+                    </div>
+                    <div class="product-skeleton product-skeleton-enter" style="animation-delay:.08s">
+                        <div class="sk-img"><div class="sk-fav sk-fav-heart"><span>❤️</span></div><div class="sk-img-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg></div></div>
+                        <div class="sk-body"><div class="sk-line sk-title"></div><div class="sk-line sk-title-2"></div><div class="sk-line sk-cat"></div><div class="sk-price"></div><div class="sk-btn"></div></div>
+                    </div>
+                    <div class="product-skeleton product-skeleton-enter" style="animation-delay:.16s">
+                        <div class="sk-img"><div class="sk-fav sk-fav-heart"><span>❤️</span></div><div class="sk-img-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg></div></div>
+                        <div class="sk-body"><div class="sk-line sk-title"></div><div class="sk-line sk-title-2"></div><div class="sk-line sk-cat"></div><div class="sk-price"></div><div class="sk-btn"></div></div>
+                    </div>
+                    <div class="product-skeleton product-skeleton-enter" style="animation-delay:.24s">
+                        <div class="sk-img"><div class="sk-fav sk-fav-heart"><span>❤️</span></div><div class="sk-img-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg></div></div>
+                        <div class="sk-body"><div class="sk-line sk-title"></div><div class="sk-line sk-title-2"></div><div class="sk-line sk-cat"></div><div class="sk-price"></div><div class="sk-btn"></div></div>
+                    </div>
+                    <div class="product-skeleton product-skeleton-enter" style="animation-delay:.32s">
+                        <div class="sk-img"><div class="sk-fav sk-fav-heart"><span>❤️</span></div><div class="sk-img-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg></div></div>
+                        <div class="sk-body"><div class="sk-line sk-title"></div><div class="sk-line sk-title-2"></div><div class="sk-line sk-cat"></div><div class="sk-price"></div><div class="sk-btn"></div></div>
+                    </div>
+                    <div class="product-skeleton product-skeleton-enter" style="animation-delay:.40s">
+                        <div class="sk-img"><div class="sk-fav sk-fav-heart"><span>❤️</span></div><div class="sk-img-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg></div></div>
+                        <div class="sk-body"><div class="sk-line sk-title"></div><div class="sk-line sk-title-2"></div><div class="sk-line sk-cat"></div><div class="sk-price"></div><div class="sk-btn"></div></div>
                     </div>
                 </div>
             </div>
@@ -2262,7 +3053,7 @@
                     <div class="card-bg rounded-2xl shadow-lg border p-8">
                         <div class="flex items-center space-x-6 mb-8">
                             <div class="relative">
-                                <img id="profileAvatar" src="" alt="Avatar" class="w-20 h-20 rounded-full cursor-pointer hover-lift border-4 border-primary" onclick="openProfilePictureModal()">
+                                <img id="profileAvatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='50' fill='%235D5CDE'/%3E%3Ccircle cx='50' cy='40' r='14' fill='white' opacity='0.9'/%3E%3Cellipse cx='50' cy='78' rx='24' ry='16' fill='white' opacity='0.9'/%3E%3C/svg%3E" alt="Avatar" class="w-20 h-20 rounded-full cursor-pointer hover-lift border-4 border-primary object-cover" onclick="openProfilePictureModal()" onerror="handleAvatarError(this)">
                                 <button onclick="openProfilePictureModal()" class="absolute -bottom-2 -right-2 btn-primary text-white rounded-full p-2 hover-lift">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
@@ -2524,7 +3315,7 @@
                 <div class="max-w-3xl mx-auto px-4 sm:px-6 py-10">
                     <div class="text-center">
                         <div class="relative inline-block mb-6">
-                            <img id="profilePicturePreview" src="" alt="Preview" class="w-36 h-36 rounded-full object-cover border-4 border-primary shadow-lg">
+                            <img id="profilePicturePreview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='50' fill='%235D5CDE'/%3E%3Ccircle cx='50' cy='40' r='14' fill='white' opacity='0.9'/%3E%3Cellipse cx='50' cy='78' rx='24' ry='16' fill='white' opacity='0.9'/%3E%3C/svg%3E" alt="Preview" class="w-36 h-36 rounded-full object-cover border-4 border-primary shadow-lg" onerror="handleAvatarError(this)">
                             <label for="newProfilePicture" class="absolute bottom-0 right-0 btn-primary text-white rounded-full p-3 cursor-pointer hover-lift shadow-lg">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
@@ -2611,36 +3402,53 @@
         </div>
     </div>
 
-    <div id="cartSidebar" class="fixed inset-y-0 right-0 w-80 card-bg shadow-2xl transform translate-x-full transition-transform z-50 border-l">
+    <div id="cartSidebar" class="fixed inset-y-0 right-0 w-80 shadow-2xl transform translate-x-full z-50">
         <div class="flex flex-col h-full">
-            <div class="flex items-center justify-between p-6 border-b gradient-bg">
-                <h3 class="text-xl font-bold text-white">Carrinho de Compras</h3>
-                <button id="closeCartBtn" class="text-white hover:text-gray-200 text-2xl hover-lift">
-                    ❌
+            <div class="cart-header-premium flex items-center justify-between px-5 py-5">
+                <div class="flex items-center gap-3 relative z-10">
+                    <div class="w-10 h-10 rounded-xl bg-white bg-opacity-20 flex items-center justify-center text-xl">🛒</div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white leading-tight">Meu Carrinho</h3>
+                        <p id="cartHeaderCount" class="text-xs text-white text-opacity-75 mt-0.5">0 itens</p>
+                    </div>
+                </div>
+                <button id="closeCartBtn" class="relative z-10 w-9 h-9 rounded-xl bg-white bg-opacity-15 hover:bg-opacity-25 flex items-center justify-center text-white text-lg transition-all hover:scale-110 active:scale-95">
+                    ✕
                 </button>
             </div>
 
-            <div id="cartItems" class="flex-1 overflow-y-auto p-6">
-                <div class="text-center py-20">
-                    <div class="text-6xl mb-6 animate-float">🛒</div>
-                    <p class="text-gray-500 dark:text-gray-400 text-lg">Seu carrinho está vazio</p>
-                    <p class="text-sm text-gray-400 dark:text-gray-500 mt-2">Adicione produtos para começar</p>
+            <div id="cartItems" class="flex-1 overflow-y-auto px-4 py-4 scrollbar-hide">
+                <div class="text-center py-16">
+                    <div class="text-7xl mb-5 cart-empty-icon">🛒</div>
+                    <h3 class="text-lg font-bold text-gray-700 dark:text-gray-300 mb-1.5">Carrinho vazio</h3>
+                    <p class="text-sm text-gray-400 dark:text-gray-500">Explore os produtos e adicione<br>seus favoritos aqui!</p>
+                    <div class="mt-5 flex justify-center">
+                        <div class="px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
+                            <span>👆</span> Clique em <strong class="text-primary">Comprar</strong> nos produtos
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="border-t p-6">
-                <div class="flex justify-between items-center mb-6">
-                    <span class="text-xl font-bold text-gray-800 dark:text-gray-200">Total:</span>
-                    <span id="cartTotal" class="text-xl font-bold gradient-text">0 Kz</span>
+            <div class="cart-footer-premium px-5 py-4">
+                <div class="flex justify-between items-center mb-3">
+                    <div>
+                        <span class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold">Total</span>
+                        <div id="cartTotal" class="text-2xl font-extrabold gradient-text cart-total-glow leading-tight">0 Kz</div>
+                    </div>
+                    <div id="cartItemsSummary" class="text-right">
+                        <span class="text-xs text-gray-400 dark:text-gray-500">0 itens</span>
+                    </div>
                 </div>
-                <button id="checkoutBtn" class="w-full btn-primary text-white py-4 rounded-xl hover-lift ripple disabled:opacity-50 disabled:cursor-not-allowed font-medium" disabled>
-                    🛒 Finalizar Compra
+                <button id="checkoutBtn" class="w-full btn-primary cart-checkout-btn text-white py-3.5 rounded-xl hover-lift ripple disabled:opacity-50 disabled:cursor-not-allowed font-semibold text-base flex items-center justify-center gap-2" disabled>
+                    <span>💳</span>
+                    <span>Finalizar Compra</span>
                 </button>
             </div>
         </div>
     </div>
 
-    <div id="cartOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+    <div id="cartOverlay" class="fixed inset-0 bg-black bg-opacity-40 z-40 hidden" style="backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);transition:opacity 0.3s ease"></div>
 
     <div id="hiddenCategoriesOverlay" class="hidden-cat-overlay" onclick="if(event.target===this)closeHiddenCategoriesModal()">
         <div class="hidden-cat-panel">
@@ -2917,8 +3725,34 @@
         let categories = [];
         let categoriesData = {};
         let favorites = [];
+        let favoritesLoaded = false;
         let orders = {};
         let notifications = [];
+        function handleImgError(img, size) {
+            var sizeClass = size === 'sm' ? ' placeholder-sm' : size === 'lg' ? ' placeholder-lg' : '';
+            var placeholder = document.createElement('div');
+            placeholder.className = 'img-error-placeholder' + sizeClass;
+            placeholder.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zM8.25 8.625a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z"/></svg>';
+            img.parentNode.replaceChild(placeholder, img);
+        }
+
+        function getAvatarFallback(name) {
+            var initial = name ? name.charAt(0).toUpperCase() : '';
+            var svg;
+            if (initial) {
+                svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="50" fill="#5D5CDE"/><text x="50" y="53" dominant-baseline="central" text-anchor="middle" fill="white" font-family="-apple-system,BlinkMacSystemFont,sans-serif" font-size="44" font-weight="600">' + initial + '</text></svg>';
+            } else {
+                svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="50" fill="#5D5CDE"/><circle cx="50" cy="40" r="14" fill="white" opacity="0.9"/><ellipse cx="50" cy="78" rx="24" ry="16" fill="white" opacity="0.9"/></svg>';
+            }
+            return 'data:image/svg+xml,' + encodeURIComponent(svg);
+        }
+
+        function handleAvatarError(img) {
+            var name = currentUser ? currentUser.displayName : null;
+            img.onerror = null;
+            img.src = getAvatarFallback(name);
+        }
+
         let currentSection = 'home';
         let currentPriceFilter = 'all';
         let productsVisibleLimit = 21;
@@ -2971,8 +3805,8 @@
                 return '<div class="browsing-history-card card-bg rounded-xl border overflow-hidden hover-lift animate-fade-in group cursor-pointer" onclick="showProductDetail(\'' + product.id + '\')">' +
                     '<div class="relative h-20 sm:h-24 bg-gray-200 dark:bg-gray-700">' +
                         (product.image ?
-                            '<img src="' + product.image + '" alt="' + product.name + '" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">' :
-                            '<div class="w-full h-full flex items-center justify-center"><div class="text-2xl text-gray-400 animate-pulse">\uD83D\uDDBC\uFE0F</div></div>'
+                            '<img src="' + product.image + '" alt="' + product.name + '" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" onerror="handleImgError(this,\'sm\')">' :
+                            '<div class="img-error-placeholder placeholder-sm"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zM8.25 8.625a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z"/></svg></div>'
                         ) +
                         (hasDiscount ? '<div class="absolute top-1 left-1 bg-red-500 text-white px-1.5 py-0.5 rounded-full text-[9px] font-bold">-' + discountPercent + '%</div>' : '') +
                         (product.stock === 0 ? '<div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center"><span class="text-white font-bold bg-red-500 px-1.5 py-0.5 rounded-lg text-[9px]">Esgotado</span></div>' : '') +
@@ -3011,8 +3845,8 @@
                 return '<div class="discount-highlight-card card-bg rounded-xl border overflow-hidden hover-lift animate-fade-in group cursor-pointer" onclick="showProductDetail(\'' + product.id + '\')">' +
                     '<div class="relative h-24 sm:h-28 bg-gray-200 dark:bg-gray-700">' +
                         (product.image ?
-                            '<img src="' + product.image + '" alt="' + product.name + '" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">' :
-                            '<div class="w-full h-full flex items-center justify-center"><div class="text-2xl text-gray-400 animate-pulse">\uD83D\uDDBC\uFE0F</div></div>'
+                            '<img src="' + product.image + '" alt="' + product.name + '" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" onerror="handleImgError(this,\'sm\')">' :
+                            '<div class="img-error-placeholder placeholder-sm"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zM8.25 8.625a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z"/></svg></div>'
                         ) +
                         '<div class="absolute top-1 left-1 bg-red-500 text-white px-1.5 py-0.5 rounded-full text-[9px] font-bold">-' + product.discountPercent + '%</div>' +
                         (product.stock === 0 ? '<div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center"><span class="text-white font-bold bg-red-500 px-1.5 py-0.5 rounded-lg text-[9px]">Esgotado</span></div>' : '') +
@@ -3085,8 +3919,8 @@
                     ? '<span class="promo-banner-badge">🔥 -' + discountPercent + '% OFF</span>'
                     : '<span class="promo-banner-badge new-badge">✨ Destaque</span>';
                 var imgHTML = product.image
-                    ? '<img src="' + product.image + '" alt="' + product.name + '" class="promo-banner-slide-img" loading="lazy">'
-                    : '<div class="promo-banner-slide-img-placeholder">🛍️</div>';
+                    ? '<img src="' + product.image + '" alt="' + product.name + '" class="promo-banner-slide-img" loading="lazy" onerror="this.outerHTML=\'<div class=\\\'promo-banner-slide-img-placeholder\\\'><svg xmlns=\\\'http://www.w3.org/2000/svg\\\' fill=\\\'none\\\' viewBox=\\\'0 0 24 24\\\' stroke=\\\'currentColor\\\' stroke-width=\\\'1.5\\\' style=\\\'width:32px;height:32px;opacity:0.4;color:#9ca3af\\\'><path stroke-linecap=\\\'round\\\' stroke-linejoin=\\\'round\\\' d=\\\'M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zM8.25 8.625a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z\\\'/></svg></div>\'">'
+                    : '<div class="promo-banner-slide-img-placeholder"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="width:32px;height:32px;opacity:0.4;color:#9ca3af"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zM8.25 8.625a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z"/></svg></div>';
 
                 return '<div class="promo-banner-slide" data-product-id="' + product.id + '">' +
                     imgHTML +
@@ -4316,7 +5150,7 @@
                     if (currentUser && !isGuest) {
                         loadUserProfile();
                     } else {
-                        document.getElementById('profileAvatar').src = 'https://via.placeholder.com/80?text=👤';
+                        document.getElementById('profileAvatar').src = getAvatarFallback(isGuest ? 'Visitante' : null);
                         document.getElementById('profileName').textContent = isGuest ? 'Visitante' : 'Usuário';
                         document.getElementById('profileEmail').textContent = isGuest ? 'Navegando como visitante' : 'Faça login para ver seu perfil';
                         document.getElementById('userOrders').innerHTML = `
@@ -4714,13 +5548,13 @@
 
                 await updateProfile(user, { 
                     displayName: name,
-                    photoURL: uploadedPhotoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=5D5CDE&color=fff&size=200`
+                    photoURL: uploadedPhotoURL || getAvatarFallback(name)
                 });
 
                 await setDoc(doc(firestore, 'users', user.uid), {
                     name: name,
                     email: email,
-                    photoURL: uploadedPhotoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=5D5CDE&color=fff&size=200`,
+                    photoURL: uploadedPhotoURL || getAvatarFallback(name),
                     createdAt: new Date(),
                     isActive: true
                 });
@@ -4728,7 +5562,7 @@
                 await set(ref(database, `users/${user.uid}`), {
                     name: name,
                     email: email,
-                    photoURL: uploadedPhotoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=5D5CDE&color=fff&size=200`,
+                    photoURL: uploadedPhotoURL || getAvatarFallback(name),
                     createdAt: Date.now(),
                     isActive: true
                 });
@@ -4788,7 +5622,7 @@
             const userMenuContent = document.getElementById('userMenuContent');
 
             if (currentUser) {
-                userAvatar.src = currentUser.photoURL || 'https://via.placeholder.com/32?text=' + (currentUser.displayName?.charAt(0) || '👤');
+                userAvatar.src = currentUser.photoURL || getAvatarFallback(currentUser.displayName);
                 userName.textContent = currentUser.displayName || currentUser.email;
 
                 userMenuContent.innerHTML = `
@@ -4866,6 +5700,7 @@
                         await signOut(auth);
                         cart = [];
                         favorites = [];
+                        favoritesLoaded = false;
                         orders = {};
                         notifications = [];
                         updateCartUI();
@@ -4875,7 +5710,7 @@
                 });
 
             } else if (isGuest) {
-                userAvatar.src = 'https://via.placeholder.com/32?text=👤';
+                userAvatar.src = getAvatarFallback(null);
                 userName.textContent = 'Visitante';
 
                 userMenuContent.innerHTML = `
@@ -4970,7 +5805,7 @@
             setTimeout(() => {
                 cartSidebar.classList.add('translate-x-full');
                 cartOverlay.classList.add('hidden');
-            }, 300);
+            }, 420);
         }
 
         document.getElementById('homeBtn')?.addEventListener('click', () => showSection('home'));
@@ -5156,10 +5991,12 @@
 
         function loadFavorites() {
             if (currentUser) {
+                favoritesLoaded = false;
                 const favoritesRef = ref(database, `favorites/${currentUser.uid}`);
                 onValue(favoritesRef, (snapshot) => {
                     const favoritesData = snapshot.val() || {};
                     favorites = Object.keys(favoritesData);
+                    favoritesLoaded = true;
                     console.log('Favorites loaded:', favorites.length);
                     renderFavorites();
                     if (currentSection === 'home') {
@@ -5177,7 +6014,7 @@
                 const profileName = document.getElementById('profileName');
                 const profileEmail = document.getElementById('profileEmail');
 
-                profileAvatar.src = currentUser.photoURL || 'https://via.placeholder.com/80?text=' + (currentUser.displayName?.charAt(0) || '👤');
+                profileAvatar.src = currentUser.photoURL || getAvatarFallback(currentUser.displayName);
                 profileName.textContent = currentUser.displayName || 'Usuário';
                 profileEmail.textContent = currentUser.email;
 
@@ -5263,10 +6100,8 @@
                      onclick="showProductDetail('${product.id}')">
                     <div class="relative h-28 sm:h-32 bg-gray-200 dark:bg-gray-700">
                         ${product.image ?
-                            `<img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">` :
-                            `<div class="w-full h-full flex items-center justify-center">
-                                <div class="text-2xl text-gray-400 animate-pulse">🖼️</div>
-                            </div>`
+                            `<img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" onerror="handleImgError(this)">` :
+                            `<div class="img-error-placeholder"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zM8.25 8.625a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z"/></svg></div>`
                         }
                         <button onclick="event.stopPropagation(); toggleFavorite('${product.id}')"
                                 class="absolute top-1.5 right-1.5 w-7 h-7 rounded-full bg-white/80 dark:bg-black/50 flex items-center justify-center hover:scale-110 transition-transform shadow-sm backdrop-blur-sm"
@@ -5293,7 +6128,7 @@
                             ${hasDiscount ? `<span class="text-[10px] text-gray-400 line-through">${formatPrice(product.oldPrice)}</span>` : ''}
                         </div>
 
-                        <button onclick="event.stopPropagation(); addToCart('${product.id}')"
+                        <button onclick="event.stopPropagation(); addToCart('${product.id}', this)"
                                 class="w-full btn-primary text-white py-1.5 rounded-lg hover-lift ripple text-xs ${product.stock === 0 ? 'opacity-50 cursor-not-allowed' : ''}"
                                 ${product.stock === 0 ? 'disabled' : ''}>
                             <span class="mr-1">🛒</span>${product.stock === 0 ? 'Esgotado' : 'Comprar'}
@@ -5333,6 +6168,17 @@
             });
         }
 
+        function getFavoritesSkeletonHTML(count) {
+            let html = '';
+            for (let i = 0; i < count; i++) {
+                html += `<div class="product-skeleton product-skeleton-enter" style="animation-delay:${(i * 0.08).toFixed(2)}s">
+                    <div class="sk-img"><div class="sk-fav sk-fav-heart"><span>❤️</span></div><div class="sk-img-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg></div></div>
+                    <div class="sk-body"><div class="sk-line sk-title"></div><div class="sk-line sk-title-2"></div><div class="sk-line sk-cat"></div><div class="sk-price"></div><div class="sk-btn"></div></div>
+                </div>`;
+            }
+            return html;
+        }
+
         function renderFavorites() {
             const favoritesGrid = document.getElementById('favoritesGrid');
 
@@ -5344,6 +6190,11 @@
                         <p class="text-gray-500 dark:text-gray-400">Faça login para ver seus favoritos</p>
                     </div>
                 `;
+                return;
+            }
+
+            if (!favoritesLoaded) {
+                favoritesGrid.innerHTML = getFavoritesSkeletonHTML(6);
                 return;
             }
 
@@ -5385,10 +6236,8 @@
                      onclick="showProductDetail('${product.id}')">
                     <div class="relative h-28 sm:h-32 bg-gray-200 dark:bg-gray-700">
                         ${product.image ?
-                            `<img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">` :
-                            `<div class="w-full h-full flex items-center justify-center">
-                                <div class="text-2xl text-gray-400 animate-pulse">🖼️</div>
-                            </div>`
+                            `<img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" onerror="handleImgError(this)">` :
+                            `<div class="img-error-placeholder"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zM8.25 8.625a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z"/></svg></div>`
                         }
                         <button onclick="event.stopPropagation(); toggleFavorite('${product.id}')"
                                 class="absolute top-1.5 right-1.5 w-7 h-7 rounded-full bg-white/80 dark:bg-black/50 flex items-center justify-center hover:scale-110 transition-transform shadow-sm backdrop-blur-sm"
@@ -5415,7 +6264,7 @@
                             ${hasDiscount ? `<span class="text-[10px] text-gray-400 line-through">${formatPrice(product.oldPrice)}</span>` : ''}
                         </div>
 
-                        <button onclick="event.stopPropagation(); addToCart('${product.id}')"
+                        <button onclick="event.stopPropagation(); addToCart('${product.id}', this)"
                                 class="w-full btn-primary text-white py-1.5 rounded-lg hover-lift ripple text-xs ${product.stock === 0 ? 'opacity-50 cursor-not-allowed' : ''}"
                                 ${product.stock === 0 ? 'disabled' : ''}>
                             <span class="mr-1">🛒</span>${product.stock === 0 ? 'Esgotado' : 'Comprar'}
@@ -5570,7 +6419,127 @@
         const cartTotal = document.getElementById('cartTotal');
         const footerCartCount = document.getElementById('footerCartCount');
 
-        window.addToCart = function(productId) {
+        /* --- Animation helpers for addToCart --- */
+        function createParticleBurst(x, y) {
+            const colors = ['#5D5CDE','#7B7AE8','#10b981','#f59e0b','#ef4444','#ec4899','#8b5cf6'];
+            for (let i = 0; i < 12; i++) {
+                const p = document.createElement('div');
+                p.className = 'buy-particle';
+                const size = 4 + Math.random() * 6;
+                const angle = (Math.PI * 2 * i) / 12 + (Math.random() - 0.5) * 0.5;
+                const dist = 30 + Math.random() * 50;
+                const dx = Math.cos(angle) * dist;
+                const dy = Math.sin(angle) * dist;
+                const c = colors[Math.floor(Math.random() * colors.length)];
+                p.style.cssText = `left:${x - size/2}px;top:${y - size/2}px;width:${size}px;height:${size}px;background:${c};`;
+                p.style.animation = `particleBurst ${0.4 + Math.random()*0.3}s cubic-bezier(0.25,0.46,0.45,0.94) forwards`;
+                p.style.setProperty('--dx', dx + 'px');
+                p.style.setProperty('--dy', dy + 'px');
+                const kf = [
+                    { transform: 'translate(0,0) scale(1)', opacity: 1 },
+                    { transform: `translate(${dx}px,${dy}px) scale(0)`, opacity: 0 }
+                ];
+                document.body.appendChild(p);
+                p.animate(kf, { duration: 400 + Math.random()*300, easing: 'cubic-bezier(0.25,0.46,0.45,0.94)', fill: 'forwards' })
+                 .onfinish = () => p.remove();
+            }
+        }
+
+        function createConfettiBurst(x, y) {
+            const shapes = ['circle','square','triangle'];
+            const colors = ['#5D5CDE','#7B7AE8','#10b981','#f59e0b','#ef4444','#ec4899','#06b6d4','#8b5cf6'];
+            for (let i = 0; i < 16; i++) {
+                const c = document.createElement('div');
+                c.className = 'confetti-piece';
+                const col = colors[Math.floor(Math.random() * colors.length)];
+                const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                const sz = 5 + Math.random() * 7;
+                let borderRad = '0';
+                if (shape === 'circle') borderRad = '50%';
+                else if (shape === 'triangle') {
+                    c.style.width = '0';
+                    c.style.height = '0';
+                    c.style.borderLeft = `${sz/2}px solid transparent`;
+                    c.style.borderRight = `${sz/2}px solid transparent`;
+                    c.style.borderBottom = `${sz}px solid ${col}`;
+                    c.style.background = 'none';
+                }
+                if (shape !== 'triangle') {
+                    c.style.width = sz + 'px';
+                    c.style.height = sz + 'px';
+                    c.style.background = col;
+                    c.style.borderRadius = borderRad;
+                }
+                const spreadX = (Math.random() - 0.5) * 120;
+                c.style.left = (x + spreadX) + 'px';
+                c.style.top = (y - 10) + 'px';
+                document.body.appendChild(c);
+                const fallDist = 60 + Math.random() * 100;
+                const drift = (Math.random() - 0.5) * 60;
+                const dur = 600 + Math.random() * 500;
+                c.animate([
+                    { transform: 'translateY(0) rotate(0deg) scale(1)', opacity: 1 },
+                    { transform: `translate(${drift}px, ${fallDist}px) rotate(${360 + Math.random()*360}deg) scale(0.2)`, opacity: 0 }
+                ], { duration: dur, easing: 'cubic-bezier(0.25,0.46,0.45,0.94)', fill: 'forwards' })
+                .onfinish = () => c.remove();
+            }
+        }
+
+        function flyToCartAnimation(btnEl) {
+            const cartIcon = document.getElementById('footerCartBtn');
+            if (!btnEl || !cartIcon) return;
+            const btnRect = btnEl.getBoundingClientRect();
+            const cartRect = cartIcon.getBoundingClientRect();
+            const startX = btnRect.left + btnRect.width / 2 - 22;
+            const startY = btnRect.top + btnRect.height / 2 - 22;
+            const endX = cartRect.left + cartRect.width / 2 - 22;
+            const endY = cartRect.top + cartRect.height / 2 - 22;
+
+            const flyer = document.createElement('div');
+            flyer.className = 'fly-to-cart-item';
+            flyer.textContent = '🛒';
+            flyer.style.left = startX + 'px';
+            flyer.style.top = startY + 'px';
+            flyer.style.transform = 'scale(1)';
+            document.body.appendChild(flyer);
+
+            createParticleBurst(btnRect.left + btnRect.width/2, btnRect.top + btnRect.height/2);
+            createConfettiBurst(btnRect.left + btnRect.width/2, btnRect.top + btnRect.height/2);
+
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    flyer.classList.add('flying');
+                    flyer.style.left = endX + 'px';
+                    flyer.style.top = endY + 'px';
+                    flyer.style.transform = 'scale(0.3)';
+                    flyer.style.opacity = '0.6';
+                });
+            });
+
+            setTimeout(() => {
+                flyer.remove();
+                if (footerCartCount) {
+                    footerCartCount.classList.remove('cart-badge-pop');
+                    void footerCartCount.offsetWidth;
+                    footerCartCount.classList.add('cart-badge-pop');
+                }
+                cartIcon.style.transform = 'scale(1.25)';
+                setTimeout(() => { cartIcon.style.transform = 'scale(1)'; }, 200);
+            }, 680);
+        }
+
+        function animateBuyButton(btnEl) {
+            if (!btnEl) return;
+            const origHTML = btnEl.innerHTML;
+            btnEl.classList.add('buy-btn-success');
+            btnEl.innerHTML = '<span style="animation:buyBtnCheckmark 0.4s ease forwards;display:inline-block;">✓ Adicionado!</span>';
+            setTimeout(() => {
+                btnEl.classList.remove('buy-btn-success');
+                btnEl.innerHTML = origHTML;
+            }, 900);
+        }
+
+        window.addToCart = function(productId, btnElement) {
             const product = products[productId];
             if (!product || product.stock === 0) return;
 
@@ -5585,16 +6554,29 @@
 
             safeStorage.setItem('guestCart', JSON.stringify(cart));
 
+            if (btnElement) {
+                flyToCartAnimation(btnElement);
+                animateBuyButton(btnElement);
+            }
+
             updateCartUI();
             showNotificationToast('Carrinho', 'Produto adicionado ao carrinho!', 'success');
         };
 
         function removeFromCart(productId) {
-            cart = cart.filter(item => item.id !== productId);
-
-            safeStorage.setItem('guestCart', JSON.stringify(cart));
-
-            updateCartUI();
+            const card = document.querySelector(`[data-cart-item-id="${productId}"]`);
+            if (card) {
+                card.classList.add('cart-item-removing');
+                setTimeout(() => {
+                    cart = cart.filter(item => item.id !== productId);
+                    safeStorage.setItem('guestCart', JSON.stringify(cart));
+                    updateCartUI();
+                }, 350);
+            } else {
+                cart = cart.filter(item => item.id !== productId);
+                safeStorage.setItem('guestCart', JSON.stringify(cart));
+                updateCartUI();
+            }
         }
 
         function updateQuantity(productId, change) {
@@ -5623,6 +6605,11 @@
             cartTotal.textContent = formatPrice(totalPrice);
             checkoutBtn.disabled = cart.length === 0;
 
+            const cartHeaderCount = document.getElementById('cartHeaderCount');
+            const cartItemsSummary = document.getElementById('cartItemsSummary');
+            if (cartHeaderCount) cartHeaderCount.textContent = totalItems + (totalItems === 1 ? ' item' : ' itens');
+            if (cartItemsSummary) cartItemsSummary.innerHTML = `<span class="text-xs text-gray-400 dark:text-gray-500">${totalItems} ${totalItems === 1 ? 'item' : 'itens'}</span>`;
+
             if (totalItems > 0) {
                 footerCartCount.classList.remove('hidden');
                 footerCartCount.classList.add('bounce-anim');
@@ -5635,39 +6622,44 @@
 
             if (cart.length === 0) {
                 cartItems.innerHTML = `
-                    <div class="text-center py-20 animate-fade-in">
-                        <div class="text-8xl mb-6 animate-float">🛒</div>
-                        <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">Carrinho vazio</h3>
-                        <p class="text-gray-500 dark:text-gray-400">Adicione produtos para começar suas compras</p>
+                    <div class="text-center py-16 animate-fade-in">
+                        <div class="text-7xl mb-5 cart-empty-icon">🛒</div>
+                        <h3 class="text-lg font-bold text-gray-700 dark:text-gray-300 mb-1.5">Carrinho vazio</h3>
+                        <p class="text-sm text-gray-400 dark:text-gray-500">Explore os produtos e adicione<br>seus favoritos aqui!</p>
+                        <div class="mt-5 flex justify-center">
+                            <div class="px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
+                                <span>👆</span> Clique em <strong class="text-primary">Comprar</strong> nos produtos
+                            </div>
+                        </div>
                     </div>
                 `;
             } else {
-                cartItems.innerHTML = cart.map(item => `
-                    <div class="flex items-center space-x-4 py-4 border-b border-gray-200 dark:border-gray-700 last:border-b-0 animate-fade-in hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors px-2">
-                        <div class="flex-shrink-0 w-16 h-16 bg-gray-200 dark:bg-gray-600 rounded-xl overflow-hidden">
-                            ${item.image ? 
-                                `<img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">` :
-                                `<div class="w-full h-full flex items-center justify-center text-gray-400 text-xl">
-                                    🖼️
-                                </div>`
-                            }
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="font-medium text-gray-900 dark:text-gray-100 truncate">${item.name}</p>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">${formatPrice(item.price)}</p>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button onclick="updateQuantity('${item.id}', -1)" class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center hover-lift">
-                                ➖
-                            </button>
-                            <span class="w-8 text-center font-medium">${item.quantity}</span>
-                            <button onclick="updateQuantity('${item.id}', 1)" class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center hover-lift">
-                                ➕
+                cartItems.innerHTML = cart.map((item, idx) => `
+                    <div class="cart-item-card cart-item-enter" data-cart-item-id="${item.id}" style="animation-delay:${(idx * 0.06).toFixed(2)}s">
+                        <div class="flex items-start gap-3">
+                            <div class="flex-shrink-0 w-14 h-14 rounded-xl overflow-hidden bg-gray-200 dark:bg-gray-600 shadow-sm">
+                                ${item.image ?
+                                    `<img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover" onerror="handleImgError(this,'sm')">` :
+                                    `<div class="img-error-placeholder placeholder-sm"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zM8.25 8.625a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z"/></svg></div>`
+                                }
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="font-semibold text-gray-800 dark:text-gray-100 text-sm truncate leading-tight">${item.name}</p>
+                                <p class="text-xs font-bold gradient-text mt-0.5">${formatPrice(item.price)}</p>
+                                <p class="text-[10px] text-gray-400 dark:text-gray-500 mt-0.5">Subtotal: ${formatPrice(item.price * item.quantity)}</p>
+                            </div>
+                            <button onclick="removeFromCart('${item.id}')" class="cart-remove-btn flex-shrink-0" title="Remover">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
                             </button>
                         </div>
-                        <button onclick="removeFromCart('${item.id}')" class="text-red-500 hover:text-red-700 hover-lift p-2">
-                            🗑️
-                        </button>
+                        <div class="flex items-center justify-between mt-2.5 pt-2.5 border-t border-gray-100 dark:border-gray-700">
+                            <span class="text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-wider font-medium">Quantidade</span>
+                            <div class="flex items-center gap-2.5">
+                                <button onclick="updateQuantity('${item.id}', -1)" class="cart-qty-btn">−</button>
+                                <span class="w-7 text-center font-bold text-sm text-gray-800 dark:text-gray-200">${item.quantity}</span>
+                                <button onclick="updateQuantity('${item.id}', 1)" class="cart-qty-btn">+</button>
+                            </div>
+                        </div>
                     </div>
                 `).join('');
             }
@@ -5725,9 +6717,9 @@
             }
 
             if (product.image) {
-                detailImage.innerHTML = `<img src="${product.image}" alt="${product.name}" class="w-full h-full object-contain rounded-2xl">`;
+                detailImage.innerHTML = `<img src="${product.image}" alt="${product.name}" class="w-full h-full object-contain rounded-2xl" onerror="handleImgError(this,'lg')">`;
             } else {
-                detailImage.innerHTML = '<div class="text-6xl text-gray-400">🖼️</div>';
+                detailImage.innerHTML = '<div class="img-error-placeholder placeholder-lg"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zM8.25 8.625a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z"/></svg></div>';
             }
 
             window._currentDetailProductId = productId;
@@ -5737,9 +6729,9 @@
             detailFavoriteBtn.onclick = () => toggleFavorite(productId);
             detailFavoriteBtn.style.display = '';
 
-            detailAddToCartBtn.onclick = () => {
+            detailAddToCartBtn.onclick = function() {
                 if (product.stock > 0) {
-                    addToCart(productId);
+                    addToCart(productId, this);
                     closeProductDetail();
                 }
             };
@@ -6089,7 +7081,7 @@
             }
 
             const profilePicturePreview = document.getElementById('profilePicturePreview');
-            profilePicturePreview.src = currentUser.photoURL || 'https://via.placeholder.com/128?text=👤';
+            profilePicturePreview.src = currentUser.photoURL || getAvatarFallback(currentUser.displayName);
             uploadedPhotoURL = null;
             document.getElementById('saveProfilePictureBtn').disabled = true;
             const ppModal = document.getElementById('profilePictureModal');
@@ -6961,4 +7953,5 @@ function showPersonalizeToast(hiddenCount) {
 </script>
 </body>
 </html>
+
 
