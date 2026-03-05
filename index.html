@@ -86,221 +86,40 @@
     (function() {
         var ua = navigator.userAgent || navigator.vendor || window.opera || '';
         var isWebView = false;
-        var detectedSource = '';
         var webviewPatterns = [
-            { regex: /\bwv\b/, name: 'Android WebView' },
-            { regex: /WebView/i, name: 'WebView genérico' },
-            { regex: /FBAN|FBAV/i, name: 'Facebook' },
-            { regex: /Instagram/i, name: 'Instagram' },
-            { regex: /Twitter|X\//i, name: 'Twitter/X' },
-            { regex: /Line\//i, name: 'Line' },
-            { regex: /MicroMessenger/i, name: 'WeChat' },
-            { regex: /Snapchat/i, name: 'Snapchat' },
-            { regex: /Pinterest/i, name: 'Pinterest' },
-            { regex: /TikTok|BytedanceWebview|musical_ly/i, name: 'TikTok' },
-            { regex: /Telegram/i, name: 'Telegram' },
-            { regex: /WhatsApp/i, name: 'WhatsApp' },
-            { regex: /GSA\//i, name: 'Google App' },
-            { regex: /LinkedIn/i, name: 'LinkedIn' }
+            /\bwv\b/,
+            /WebView/i,
+            /FBAN|FBAV/i,
+            /Instagram/i,
+            /Twitter|X\//i,
+            /Line\//i,
+            /MicroMessenger/i,
+            /Snapchat/i,
+            /Pinterest/i,
+            /TikTok|BytedanceWebview|musical_ly/i,
+            /Telegram/i,
+            /WhatsApp/i,
+            /GSA\//i,
+            /LinkedIn/i
         ];
         for (var i = 0; i < webviewPatterns.length; i++) {
-            if (webviewPatterns[i].regex.test(ua)) {
-                isWebView = true;
-                detectedSource = webviewPatterns[i].name;
-                break;
-            }
+            if (webviewPatterns[i].test(ua)) { isWebView = true; break; }
         }
         if (!isWebView && /iPhone|iPod|iPad/i.test(ua)) {
-            if (!/Safari/i.test(ua) && /AppleWebKit/i.test(ua)) {
-                isWebView = true;
-                detectedSource = 'iOS WebView';
-            }
+            if (!/Safari/i.test(ua) && /AppleWebKit/i.test(ua)) { isWebView = true; }
         }
         if (!isWebView && /Android/i.test(ua)) {
-            if (/; wv\)/.test(ua) || (/Version\/[\d.]+/.test(ua) && !/Chrome\/[\d.]+/.test(ua))) {
-                isWebView = true;
-                detectedSource = 'Android WebView';
-            }
+            if (/; wv\)/.test(ua) || (/Version\/[\d.]+/.test(ua) && !/Chrome\/[\d.]+/.test(ua))) { isWebView = true; }
         }
-
-        window.isWebView = isWebView;
-        window.webviewSource = detectedSource;
 
         if (isWebView) {
             document.documentElement.classList.add('is-webview');
-        }
-
-        window.openInExternalBrowser = function(url) {
-            if (!url) return false;
-
-            var fullUrl = url;
-            if (!/^https?:\/\//i.test(url)) {
-                var base = window.location.origin + window.location.pathname;
-                base = base.substring(0, base.lastIndexOf('/') + 1);
-                fullUrl = base + url;
-            }
-
-            var isAndroid = /Android/i.test(ua);
-            var isIOS = /iPhone|iPod|iPad/i.test(ua);
-
-            if (isAndroid) {
-                try {
-                    var intentUrl = 'intent://' + fullUrl.replace(/^https?:\/\//i, '') +
-                        '#Intent;scheme=https;action=android.intent.action.VIEW;end';
-                    window.location.href = intentUrl;
-                    return true;
-                } catch (e) {}
-
-                try {
-                    window.open(fullUrl, '_system');
-                    return true;
-                } catch (e) {}
-            }
-
-            if (isIOS) {
-                try {
-                    window.open(fullUrl, '_blank');
-                    return true;
-                } catch (e) {}
-
-                try {
-                    var safariUrl = 'x-safari-' + fullUrl;
-                    window.location.href = safariUrl;
-                    return true;
-                } catch (e) {}
-            }
-
-            try {
-                var a = document.createElement('a');
-                a.href = fullUrl;
-                a.target = '_blank';
-                a.rel = 'noopener noreferrer';
-                a.style.display = 'none';
-                document.body.appendChild(a);
-                a.click();
-                setTimeout(function() { document.body.removeChild(a); }, 100);
-                return true;
-            } catch (e) {}
-
-            try {
-                window.location.href = fullUrl;
-                return true;
-            } catch (e) {}
-
-            return false;
-        };
-
-        window.openPremiumInBrowser = function() {
-            return window.openInExternalBrowser('premium.html');
-        };
-
-        if (isWebView) {
-            document.addEventListener('DOMContentLoaded', function() {
-                var banner = document.createElement('div');
-                banner.id = 'webviewBanner';
-                banner.innerHTML =
-                    '<div class="wv-banner-content">' +
-                        '<div class="wv-banner-icon">' +
-                            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-                                '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>' +
-                                '<polyline points="15 3 21 3 21 9"/>' +
-                                '<line x1="10" y1="14" x2="21" y2="3"/>' +
-                            '</svg>' +
-                        '</div>' +
-                        '<div class="wv-banner-text">' +
-                            '<strong>Abrir no navegador</strong>' +
-                            '<span>Para uma experiência completa, abra no seu navegador.</span>' +
-                        '</div>' +
-                        '<button class="wv-banner-btn" onclick="window.openPremiumInBrowser()">' +
-                            'Abrir' +
-                        '</button>' +
-                        '<button class="wv-banner-close" onclick="this.closest(\'#webviewBanner\').style.display=\'none\'">' +
-                            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
-                        '</button>' +
-                    '</div>';
-                document.body.prepend(banner);
-            });
+            window.location.href = 'https://kuia-shop.vercel.app/premium.html';
+            return;
         }
     })();
     </script>
     <style>
-        #webviewBanner {
-            display: block;
-            background: linear-gradient(135deg, #5D5CDE 0%, #4845BE 100%);
-            color: #fff;
-            padding: 10px 12px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            z-index: 99999;
-            position: relative;
-        }
-        .dark #webviewBanner {
-            background: linear-gradient(135deg, #4845BE 0%, #3632A0 100%);
-        }
-        .wv-banner-content {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .wv-banner-icon {
-            flex-shrink: 0;
-            background: rgba(255,255,255,0.2);
-            border-radius: 8px;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .wv-banner-text {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 1px;
-            font-size: 13px;
-            line-height: 1.3;
-        }
-        .wv-banner-text strong {
-            font-size: 14px;
-            font-weight: 700;
-        }
-        .wv-banner-text span {
-            opacity: 0.85;
-            font-size: 12px;
-        }
-        .wv-banner-btn {
-            flex-shrink: 0;
-            background: #fff;
-            color: #4845BE;
-            border: none;
-            padding: 7px 16px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 13px;
-            cursor: pointer;
-            transition: transform 0.15s, box-shadow 0.15s;
-        }
-        .wv-banner-btn:active {
-            transform: scale(0.95);
-        }
-        .wv-banner-close {
-            flex-shrink: 0;
-            background: none;
-            border: none;
-            color: rgba(255,255,255,0.7);
-            cursor: pointer;
-            padding: 4px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.2s;
-        }
-        .wv-banner-close:hover {
-            background: rgba(255,255,255,0.15);
-            color: #fff;
-        }
 
         .is-webview #btnGetApp,
         .is-webview #googleLoginBtn {
@@ -1715,7 +1534,6 @@
             min-width: 0 !important;
         }
 
-        /* ===== PROMO BANNER CAROUSEL ===== */
         .promo-banner-wrapper {
             position: relative;
             width: 100%;
@@ -2258,10 +2076,8 @@
 
             <div id="homeSection" class="space-y-8">
 
-                <!-- PROMO BANNER CAROUSEL -->
                 <div id="promoBannerSection" class="promo-banner-wrapper">
                     <div id="promoBannerTrack" class="promo-banner-track">
-                        <!-- Shimmer loading placeholder -->
                         <div class="promo-banner-slide">
                             <div class="promo-banner-shimmer">
                                 <div class="promo-banner-shimmer-img"></div>
@@ -2603,13 +2419,15 @@
                                 </div>
                                 <svg class="w-5 h-5 text-gray-400 ml-auto group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </a>
-                             <a href="/cdn-cgi/l/email-protection#3e554b575f4d56514e097e59535f5752105d5153" flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800 60 hover:bg-primary 5 dark:hover:bg-primary 10 transition-all group">
+                             <a href="/cdn-cgi/l/email-protection#f398869a92809b9c83c4b3949e929a9fdd909c9e" class="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60 hover:bg-primary/5 dark:hover:bg-primary/10 transition-all group">
+                                <div class="w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-2xl">
+                                    📧
                                 </div>
                                 <div>
-                                    
                                     <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Email de Suporte</p>
-                                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200"><span class="__cf_email__" data-cfemail="fd9688949c8e95928dcabd9a909c9491d39e9290"><span class="__cf_email__" data-cfemail="2e455b474f5d46415e196e49434f4742004d4143"><span class="__cf_email__" data-cfemail="bcd7c9d5ddcfd4d3cc8bfcdbd1ddd5d092dfd3d1"><a href="/cdn-cgi/l/email-protection#6b001e020a1803041b5c2b0c060a0207450804064b08070a181856" __cf_email__" data-cfemail="1c5769757d6f74736c2b5c7b717d7570327f7371"><span class="__cf_email__" data-cfemail="6d2638242c3e25223d5a2d2a202c2421432e2220">[email&#160;protected]</span></a></span></span></span></p>
+                                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200"><span class="__cf_email__" data-cfemail="d8b3adb1b9abb0b7a8ef98bfb5b9b1b4f6bbb7b5">[email&#160;protected]</span></p>
                                 </div>
+                                <svg class="w-5 h-5 text-gray-400 ml-auto group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                                </a>
                         </div>
                     </div>
@@ -3027,7 +2845,7 @@
         </div>
     </div>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
         
         console.log('🚀 Iniciando Kuia+ Shop...');
         document.getElementById('loadingStatus').textContent = 'Carregando Firebase';
@@ -3266,7 +3084,6 @@
             }).join('');
         }
 
-        /* ===== PROMO BANNER CAROUSEL LOGIC ===== */
         let promoBannerIndex = 0;
         let promoBannerInterval = null;
         let promoBannerSlides = [];
