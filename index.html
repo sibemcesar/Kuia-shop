@@ -86,37 +86,222 @@
     (function() {
         var ua = navigator.userAgent || navigator.vendor || window.opera || '';
         var isWebView = false;
+        var detectedSource = '';
         var webviewPatterns = [
-            /\bwv\b/,
-            /WebView/i,
-            /FBAN|FBAV/i,
-            /Instagram/i,
-            /Twitter|X\//i,
-            /Line\//i,
-            /MicroMessenger/i,
-            /Snapchat/i,
-            /Pinterest/i,
-            /TikTok|BytedanceWebview|musical_ly/i,
-            /Telegram/i,
-            /WhatsApp/i,
-            /GSA\//i,
-            /LinkedIn/i
+            { regex: /\bwv\b/, name: 'Android WebView' },
+            { regex: /WebView/i, name: 'WebView genérico' },
+            { regex: /FBAN|FBAV/i, name: 'Facebook' },
+            { regex: /Instagram/i, name: 'Instagram' },
+            { regex: /Twitter|X\//i, name: 'Twitter/X' },
+            { regex: /Line\//i, name: 'Line' },
+            { regex: /MicroMessenger/i, name: 'WeChat' },
+            { regex: /Snapchat/i, name: 'Snapchat' },
+            { regex: /Pinterest/i, name: 'Pinterest' },
+            { regex: /TikTok|BytedanceWebview|musical_ly/i, name: 'TikTok' },
+            { regex: /Telegram/i, name: 'Telegram' },
+            { regex: /WhatsApp/i, name: 'WhatsApp' },
+            { regex: /GSA\//i, name: 'Google App' },
+            { regex: /LinkedIn/i, name: 'LinkedIn' }
         ];
         for (var i = 0; i < webviewPatterns.length; i++) {
-            if (webviewPatterns[i].test(ua)) { isWebView = true; break; }
+            if (webviewPatterns[i].regex.test(ua)) {
+                isWebView = true;
+                detectedSource = webviewPatterns[i].name;
+                break;
+            }
         }
         if (!isWebView && /iPhone|iPod|iPad/i.test(ua)) {
-            if (!/Safari/i.test(ua) && /AppleWebKit/i.test(ua)) { isWebView = true; }
+            if (!/Safari/i.test(ua) && /AppleWebKit/i.test(ua)) {
+                isWebView = true;
+                detectedSource = 'iOS WebView';
+            }
         }
         if (!isWebView && /Android/i.test(ua)) {
-            if (/; wv\)/.test(ua) || (/Version\/[\d.]+/.test(ua) && !/Chrome\/[\d.]+/.test(ua))) { isWebView = true; }
+            if (/; wv\)/.test(ua) || (/Version\/[\d.]+/.test(ua) && !/Chrome\/[\d.]+/.test(ua))) {
+                isWebView = true;
+                detectedSource = 'Android WebView';
+            }
         }
-        if (isWebView) { document.documentElement.classList.add('is-webview'); }
+
+        window.isWebView = isWebView;
+        window.webviewSource = detectedSource;
+
+        if (isWebView) {
+            document.documentElement.classList.add('is-webview');
+        }
+
+        window.openInExternalBrowser = function(url) {
+            if (!url) return false;
+
+            var fullUrl = url;
+            if (!/^https?:\/\//i.test(url)) {
+                var base = window.location.origin + window.location.pathname;
+                base = base.substring(0, base.lastIndexOf('/') + 1);
+                fullUrl = base + url;
+            }
+
+            var isAndroid = /Android/i.test(ua);
+            var isIOS = /iPhone|iPod|iPad/i.test(ua);
+
+            if (isAndroid) {
+                try {
+                    var intentUrl = 'intent://' + fullUrl.replace(/^https?:\/\//i, '') +
+                        '#Intent;scheme=https;action=android.intent.action.VIEW;end';
+                    window.location.href = intentUrl;
+                    return true;
+                } catch (e) {}
+
+                try {
+                    window.open(fullUrl, '_system');
+                    return true;
+                } catch (e) {}
+            }
+
+            if (isIOS) {
+                try {
+                    window.open(fullUrl, '_blank');
+                    return true;
+                } catch (e) {}
+
+                try {
+                    var safariUrl = 'x-safari-' + fullUrl;
+                    window.location.href = safariUrl;
+                    return true;
+                } catch (e) {}
+            }
+
+            try {
+                var a = document.createElement('a');
+                a.href = fullUrl;
+                a.target = '_blank';
+                a.rel = 'noopener noreferrer';
+                a.style.display = 'none';
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(function() { document.body.removeChild(a); }, 100);
+                return true;
+            } catch (e) {}
+
+            try {
+                window.location.href = fullUrl;
+                return true;
+            } catch (e) {}
+
+            return false;
+        };
+
+        window.openPremiumInBrowser = function() {
+            return window.openInExternalBrowser('premium.html');
+        };
+
+        if (isWebView) {
+            document.addEventListener('DOMContentLoaded', function() {
+                var banner = document.createElement('div');
+                banner.id = 'webviewBanner';
+                banner.innerHTML =
+                    '<div class="wv-banner-content">' +
+                        '<div class="wv-banner-icon">' +
+                            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+                                '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>' +
+                                '<polyline points="15 3 21 3 21 9"/>' +
+                                '<line x1="10" y1="14" x2="21" y2="3"/>' +
+                            '</svg>' +
+                        '</div>' +
+                        '<div class="wv-banner-text">' +
+                            '<strong>Abrir no navegador</strong>' +
+                            '<span>Para uma experiência completa, abra no seu navegador.</span>' +
+                        '</div>' +
+                        '<button class="wv-banner-btn" onclick="window.openPremiumInBrowser()">' +
+                            'Abrir' +
+                        '</button>' +
+                        '<button class="wv-banner-close" onclick="this.closest(\'#webviewBanner\').style.display=\'none\'">' +
+                            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
+                        '</button>' +
+                    '</div>';
+                document.body.prepend(banner);
+            });
+        }
     })();
     </script>
     <style>
+        #webviewBanner {
+            display: block;
+            background: linear-gradient(135deg, #5D5CDE 0%, #4845BE 100%);
+            color: #fff;
+            padding: 10px 12px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            z-index: 99999;
+            position: relative;
+        }
+        .dark #webviewBanner {
+            background: linear-gradient(135deg, #4845BE 0%, #3632A0 100%);
+        }
+        .wv-banner-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .wv-banner-icon {
+            flex-shrink: 0;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .wv-banner-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            font-size: 13px;
+            line-height: 1.3;
+        }
+        .wv-banner-text strong {
+            font-size: 14px;
+            font-weight: 700;
+        }
+        .wv-banner-text span {
+            opacity: 0.85;
+            font-size: 12px;
+        }
+        .wv-banner-btn {
+            flex-shrink: 0;
+            background: #fff;
+            color: #4845BE;
+            border: none;
+            padding: 7px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .wv-banner-btn:active {
+            transform: scale(0.95);
+        }
+        .wv-banner-close {
+            flex-shrink: 0;
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        .wv-banner-close:hover {
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+        }
 
-        
         .is-webview #btnGetApp,
         .is-webview #googleLoginBtn {
             display: none !important;
@@ -189,6 +374,13 @@
         .browsing-history-card {
             min-width: 120px;
             max-width: 140px;
+            flex-shrink: 0;
+            scroll-snap-align: start;
+        }
+
+        .discount-highlight-card {
+            min-width: 140px;
+            max-width: 160px;
             flex-shrink: 0;
             scroll-snap-align: start;
         }
@@ -1522,6 +1714,294 @@
             margin: 0 !important;
             min-width: 0 !important;
         }
+
+        /* ===== PROMO BANNER CAROUSEL ===== */
+        .promo-banner-wrapper {
+            position: relative;
+            width: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(93, 92, 222, 0.13), 0 1.5px 6px rgba(0,0,0,0.06);
+            background: linear-gradient(135deg, #ede9fe 0%, #e0e7ff 100%);
+            aspect-ratio: 2.4 / 1;
+            min-height: 130px;
+            max-height: 220px;
+        }
+        .dark .promo-banner-wrapper {
+            background: linear-gradient(135deg, #1e1b4b 0%, #1e293b 100%);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.3), 0 1.5px 6px rgba(93,92,222,0.1);
+        }
+        .promo-banner-track {
+            display: flex;
+            height: 100%;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+        }
+        .promo-banner-track.swiping {
+            transition: none;
+        }
+        .promo-banner-slide {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: stretch;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .promo-banner-slide-img {
+            width: 38%;
+            height: 100%;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: rgba(93, 92, 222, 0.08);
+        }
+        .dark .promo-banner-slide-img {
+            background: rgba(93, 92, 222, 0.15);
+        }
+        .promo-banner-slide-img-placeholder {
+            width: 38%;
+            height: 100%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            background: rgba(93, 92, 222, 0.08);
+        }
+        .dark .promo-banner-slide-img-placeholder {
+            background: rgba(93, 92, 222, 0.15);
+        }
+        .img-error-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            color: #9ca3af;
+            font-size: 1.5rem;
+            overflow: hidden;
+        }
+        .img-error-placeholder svg {
+            width: 32px;
+            height: 32px;
+            opacity: 0.5;
+        }
+        .dark .img-error-placeholder {
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            color: #6b7280;
+        }
+        .img-error-placeholder.placeholder-sm svg {
+            width: 24px;
+            height: 24px;
+        }
+        .img-error-placeholder.placeholder-lg svg {
+            width: 48px;
+            height: 48px;
+        }
+        .promo-banner-slide-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 14px 16px;
+            gap: 6px;
+            min-width: 0;
+        }
+        .promo-banner-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 20px;
+            width: fit-content;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+        }
+        .promo-banner-badge.new-badge {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            box-shadow: 0 2px 8px rgba(93, 92, 222, 0.3);
+        }
+        .promo-banner-name {
+            font-size: 15px;
+            font-weight: 800;
+            color: #1e1b4b;
+            line-height: 1.25;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .dark .promo-banner-name {
+            color: #e0e7ff;
+        }
+        .promo-banner-price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .promo-banner-price {
+            font-size: 18px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .promo-banner-old-price {
+            font-size: 12px;
+            color: #9ca3af;
+            text-decoration: line-through;
+        }
+        .promo-banner-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 10px;
+            width: fit-content;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 3px 12px rgba(93, 92, 222, 0.25);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .promo-banner-cta:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 16px rgba(93, 92, 222, 0.35);
+        }
+        .promo-banner-dots {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 5;
+        }
+        .promo-banner-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: rgba(93, 92, 222, 0.25);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            padding: 0;
+        }
+        .dark .promo-banner-dot {
+            background: rgba(123, 122, 232, 0.25);
+        }
+        .promo-banner-dot.active {
+            background: var(--primary);
+            width: 20px;
+            border-radius: 4px;
+            box-shadow: 0 1px 6px rgba(93, 92, 222, 0.4);
+        }
+        .promo-banner-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 5;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.85);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            transition: opacity 0.2s, transform 0.2s;
+            opacity: 0;
+        }
+        .dark .promo-banner-arrow {
+            background: rgba(30,27,75,0.85);
+            color: var(--primary-light);
+        }
+        .promo-banner-wrapper:hover .promo-banner-arrow {
+            opacity: 0.85;
+        }
+        .promo-banner-arrow:hover {
+            opacity: 1 !important;
+            transform: translateY(-50%) scale(1.1);
+        }
+        .promo-banner-arrow.left { left: 6px; }
+        .promo-banner-arrow.right { right: 6px; }
+        .promo-banner-empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            gap: 10px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+        .dark .promo-banner-empty {
+            color: #9ca3af;
+        }
+        .promo-banner-shimmer {
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
+        .promo-banner-shimmer-img {
+            width: 38%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(93,92,222,0.06) 25%, rgba(93,92,222,0.12) 50%, rgba(93,92,222,0.06) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        .dark .promo-banner-shimmer-img {
+            background: linear-gradient(90deg, rgba(93,92,222,0.1) 25%, rgba(93,92,222,0.2) 50%, rgba(93,92,222,0.1) 75%);
+            background-size: 200% 100%;
+        }
+        .promo-banner-shimmer-info {
+            flex: 1;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+        }
+        .promo-banner-shimmer-line {
+            height: 12px;
+            border-radius: 6px;
+            background: linear-gradient(90deg, rgba(93,92,222,0.06) 25%, rgba(93,92,222,0.12) 50%, rgba(93,92,222,0.06) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        .dark .promo-banner-shimmer-line {
+            background: linear-gradient(90deg, rgba(93,92,222,0.1) 25%, rgba(93,92,222,0.2) 50%, rgba(93,92,222,0.1) 75%);
+            background-size: 200% 100%;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        @media (max-width: 400px) {
+            .promo-banner-wrapper {
+                border-radius: 12px;
+                min-height: 110px;
+            }
+            .promo-banner-name { font-size: 13px; }
+            .promo-banner-price { font-size: 15px; }
+            .promo-banner-slide-info { padding: 10px 12px; gap: 4px; }
+            .promo-banner-cta { font-size: 10px; padding: 5px 10px; }
+        }
     </style>
 </head>
 <body>
@@ -1664,8 +2144,8 @@
                 <form id="registerForm" class="space-y-4">
                     <div class="text-center">
                         <div class="relative inline-block">
-                            <img id="previewAvatar" src="https://via.placeholder.com/80?text=📷" alt="Preview" 
-                                 class="w-20 h-20 rounded-full object-cover border-4 border-gray-300 dark:border-gray-600 hover-lift">
+                            <img id="previewAvatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='50' fill='%235D5CDE'/%3E%3Ccircle cx='50' cy='40' r='14' fill='white' opacity='0.9'/%3E%3Cellipse cx='50' cy='78' rx='24' ry='16' fill='white' opacity='0.9'/%3E%3C/svg%3E" alt="Preview"
+                                 class="w-20 h-20 rounded-full object-cover border-4 border-gray-300 dark:border-gray-600 hover-lift" onerror="handleAvatarError(this)">
                             <label for="profilePicture" class="absolute -bottom-1 -right-1 btn-primary text-white rounded-full p-2 cursor-pointer hover-lift">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
@@ -1760,7 +2240,7 @@
 
                         <div class="relative">
                             <button id="userMenuBtn" class="flex items-center space-x-3 p-2 btn-secondary rounded-xl hover-lift">
-                                <img id="userAvatar" src="https://via.placeholder.com/32?text=👤" alt="Avatar" class="w-8 h-8 rounded-full border-2 border-primary">
+                                <img id="userAvatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='50' fill='%235D5CDE'/%3E%3Ccircle cx='50' cy='40' r='14' fill='white' opacity='0.9'/%3E%3Cellipse cx='50' cy='78' rx='24' ry='16' fill='white' opacity='0.9'/%3E%3C/svg%3E" alt="Avatar" class="w-8 h-8 rounded-full border-2 border-primary object-cover" onerror="handleAvatarError(this)">
                                 <span id="userName" class="hidden sm:block text-sm font-medium">Visitante</span>
                             </button>
                             <div id="userMenu" class="hidden absolute right-0 mt-2 w-48 card-bg rounded-xl shadow-lg border z-50 animate-scale-in">
@@ -1777,6 +2257,32 @@
         <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
             <div id="homeSection" class="space-y-8">
+
+                <!-- PROMO BANNER CAROUSEL -->
+                <div id="promoBannerSection" class="promo-banner-wrapper">
+                    <div id="promoBannerTrack" class="promo-banner-track">
+                        <!-- Shimmer loading placeholder -->
+                        <div class="promo-banner-slide">
+                            <div class="promo-banner-shimmer">
+                                <div class="promo-banner-shimmer-img"></div>
+                                <div class="promo-banner-shimmer-info">
+                                    <div class="promo-banner-shimmer-line" style="width:40%"></div>
+                                    <div class="promo-banner-shimmer-line" style="width:80%"></div>
+                                    <div class="promo-banner-shimmer-line" style="width:55%"></div>
+                                    <div class="promo-banner-shimmer-line" style="width:35%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="promoBannerDots" class="promo-banner-dots"></div>
+                    <button id="promoBannerLeft" class="promo-banner-arrow left" aria-label="Anterior">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+                    <button id="promoBannerRight" class="promo-banner-arrow right" aria-label="Próximo">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+
                 <div>
 
                     <div id="filterControlsWrapper" class="filter-container collapsed">
@@ -1821,6 +2327,18 @@
                         </button>
                     </div>
                     <div class="browsing-history-grid flex gap-3 overflow-x-auto pb-2 scrollbar-hide" style="-webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory;">
+                    </div>
+                </div>
+
+                <div id="discountHighlightSection" class="hidden mb-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-base">🔥</span>
+                            <span class="text-xs font-semibold text-red-500 dark:text-red-400 uppercase tracking-wider">Descontos de 40%+</span>
+                        </div>
+                        <span id="discountHighlightCount" class="text-[10px] text-gray-400 dark:text-gray-500 font-medium px-2 py-1"></span>
+                    </div>
+                    <div class="discount-highlight-grid flex gap-3 overflow-x-auto pb-2 scrollbar-hide" style="-webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory;">
                     </div>
                 </div>
 
@@ -1957,7 +2475,7 @@
                     <div class="card-bg rounded-2xl shadow-lg border p-8">
                         <div class="flex items-center space-x-6 mb-8">
                             <div class="relative">
-                                <img id="profileAvatar" src="" alt="Avatar" class="w-20 h-20 rounded-full cursor-pointer hover-lift border-4 border-primary" onclick="openProfilePictureModal()">
+                                <img id="profileAvatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='50' fill='%235D5CDE'/%3E%3Ccircle cx='50' cy='40' r='14' fill='white' opacity='0.9'/%3E%3Cellipse cx='50' cy='78' rx='24' ry='16' fill='white' opacity='0.9'/%3E%3C/svg%3E" alt="Avatar" class="w-20 h-20 rounded-full cursor-pointer hover-lift border-4 border-primary object-cover" onclick="openProfilePictureModal()" onerror="handleAvatarError(this)">
                                 <button onclick="openProfilePictureModal()" class="absolute -bottom-2 -right-2 btn-primary text-white rounded-full p-2 hover-lift">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
@@ -2219,7 +2737,7 @@
                 <div class="max-w-3xl mx-auto px-4 sm:px-6 py-10">
                     <div class="text-center">
                         <div class="relative inline-block mb-6">
-                            <img id="profilePicturePreview" src="" alt="Preview" class="w-36 h-36 rounded-full object-cover border-4 border-primary shadow-lg">
+                            <img id="profilePicturePreview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='50' fill='%235D5CDE'/%3E%3Ccircle cx='50' cy='40' r='14' fill='white' opacity='0.9'/%3E%3Cellipse cx='50' cy='78' rx='24' ry='16' fill='white' opacity='0.9'/%3E%3C/svg%3E" alt="Preview" class="w-36 h-36 rounded-full object-cover border-4 border-primary shadow-lg" onerror="handleAvatarError(this)">
                             <label for="newProfilePicture" class="absolute bottom-0 right-0 btn-primary text-white rounded-full p-3 cursor-pointer hover-lift shadow-lg">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
@@ -2614,6 +3132,31 @@
         let favorites = [];
         let orders = {};
         let notifications = [];
+        function handleImgError(img, size) {
+            var sizeClass = size === 'sm' ? ' placeholder-sm' : size === 'lg' ? ' placeholder-lg' : '';
+            var placeholder = document.createElement('div');
+            placeholder.className = 'img-error-placeholder' + sizeClass;
+            placeholder.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zM8.25 8.625a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z"/></svg>';
+            img.parentNode.replaceChild(placeholder, img);
+        }
+
+        function getAvatarFallback(name) {
+            var initial = name ? name.charAt(0).toUpperCase() : '';
+            var svg;
+            if (initial) {
+                svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="50" fill="#5D5CDE"/><text x="50" y="53" dominant-baseline="central" text-anchor="middle" fill="white" font-family="-apple-system,BlinkMacSystemFont,sans-serif" font-size="44" font-weight="600">' + initial + '</text></svg>';
+            } else {
+                svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="50" fill="#5D5CDE"/><circle cx="50" cy="40" r="14" fill="white" opacity="0.9"/><ellipse cx="50" cy="78" rx="24" ry="16" fill="white" opacity="0.9"/></svg>';
+            }
+            return 'data:image/svg+xml,' + encodeURIComponent(svg);
+        }
+
+        function handleAvatarError(img) {
+            var name = currentUser ? currentUser.displayName : null;
+            img.onerror = null;
+            img.src = getAvatarFallback(name);
+        }
+
         let currentSection = 'home';
         let currentPriceFilter = 'all';
         let productsVisibleLimit = 21;
@@ -2666,8 +3209,8 @@
                 return '<div class="browsing-history-card card-bg rounded-xl border overflow-hidden hover-lift animate-fade-in group cursor-pointer" onclick="showProductDetail(\'' + product.id + '\')">' +
                     '<div class="relative h-20 sm:h-24 bg-gray-200 dark:bg-gray-700">' +
                         (product.image ?
-                            '<img src="' + product.image + '" alt="' + product.name + '" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">' :
-                            '<div class="w-full h-full flex items-center justify-center"><div class="text-2xl text-gray-400 animate-pulse">\uD83D\uDDBC\uFE0F</div></div>'
+                            '<img src="' + product.image + '" alt="' + product.name + '" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" onerror="handleImgError(this,\'sm\')">' :
+                            '<div class="img-error-placeholder placeholder-sm"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zM8.25 8.625a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z"/></svg></div>'
                         ) +
                         (hasDiscount ? '<div class="absolute top-1 left-1 bg-red-500 text-white px-1.5 py-0.5 rounded-full text-[9px] font-bold">-' + discountPercent + '%</div>' : '') +
                         (product.stock === 0 ? '<div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center"><span class="text-white font-bold bg-red-500 px-1.5 py-0.5 rounded-lg text-[9px]">Esgotado</span></div>' : '') +
@@ -2679,6 +3222,244 @@
                 '</div>';
             }).join('');
         }
+
+        function renderDiscountedProducts() {
+            var container = document.getElementById('discountHighlightSection');
+            if (!container) return;
+            var discountItems = Object.entries(products)
+                .map(function(entry) {
+                    var id = entry[0];
+                    var p = entry[1];
+                    if (!p.oldPrice || p.oldPrice <= p.price) return null;
+                    var discountPercent = Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100);
+                    if (discountPercent < 40) return null;
+                    return { id: id, name: p.name, image: p.image, price: p.price, oldPrice: p.oldPrice, category: p.category, stock: p.stock, discountPercent: discountPercent };
+                })
+                .filter(function(p) { return p !== null; });
+            discountItems.sort(function(a, b) { return b.discountPercent - a.discountPercent; });
+            if (discountItems.length === 0) {
+                container.classList.add('hidden');
+                return;
+            }
+            container.classList.remove('hidden');
+            var countEl = document.getElementById('discountHighlightCount');
+            if (countEl) countEl.textContent = discountItems.length + ' produto' + (discountItems.length !== 1 ? 's' : '');
+            var grid = container.querySelector('.discount-highlight-grid');
+            grid.innerHTML = discountItems.map(function(product) {
+                return '<div class="discount-highlight-card card-bg rounded-xl border overflow-hidden hover-lift animate-fade-in group cursor-pointer" onclick="showProductDetail(\'' + product.id + '\')">' +
+                    '<div class="relative h-24 sm:h-28 bg-gray-200 dark:bg-gray-700">' +
+                        (product.image ?
+                            '<img src="' + product.image + '" alt="' + product.name + '" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" onerror="handleImgError(this,\'sm\')">' :
+                            '<div class="img-error-placeholder placeholder-sm"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zM8.25 8.625a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z"/></svg></div>'
+                        ) +
+                        '<div class="absolute top-1 left-1 bg-red-500 text-white px-1.5 py-0.5 rounded-full text-[9px] font-bold">-' + product.discountPercent + '%</div>' +
+                        (product.stock === 0 ? '<div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center"><span class="text-white font-bold bg-red-500 px-1.5 py-0.5 rounded-lg text-[9px]">Esgotado</span></div>' : '') +
+                    '</div>' +
+                    '<div class="p-2">' +
+                        '<h3 class="font-bold text-gray-800 dark:text-gray-200 mb-0.5 text-[10px] line-clamp-2 leading-tight">' + product.name + '</h3>' +
+                        '<div class="flex items-center gap-1">' +
+                            '<span class="text-xs font-bold gradient-text">' + formatPrice(product.price) + '</span>' +
+                        '</div>' +
+                        '<span class="text-[9px] text-gray-400 line-through">' + formatPrice(product.oldPrice) + '</span>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+        }
+
+        /* ===== PROMO BANNER CAROUSEL LOGIC ===== */
+        let promoBannerIndex = 0;
+        let promoBannerInterval = null;
+        let promoBannerSlides = [];
+        let promoBannerTouchStartX = 0;
+        let promoBannerTouchDiffX = 0;
+        let promoBannerIsSwiping = false;
+
+        function getPromoBannerItems() {
+            var items = [];
+            var allProducts = Object.entries(products).map(function(entry) {
+                return { id: entry[0], name: entry[1].name, image: entry[1].image, price: entry[1].price, oldPrice: entry[1].oldPrice, category: entry[1].category, stock: entry[1].stock, description: entry[1].description };
+            });
+            // Priority 1: Products with biggest discounts (40%+)
+            var discounted = allProducts
+                .filter(function(p) { return p.oldPrice && p.oldPrice > p.price; })
+                .map(function(p) {
+                    p.discountPercent = Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100);
+                    return p;
+                })
+                .filter(function(p) { return p.discountPercent >= 20; })
+                .sort(function(a, b) { return b.discountPercent - a.discountPercent; });
+            items = items.concat(discounted.slice(0, 5));
+            // Priority 2: Fill remaining slots with in-stock products (up to 8 total)
+            if (items.length < 8) {
+                var usedIds = new Set(items.map(function(p) { return p.id; }));
+                var inStock = allProducts.filter(function(p) { return p.stock > 0 && !usedIds.has(p.id); });
+                // shuffle
+                for (var i = inStock.length - 1; i > 0; i--) {
+                    var j = Math.floor(Math.random() * (i + 1));
+                    var temp = inStock[i]; inStock[i] = inStock[j]; inStock[j] = temp;
+                }
+                items = items.concat(inStock.slice(0, 8 - items.length));
+            }
+            return items;
+        }
+
+        function renderPromoBanner() {
+            var wrapper = document.getElementById('promoBannerSection');
+            var track = document.getElementById('promoBannerTrack');
+            var dotsContainer = document.getElementById('promoBannerDots');
+            if (!wrapper || !track || !dotsContainer) return;
+
+            promoBannerSlides = getPromoBannerItems();
+            if (promoBannerSlides.length === 0) {
+                track.innerHTML = '<div class="promo-banner-slide"><div class="promo-banner-empty"><span style="font-size:28px">🏷️</span><span>Promoções em breve!</span></div></div>';
+                dotsContainer.innerHTML = '';
+                return;
+            }
+
+            track.innerHTML = promoBannerSlides.map(function(product) {
+                var hasDiscount = product.oldPrice && product.oldPrice > product.price;
+                var discountPercent = hasDiscount ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100) : 0;
+                var badgeHTML = hasDiscount
+                    ? '<span class="promo-banner-badge">🔥 -' + discountPercent + '% OFF</span>'
+                    : '<span class="promo-banner-badge new-badge">✨ Destaque</span>';
+                var imgHTML = product.image
+                    ? '<img src="' + product.image + '" alt="' + product.name + '" class="promo-banner-slide-img" loading="lazy" onerror="this.outerHTML=\'<div class=\\\'promo-banner-slide-img-placeholder\\\'><svg xmlns=\\\'http://www.w3.org/2000/svg\\\' fill=\\\'none\\\' viewBox=\\\'0 0 24 24\\\' stroke=\\\'currentColor\\\' stroke-width=\\\'1.5\\\' style=\\\'width:32px;height:32px;opacity:0.4;color:#9ca3af\\\'><path stroke-linecap=\\\'round\\\' stroke-linejoin=\\\'round\\\' d=\\\'M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zM8.25 8.625a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z\\\'/></svg></div>\'">'
+                    : '<div class="promo-banner-slide-img-placeholder"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="width:32px;height:32px;opacity:0.4;color:#9ca3af"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zM8.25 8.625a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z"/></svg></div>';
+
+                return '<div class="promo-banner-slide" data-product-id="' + product.id + '">' +
+                    imgHTML +
+                    '<div class="promo-banner-slide-info">' +
+                        badgeHTML +
+                        '<div class="promo-banner-name">' + product.name + '</div>' +
+                        '<div class="promo-banner-price-row">' +
+                            '<span class="promo-banner-price">' + formatPrice(product.price) + '</span>' +
+                            (hasDiscount ? '<span class="promo-banner-old-price">' + formatPrice(product.oldPrice) + '</span>' : '') +
+                        '</div>' +
+                        '<button class="promo-banner-cta" onclick="event.stopPropagation();">Ver Produto →</button>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+
+            // Dots
+            dotsContainer.innerHTML = promoBannerSlides.map(function(_, idx) {
+                return '<button class="promo-banner-dot' + (idx === 0 ? ' active' : '') + '" data-idx="' + idx + '" aria-label="Slide ' + (idx + 1) + '"></button>';
+            }).join('');
+
+            promoBannerIndex = 0;
+            updatePromoBannerPosition();
+            startPromoBannerAutoSlide();
+            initPromoBannerEvents();
+        }
+
+        function updatePromoBannerPosition() {
+            var track = document.getElementById('promoBannerTrack');
+            if (!track) return;
+            track.style.transform = 'translateX(-' + (promoBannerIndex * 100) + '%)';
+            var dots = document.querySelectorAll('.promo-banner-dot');
+            dots.forEach(function(dot, idx) {
+                dot.classList.toggle('active', idx === promoBannerIndex);
+            });
+        }
+
+        function goToPromoBannerSlide(idx) {
+            if (idx < 0) idx = promoBannerSlides.length - 1;
+            if (idx >= promoBannerSlides.length) idx = 0;
+            promoBannerIndex = idx;
+            updatePromoBannerPosition();
+        }
+
+        function startPromoBannerAutoSlide() {
+            stopPromoBannerAutoSlide();
+            if (promoBannerSlides.length <= 1) return;
+            promoBannerInterval = setInterval(function() {
+                goToPromoBannerSlide(promoBannerIndex + 1);
+            }, 4500);
+        }
+
+        function stopPromoBannerAutoSlide() {
+            if (promoBannerInterval) {
+                clearInterval(promoBannerInterval);
+                promoBannerInterval = null;
+            }
+        }
+
+        function initPromoBannerEvents() {
+            var wrapper = document.getElementById('promoBannerSection');
+            var track = document.getElementById('promoBannerTrack');
+            var leftBtn = document.getElementById('promoBannerLeft');
+            var rightBtn = document.getElementById('promoBannerRight');
+            var dotsContainer = document.getElementById('promoBannerDots');
+            if (!wrapper || !track) return;
+
+            // Click on slide to show product
+            track.addEventListener('click', function(e) {
+                if (promoBannerIsSwiping) return;
+                var slide = e.target.closest('.promo-banner-slide');
+                if (slide && slide.dataset.productId && typeof window.showProductDetail === 'function') {
+                    window.showProductDetail(slide.dataset.productId);
+                }
+            });
+
+            // Arrows
+            if (leftBtn) leftBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                goToPromoBannerSlide(promoBannerIndex - 1);
+                stopPromoBannerAutoSlide();
+                startPromoBannerAutoSlide();
+            });
+            if (rightBtn) rightBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                goToPromoBannerSlide(promoBannerIndex + 1);
+                stopPromoBannerAutoSlide();
+                startPromoBannerAutoSlide();
+            });
+
+            // Dots
+            if (dotsContainer) dotsContainer.addEventListener('click', function(e) {
+                var dot = e.target.closest('.promo-banner-dot');
+                if (dot && dot.dataset.idx !== undefined) {
+                    goToPromoBannerSlide(parseInt(dot.dataset.idx));
+                    stopPromoBannerAutoSlide();
+                    startPromoBannerAutoSlide();
+                }
+            });
+
+            // Touch swipe
+            wrapper.addEventListener('touchstart', function(e) {
+                promoBannerTouchStartX = e.touches[0].clientX;
+                promoBannerTouchDiffX = 0;
+                promoBannerIsSwiping = false;
+                track.classList.add('swiping');
+                stopPromoBannerAutoSlide();
+            }, { passive: true });
+
+            wrapper.addEventListener('touchmove', function(e) {
+                promoBannerTouchDiffX = e.touches[0].clientX - promoBannerTouchStartX;
+                if (Math.abs(promoBannerTouchDiffX) > 10) promoBannerIsSwiping = true;
+                var offset = -(promoBannerIndex * 100) + (promoBannerTouchDiffX / wrapper.offsetWidth * 100);
+                track.style.transform = 'translateX(' + offset + '%)';
+            }, { passive: true });
+
+            wrapper.addEventListener('touchend', function() {
+                track.classList.remove('swiping');
+                if (Math.abs(promoBannerTouchDiffX) > 50) {
+                    if (promoBannerTouchDiffX < 0) {
+                        goToPromoBannerSlide(promoBannerIndex + 1);
+                    } else {
+                        goToPromoBannerSlide(promoBannerIndex - 1);
+                    }
+                } else {
+                    updatePromoBannerPosition();
+                }
+                setTimeout(function() { promoBannerIsSwiping = false; }, 100);
+                startPromoBannerAutoSlide();
+            }, { passive: true });
+
+            // Pause on hover (desktop)
+            wrapper.addEventListener('mouseenter', stopPromoBannerAutoSlide);
+            wrapper.addEventListener('mouseleave', startPromoBannerAutoSlide);
+        }
+
         var _ls = window['localSto' + 'rage'];
         let hiddenCategories = (function() {
             try {
@@ -3773,7 +4554,7 @@
                     if (currentUser && !isGuest) {
                         loadUserProfile();
                     } else {
-                        document.getElementById('profileAvatar').src = 'https://via.placeholder.com/80?text=👤';
+                        document.getElementById('profileAvatar').src = getAvatarFallback(isGuest ? 'Visitante' : null);
                         document.getElementById('profileName').textContent = isGuest ? 'Visitante' : 'Usuário';
                         document.getElementById('profileEmail').textContent = isGuest ? 'Navegando como visitante' : 'Faça login para ver seu perfil';
                         document.getElementById('userOrders').innerHTML = `
@@ -4171,13 +4952,13 @@
 
                 await updateProfile(user, { 
                     displayName: name,
-                    photoURL: uploadedPhotoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=5D5CDE&color=fff&size=200`
+                    photoURL: uploadedPhotoURL || getAvatarFallback(name)
                 });
 
                 await setDoc(doc(firestore, 'users', user.uid), {
                     name: name,
                     email: email,
-                    photoURL: uploadedPhotoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=5D5CDE&color=fff&size=200`,
+                    photoURL: uploadedPhotoURL || getAvatarFallback(name),
                     createdAt: new Date(),
                     isActive: true
                 });
@@ -4185,7 +4966,7 @@
                 await set(ref(database, `users/${user.uid}`), {
                     name: name,
                     email: email,
-                    photoURL: uploadedPhotoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=5D5CDE&color=fff&size=200`,
+                    photoURL: uploadedPhotoURL || getAvatarFallback(name),
                     createdAt: Date.now(),
                     isActive: true
                 });
@@ -4223,10 +5004,6 @@
             isGuest = false;
 
             if (user) {
-                if (cart.length > 0) {
-                    safeStorage.removeItem('guestCart');
-                }
-
                 updateUserUI();
                 showMainApp();
                 loadData();
@@ -4249,7 +5026,7 @@
             const userMenuContent = document.getElementById('userMenuContent');
 
             if (currentUser) {
-                userAvatar.src = currentUser.photoURL || 'https://via.placeholder.com/32?text=' + (currentUser.displayName?.charAt(0) || '👤');
+                userAvatar.src = currentUser.photoURL || getAvatarFallback(currentUser.displayName);
                 userName.textContent = currentUser.displayName || currentUser.email;
 
                 userMenuContent.innerHTML = `
@@ -4336,7 +5113,7 @@
                 });
 
             } else if (isGuest) {
-                userAvatar.src = 'https://via.placeholder.com/32?text=👤';
+                userAvatar.src = getAvatarFallback(null);
                 userName.textContent = 'Visitante';
 
                 userMenuContent.innerHTML = `
@@ -4579,6 +5356,7 @@
                 await setDoc(doc(firestore, 'orders', newOrderRef.key), orderData);
 
                 cart = [];
+                safeStorage.removeItem('guestCart');
                 updateCartUI();
                 closeCheckout();
                 closeCart();
@@ -4608,6 +5386,8 @@
                 console.log('Products loaded:', Object.keys(products).length);
                 renderProducts();
                 renderBrowsingHistory();
+                renderDiscountedProducts();
+                renderPromoBanner();
                 updateCategories();
             });
         }
@@ -4635,7 +5415,7 @@
                 const profileName = document.getElementById('profileName');
                 const profileEmail = document.getElementById('profileEmail');
 
-                profileAvatar.src = currentUser.photoURL || 'https://via.placeholder.com/80?text=' + (currentUser.displayName?.charAt(0) || '👤');
+                profileAvatar.src = currentUser.photoURL || getAvatarFallback(currentUser.displayName);
                 profileName.textContent = currentUser.displayName || 'Usuário';
                 profileEmail.textContent = currentUser.email;
 
@@ -4721,10 +5501,8 @@
                      onclick="showProductDetail('${product.id}')">
                     <div class="relative h-28 sm:h-32 bg-gray-200 dark:bg-gray-700">
                         ${product.image ?
-                            `<img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">` :
-                            `<div class="w-full h-full flex items-center justify-center">
-                                <div class="text-2xl text-gray-400 animate-pulse">🖼️</div>
-                            </div>`
+                            `<img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" onerror="handleImgError(this)">` :
+                            `<div class="img-error-placeholder"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zM8.25 8.625a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z"/></svg></div>`
                         }
                         <button onclick="event.stopPropagation(); toggleFavorite('${product.id}')"
                                 class="absolute top-1.5 right-1.5 w-7 h-7 rounded-full bg-white/80 dark:bg-black/50 flex items-center justify-center hover:scale-110 transition-transform shadow-sm backdrop-blur-sm"
@@ -4843,10 +5621,8 @@
                      onclick="showProductDetail('${product.id}')">
                     <div class="relative h-28 sm:h-32 bg-gray-200 dark:bg-gray-700">
                         ${product.image ?
-                            `<img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">` :
-                            `<div class="w-full h-full flex items-center justify-center">
-                                <div class="text-2xl text-gray-400 animate-pulse">🖼️</div>
-                            </div>`
+                            `<img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" onerror="handleImgError(this)">` :
+                            `<div class="img-error-placeholder"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zM8.25 8.625a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z"/></svg></div>`
                         }
                         <button onclick="event.stopPropagation(); toggleFavorite('${product.id}')"
                                 class="absolute top-1.5 right-1.5 w-7 h-7 rounded-full bg-white/80 dark:bg-black/50 flex items-center justify-center hover:scale-110 transition-transform shadow-sm backdrop-blur-sm"
@@ -5041,9 +5817,7 @@
                 cart.push({ ...product, id: productId, quantity: 1 });
             }
 
-            if (isGuest) {
-                safeStorage.setItem('guestCart', JSON.stringify(cart));
-            }
+            safeStorage.setItem('guestCart', JSON.stringify(cart));
 
             updateCartUI();
             showNotificationToast('Carrinho', 'Produto adicionado ao carrinho!', 'success');
@@ -5052,9 +5826,7 @@
         function removeFromCart(productId) {
             cart = cart.filter(item => item.id !== productId);
 
-            if (isGuest) {
-                safeStorage.setItem('guestCart', JSON.stringify(cart));
-            }
+            safeStorage.setItem('guestCart', JSON.stringify(cart));
 
             updateCartUI();
         }
@@ -5071,9 +5843,7 @@
             } else if (newQuantity <= product.stock) {
                 item.quantity = newQuantity;
 
-                if (isGuest) {
-                    safeStorage.setItem('guestCart', JSON.stringify(cart));
-                }
+                safeStorage.setItem('guestCart', JSON.stringify(cart));
 
                 updateCartUI();
             }
@@ -5109,11 +5879,9 @@
                 cartItems.innerHTML = cart.map(item => `
                     <div class="flex items-center space-x-4 py-4 border-b border-gray-200 dark:border-gray-700 last:border-b-0 animate-fade-in hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors px-2">
                         <div class="flex-shrink-0 w-16 h-16 bg-gray-200 dark:bg-gray-600 rounded-xl overflow-hidden">
-                            ${item.image ? 
-                                `<img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">` :
-                                `<div class="w-full h-full flex items-center justify-center text-gray-400 text-xl">
-                                    🖼️
-                                </div>`
+                            ${item.image ?
+                                `<img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover" onerror="handleImgError(this,'sm')">` :
+                                `<div class="img-error-placeholder placeholder-sm"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zM8.25 8.625a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z"/></svg></div>`
                             }
                         </div>
                         <div class="flex-1 min-w-0">
@@ -5189,9 +5957,9 @@
             }
 
             if (product.image) {
-                detailImage.innerHTML = `<img src="${product.image}" alt="${product.name}" class="w-full h-full object-contain rounded-2xl">`;
+                detailImage.innerHTML = `<img src="${product.image}" alt="${product.name}" class="w-full h-full object-contain rounded-2xl" onerror="handleImgError(this,'lg')">`;
             } else {
-                detailImage.innerHTML = '<div class="text-6xl text-gray-400">🖼️</div>';
+                detailImage.innerHTML = '<div class="img-error-placeholder placeholder-lg"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zM8.25 8.625a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z"/></svg></div>';
             }
 
             window._currentDetailProductId = productId;
@@ -5553,7 +6321,7 @@
             }
 
             const profilePicturePreview = document.getElementById('profilePicturePreview');
-            profilePicturePreview.src = currentUser.photoURL || 'https://via.placeholder.com/128?text=👤';
+            profilePicturePreview.src = currentUser.photoURL || getAvatarFallback(currentUser.displayName);
             uploadedPhotoURL = null;
             document.getElementById('saveProfilePictureBtn').disabled = true;
             const ppModal = document.getElementById('profilePictureModal');
