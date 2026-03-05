@@ -120,10 +120,6 @@
     <style>
 
         
-        .is-webview #googleLoginBtn {
-            display: none !important;
-        }
-
         * {
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
@@ -3232,73 +3228,409 @@
             pointer-events: none;
         }
 
-        .login-particles {
-            position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+        /* ===== Android Material Design 3 Login ===== */
+        #loginScreen {
+            background: #f2f2f7 !important;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
-        .particle {
-            position: absolute; border-radius: 50%; opacity: 0.15;
-            background: rgba(255,255,255,0.6);
-            animation: particleFloat 8s ease-in-out infinite;
-        }
-        .particle-1 { width:80px; height:80px; top:10%; left:5%; animation-delay:0s; }
-        .particle-2 { width:50px; height:50px; top:60%; left:80%; animation-delay:1.5s; }
-        .particle-3 { width:120px; height:120px; top:70%; left:15%; animation-delay:3s; }
-        .particle-4 { width:40px; height:40px; top:20%; left:70%; animation-delay:4.5s; }
-        .particle-5 { width:60px; height:60px; top:45%; left:50%; animation-delay:2s; }
-        .particle-6 { width:90px; height:90px; top:80%; left:60%; animation-delay:5s; }
-        @keyframes particleFloat {
-            0%,100% { transform: translateY(0) scale(1); opacity: 0.1; }
-            50% { transform: translateY(-40px) scale(1.15); opacity: 0.25; }
+        .dark #loginScreen {
+            background: #121212 !important;
         }
 
-        .login-card-entrance {
-            animation: loginCardPop 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards;
+        .android-login-wrap {
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+            width: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
         }
-        @keyframes loginCardPop {
-            0% { opacity:0; transform:scale(0.85) translateY(30px); }
+
+        .android-hero {
+            position: relative;
+            min-height: 260px;
+            background: linear-gradient(160deg, #3730a3 0%, #5D5CDE 45%, #7c3aed 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 52px 24px 56px;
+            flex-shrink: 0;
+        }
+        .android-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 36px;
+            background: #f2f2f7;
+            border-radius: 32px 32px 0 0;
+        }
+        .dark .android-hero::after {
+            background: #121212;
+        }
+        .android-hero-circles {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .android-hero-circles span {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+        }
+        .android-hero-circles span:nth-child(1) { width:220px; height:220px; top:-70px; right:-50px; }
+        .android-hero-circles span:nth-child(2) { width:160px; height:160px; bottom:-20px; left:-40px; }
+        .android-hero-circles span:nth-child(3) { width:80px; height:80px; top:35%; left:65%; background:rgba(255,255,255,0.04); }
+
+        .android-logo-box {
+            width: 84px;
+            height: 84px;
+            background: rgba(255,255,255,0.18);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 38px;
+            margin-bottom: 18px;
+            border: 1.5px solid rgba(255,255,255,0.22);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            animation: androidLogoPop 0.55s cubic-bezier(0.34,1.56,0.64,1) forwards;
+        }
+        @keyframes androidLogoPop {
+            0% { opacity:0; transform:scale(0.5) translateY(16px); }
             100% { opacity:1; transform:scale(1) translateY(0); }
         }
-
-        .login-logo-pulse {
-            animation: logoPulse 2s ease-in-out infinite, float 3s ease-in-out infinite;
+        .android-hero-title {
+            color: #fff;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.4px;
+            margin: 0;
+            text-align: center;
+            animation: androidTextUp 0.45s ease-out 0.12s both;
         }
-        @keyframes logoPulse {
-            0%,100% { box-shadow:0 0 0 0 rgba(93,92,222,0.4); }
-            50% { box-shadow:0 0 0 12px rgba(93,92,222,0); }
+        .android-hero-sub {
+            color: rgba(255,255,255,0.75);
+            font-size: 14px;
+            margin-top: 6px;
+            text-align: center;
+            animation: androidTextUp 0.45s ease-out 0.22s both;
         }
-
-        .login-title-entrance {
-            animation: titleSlide 0.5s ease-out 0.2s both;
-        }
-        .login-subtitle-entrance {
-            animation: titleSlide 0.5s ease-out 0.3s both;
-        }
-        @keyframes titleSlide {
+        @keyframes androidTextUp {
             0% { opacity:0; transform:translateY(10px); }
             100% { opacity:1; transform:translateY(0); }
         }
 
-        .login-btn-stagger {
-            animation: btnSlideUp 0.45s ease-out both;
+        .android-body {
+            flex: 1;
+            background: #f2f2f7;
+            padding: 4px 20px 36px;
+            position: relative;
+            z-index: 2;
         }
-        @keyframes btnSlideUp {
-            0% { opacity:0; transform:translateY(20px); }
+        .dark .android-body {
+            background: #121212;
+        }
+        .android-body-title {
+            font-size: 19px;
+            font-weight: 700;
+            color: #1c1c1e;
+            margin-bottom: 3px;
+        }
+        .dark .android-body-title {
+            color: #e5e5ea;
+        }
+        .android-body-sub {
+            font-size: 13px;
+            color: #8e8e93;
+            margin-bottom: 20px;
+        }
+
+        /* Material 3 Buttons */
+        .m3-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 15px 24px;
+            border-radius: 16px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+            border: none;
+            position: relative;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .m3-btn:active {
+            transform: scale(0.97);
+            opacity: 0.85;
+        }
+        .m3-btn-filled {
+            background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
+            color: #fff;
+            box-shadow: 0 3px 12px rgba(93,92,222,0.35);
+        }
+        .m3-btn-filled:hover {
+            box-shadow: 0 6px 20px rgba(93,92,222,0.45);
+        }
+        .m3-btn-tonal {
+            background: rgba(93,92,222,0.08);
+            color: var(--primary);
+            border: 1.5px solid rgba(93,92,222,0.12);
+        }
+        .dark .m3-btn-tonal {
+            background: rgba(93,92,222,0.14);
+            border-color: rgba(93,92,222,0.22);
+            color: var(--primary-light);
+        }
+        .m3-btn-outline {
+            background: #fff;
+            color: #3c3c43;
+            border: 1.5px solid #d1d1d6;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+        .dark .m3-btn-outline {
+            background: #1c1c1e;
+            color: #e5e5ea;
+            border-color: #38383a;
+        }
+        .m3-btn-outline:hover {
+            background: #f9f9f9;
+        }
+        .dark .m3-btn-outline:hover {
+            background: #2c2c2e;
+        }
+
+        .android-btn-stagger {
+            animation: androidBtnSlide 0.4s cubic-bezier(0.2, 0, 0, 1) both;
+        }
+        @keyframes androidBtnSlide {
+            0% { opacity:0; transform:translateY(14px); }
             100% { opacity:1; transform:translateY(0); }
         }
 
+        /* Create Account Modal Styles */
+        .create-account-modal-body {
+            background: #f2f2f7;
+        }
+        .dark .create-account-modal-body {
+            background: #121212;
+        }
+        .create-step-card {
+            display: flex;
+            gap: 14px;
+            padding: 16px;
+            background: #fff;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(0,0,0,0.04);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+            animation: androidBtnSlide 0.4s cubic-bezier(0.2, 0, 0, 1) both;
+        }
+        .dark .create-step-card {
+            background: #1c1c1e;
+            border-color: rgba(255,255,255,0.06);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        }
+        .create-step-number {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            margin-top: 2px;
+        }
+        .create-step-content h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1c1c1e;
+            margin: 0 0 4px;
+        }
+        .dark .create-step-content h4 {
+            color: #e5e5ea;
+        }
+        .create-step-content p {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.55;
+            margin: 0;
+        }
+        .dark .create-step-content p {
+            color: #9ca3af;
+        }
+        .create-step-list {
+            list-style: none;
+            padding: 0;
+            margin: 8px 0 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .create-step-list li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #4b5563;
+            font-weight: 500;
+        }
+        .dark .create-step-list li {
+            color: #d1d5db;
+        }
+        .create-step-list li svg {
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+        .create-account-notice {
+            padding: 14px 16px;
+            border-radius: 14px;
+            background: rgba(93,92,222,0.06);
+            border: 1px solid rgba(93,92,222,0.12);
+            margin-top: 4px;
+            animation: androidBtnSlide 0.4s cubic-bezier(0.2, 0, 0, 1) both;
+            color: #4b5563;
+        }
+        .dark .create-account-notice {
+            background: rgba(93,92,222,0.12);
+            border-color: rgba(93,92,222,0.2);
+            color: #d1d5db;
+        }
+        .dark .login-divider-row div:first-child,
+        .dark .login-divider-row div:last-child {
+            background: #38383a !important;
+        }
+
+        /* Material 3 Input Fields */
+        .m3-field {
+            position: relative;
+            margin-bottom: 6px;
+        }
+        .m3-field input {
+            width: 100%;
+            padding: 20px 16px 8px;
+            font-size: 16px;
+            border: 1.5px solid #d1d1d6;
+            border-radius: 14px;
+            background: #fff;
+            color: #1c1c1e;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+            box-sizing: border-box;
+        }
+        .dark .m3-field input {
+            border-color: #38383a;
+            background: #1c1c1e;
+            color: #e5e5ea;
+        }
+        .m3-field input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(93,92,222,0.1);
+        }
+        .m3-field label {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 15px;
+            color: #8e8e93;
+            pointer-events: none;
+            transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+            padding: 0 4px;
+            background: transparent;
+        }
+        .m3-field input:focus ~ label,
+        .m3-field input:not(:placeholder-shown) ~ label {
+            top: 2px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--primary);
+            background: #fff;
+        }
+        .dark .m3-field input:focus ~ label,
+        .dark .m3-field input:not(:placeholder-shown) ~ label {
+            background: #1c1c1e;
+        }
+
+        /* Android-style divider */
+        .android-divider {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 18px 0;
+            color: #8e8e93;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .android-divider::before,
+        .android-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #d1d1d6;
+        }
+        .dark .android-divider::before,
+        .dark .android-divider::after {
+            background: #38383a;
+        }
+
+        /* Android back button */
+        .android-back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 14px 8px 8px;
+            border-radius: 12px;
+            border: none;
+            background: transparent;
+            color: #8e8e93;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .android-back-btn:hover {
+            background: rgba(0,0,0,0.04);
+        }
+        .dark .android-back-btn:hover {
+            background: rgba(255,255,255,0.06);
+        }
+
+        /* Error banner Android */
         .login-error-banner {
-            background-color: #FEF2F2; border-color: #FECACA; color: #991B1B;
-            animation: shakeError 0.5s ease-out;
+            background: #fff2f0;
+            border: 1px solid #ffd6d1;
+            border-radius: 14px;
+            padding: 14px 16px;
+            color: #c62828;
+            animation: androidShake 0.4s ease-out;
         }
         .dark .login-error-banner {
-            background-color: rgba(127,29,29,0.3); border-color: rgba(252,165,165,0.3); color: #FCA5A5;
+            background: rgba(198,40,40,0.1);
+            border-color: rgba(239,83,80,0.2);
+            color: #ef9a9a;
         }
-        @keyframes shakeError {
+        @keyframes androidShake {
             0%,100% { transform:translateX(0); }
-            15% { transform:translateX(-8px); }
-            30% { transform:translateX(6px); }
-            45% { transform:translateX(-4px); }
-            60% { transform:translateX(2px); }
+            20% { transform:translateX(-5px); }
+            40% { transform:translateX(4px); }
+            60% { transform:translateX(-2px); }
         }
 
         .login-success-overlay {
@@ -3311,6 +3643,29 @@
 
         .login-btn-loading {
             opacity: 0.7; pointer-events: none; cursor: wait;
+        }
+
+        /* Android form section card */
+        .android-form-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 24px 20px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        .dark .android-form-card {
+            background: #1c1c1e;
+            border-color: #2c2c2e;
+            box-shadow: none;
+        }
+
+        /* Smooth form transitions */
+        .android-form-section {
+            animation: androidFormIn 0.35s cubic-bezier(0.2, 0, 0, 1);
+        }
+        @keyframes androidFormIn {
+            0% { opacity:0; transform:translateX(20px); }
+            100% { opacity:1; transform:translateX(0); }
         }
 
         .search-inline-container {
@@ -4095,161 +4450,218 @@
         </div>
     </div>
 
-    <div id="loginScreen" class="fixed inset-0 gradient-bg flex items-center justify-center z-40 hidden">
+    <div id="loginScreen" class="fixed inset-0 z-40 hidden" style="background:#f2f2f7;">
+        <div class="android-login-wrap">
 
-        <div class="login-particles" aria-hidden="true">
-            <div class="particle particle-1"></div>
-            <div class="particle particle-2"></div>
-            <div class="particle particle-3"></div>
-            <div class="particle particle-4"></div>
-            <div class="particle particle-5"></div>
-            <div class="particle particle-6"></div>
-        </div>
-        <div class="card-bg p-8 rounded-3xl shadow-2xl max-w-md w-full mx-4 border login-card-entrance glass" style="background-color:white;">
-            <div class="text-center mb-8">
-                <div class="w-20 h-20 gradient-bg rounded-full flex items-center justify-center mx-auto mb-4 login-logo-pulse">
-                    <span class="text-4xl">🛍️</span>
+            <!-- Hero / Branding Area -->
+            <div class="android-hero">
+                <div class="android-hero-circles" aria-hidden="true">
+                    <span></span><span></span><span></span>
                 </div>
-                <h1 class="text-3xl font-bold gradient-text mb-2 login-title-entrance">Kuia+ Shop</h1>
-                <p class="text-gray-600 dark:text-gray-400 login-subtitle-entrance">Bem-vindo à nossa loja</p>
-                <p class="text-sm text-gray-500 dark:text-gray-500 mt-2 login-subtitle-entrance" style="animation-delay:0.15s">Escolha como deseja continuar</p>
+                <div class="android-logo-box">🛍️</div>
+                <h1 class="android-hero-title">Kuia+ Shop</h1>
+                <p class="android-hero-sub">Sua loja online favorita</p>
             </div>
 
-            <div id="loginErrorBanner" class="hidden mb-4 p-4 rounded-xl border flex items-start space-x-3 login-error-banner">
-                <span class="text-xl flex-shrink-0">⚠️</span>
-                <div class="flex-1 min-w-0">
-                    <p id="loginErrorText" class="text-sm font-medium"></p>
-                    <p id="loginErrorHint" class="text-xs mt-1 opacity-80"></p>
-                </div>
-                <button onclick="hideLoginError()" class="text-lg flex-shrink-0 opacity-60 hover:opacity-100 transition-opacity">×</button>
-            </div>
+            <!-- Body / Content Area -->
+            <div class="android-body">
+                <div class="android-body-title">Bem-vindo 👋</div>
+                <div class="android-body-sub">Escolha como deseja continuar</div>
 
-            <div class="space-y-4" id="loginOptions">
-                <button id="guestBtn" class="w-full btn-secondary py-4 px-6 rounded-xl hover-lift ripple flex items-center justify-center space-x-3 login-btn-stagger" style="animation-delay:0.1s">
-                    <span class="text-2xl">👤</span>
-                    <span class="font-medium">Continuar como Visitante</span>
-                </button>
-
-                <button id="googleLoginBtn" class="w-full card-bg border py-4 px-6 rounded-xl hover-lift ripple flex items-center justify-center space-x-3 login-btn-stagger" style="animation-delay:0.2s">
-                    <svg class="w-6 h-6 flex-shrink-0" viewBox="0 0 24 24">
-                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                    </svg>
-                    <span class="font-medium" id="googleBtnText">Continuar com Google</span>
-                    <span id="googleBtnLoader" class="hidden flex items-center">
-                        <div class="animate-spin rounded-full h-5 w-5 border-2 border-gray-600 border-t-transparent"></div>
-                    </span>
-                </button>
-
-                <button id="showEmailLoginBtn" class="w-full btn-primary text-white py-4 px-6 rounded-xl hover-lift ripple flex items-center justify-center space-x-3 login-btn-stagger" style="animation-delay:0.3s">
-                    <span class="text-2xl">📧</span>
-                    <span class="font-medium">Entrar com Email</span>
-                </button>
-            </div>
-
-            <div id="emailLoginForm" class="hidden space-y-6 animate-fade-in">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200">Login</h3>
-                    <button id="backToOptionsBtn" class="text-gray-500 hover:text-primary transition-colors font-medium">
-                        ← Voltar
-                    </button>
-                </div>
-
-                <form id="loginForm" class="space-y-4">
-                    <input type="email" id="loginEmail" placeholder="Email" required
-                           class="w-full px-4 py-4 text-base card-bg border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent">
-                    <input type="password" id="loginPassword" placeholder="Senha" required
-                           class="w-full px-4 py-4 text-base card-bg border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent">
-                    <button type="submit" class="w-full btn-primary text-white py-4 rounded-xl hover-lift ripple font-medium">
-                        Entrar
-                    </button>
-                </form>
-
-                <div class="text-center space-y-2">
-                    <div>
-                        <button id="showForgotPasswordBtn" class="text-sm text-primary hover:underline font-medium">Esqueceu a senha?</button>
+                <!-- Error Banner -->
+                <div id="loginErrorBanner" class="hidden mb-4 flex items-start gap-3 login-error-banner" style="padding:14px 16px; border-radius:14px;">
+                    <span class="text-lg flex-shrink-0">⚠️</span>
+                    <div class="flex-1 min-w-0">
+                        <p id="loginErrorText" class="text-sm font-medium"></p>
+                        <p id="loginErrorHint" class="text-xs mt-1 opacity-80"></p>
                     </div>
-                    <div>
-                        <span class="text-sm text-gray-500 dark:text-gray-400">Não tem conta? </span>
-                        <button id="showRegisterBtn" class="text-sm text-primary hover:underline font-medium">Criar conta</button>
+                    <button onclick="hideLoginError()" class="text-lg flex-shrink-0 opacity-60 hover:opacity-100 transition-opacity" style="background:none;border:none;cursor:pointer;color:inherit;">×</button>
+                </div>
+
+                <!-- Login Options -->
+                <div id="loginOptions" class="flex flex-col" style="gap:12px;">
+                    <button id="guestBtn" class="m3-btn m3-btn-tonal android-btn-stagger ripple" style="animation-delay:0.08s">
+                        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+                        <span>Entrar como Visitante</span>
+                    </button>
+
+                    <div class="login-divider-row" style="display:flex;align-items:center;gap:12px;margin:4px 0;">
+                        <div style="flex:1;height:1px;background:#d1d1d6;"></div>
+                        <span style="font-size:13px;color:#8e8e93;font-weight:500;">ou</span>
+                        <div style="flex:1;height:1px;background:#d1d1d6;"></div>
+                    </div>
+
+                    <button id="showEmailLoginBtn" class="m3-btn m3-btn-filled android-btn-stagger ripple" style="animation-delay:0.16s">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
+                        <span>Entrar com a minha conta</span>
+                    </button>
+
+                    <!-- Criar conta link -->
+                    <div class="create-account-link" style="text-align:center;margin-top:10px;animation:androidBtnSlide 0.4s cubic-bezier(0.2, 0, 0, 1) 0.28s both;">
+                        <p style="font-size:13px;color:#8e8e93;">Você não tem conta?</p>
+                        <button id="openCreateAccountModalBtn" style="background:none;border:none;color:var(--primary);font-size:14px;font-weight:700;cursor:pointer;padding:6px 0;text-decoration:underline;text-underline-offset:3px;">Clique aqui para criar</button>
                     </div>
                 </div>
-            </div>
 
-            <div id="forgotPasswordForm" class="hidden space-y-6 animate-fade-in">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200">Recuperar Senha</h3>
-                    <button id="backToLoginFromForgotBtn" class="text-gray-500 hover:text-primary transition-colors font-medium">
-                        ← Voltar
-                    </button>
-                </div>
-
-                <div class="text-center mb-4">
-                    <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-3">
-                        <span class="text-3xl">🔑</span>
-                    </div>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">Digite seu email e enviaremos um link para redefinir sua senha.</p>
-                </div>
-
-                <form id="forgotPasswordFormEl" class="space-y-4">
-                    <input type="email" id="forgotEmail" placeholder="Seu email cadastrado" required
-                           class="w-full px-4 py-4 text-base card-bg border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent">
-                    <button type="submit" id="forgotPasswordSubmitBtn" class="w-full btn-primary text-white py-4 rounded-xl hover-lift ripple font-medium">
-                        <span id="forgotBtnText">Enviar Link de Recuperação</span>
-                        <span id="forgotBtnLoader" class="hidden flex items-center justify-center">
-                            <div class="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-2"></div>
-                            Enviando...
-                        </span>
-                    </button>
-                </form>
-
-                <div id="forgotPasswordSuccess" class="hidden text-center p-4 rounded-xl bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700">
-                    <span class="text-3xl block mb-2">✅</span>
-                    <p class="text-sm font-medium text-green-800 dark:text-green-200">Email de recuperação enviado!</p>
-                    <p class="text-xs text-green-600 dark:text-green-400 mt-1">Verifique sua caixa de entrada e pasta de spam.</p>
-                </div>
-            </div>
-
-            <div id="emailRegisterForm" class="hidden space-y-6 animate-fade-in">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200">Criar Conta</h3>
-                    <button id="backToLoginBtn" class="text-gray-500 hover:text-primary transition-colors font-medium">
-                        ← Voltar
-                    </button>
-                </div>
-
-                <form id="registerForm" class="space-y-4">
-                    <div class="text-center">
-                        <div class="relative inline-block">
-                            <img id="previewAvatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='50' fill='%235D5CDE'/%3E%3Ccircle cx='50' cy='40' r='14' fill='white' opacity='0.9'/%3E%3Cellipse cx='50' cy='78' rx='24' ry='16' fill='white' opacity='0.9'/%3E%3C/svg%3E" alt="Preview"
-                                 class="w-20 h-20 rounded-full object-cover border-4 border-gray-300 dark:border-gray-600 hover-lift" onerror="handleAvatarError(this)">
-                            <label for="profilePicture" class="absolute -bottom-1 -right-1 btn-primary text-white rounded-full p-2 cursor-pointer hover-lift">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                </svg>
-                            </label>
-                            <input type="file" id="profilePicture" accept="image/*" class="hidden">
+                <!-- Email Login Form -->
+                <div id="emailLoginForm" class="hidden android-form-section">
+                    <div class="android-form-card">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+                            <h3 class="android-body-title" style="margin:0;">Entrar</h3>
+                            <button id="backToOptionsBtn" class="android-back-btn">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
+                                Voltar
+                            </button>
                         </div>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Clique para adicionar foto</p>
+
+                        <form id="loginForm" style="display:flex;flex-direction:column;gap:14px;">
+                            <div class="m3-field">
+                                <input type="text" id="loginEmail" placeholder=" " required autocomplete="username" style="font-size:16px;">
+                                <label for="loginEmail">Email ou nome de usuário</label>
+                            </div>
+                            <div class="m3-field">
+                                <input type="password" id="loginPassword" placeholder=" " required>
+                                <label for="loginPassword">Senha</label>
+                            </div>
+                            <button type="submit" class="m3-btn m3-btn-filled ripple" style="margin-top:4px;">
+                                Entrar
+                            </button>
+                        </form>
+
+                        <div style="text-align:center;margin-top:18px;">
+                            <button id="showForgotPasswordBtn" style="background:none;border:none;color:var(--primary);font-size:14px;font-weight:600;cursor:pointer;padding:4px 0;">Esqueceu a senha?</button>
+                        </div>
                     </div>
+                </div>
 
-                    <input type="text" id="registerName" placeholder="Nome completo" required
-                           class="w-full px-4 py-4 text-base card-bg border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent">
-                    <input type="email" id="registerEmail" placeholder="Email" required
-                           class="w-full px-4 py-4 text-base card-bg border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent">
-                    <input type="password" id="registerPassword" placeholder="Senha (mín. 6 caracteres)" required minlength="6"
-                           class="w-full px-4 py-4 text-base card-bg border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent">
+                <!-- Forgot Password Form -->
+                <div id="forgotPasswordForm" class="hidden android-form-section">
+                    <div class="android-form-card">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+                            <h3 class="android-body-title" style="margin:0;">Recuperar Senha</h3>
+                            <button id="backToLoginFromForgotBtn" class="android-back-btn">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
+                                Voltar
+                            </button>
+                        </div>
 
-                    <button type="submit" id="registerSubmitBtn" class="w-full btn-primary text-white py-4 rounded-xl hover-lift ripple font-medium">
-                        <span id="registerBtnText">Criar Conta</span>
-                        <span id="registerBtnLoader" class="hidden flex items-center justify-center">
-                            <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                            Criando conta...
-                        </span>
-                    </button>
-                </form>
+                        <div style="text-align:center;margin-bottom:18px;">
+                            <div style="width:56px;height:56px;border-radius:16px;background:rgba(93,92,222,0.1);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:28px;">🔑</div>
+                            <p style="font-size:13px;color:#8e8e93;line-height:1.5;">Digite seu email e enviaremos um link para redefinir sua senha.</p>
+                        </div>
+
+                        <form id="forgotPasswordFormEl" style="display:flex;flex-direction:column;gap:14px;">
+                            <div class="m3-field">
+                                <input type="email" id="forgotEmail" placeholder=" " required>
+                                <label for="forgotEmail">Seu email cadastrado</label>
+                            </div>
+                            <button type="submit" id="forgotPasswordSubmitBtn" class="m3-btn m3-btn-filled ripple">
+                                <span id="forgotBtnText">Enviar Link de Recuperação</span>
+                                <span id="forgotBtnLoader" class="hidden flex items-center justify-center">
+                                    <div class="animate-spin rounded-full" style="width:20px;height:20px;border:2px solid rgba(255,255,255,0.4);border-top-color:#fff;border-radius:50%;margin-right:8px;"></div>
+                                    Enviando...
+                                </span>
+                            </button>
+                        </form>
+
+                        <div id="forgotPasswordSuccess" class="hidden" style="text-align:center;padding:16px;border-radius:14px;background:rgba(52,199,89,0.08);border:1px solid rgba(52,199,89,0.15);margin-top:14px;">
+                            <span style="font-size:28px;display:block;margin-bottom:8px;">✅</span>
+                            <p style="font-size:14px;font-weight:600;color:#34c759;">Email de recuperação enviado!</p>
+                            <p style="font-size:12px;color:#8e8e93;margin-top:4px;">Verifique sua caixa de entrada e pasta de spam.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Instruções para criar conta -->
+    <div id="createAccountModal" class="fixed inset-0 z-50 hidden" style="background:rgba(0,0,0,0.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);">
+        <div class="create-account-modal-inner" style="position:absolute;inset:0;display:flex;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch;">
+            <!-- Gradient Header -->
+            <div style="position:relative;background:linear-gradient(160deg, #3730a3 0%, #5D5CDE 45%, #7c3aed 100%);padding:24px 20px 32px;flex-shrink:0;">
+                <button id="closeCreateAccountModalBtn" style="position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.18);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">
+                    <svg width="18" height="18" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+                <div style="text-align:center;">
+                    <div style="width:64px;height:64px;border-radius:20px;background:rgba(255,255,255,0.18);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:30px;border:1.5px solid rgba(255,255,255,0.22);">📝</div>
+                    <h2 style="color:#fff;font-size:22px;font-weight:700;margin:0 0 6px;">Como criar sua conta</h2>
+                    <p style="color:rgba(255,255,255,0.8);font-size:13px;margin:0;">Siga os passos abaixo para se registrar</p>
+                </div>
+            </div>
+
+            <!-- Body with Steps -->
+            <div class="create-account-modal-body" style="flex:1;padding:24px 20px 32px;">
+                <!-- Passo 1 -->
+                <div class="create-step-card" style="animation-delay:0.08s">
+                    <div class="create-step-number">1</div>
+                    <div class="create-step-content">
+                        <h4>Acesse o site oficial da loja</h4>
+                        <p>Clique no botão <strong>"Criar conta"</strong> abaixo para abrir o site oficial do Kuia+ Shop no seu navegador.</p>
+                    </div>
+                </div>
+
+                <!-- Passo 2 -->
+                <div class="create-step-card" style="animation-delay:0.16s">
+                    <div class="create-step-number">2</div>
+                    <div class="create-step-content">
+                        <h4>Clique em "Entrar com email"</h4>
+                        <p>Na página do site, procure e clique na opção <strong>"Entrar com email"</strong> para acessar a área de autenticação.</p>
+                    </div>
+                </div>
+
+                <!-- Passo 3 -->
+                <div class="create-step-card" style="animation-delay:0.24s">
+                    <div class="create-step-number">3</div>
+                    <div class="create-step-content">
+                        <h4>Clique em "Criar conta"</h4>
+                        <p>Na tela de login, selecione a opção <strong>"Criar conta"</strong> para iniciar o processo de registro.</p>
+                    </div>
+                </div>
+
+                <!-- Passo 4 -->
+                <div class="create-step-card" style="animation-delay:0.32s">
+                    <div class="create-step-number">4</div>
+                    <div class="create-step-content">
+                        <h4>Preencha seus dados</h4>
+                        <p>Complete o formulário com:</p>
+                        <ul class="create-step-list">
+                            <li><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"/><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z"/></svg> Foto de perfil</li>
+                            <li><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg> Seu nome</li>
+                            <li><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg> Seu e-mail</li>
+                            <li><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg> Sua senha</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Passo 5 -->
+                <div class="create-step-card" style="animation-delay:0.40s">
+                    <div class="create-step-number">5</div>
+                    <div class="create-step-content">
+                        <h4>Volte aqui e faça login</h4>
+                        <p>Depois de criar a conta no site oficial, <strong>volte aqui no aplicativo</strong> e use o email e a senha que você acabou de criar para entrar.</p>
+                    </div>
+                </div>
+
+                <!-- Aviso importante -->
+                <div class="create-account-notice" style="animation-delay:0.48s">
+                    <div style="display:flex;align-items:flex-start;gap:10px;">
+                        <span style="font-size:20px;flex-shrink:0;">💡</span>
+                        <p style="font-size:13px;color:inherit;line-height:1.55;margin:0;"><strong>Dica:</strong> Use o mesmo e-mail e senha que cadastrou no site oficial para fazer login aqui no app.</p>
+                    </div>
+                </div>
+
+                <!-- Botão Criar conta -->
+                <a href="https://kuia.vercel.app/" target="_blank" rel="noopener noreferrer" id="createAccountExternalBtn" class="m3-btn m3-btn-filled ripple" style="margin-top:20px;text-decoration:none;animation:androidBtnSlide 0.4s cubic-bezier(0.2, 0, 0, 1) 0.56s both;">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
+                    <span>Criar conta</span>
+                </a>
+
+                <!-- Botão voltar -->
+                <button id="backFromCreateAccountBtn" style="width:100%;margin-top:12px;padding:14px;border-radius:16px;background:transparent;border:1.5px solid rgba(93,92,222,0.2);color:var(--primary);font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;">
+                    Já criei minha conta, voltar ao login
+                </button>
             </div>
         </div>
     </div>
@@ -4673,14 +5085,14 @@
   style="width:60%;"
 >
                             <input type="file" id="chatFullImageInput" accept="image/*" class="hidden">
-                            <button id="chatFullImageBtn" class="btn-secondary px-4 py-3 rounded-xl hover-lift">
+                            <button id="chatFullImageBtn" class="btn-secondary px-4 py-3 rounded-xl hover-lift" style="display:none;">
                                 📷
                             </button>
                             <button id="sendChatFullBtn" class="btn-primary text-white px-6 py-3 rounded-xl hover-lift">
                                 📤
                             </button>
                         </div>
-                        <p class="text-xs text-gray-500 dark:text-gray-400">Pressione Enter para enviar • Clique em 📷 para enviar imagem</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">Pressione Enter para enviar</p>
                     </div>
                 </div>
             </div>
@@ -4759,8 +5171,8 @@
 
                         
                         <div class="profile-avatar-ring">
-                            <img id="profileAvatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='50' fill='%235D5CDE'/%3E%3Ccircle cx='50' cy='40' r='14' fill='white' opacity='0.9'/%3E%3Cellipse cx='50' cy='78' rx='24' ry='16' fill='white' opacity='0.9'/%3E%3C/svg%3E" alt="Avatar" onclick="openProfilePictureModal()" onerror="handleAvatarError(this)" style="cursor:pointer;">
-                            <button onclick="openProfilePictureModal()" class="profile-edit-avatar-btn" title="Alterar foto">
+                            <img id="profileAvatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='50' fill='%235D5CDE'/%3E%3Ccircle cx='50' cy='40' r='14' fill='white' opacity='0.9'/%3E%3Cellipse cx='50' cy='78' rx='24' ry='16' fill='white' opacity='0.9'/%3E%3C/svg%3E" alt="Avatar" onerror="handleAvatarError(this)">
+                            <button onclick="openProfilePictureModal()" class="profile-edit-avatar-btn" title="Alterar foto" style="display:none;">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -4818,7 +5230,7 @@
                             <div class="profile-action-icon" style="background:linear-gradient(135deg,rgba(239,68,68,0.08),rgba(249,115,22,0.12));">❤️</div>
                             <div class="profile-action-label">Favoritos</div>
                         </div>
-                        <div class="profile-action-card" onclick="openProfilePictureModal()">
+                        <div class="profile-action-card" onclick="openProfilePictureModal()" style="display:none;">
                             <div class="profile-action-icon" style="background:linear-gradient(135deg,rgba(16,185,129,0.08),rgba(52,211,153,0.15));">📷</div>
                             <div class="profile-action-label">Foto</div>
                         </div>
@@ -4872,7 +5284,7 @@
                             </div>
                         </div>
 
-                        <div class="profile-menu-item" onclick="openProfilePictureModal()">
+                        <div class="profile-menu-item" onclick="openProfilePictureModal()" style="display:none;">
                             <div class="profile-menu-icon" style="background:linear-gradient(135deg,rgba(93,92,222,0.08),rgba(124,58,237,0.12));">
                                 👤
                             </div>
@@ -5018,14 +5430,18 @@
                                 </div>
                                 <svg class="w-5 h-5 text-gray-400 ml-auto group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </a>
-                             <a href="/cdn-cgi/l/email-protection#3e554b575f4d56514e097e59535f5752105d5153" flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800 60 hover:bg-primary 5 dark:hover:bg-primary 10 transition-all group">
+                            <a href="/cdn-cgi/l/email-protection#2e455b474f5d46415e196e49434f4742004d4143" class="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60 hover:bg-primary/5 dark:hover:bg-primary/10 transition-all group">
+                                <div class="w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                                    <svg class="w-6 h-6 text-red-500 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                    </svg>
                                 </div>
                                 <div>
-                                    
                                     <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Email de Suporte</p>
-                                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200"><span class="__cf_email__" data-cfemail="fd9688949c8e95928dcabd9a909c9491d39e9290"><span class="__cf_email__" data-cfemail="2e455b474f5d46415e196e49434f4742004d4143"><span class="__cf_email__" data-cfemail="bcd7c9d5ddcfd4d3cc8bfcdbd1ddd5d092dfd3d1"><a href="/cdn-cgi/l/email-protection#6b001e020a1803041b5c2b0c060a0207450804064b08070a181856" __cf_email__" data-cfemail="1c5769757d6f74736c2b5c7b717d7570327f7371"><span class="__cf_email__" data-cfemail="6d2638242c3e25223d5a2d2a202c2421432e2220">[email&#160;protected]</span></a></span></span></span></p>
+                                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200"><span class="__cf_email__" data-cfemail="751e001c14061d1a0542351218141c195b161a18">[email&#160;protected]</span></p>
                                 </div>
-                               </a>
+                                <svg class="w-5 h-5 text-gray-400 ml-auto group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </a>
                         </div>
                     </div>
 
@@ -5224,7 +5640,7 @@
                 <div class="max-w-3xl mx-auto">
                     <div class="flex items-center gap-3 mb-2">
                         <input type="file" id="chatOverlayImageInput" accept="image/*" class="hidden">
-                        <button id="chatOverlayImageBtn" class="btn-secondary flex-shrink-0 w-11 h-11 flex items-center justify-center rounded-xl hover-lift" aria-label="Enviar imagem">
+                        <button id="chatOverlayImageBtn" class="btn-secondary flex-shrink-0 w-11 h-11 flex items-center justify-center rounded-xl hover-lift" aria-label="Enviar imagem" style="display:none;">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h2l2-3h10l2 3h2a1 1 0 011 1v11a1 1 0 01-1 1H3a1 1 0 01-1-1V8a1 1 0 011-1zm9 3a3 3 0 100 6 3 3 0 000-6z"/></svg>
                         </button>
                         <input type="text" id="chatOverlayInput" placeholder="Digite sua mensagem..."
@@ -5233,7 +5649,7 @@
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12L3 2l18 10L3 22l3-10zm0 0h8"/></svg>
                         </button>
                     </div>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">Pressione Enter para enviar • Clique em 📷 para enviar imagem</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Pressione Enter para enviar</p>
                 </div>
             </div>
         </div>
@@ -5338,9 +5754,6 @@
                         <div class="mt-6 flex space-x-3">
                             <button id="checkoutLoginBtn" class="btn-primary text-white px-4 py-2 rounded-xl hover-lift text-sm">
                                 Fazer Login
-                            </button>
-                            <button id="checkoutRegisterBtn" class="btn-secondary px-4 py-2 rounded-xl hover-lift text-sm">
-                                Criar Conta
                             </button>
                         </div>
                     </div>
@@ -5460,7 +5873,7 @@
     </div>
 
     
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     (function() {
         function updateLuandaClock() {
             var now = new Date();
@@ -5492,7 +5905,7 @@
         document.getElementById('loadingStatus').textContent = 'Carregando Firebase';
 
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js';
-        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js';
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js';
         import { getDatabase, ref, onValue, push, set, remove, update } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js';
         import { getFirestore, collection, doc, setDoc, getDoc, getDocs, query, where, orderBy } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js';
 
@@ -7270,11 +7683,11 @@
                 },
                 'auth/invalid-credential': {
                     msg: 'Email ou senha incorretos.',
-                    hint: 'Verifique suas credenciais. Se usou login com Google, tente o botão "Continuar com Google".'
+                    hint: 'Verifique suas credenciais e tente novamente.'
                 },
                 'auth/email-already-in-use': {
                     msg: 'Este email já está em uso.',
-                    hint: 'Tente fazer login ou use outro email para criar uma conta.'
+                    hint: 'Tente fazer login com outro email.'
                 },
                 'auth/weak-password': {
                     msg: 'A senha é muito fraca.',
@@ -7302,7 +7715,7 @@
                 },
                 'auth/account-exists-with-different-credential': {
                     msg: 'Já existe uma conta com este email usando outro método.',
-                    hint: 'Tente fazer login com Google ou com email/senha.'
+                    hint: 'Tente fazer login com email/senha.'
                 },
                 'auth/operation-not-allowed': {
                     msg: 'Este método de login não está habilitado.',
@@ -7357,20 +7770,41 @@
         }
 
         const guestBtn = document.getElementById('guestBtn');
-        const googleLoginBtn = document.getElementById('googleLoginBtn');
         const showEmailLoginBtn = document.getElementById('showEmailLoginBtn');
         const backToOptionsBtn = document.getElementById('backToOptionsBtn');
-        const showRegisterBtn = document.getElementById('showRegisterBtn');
-        const backToLoginBtn = document.getElementById('backToLoginBtn');
         const showForgotPasswordBtn = document.getElementById('showForgotPasswordBtn');
         const backToLoginFromForgotBtn = document.getElementById('backToLoginFromForgotBtn');
         const forgotPasswordFormEl = document.getElementById('forgotPasswordFormEl');
         const forgotPasswordForm = document.getElementById('forgotPasswordForm');
         const loginForm = document.getElementById('loginForm');
-        const registerForm = document.getElementById('registerForm');
         const loginOptions = document.getElementById('loginOptions');
         const emailLoginForm = document.getElementById('emailLoginForm');
-        const emailRegisterForm = document.getElementById('emailRegisterForm');
+        const createAccountModal = document.getElementById('createAccountModal');
+        const openCreateAccountModalBtn = document.getElementById('openCreateAccountModalBtn');
+        const closeCreateAccountModalBtn = document.getElementById('closeCreateAccountModalBtn');
+        const backFromCreateAccountBtn = document.getElementById('backFromCreateAccountBtn');
+
+        openCreateAccountModalBtn.addEventListener('click', () => {
+            createAccountModal.classList.remove('hidden');
+            createAccountModal.style.opacity = '0';
+            setTimeout(() => { createAccountModal.style.transition = 'opacity 0.3s ease'; createAccountModal.style.opacity = '1'; }, 10);
+        });
+
+        function closeCreateAccountModal() {
+            createAccountModal.style.opacity = '0';
+            setTimeout(() => {
+                createAccountModal.classList.add('hidden');
+                createAccountModal.style.transition = '';
+                createAccountModal.style.opacity = '';
+            }, 300);
+        }
+
+        closeCreateAccountModalBtn.addEventListener('click', closeCreateAccountModal);
+        backFromCreateAccountBtn.addEventListener('click', closeCreateAccountModal);
+
+        createAccountModal.addEventListener('click', (e) => {
+            if (e.target === createAccountModal) closeCreateAccountModal();
+        });
 
         guestBtn.addEventListener('click', () => {
             hideLoginError();
@@ -7382,69 +7816,6 @@
             updateCartUI();
         });
 
-        async function handleGoogleAuth() {
-            const btn = googleLoginBtn;
-            const textEl = document.getElementById('googleBtnText');
-            const loaderEl = document.getElementById('googleBtnLoader');
-
-            hideLoginError();
-            setLoginBtnLoading(btn, textEl, loaderEl, true);
-
-            try {
-                const provider = new GoogleAuthProvider();
-                const result = await signInWithPopup(auth, provider);
-                const user = result.user;
-
-                const userDoc = await getDoc(doc(firestore, 'users', user.uid));
-                if (!userDoc.exists()) {
-                    await setDoc(doc(firestore, 'users', user.uid), {
-                        name: user.displayName,
-                        email: user.email,
-                        photoURL: user.photoURL,
-                        createdAt: new Date(),
-                        isActive: true
-                    });
-                }
-
-                await set(ref(database, `users/${user.uid}`), {
-                    name: user.displayName,
-                    email: user.email,
-                    photoURL: user.photoURL,
-                    createdAt: Date.now(),
-                    isActive: true
-                });
-
-                if (user.email === 'sibemcesar@gmail.com') {
-                    const adminDoc = await getDoc(doc(firestore, 'admins', user.uid));
-                    if (!adminDoc.exists()) {
-                        await setDoc(doc(firestore, 'admins', user.uid), {
-                            email: user.email,
-                            role: 'super_admin',
-                            createdAt: new Date()
-                        });
-
-                        await set(ref(database, `admins/${user.uid}`), {
-                            email: user.email,
-                            role: 'super_admin',
-                            createdAt: Date.now()
-                        });
-                    }
-                }
-
-                console.log('Google login successful:', user.email);
-                showNotificationToast('Sucesso', 'Login realizado com sucesso! Bem-vindo, ' + (user.displayName || user.email), 'success');
-
-            } catch (error) {
-                console.error('Login error:', error);
-                showLoginError(error);
-                showNotificationToast('Erro', getFirebaseErrorMessage(error).msg, 'error');
-            } finally {
-                setLoginBtnLoading(btn, textEl, loaderEl, false);
-            }
-        }
-
-        googleLoginBtn.addEventListener('click', () => handleGoogleAuth());
-
         showEmailLoginBtn.addEventListener('click', () => {
             hideLoginError();
             loginOptions.classList.add('hidden');
@@ -7455,12 +7826,6 @@
             hideLoginError();
             emailLoginForm.classList.add('hidden');
             loginOptions.classList.remove('hidden');
-        });
-
-        showRegisterBtn.addEventListener('click', () => {
-            hideLoginError();
-            emailLoginForm.classList.add('hidden');
-            emailRegisterForm.classList.remove('hidden');
         });
 
         showForgotPasswordBtn.addEventListener('click', () => {
@@ -7512,17 +7877,16 @@
             }
         });
 
-        backToLoginBtn.addEventListener('click', () => {
-            hideLoginError();
-            emailRegisterForm.classList.add('hidden');
-            emailLoginForm.classList.remove('hidden');
-        });
-
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             hideLoginError();
-            const email = document.getElementById('loginEmail').value.trim();
+            let email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
+
+            // Auto-append @gmail.com if user typed just a username (like Google login)
+            if (email && !email.includes('@')) {
+                email = email + '@gmail.com';
+            }
 
             if (!email) {
                 showLoginError({ code: 'auth/invalid-email' });
@@ -7548,111 +7912,6 @@
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = originalText;
-            }
-        });
-
-        const profilePictureInput = document.getElementById('profilePicture');
-        const previewAvatar = document.getElementById('previewAvatar');
-
-        profilePictureInput.addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                previewAvatar.src = e.target.result;
-                previewAvatar.style.transform = 'scale(1.1)';
-                setTimeout(() => {
-                    previewAvatar.style.transform = 'scale(1)';
-                }, 200);
-            };
-            reader.readAsDataURL(file);
-
-            try {
-                const formData = new FormData();
-                formData.append('image', file);
-
-                const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKeyImgBB}`, {
-                    method: 'POST',
-                    body: formData
-                });
-
-                const result = await response.json();
-                if (result.success) {
-                    uploadedPhotoURL = result.data.url;
-                    console.log('Image uploaded successfully:', uploadedPhotoURL);
-                } else {
-                    showNotificationToast('Erro', 'Erro ao fazer upload da imagem', 'error');
-                }
-            } catch (error) {
-                console.error('Image upload error:', error);
-                showNotificationToast('Erro', 'Erro ao fazer upload da imagem', 'error');
-            }
-        });
-
-        registerForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const name = document.getElementById('registerName').value;
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-
-            const registerBtnText = document.getElementById('registerBtnText');
-            const registerBtnLoader = document.getElementById('registerBtnLoader');
-            const registerSubmitBtn = document.getElementById('registerSubmitBtn');
-
-            registerBtnText.classList.add('hidden');
-            registerBtnLoader.classList.remove('hidden');
-            registerSubmitBtn.disabled = true;
-
-            try {
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-
-                await updateProfile(user, { 
-                    displayName: name,
-                    photoURL: uploadedPhotoURL || getAvatarFallback(name)
-                });
-
-                await setDoc(doc(firestore, 'users', user.uid), {
-                    name: name,
-                    email: email,
-                    photoURL: uploadedPhotoURL || getAvatarFallback(name),
-                    createdAt: new Date(),
-                    isActive: true
-                });
-
-                await set(ref(database, `users/${user.uid}`), {
-                    name: name,
-                    email: email,
-                    photoURL: uploadedPhotoURL || getAvatarFallback(name),
-                    createdAt: Date.now(),
-                    isActive: true
-                });
-
-                if (email === 'sibemcesar@gmail.com') {
-                    await setDoc(doc(firestore, 'admins', user.uid), {
-                        email: email,
-                        role: 'super_admin',
-                        createdAt: new Date()
-                    });
-
-                    await set(ref(database, `admins/${user.uid}`), {
-                        email: email,
-                        role: 'super_admin',
-                        createdAt: Date.now()
-                    });
-                }
-
-                showNotificationToast('Sucesso', 'Conta criada com sucesso!', 'success');
-
-            } catch (error) {
-                console.error('Register error:', error);
-                showLoginError(error);
-                showNotificationToast('Erro', getFirebaseErrorMessage(error).msg, 'error');
-            } finally {
-                registerBtnText.classList.remove('hidden');
-                registerBtnLoader.classList.add('hidden');
-                registerSubmitBtn.disabled = false;
             }
         });
 
@@ -7898,7 +8157,6 @@
         const cancelCheckoutBtn = document.getElementById('cancelCheckoutBtn');
         const checkoutForm = document.getElementById('checkoutForm');
         const checkoutLoginBtn = document.getElementById('checkoutLoginBtn');
-        const checkoutRegisterBtn = document.getElementById('checkoutRegisterBtn');
 
         checkoutBtn.addEventListener('click', openCheckout);
         closeCheckoutBtn.addEventListener('click', closeCheckout);
@@ -7908,12 +8166,6 @@
         checkoutLoginBtn.addEventListener('click', () => {
             closeCheckout();
             showLoginScreen();
-        });
-
-        checkoutRegisterBtn.addEventListener('click', () => {
-            closeCheckout();
-            showEmailLoginBtn.click();
-            showRegisterBtn.click();
         });
 
         const productDetailModal = document.getElementById('productDetailModal');
@@ -9432,7 +9684,13 @@
 
             loginOptions.classList.remove('hidden');
             emailLoginForm.classList.add('hidden');
-            emailRegisterForm.classList.add('hidden');
+            forgotPasswordForm.classList.add('hidden');
+
+            if (createAccountModal) {
+                createAccountModal.classList.add('hidden');
+                createAccountModal.style.transition = '';
+                createAccountModal.style.opacity = '';
+            }
 
             const errorBanner = document.getElementById('loginErrorBanner');
             if (errorBanner) errorBanner.classList.add('hidden');
@@ -9910,13 +10168,13 @@
                         E-mail
                     </h3>
 
-                    <a href="/cdn-cgi/l/email-protection#f299879b93819a9d82c5b2959f939b9edc919d9f" class="support-contact-item">
+                    <a href="/cdn-cgi/l/email-protection#8ae1ffe3ebf9e2e5fabdcaede7ebe3e6a4e9e5e7" class="support-contact-item">
                         <div class="support-contact-icon" style="background:rgba(234,67,53,0.10);color:#EA4335;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                         </div>
                         <div class="support-contact-info">
                             <span class="support-contact-label">E-mail</span>
-                            <span class="support-contact-value"><span class="__cf_email__" data-cfemail="6b001e020a1803041b5c2b0c060a020745080406">[email&#160;protected]</span></span>
+                            <span class="support-contact-value"><span class="__cf_email__" data-cfemail="92f9e7fbf3e1fafde2a5d2f5fff3fbfebcf1fdff">[email&#160;protected]</span></span>
                         </div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="support-contact-arrow"><polyline points="9 18 15 12 9 6"/></svg>
                     </a>
@@ -10055,7 +10313,7 @@ function showPersonalizeToast(hiddenCount) {
     
     setTimeout(function() {
         openSuggestModal();
-    }, 60000);
+    }, 300000);
     
     var emptySearchCount = 0;
     var EMPTY_SEARCH_THRESHOLD = 2;
@@ -10136,4 +10394,5 @@ function showPersonalizeToast(hiddenCount) {
 </script>
 </body>
 </html>
+
 
