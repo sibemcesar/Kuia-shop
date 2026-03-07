@@ -1605,18 +1605,36 @@
 
         function showAdminPanel() {
             addDebugLog('Showing admin panel...');
-            
+
             updateAdminUI();
             document.getElementById('loadingScreen').classList.add('hidden');
             document.getElementById('accessDeniedScreen').classList.add('hidden');
             document.getElementById('adminPanel').classList.remove('hidden');
-            
+
             // Initialize all systems
             loadAllData();
             updateConnectionStatus();
             initializeChat();
             setupEventListeners();
             setupFiltersAndSearch();
+
+            // Atualizar lastActive do admin no nó users
+            updateCurrentUserLastActive();
+            // Heartbeat: atualizar lastActive a cada 5 minutos enquanto o admin estiver ativo
+            setInterval(updateCurrentUserLastActive, 5 * 60 * 1000);
+        }
+
+        // Atualiza o campo lastActive do usuário logado no nó users/{uid}
+        async function updateCurrentUserLastActive() {
+            if (!currentUser) return;
+            try {
+                await update(ref(database, `users/${currentUser.uid}`), {
+                    lastActive: Date.now()
+                });
+                addDebugLog('lastActive atualizado para o admin');
+            } catch (error) {
+                addDebugLog('Erro ao atualizar lastActive: ' + error.message);
+            }
         }
 
         function showAccessDenied() {
@@ -1761,8 +1779,8 @@
             document.getElementById('todaySalesAmount').textContent = formatPrice(todaySalesAmount);
             
             // Update user stats
-            const activeToday = Object.values(users).filter(user => {
-                const lastActive = user.lastActive || user.createdAt || 0;
+            const activeToday = Object.entries(users).filter(([userId, user]) => {
+                const lastActive = getUserLastActive(user, userId) || user.createdAt || 0;
                 return lastActive >= todayTimestamp;
             }).length;
             
@@ -2863,7 +2881,8 @@
             if (statusFilterValue) {
                 var now = Date.now();
                 usersArray = usersArray.filter(function(user) {
-                    var lastActive = user.lastActive || user.createdAt || 0;
+                    var userUID = user.uid || user.id;
+                    var lastActive = getUserLastActive(user, userUID) || user.createdAt || 0;
                     var isActive = (now - lastActive) < (24 * 60 * 60 * 1000);
                     var isNew = user.createdAt && (now - user.createdAt) < (7 * 24 * 60 * 60 * 1000);
                     if (statusFilterValue === 'active') return isActive;
@@ -2907,8 +2926,10 @@
                 const totalSpent = Object.values(orders)
                     .filter(order => order.customer?.userId === userUID && order.status === 'delivered')
                     .reduce((sum, order) => sum + (order.total || 0), 0);
-                
-                const isActive = user.lastActive && (Date.now() - user.lastActive) < (24 * 60 * 60 * 1000);
+
+                // Inferir lastActive a partir de múltiplas fontes
+                const inferredLastActive = getUserLastActive(user, userUID);
+                const isActive = inferredLastActive && (Date.now() - inferredLastActive) < (24 * 60 * 60 * 1000);
                 const isNew = user.createdAt && (Date.now() - user.createdAt) < (7 * 24 * 60 * 60 * 1000);
                 
                 // Determinar tipo de login (Google ou Email/Senha)
@@ -2948,7 +2969,7 @@
                         
                         <div class="text-sm text-gray-600 space-y-1 mb-4">
                             <p><strong>Registrado:</strong> ${new Date(user.createdAt || Date.now()).toLocaleDateString('pt-BR')}</p>
-                            <p><strong>Último acesso:</strong> ${user.lastActive ? getTimeAgo(user.lastActive) : 'Nunca'}</p>
+                            <p><strong>Último acesso:</strong> ${inferredLastActive ? getTimeAgo(inferredLastActive) : 'Nunca'}</p>
                             <p><strong>Login via:</strong> ${loginType}</p>
                         </div>
                         
@@ -2966,6 +2987,39 @@
             
             // Atualizar lista de usuários para chat também
             renderUsersListForChat();
+        }
+
+        // Função para inferir o último acesso do usuário a partir de múltiplas fontes
+        function getUserLastActive(user, userId) {
+            // Prioridade: lastActive > lastLogin > último pedido > createdAt
+            const candidates = [];
+
+            if (user.lastActive) candidates.push(user.lastActive);
+            if (user.lastLogin) candidates.push(user.lastLogin);
+            if (user.metadata && user.metadata.lastSignInTime) {
+                const ts = new Date(user.metadata.lastSignInTime).getTime();
+                if (!isNaN(ts)) candidates.push(ts);
+            }
+            if (user.updatedAt) candidates.push(user.updatedAt);
+
+            // Inferir a partir dos pedidos do usuário (o pedido mais recente)
+            if (userId && orders) {
+                const userOrders = Object.values(orders).filter(
+                    order => order.customer && (order.customer.userId === userId || order.customer.uid === userId)
+                );
+                if (userOrders.length > 0) {
+                    const latestOrderTime = Math.max(
+                        ...userOrders.map(o => o.createdAt || o.updatedAt || 0)
+                    );
+                    if (latestOrderTime > 0) candidates.push(latestOrderTime);
+                }
+            }
+
+            // Retornar o timestamp mais recente encontrado, ou null
+            if (candidates.length > 0) {
+                return Math.max(...candidates);
+            }
+            return null;
         }
 
         // Função para calcular tempo que ficou ativo - IMPLEMENTADA

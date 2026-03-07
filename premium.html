@@ -5826,7 +5826,16 @@
                             </span>
                         </div>
 
-                        
+                        <!-- Active Time Display -->
+                        <div id="activeTimeDisplay" class="profile-hero-chat-status" style="margin-top:6px;display:none;">
+                            <span class="inline-flex items-center px-3 py-1 text-xs rounded-full" style="background:rgba(93,92,222,0.15);border:1px solid rgba(93,92,222,0.25);color:rgba(255,255,255,0.85);">
+                                <span class="w-2 h-2 rounded-full mr-2" style="background:#5D5CDE;animation:pulse 2s infinite;"></span>
+                                <svg class="w-3 h-3 mr-1.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                <span id="activeTimeText">Ativo agora</span>
+                            </span>
+                        </div>
+
+
                         <div class="profile-stats-row">
                             <div class="profile-stat-item" onclick="showSection('orders')">
                                 <div class="profile-stat-number" id="profileStatOrders">0</div>
@@ -6070,7 +6079,7 @@
                                 </div>
                                 <svg class="w-5 h-5 text-gray-400 ml-auto group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </a>
-                            <a href="mailto:kuiashop7@gmail.com" class="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60 hover:bg-primary/5 dark:hover:bg-primary/10 transition-all group">
+                            <a href="/cdn-cgi/l/email-protection#c0abb5a9a1b3a8afb0f780a7ada1a9aceea3afad" class="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60 hover:bg-primary/5 dark:hover:bg-primary/10 transition-all group">
                                 <div class="w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                                     <svg class="w-6 h-6 text-red-500 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
@@ -6078,7 +6087,7 @@
                                 </div>
                                 <div>
                                     <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Email de Suporte</p>
-                                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200"><span class="__cf_email__" data-cfemail="751e001c14061d1a0542351218141c195b161a18">kuiashop7@gmail.com</span></p>
+                                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200"><span class="__cf_email__" data-cfemail="751e001c14061d1a0542351218141c195b161a18"><span class="__cf_email__" data-cfemail="076c726e66746f68773047606a666e6b2964686a">[email&#160;protected]</span></span></p>
                                 </div>
                                 <svg class="w-5 h-5 text-gray-400 ml-auto group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </a>
@@ -6513,7 +6522,7 @@
     </div>
 
     
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     (function() {
         function updateLuandaClock() {
             var now = new Date();
@@ -8552,6 +8561,62 @@
             }
         });
 
+        let lastActiveInterval = null;
+        let sessionStartTime = null;
+        let sessionTimerInterval = null;
+
+        function formatActiveTime(ms) {
+            const totalSeconds = Math.floor(ms / 1000);
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+            if (hours > 0) {
+                return `Ativo há ${hours}h ${minutes}min`;
+            } else if (minutes > 0) {
+                return `Ativo há ${minutes}min ${seconds}s`;
+            } else {
+                return `Ativo há ${seconds}s`;
+            }
+        }
+
+        function startActiveTimeTracking(user) {
+            // Save lastActive on login
+            update(ref(database, `users/${user.uid}`), {
+                lastActive: Date.now()
+            });
+
+            // Update lastActive every 5 minutes
+            if (lastActiveInterval) clearInterval(lastActiveInterval);
+            lastActiveInterval = setInterval(() => {
+                if (currentUser) {
+                    update(ref(database, `users/${currentUser.uid}`), {
+                        lastActive: Date.now()
+                    });
+                }
+            }, 5 * 60 * 1000);
+
+            // Start session timer display
+            sessionStartTime = Date.now();
+            const activeTimeDisplay = document.getElementById('activeTimeDisplay');
+            const activeTimeText = document.getElementById('activeTimeText');
+            if (activeTimeDisplay) activeTimeDisplay.style.display = '';
+
+            if (sessionTimerInterval) clearInterval(sessionTimerInterval);
+            sessionTimerInterval = setInterval(() => {
+                if (sessionStartTime && activeTimeText) {
+                    activeTimeText.textContent = formatActiveTime(Date.now() - sessionStartTime);
+                }
+            }, 1000);
+        }
+
+        function stopActiveTimeTracking() {
+            if (lastActiveInterval) { clearInterval(lastActiveInterval); lastActiveInterval = null; }
+            if (sessionTimerInterval) { clearInterval(sessionTimerInterval); sessionTimerInterval = null; }
+            sessionStartTime = null;
+            const activeTimeDisplay = document.getElementById('activeTimeDisplay');
+            if (activeTimeDisplay) activeTimeDisplay.style.display = 'none';
+        }
+
         onAuthStateChanged(auth, (user) => {
             console.log('Auth state changed:', user);
             currentUser = user;
@@ -8568,7 +8633,9 @@
                 initializeChat();
                 setupChatImageHandlers();
                 setupChatEventHandlers();
+                startActiveTimeTracking(user);
             } else if (!isGuest) {
+                stopActiveTimeTracking();
                 showLoginScreen();
             }
         });
@@ -11363,13 +11430,13 @@
                         E-mail
                     </h3>
 
-                    <a href="mailto:kuiashop7@gmail.com" class="support-contact-item">
+                    <a href="/cdn-cgi/l/email-protection#c6adb3afa7b5aea9b6f186a1aba7afaae8a5a9ab" class="support-contact-item">
                         <div class="support-contact-icon" style="background:rgba(234,67,53,0.10);color:#EA4335;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                         </div>
                         <div class="support-contact-info">
                             <span class="support-contact-label">E-mail</span>
-                            <span class="support-contact-value"><span class="__cf_email__" data-cfemail="92f9e7fbf3e1fafde2a5d2f5fff3fbfebcf1fdff">kuiashop7@gmail.com</span></span>
+                            <span class="support-contact-value"><span class="__cf_email__" data-cfemail="92f9e7fbf3e1fafde2a5d2f5fff3fbfebcf1fdff"><span class="__cf_email__" data-cfemail="bad1cfd3dbc9d2d5ca8dfaddd7dbd3d694d9d5d7">[email&#160;protected]</span></span></span>
                         </div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="support-contact-arrow"><polyline points="9 18 15 12 9 6"/></svg>
                     </a>
@@ -11381,7 +11448,7 @@
         </div>
     </div>
 </div>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 (function() {
     var appModal = document.getElementById('appModal');
     var btnGetApp = document.getElementById('btnGetApp');
