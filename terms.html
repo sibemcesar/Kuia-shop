@@ -508,7 +508,7 @@
                         </button>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <input type="text" id="orderSearch" placeholder="Buscar por cliente, email..." 
+                        <input type="text" id="orderSearch" placeholder="Buscar por ID, cliente, email, produto..."
                                class="px-4 py-2 text-base border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-primary focus:border-transparent">
                         <input type="date" id="orderDateFilter" 
                                class="px-4 py-2 text-base border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-primary focus:border-transparent">
@@ -2618,24 +2618,86 @@
         // Orders Management
         function renderOrders() {
             const ordersGrid = document.getElementById('ordersGrid');
-            const ordersArray = Object.entries(orders).map(([id, order]) => ({ id, ...order }));
-            
-            // Apply current filter
-            let filteredOrders = ordersArray;
+            let filteredOrders = Object.entries(orders).map(([id, order]) => ({ id, ...order }));
+
+            // Apply status filter
             if (currentOrderFilter !== 'all') {
-                filteredOrders = ordersArray.filter(order => order.status === currentOrderFilter);
+                filteredOrders = filteredOrders.filter(order => order.status === currentOrderFilter);
             }
-            
-            // Sort by creation date (newest first)
-            filteredOrders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+            // --- Apply search filter ---
+            var orderSearchInput = document.getElementById('orderSearch');
+            var orderSearchTerm = orderSearchInput ? orderSearchInput.value.trim().toLowerCase() : '';
+            if (orderSearchTerm) {
+                filteredOrders = filteredOrders.filter(function(order) {
+                    // Search by order ID (full and short)
+                    var orderId = (order.id || '').toLowerCase();
+                    var orderIdShort = orderId.slice(-6);
+                    // Search by customer info
+                    var customerName = (order.customer?.name || '').toLowerCase();
+                    var customerEmail = (order.customer?.email || '').toLowerCase();
+                    var customerPhone = (order.customer?.phone || '').toLowerCase();
+                    var customerLocation = (order.customer?.location || '').toLowerCase();
+                    // Search by product names in items
+                    var itemNames = (order.items || []).map(function(item) {
+                        return (item.name || '').toLowerCase();
+                    }).join(' ');
+                    // Search by product IDs in items (if available)
+                    var itemIds = (order.items || []).map(function(item) {
+                        return (item.id || item.productId || '').toLowerCase();
+                    }).join(' ');
+                    // Search by total value
+                    var totalStr = String(order.total || 0);
+
+                    return orderId.indexOf(orderSearchTerm) !== -1 ||
+                           orderIdShort.indexOf(orderSearchTerm) !== -1 ||
+                           customerName.indexOf(orderSearchTerm) !== -1 ||
+                           customerEmail.indexOf(orderSearchTerm) !== -1 ||
+                           customerPhone.indexOf(orderSearchTerm) !== -1 ||
+                           customerLocation.indexOf(orderSearchTerm) !== -1 ||
+                           itemNames.indexOf(orderSearchTerm) !== -1 ||
+                           itemIds.indexOf(orderSearchTerm) !== -1 ||
+                           totalStr.indexOf(orderSearchTerm) !== -1;
+                });
+            }
+
+            // --- Apply date filter ---
+            var orderDateFilterInput = document.getElementById('orderDateFilter');
+            var orderDateValue = orderDateFilterInput ? orderDateFilterInput.value : '';
+            if (orderDateValue) {
+                var filterDate = new Date(orderDateValue);
+                var filterDayStart = new Date(filterDate.getFullYear(), filterDate.getMonth(), filterDate.getDate()).getTime();
+                var filterDayEnd = filterDayStart + (24 * 60 * 60 * 1000);
+                filteredOrders = filteredOrders.filter(function(order) {
+                    var orderTimestamp = order.createdAt || 0;
+                    return orderTimestamp >= filterDayStart && orderTimestamp < filterDayEnd;
+                });
+            }
+
+            // --- Apply sorting ---
+            var orderSortByEl = document.getElementById('orderSortBy');
+            var orderSortValue = orderSortByEl ? orderSortByEl.value : 'newest';
+            filteredOrders.sort(function(a, b) {
+                if (orderSortValue === 'newest') {
+                    return (b.createdAt || 0) - (a.createdAt || 0);
+                } else if (orderSortValue === 'oldest') {
+                    return (a.createdAt || 0) - (b.createdAt || 0);
+                } else if (orderSortValue === 'highest') {
+                    return (b.total || 0) - (a.total || 0);
+                } else if (orderSortValue === 'lowest') {
+                    return (a.total || 0) - (b.total || 0);
+                }
+                return 0;
+            });
             
             if (filteredOrders.length === 0) {
+                var hasActiveFilters = orderSearchTerm || orderDateValue || currentOrderFilter !== 'all';
                 ordersGrid.innerHTML = `
                     <div class="text-center py-16 animate-fade-in">
-                        <div class="text-6xl mb-6">🛒</div>
+                        <div class="text-6xl mb-6">${hasActiveFilters ? '🔍' : '🛒'}</div>
                         <h3 class="text-xl font-bold text-gray-800 mb-2">Nenhum pedido encontrado</h3>
                         <p class="text-gray-600">
-                            ${currentOrderFilter === 'all' ? 'Aguarde os primeiros pedidos chegarem' : `Nenhum pedido ${getOrderStatusText(currentOrderFilter).toLowerCase()} encontrado`}
+                            ${hasActiveFilters ? 'Tente ajustar os filtros ou a busca' : 'Aguarde os primeiros pedidos chegarem'}
                         </p>
                     </div>
                 `;
