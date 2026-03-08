@@ -4440,6 +4440,283 @@
             transform: translateX(3px);
             color: var(--primary);
         }
+
+        /* ===== FULLSCREEN MENU OVERLAY ===== */
+        .fs-menu-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s cubic-bezier(0.22,1,0.36,1), visibility 0.4s;
+        }
+        .fs-menu-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .fs-menu-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .dark .fs-menu-backdrop {
+            background: rgba(0,0,0,0.72);
+        }
+        .fs-menu-panel {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .fs-menu-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px 12px;
+            flex-shrink: 0;
+        }
+        .fs-menu-close {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            color: #fff;
+        }
+        .fs-menu-close:hover {
+            background: rgba(255,255,255,0.22);
+            transform: rotate(90deg);
+        }
+        .fs-menu-brand {
+            font-size: 20px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.02em;
+        }
+        .fs-menu-user-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px 28px 24px;
+            margin: 0 20px 10px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+        }
+        .fs-menu-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(93,92,222,0.6);
+            box-shadow: 0 0 20px rgba(93,92,222,0.25);
+            flex-shrink: 0;
+        }
+        .fs-menu-user-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .fs-menu-user-name {
+            font-size: 17px;
+            font-weight: 700;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .fs-menu-user-email {
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .fs-menu-items {
+            padding: 10px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+        }
+        .fs-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            color: rgba(255,255,255,0.85);
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        .fs-menu-overlay.open .fs-menu-item {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .fs-menu-item:nth-child(1) { transition-delay: 0.06s; }
+        .fs-menu-item:nth-child(2) { transition-delay: 0.10s; }
+        .fs-menu-item:nth-child(3) { transition-delay: 0.14s; }
+        .fs-menu-item:nth-child(4) { transition-delay: 0.18s; }
+        .fs-menu-item:nth-child(5) { transition-delay: 0.22s; }
+        .fs-menu-item:nth-child(6) { transition-delay: 0.26s; }
+        .fs-menu-item:nth-child(7) { transition-delay: 0.30s; }
+        .fs-menu-item:nth-child(8) { transition-delay: 0.34s; }
+        .fs-menu-item:nth-child(9) { transition-delay: 0.38s; }
+        .fs-menu-item:nth-child(10) { transition-delay: 0.42s; }
+        .fs-menu-item:nth-child(11) { transition-delay: 0.46s; }
+        .fs-menu-item:hover {
+            background: rgba(255,255,255,0.08);
+            transform: translateX(6px);
+        }
+        .fs-menu-item:active {
+            transform: scale(0.97);
+        }
+        .fs-menu-item-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 20px;
+        }
+        .fs-menu-item-text {
+            flex: 1;
+            min-width: 0;
+        }
+        .fs-menu-item-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .fs-menu-item-sub {
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+            margin-top: 2px;
+        }
+        .fs-menu-item-arrow {
+            color: rgba(255,255,255,0.2);
+            flex-shrink: 0;
+            transition: transform 0.2s, color 0.2s;
+        }
+        .fs-menu-item:hover .fs-menu-item-arrow {
+            transform: translateX(4px);
+            color: rgba(255,255,255,0.5);
+        }
+        .fs-menu-sep {
+            height: 1px;
+            background: rgba(255,255,255,0.08);
+            margin: 8px 20px;
+        }
+        .fs-menu-footer {
+            padding: 16px 20px 32px;
+            flex-shrink: 0;
+        }
+        .fs-menu-logout {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 16px;
+            border-radius: 16px;
+            border: 1.5px solid rgba(239,68,68,0.35);
+            background: rgba(239,68,68,0.08);
+            color: #f87171;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        .fs-menu-overlay.open .fs-menu-logout {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.5s;
+        }
+        .fs-menu-logout:hover {
+            background: rgba(239,68,68,0.15);
+            border-color: rgba(239,68,68,0.5);
+        }
+        .fs-menu-login-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 16px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--primary), #7c3aed);
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border: none;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        .fs-menu-overlay.open .fs-menu-login-btn {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.4s;
+        }
+        .fs-menu-login-btn:hover {
+            filter: brightness(1.15);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(93,92,222,0.4);
+        }
+        .fs-menu-theme-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            color: rgba(255,255,255,0.85);
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        .fs-menu-overlay.open .fs-menu-theme-row {
+            opacity: 1;
+            transform: translateX(0);
+            transition-delay: 0.46s;
+        }
+        .fs-menu-theme-row:hover {
+            background: rgba(255,255,255,0.08);
+        }
+        .fs-menu-theme-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 15px;
+            font-weight: 600;
+        }
+        .fs-menu-version {
+            text-align: center;
+            color: rgba(255,255,255,0.2);
+            font-size: 11px;
+            padding: 10px 0 4px;
+        }
+
         .profile-logout-btn {
             width: 100%;
             padding: 16px;
@@ -5366,11 +5643,7 @@
                                 <img id="userAvatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='50' fill='%235D5CDE'/%3E%3Ccircle cx='50' cy='40' r='14' fill='white' opacity='0.9'/%3E%3Cellipse cx='50' cy='78' rx='24' ry='16' fill='white' opacity='0.9'/%3E%3C/svg%3E" alt="Avatar" class="w-8 h-8 rounded-full border-2 border-primary object-cover" onerror="handleAvatarError(this)">
                                 <span id="userName" class="hidden sm:block text-sm font-medium">Visitante</span>
                             </button>
-                            <div id="userMenu" class="hidden absolute right-0 mt-2 w-48 card-bg rounded-xl shadow-lg border z-50 animate-scale-in">
-                                <div id="userMenuContent">
-
-                                </div>
-                            </div>
+                            <!-- Old dropdown replaced by fullscreen overlay #fsMenuOverlay -->
                         </div>
                     </div>
                 </div>
@@ -6194,6 +6467,146 @@
                 </div>
             </div>
         </footer>
+    </div>
+
+    <!-- FULLSCREEN MENU OVERLAY -->
+    <div id="fsMenuOverlay" class="fs-menu-overlay">
+        <div class="fs-menu-backdrop" onclick="closeFsMenu()"></div>
+        <div class="fs-menu-panel">
+            <div class="fs-menu-header">
+                <div class="fs-menu-brand">Kuia+ Shop</div>
+                <button class="fs-menu-close" onclick="closeFsMenu()">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div id="fsMenuUserCard" class="fs-menu-user-card">
+                <img id="fsMenuAvatar" src="" alt="Avatar" class="fs-menu-avatar">
+                <div class="fs-menu-user-info">
+                    <div id="fsMenuUserName" class="fs-menu-user-name">Visitante</div>
+                    <div id="fsMenuUserEmail" class="fs-menu-user-email">Navegando como visitante</div>
+                </div>
+            </div>
+            <div id="fsMenuItems" class="fs-menu-items">
+                <!-- LOGGED-IN USER ITEMS -->
+                <div id="fsMenuLoggedInItems">
+                    <div id="viewProfileBtn" class="fs-menu-item" style="cursor:pointer;">
+                        <div class="fs-menu-item-icon" style="background:linear-gradient(135deg,rgba(93,92,222,0.15),rgba(124,58,237,0.25));">👤</div>
+                        <div class="fs-menu-item-text"><div class="fs-menu-item-title">Meu Perfil</div><div class="fs-menu-item-sub">Ver e editar informações</div></div>
+                        <svg class="w-5 h-5 fs-menu-item-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                    <div id="viewNotificationsBtn" class="fs-menu-item" style="cursor:pointer;">
+                        <div class="fs-menu-item-icon" style="background:linear-gradient(135deg,rgba(168,85,247,0.15),rgba(192,132,252,0.25));">🔔</div>
+                        <div class="fs-menu-item-text"><div class="fs-menu-item-title">Notificações</div><div class="fs-menu-item-sub">Alertas e novidades</div></div>
+                        <svg class="w-5 h-5 fs-menu-item-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                    <div id="menuOrdersBtn" class="fs-menu-item" style="cursor:pointer;">
+                        <div class="fs-menu-item-icon" style="background:linear-gradient(135deg,rgba(59,130,246,0.15),rgba(96,165,250,0.25));">📦</div>
+                        <div class="fs-menu-item-text"><div class="fs-menu-item-title">Pedidos</div><div class="fs-menu-item-sub">Histórico de compras</div></div>
+                        <svg class="w-5 h-5 fs-menu-item-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                    <div id="menuChatBtn" class="fs-menu-item" style="cursor:pointer;">
+                        <div class="fs-menu-item-icon" style="background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(52,211,153,0.25));">💬</div>
+                        <div class="fs-menu-item-text"><div class="fs-menu-item-title">Chat</div><div class="fs-menu-item-sub">Fale connosco</div></div>
+                        <svg class="w-5 h-5 fs-menu-item-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                    <div id="faq" class="fs-menu-item" style="cursor:pointer;">
+                        <div class="fs-menu-item-icon" style="background:linear-gradient(135deg,rgba(245,158,11,0.15),rgba(251,191,36,0.25));">❓</div>
+                        <div class="fs-menu-item-text"><div class="fs-menu-item-title">FAQ</div><div class="fs-menu-item-sub">Perguntas frequentes</div></div>
+                        <svg class="w-5 h-5 fs-menu-item-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                    <a id="menuRateDeliveryBtn" class="fs-menu-item" href="https://LINK-AVALIAR-ENTREGADORES" target="_blank" rel="noopener noreferrer" style="text-decoration:none;cursor:pointer;">
+                        <div class="fs-menu-item-icon" style="background:linear-gradient(135deg,rgba(234,179,8,0.15),rgba(250,204,21,0.25));">⭐</div>
+                        <div class="fs-menu-item-text"><div class="fs-menu-item-title">Avaliar Entregadores</div><div class="fs-menu-item-sub">Deixe sua avaliação</div></div>
+                        <svg class="w-5 h-5 fs-menu-item-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </a>
+                    <div id="menuAboutBtn" class="fs-menu-item" style="cursor:pointer;">
+                        <div class="fs-menu-item-icon" style="background:linear-gradient(135deg,rgba(14,165,233,0.15),rgba(56,189,248,0.25));">ℹ️</div>
+                        <div class="fs-menu-item-text"><div class="fs-menu-item-title">Sobre Nós</div><div class="fs-menu-item-sub">Conheça a Kuia+ Shop</div></div>
+                        <svg class="w-5 h-5 fs-menu-item-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                    <div id="menuPolicyBtn" class="fs-menu-item" style="cursor:pointer;">
+                        <div class="fs-menu-item-icon" style="background:linear-gradient(135deg,rgba(99,102,241,0.15),rgba(129,140,248,0.25));">📄</div>
+                        <div class="fs-menu-item-text"><div class="fs-menu-item-title">Políticas da Loja</div><div class="fs-menu-item-sub">Termos e condições</div></div>
+                        <svg class="w-5 h-5 fs-menu-item-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                    <div class="fs-menu-sep"></div>
+                    <div id="menuThemeToggle" class="fs-menu-theme-row" style="cursor:pointer;">
+                        <div class="fs-menu-theme-left">
+                            <div class="fs-menu-item-icon" style="background:linear-gradient(135deg,rgba(139,92,246,0.15),rgba(167,139,250,0.25));"><span id="fsThemeEmoji">🌙</span></div>
+                            <span id="fsThemeLabel" style="font-weight:700;color:#fff;">Modo Escuro</span>
+                        </div>
+                        <div id="fsThemeSwitch" class="theme-switch" style="width:44px;height:22px;flex-shrink:0;">
+                            <span id="fsThemeIcon" class="absolute text-xs" style="left:3px;top:2px;">
+                                <svg style="width:14px;height:14px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GUEST ITEMS -->
+                <div id="fsMenuGuestItems" class="hidden">
+                    <div id="guestLoginBtn" class="fs-menu-item" style="cursor:pointer;">
+                        <div class="fs-menu-item-icon" style="background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(52,211,153,0.25));">🔑</div>
+                        <div class="fs-menu-item-text"><div class="fs-menu-item-title">Fazer Login</div><div class="fs-menu-item-sub">Acesse sua conta</div></div>
+                        <svg class="w-5 h-5 fs-menu-item-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                    <div id="menuOrdersBtnGuest" class="fs-menu-item" style="cursor:pointer;">
+                        <div class="fs-menu-item-icon" style="background:linear-gradient(135deg,rgba(59,130,246,0.15),rgba(96,165,250,0.25));">📦</div>
+                        <div class="fs-menu-item-text"><div class="fs-menu-item-title">Pedidos</div><div class="fs-menu-item-sub">Histórico de compras</div></div>
+                        <svg class="w-5 h-5 fs-menu-item-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                    <div id="menuChatBtnGuest" class="fs-menu-item" style="cursor:pointer;">
+                        <div class="fs-menu-item-icon" style="background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(52,211,153,0.25));">💬</div>
+                        <div class="fs-menu-item-text"><div class="fs-menu-item-title">Chat</div><div class="fs-menu-item-sub">Fale connosco</div></div>
+                        <svg class="w-5 h-5 fs-menu-item-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                    <a id="menuRateDeliveryBtnGuest" class="fs-menu-item" href="https://LINK-AVALIAR-ENTREGADORES" target="_blank" rel="noopener noreferrer" style="text-decoration:none;cursor:pointer;">
+                        <div class="fs-menu-item-icon" style="background:linear-gradient(135deg,rgba(234,179,8,0.15),rgba(250,204,21,0.25));">⭐</div>
+                        <div class="fs-menu-item-text"><div class="fs-menu-item-title">Avaliar Entregadores</div><div class="fs-menu-item-sub">Deixe sua avaliação</div></div>
+                        <svg class="w-5 h-5 fs-menu-item-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </a>
+                    <div id="menuAboutBtnGuest" class="fs-menu-item" style="cursor:pointer;">
+                        <div class="fs-menu-item-icon" style="background:linear-gradient(135deg,rgba(14,165,233,0.15),rgba(56,189,248,0.25));">ℹ️</div>
+                        <div class="fs-menu-item-text"><div class="fs-menu-item-title">Sobre Nós</div><div class="fs-menu-item-sub">Conheça a Kuia+ Shop</div></div>
+                        <svg class="w-5 h-5 fs-menu-item-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                    <div id="menuPolicyBtnGuest" class="fs-menu-item" style="cursor:pointer;">
+                        <div class="fs-menu-item-icon" style="background:linear-gradient(135deg,rgba(99,102,241,0.15),rgba(129,140,248,0.25));">📄</div>
+                        <div class="fs-menu-item-text"><div class="fs-menu-item-title">Políticas da Loja</div><div class="fs-menu-item-sub">Termos e condições</div></div>
+                        <svg class="w-5 h-5 fs-menu-item-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                    <div class="fs-menu-sep"></div>
+                    <div id="menuThemeToggleGuest" class="fs-menu-theme-row" style="cursor:pointer;">
+                        <div class="fs-menu-theme-left">
+                            <div class="fs-menu-item-icon" style="background:linear-gradient(135deg,rgba(139,92,246,0.15),rgba(167,139,250,0.25));"><span id="fsThemeEmojiGuest">🌙</span></div>
+                            <span id="fsThemeLabelGuest" style="font-weight:700;color:#fff;">Modo Escuro</span>
+                        </div>
+                        <div id="fsThemeSwitchGuest" class="theme-switch" style="width:44px;height:22px;flex-shrink:0;">
+                            <span id="fsThemeIconGuest" class="absolute text-xs" style="left:3px;top:2px;">
+                                <svg style="width:14px;height:14px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="fsMenuFooter" class="fs-menu-footer">
+                <!-- Logged-in footer -->
+                <div id="fsMenuLoggedInFooter">
+                    <button id="logoutBtn" class="fs-menu-logout">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                        Terminar Sessão
+                    </button>
+                </div>
+                <!-- Guest footer -->
+                <div id="fsMenuGuestFooter" class="hidden">
+                    <button id="guestLoginFooterBtn" class="fs-menu-login-btn">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>
+                        Criar Conta / Entrar
+                    </button>
+                </div>
+                <div class="fs-menu-version">Kuia+ Shop v2.0</div>
+            </div>
+        </div>
     </div>
 
     <div id="profilePictureModal" class="fixed inset-0 z-50 hidden" style="transition: opacity 0.3s ease, transform 0.3s ease;">
@@ -8640,171 +9053,101 @@
             }
         });
 
+        /* === Fullscreen Menu open/close === */
+        function openFsMenu() {
+            updateFsMenuContent();
+            var ov = document.getElementById('fsMenuOverlay');
+            ov.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeFsMenu() {
+            var ov = document.getElementById('fsMenuOverlay');
+            ov.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+        window.closeFsMenu = closeFsMenu;
+        window.openFsMenu = openFsMenu;
+
+        function fsMenuAction(fn) {
+            closeFsMenu();
+            setTimeout(fn, 200);
+        }
+
+        function updateFsMenuContent() {
+            var fsAvatar = document.getElementById('fsMenuAvatar');
+            var fsName = document.getElementById('fsMenuUserName');
+            var fsEmail = document.getElementById('fsMenuUserEmail');
+            var isDark = document.documentElement.classList.contains('dark');
+            var themeLabel = isDark ? 'Modo Claro' : 'Modo Escuro';
+            var themeEmoji = isDark ? '☀️' : '🌙';
+            var sunSvg = '<svg style="width:14px;height:14px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>';
+            var moonSvg = '<svg style="width:14px;height:14px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>';
+
+            // Update theme toggles for both logged-in and guest
+            var themeIds = [
+                { emoji: 'fsThemeEmoji', label: 'fsThemeLabel', sw: 'fsThemeSwitch', icon: 'fsThemeIcon' },
+                { emoji: 'fsThemeEmojiGuest', label: 'fsThemeLabelGuest', sw: 'fsThemeSwitchGuest', icon: 'fsThemeIconGuest' }
+            ];
+            themeIds.forEach(function(t) {
+                var emojiEl = document.getElementById(t.emoji);
+                var labelEl = document.getElementById(t.label);
+                var swEl = document.getElementById(t.sw);
+                var iconEl = document.getElementById(t.icon);
+                if (emojiEl) emojiEl.textContent = themeEmoji;
+                if (labelEl) labelEl.textContent = themeLabel;
+                if (swEl) {
+                    if (isDark) { swEl.classList.add('dark'); } else { swEl.classList.remove('dark'); }
+                }
+                if (iconEl) {
+                    iconEl.style.left = isDark ? '24px' : '3px';
+                    iconEl.innerHTML = isDark ? sunSvg : moonSvg;
+                }
+            });
+
+            var loggedInItems = document.getElementById('fsMenuLoggedInItems');
+            var guestItems = document.getElementById('fsMenuGuestItems');
+            var loggedInFooter = document.getElementById('fsMenuLoggedInFooter');
+            var guestFooter = document.getElementById('fsMenuGuestFooter');
+
+            if (currentUser) {
+                fsAvatar.src = currentUser.photoURL || getAvatarFallback(currentUser.displayName);
+                fsName.textContent = currentUser.displayName || currentUser.email;
+                fsEmail.textContent = currentUser.email || '';
+
+                loggedInItems.classList.remove('hidden');
+                guestItems.classList.add('hidden');
+                loggedInFooter.classList.remove('hidden');
+                guestFooter.classList.add('hidden');
+
+            } else if (isGuest) {
+                fsAvatar.src = getAvatarFallback(null);
+                fsName.textContent = 'Visitante';
+                fsEmail.textContent = 'Navegando como visitante';
+
+                loggedInItems.classList.add('hidden');
+                guestItems.classList.remove('hidden');
+                loggedInFooter.classList.add('hidden');
+                guestFooter.classList.remove('hidden');
+            }
+        }
+
         function updateUserUI() {
-            const userAvatar = document.getElementById('userAvatar');
-            const userName = document.getElementById('userName');
-            const userMenu = document.getElementById('userMenu');
-            const userMenuContent = document.getElementById('userMenuContent');
+            var userAvatar = document.getElementById('userAvatar');
+            var userName = document.getElementById('userName');
 
             if (currentUser) {
                 userAvatar.src = currentUser.photoURL || getAvatarFallback(currentUser.displayName);
                 userName.textContent = currentUser.displayName || currentUser.email;
-
-                userMenuContent.innerHTML = `
-                    <button id="viewProfileBtn" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
-                        <svg class="inline-block w-4 h-4 mr-3" style="vertical-align:-3px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>Meu Perfil
-                    </button>
-                    <button id="viewNotificationsBtn" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
-                        <svg class="inline-block w-4 h-4 mr-3" style="vertical-align:-3px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>Notificações
-                    </button>
-                    <button id="menuOrdersBtn" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
-                        <svg class="inline-block w-4 h-4 mr-3" style="vertical-align:-3px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>Pedidos
-                    </button>
-                    <button id="menuChatBtn" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
-                        <svg class="inline-block w-4 h-4 mr-3" style="vertical-align:-3px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>Chat
-                    </button>
-                <button
-  id="faq"
-  class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all"
-  onclick="window.location.href='faq.html'">
-  <svg class="inline-block w-4 h-4 mr-3" style="vertical-align:-3px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>FAQ
-</button>
-                    <a id="menuRateDeliveryBtn" href="https://LINK-AVALIAR-ENTREGADORES" target="_blank" rel="noopener noreferrer" class="block w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all" style="text-decoration:none;">
-                        <svg class="inline-block w-4 h-4 mr-3" style="vertical-align:-3px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>Avaliar Entregadores
-                    </a>
-                    <button id="menuAboutBtn" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
-                        <svg class="inline-block w-4 h-4 mr-3" style="vertical-align:-3px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Sobre Nós
-                    </button>
-                    <button id="menuPolicyBtn" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all" onclick="window.location.href='politicy.html'">
-                        <svg class="inline-block w-4 h-4 mr-3" style="vertical-align:-3px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>Políticas da Loja
-                    </button>
-                    <button id="menuThemeToggle" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all flex items-center justify-between">
-                        <span><span id="menuThemeIcon" class="mr-3">${document.documentElement.classList.contains('dark') ? '<svg class="inline-block w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>' : '<svg class="inline-block w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>'}</span>${document.documentElement.classList.contains('dark') ? 'Modo Claro' : 'Modo Escuro'}</span>
-                        <div id="themeToggle" class="theme-switch ${document.documentElement.classList.contains('dark') ? 'dark' : ''}" style="width:44px;height:22px;flex-shrink:0;">
-                            <span id="themeIcon" class="absolute text-xs" style="left:${document.documentElement.classList.contains('dark') ? '24px' : '3px'};top:2px;">${document.documentElement.classList.contains('dark') ? '<svg class="inline-block" style="width:14px;height:14px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>' : '<svg class="inline-block" style="width:14px;height:14px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>'}</span>
-                        </div>
-                    </button>
-                    <button id="logoutBtn" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-b-xl transition-all">
-                        <svg class="inline-block w-4 h-4 mr-3" style="vertical-align:-3px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>Terminar Sessão
-                    </button>
-                `;
-
-                document.getElementById('viewProfileBtn').addEventListener('click', () => {
-                    showSection('profile');
-                    userMenu.classList.add('hidden');
-                });
-
-                document.getElementById('viewNotificationsBtn').addEventListener('click', () => {
-                    showSection('notifications');
-                    userMenu.classList.add('hidden');
-                });
-
-                document.getElementById('menuOrdersBtn').addEventListener('click', () => {
-                    showSection('orders');
-                    userMenu.classList.add('hidden');
-                });
-
-                document.getElementById('menuChatBtn').addEventListener('click', () => {
-                    showSection('chatFull');
-                    userMenu.classList.add('hidden');
-                });
-
-                document.getElementById('menuAboutBtn').addEventListener('click', () => {
-                    showSection('about');
-                    userMenu.classList.add('hidden');
-                });
-
-                document.getElementById('menuThemeToggle').addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    toggleTheme();
-                    updateUserUI();
-                });
-
-                document.getElementById('logoutBtn').addEventListener('click', async () => {
-                    try {
-                        await signOut(auth);
-                        cart = [];
-                        favorites = [];
-                        favoritesLoaded = false;
-                        orders = {};
-                        allUserOrdersCache = [];
-                        notifications = [];
-                        updateCartUI();
-                    } catch (error) {
-                        console.error('Logout error:', error);
-                    }
-                });
-
             } else if (isGuest) {
                 userAvatar.src = getAvatarFallback(null);
                 userName.textContent = 'Visitante';
-
-                userMenuContent.innerHTML = `
-                    <button id="guestLoginBtn" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
-                        <svg class="inline-block w-4 h-4 mr-3" style="vertical-align:-3px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>Fazer Login
-                    </button>
-                    <button id="menuOrdersBtnGuest" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
-                        <svg class="inline-block w-4 h-4 mr-3" style="vertical-align:-3px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>Pedidos
-                    </button>
-                    <button id="menuChatBtnGuest" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
-                        <svg class="inline-block w-4 h-4 mr-3" style="vertical-align:-3px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>Chat
-                    </button>
-                    <a id="menuRateDeliveryBtnGuest" href="https://LINK-AVALIAR-ENTREGADORES" target="_blank" rel="noopener noreferrer" class="block w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all" style="text-decoration:none;">
-                        <svg class="inline-block w-4 h-4 mr-3" style="vertical-align:-3px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>Avaliar Entregadores
-                    </a>
-                    <button id="menuAboutBtnGuest" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all">
-                        <svg class="inline-block w-4 h-4 mr-3" style="vertical-align:-3px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Sobre Nós
-                    </button>
-                    <button id="menuPolicyBtnGuest" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-b transition-all" onclick="window.location.href='politicy.html'">
-                        <svg class="inline-block w-4 h-4 mr-3" style="vertical-align:-3px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>Políticas da Loja
-                    </button>
-                    <button id="menuThemeToggleGuest" class="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-b-xl transition-all flex items-center justify-between">
-                        <span><span class="mr-3">${document.documentElement.classList.contains('dark') ? '<svg class="inline-block w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>' : '<svg class="inline-block w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>'}</span>${document.documentElement.classList.contains('dark') ? 'Modo Claro' : 'Modo Escuro'}</span>
-                        <div id="themeToggle" class="theme-switch ${document.documentElement.classList.contains('dark') ? 'dark' : ''}" style="width:44px;height:22px;flex-shrink:0;">
-                            <span id="themeIcon" class="absolute text-xs" style="left:${document.documentElement.classList.contains('dark') ? '24px' : '3px'};top:2px;">${document.documentElement.classList.contains('dark') ? '<svg class="inline-block" style="width:14px;height:14px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>' : '<svg class="inline-block" style="width:14px;height:14px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>'}</span>
-                        </div>
-                    </button>
-                `;
-
-                document.getElementById('guestLoginBtn').addEventListener('click', () => {
-                    showLoginScreen();
-                    userMenu.classList.add('hidden');
-                });
-
-                document.getElementById('menuOrdersBtnGuest').addEventListener('click', () => {
-                    showSection('orders');
-                    userMenu.classList.add('hidden');
-                });
-
-                document.getElementById('menuChatBtnGuest').addEventListener('click', () => {
-                    showSection('chatFull');
-                    userMenu.classList.add('hidden');
-                });
-
-                document.getElementById('menuAboutBtnGuest').addEventListener('click', () => {
-                    showSection('about');
-                    userMenu.classList.add('hidden');
-                });
-
-                document.getElementById('menuThemeToggleGuest').addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    toggleTheme();
-                    updateUserUI();
-                });
             }
         }
 
-        const userMenuBtn = document.getElementById('userMenuBtn');
-        const userMenu = document.getElementById('userMenu');
+        var userMenuBtn = document.getElementById('userMenuBtn');
 
-        userMenuBtn.addEventListener('click', () => {
-            userMenu.classList.toggle('hidden');
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!userMenuBtn.contains(e.target) && !userMenu.contains(e.target)) {
-                userMenu.classList.add('hidden');
-            }
+        userMenuBtn.addEventListener('click', function() {
+            openFsMenu();
         });
 
         const cartSidebar = document.getElementById('cartSidebar');
@@ -8846,6 +9189,41 @@
         document.getElementById('footerFavoritesBtn').addEventListener('click', () => showSection('favorites'));
         document.getElementById('footerOrdersBtn').addEventListener('click', () => showSection('orders'));
         document.getElementById('footerChatBtn').addEventListener('click', () => showSection('chatFull'));
+
+        /* === Fullscreen Menu Button Listeners (Logged-in) === */
+        document.getElementById('viewProfileBtn').addEventListener('click', () => { fsMenuAction(() => showSection('profile')); });
+        document.getElementById('viewNotificationsBtn').addEventListener('click', () => { fsMenuAction(() => showSection('notifications')); });
+        document.getElementById('menuOrdersBtn').addEventListener('click', () => { fsMenuAction(() => showSection('orders')); });
+        document.getElementById('menuChatBtn').addEventListener('click', () => { fsMenuAction(() => showSection('chatFull')); });
+        document.getElementById('faq').addEventListener('click', () => { fsMenuAction(() => { window.location.href = 'faq.html'; }); });
+        document.getElementById('menuAboutBtn').addEventListener('click', () => { fsMenuAction(() => showSection('about')); });
+        document.getElementById('menuPolicyBtn').addEventListener('click', () => { fsMenuAction(() => { window.location.href = 'politicy.html'; }); });
+        document.getElementById('menuThemeToggle').addEventListener('click', () => { toggleTheme(); updateFsMenuContent(); });
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            fsMenuAction(async () => {
+                try {
+                    await signOut(auth);
+                    cart = [];
+                    favorites = [];
+                    favoritesLoaded = false;
+                    orders = {};
+                    allUserOrdersCache = [];
+                    notifications = [];
+                    updateCartUI();
+                } catch(e) {
+                    console.error(e);
+                }
+            });
+        });
+
+        /* === Fullscreen Menu Button Listeners (Guest) === */
+        document.getElementById('guestLoginBtn').addEventListener('click', () => { fsMenuAction(() => showLoginScreen()); });
+        document.getElementById('menuOrdersBtnGuest').addEventListener('click', () => { fsMenuAction(() => showSection('orders')); });
+        document.getElementById('menuChatBtnGuest').addEventListener('click', () => { fsMenuAction(() => showSection('chatFull')); });
+        document.getElementById('menuAboutBtnGuest').addEventListener('click', () => { fsMenuAction(() => showSection('about')); });
+        document.getElementById('menuPolicyBtnGuest').addEventListener('click', () => { fsMenuAction(() => { window.location.href = 'politicy.html'; }); });
+        document.getElementById('menuThemeToggleGuest').addEventListener('click', () => { toggleTheme(); updateFsMenuContent(); });
+        document.getElementById('guestLoginFooterBtn').addEventListener('click', () => { fsMenuAction(() => showLoginScreen()); });
 
         document.getElementById('viewAllOrdersBtn').addEventListener('click', () => {
             showSection('orders');
@@ -11656,4 +12034,6 @@ function showPersonalizeToast(hiddenCount) {
 </script>
 </body>
 </html>
+
+
 
