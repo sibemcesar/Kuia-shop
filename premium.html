@@ -6264,132 +6264,360 @@
             </div>
 
             <div id="aboutSection" class="hidden space-y-8">
-                <h2 class="text-4xl font-bold gradient-text">Sobre Nós</h2>
-                <div class="max-w-4xl mx-auto space-y-8">
+                <style>
+                    .about-hero-bg {
+                        background: linear-gradient(135deg, #5D5CDE 0%, #7B7AE8 40%, #9B59B6 70%, #E74C8B 100%);
+                        position: relative;
+                        overflow: hidden;
+                    }
+                    .about-hero-bg::before {
+                        content: '';
+                        position: absolute;
+                        inset: 0;
+                        background:
+                            radial-gradient(circle at 20% 80%, rgba(255,255,255,0.15) 0%, transparent 50%),
+                            radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                            radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 70%);
+                    }
+                    .about-hero-bg::after {
+                        content: '';
+                        position: absolute;
+                        top: -50%;
+                        left: -50%;
+                        width: 200%;
+                        height: 200%;
+                        background: repeating-conic-gradient(rgba(255,255,255,0.03) 0% 25%, transparent 25% 50%);
+                        animation: aboutRotate 60s linear infinite;
+                    }
+                    @keyframes aboutRotate {
+                        100% { transform: rotate(360deg); }
+                    }
+                    @keyframes aboutFadeUp {
+                        from { opacity: 0; transform: translateY(30px); }
+                        to { opacity: 1; transform: translateY(0); }
+                    }
+                    @keyframes aboutScaleUp {
+                        from { opacity: 0; transform: scale(0.8); }
+                        to { opacity: 1; transform: scale(1); }
+                    }
+                    .about-anim-1 { animation: aboutFadeUp 0.6s ease-out both; }
+                    .about-anim-2 { animation: aboutFadeUp 0.6s ease-out 0.1s both; }
+                    .about-anim-3 { animation: aboutFadeUp 0.6s ease-out 0.2s both; }
+                    .about-anim-4 { animation: aboutFadeUp 0.6s ease-out 0.3s both; }
+                    .about-anim-5 { animation: aboutFadeUp 0.6s ease-out 0.4s both; }
+                    .about-anim-6 { animation: aboutFadeUp 0.6s ease-out 0.5s both; }
+                    .about-anim-7 { animation: aboutFadeUp 0.6s ease-out 0.6s both; }
+                    .about-anim-8 { animation: aboutFadeUp 0.6s ease-out 0.7s both; }
+                    .about-value-card {
+                        background: rgba(93, 92, 222, 0.06);
+                        border: 1px solid rgba(93, 92, 222, 0.12);
+                        transition: all 0.3s ease;
+                    }
+                    .about-value-card:hover {
+                        background: rgba(93, 92, 222, 0.12);
+                        transform: translateY(-4px);
+                        box-shadow: 0 12px 24px rgba(93, 92, 222, 0.15);
+                    }
+                    .dark .about-value-card {
+                        background: rgba(93, 92, 222, 0.12);
+                        border-color: rgba(93, 92, 222, 0.2);
+                    }
+                    .dark .about-value-card:hover {
+                        background: rgba(93, 92, 222, 0.2);
+                        box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+                    }
+                    .founder-card {
+                        position: relative;
+                        overflow: hidden;
+                        transition: all 0.4s ease;
+                    }
+                    .founder-card::before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        height: 4px;
+                        background: linear-gradient(90deg, #5D5CDE, #E74C8B);
+                        opacity: 0;
+                        transition: opacity 0.3s ease;
+                    }
+                    .founder-card:hover::before {
+                        opacity: 1;
+                    }
+                    .founder-card:hover {
+                        transform: translateY(-6px);
+                        box-shadow: 0 20px 40px rgba(93, 92, 222, 0.15);
+                    }
+                    .dark .founder-card:hover {
+                        box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+                    }
+                    .founder-avatar {
+                        width: 90px;
+                        height: 90px;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 38px;
+                        font-weight: 700;
+                        color: #fff;
+                        position: relative;
+                        flex-shrink: 0;
+                    }
+                    .founder-avatar::after {
+                        content: '';
+                        position: absolute;
+                        inset: -3px;
+                        border-radius: 50%;
+                        border: 2px solid rgba(93, 92, 222, 0.3);
+                    }
+                    .about-stat-num {
+                        font-size: 2rem;
+                        font-weight: 800;
+                        background: linear-gradient(135deg, #5D5CDE, #E74C8B);
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        background-clip: text;
+                        line-height: 1.1;
+                    }
+                    .about-divider {
+                        height: 1px;
+                        background: linear-gradient(90deg, transparent, rgba(93,92,222,0.3), transparent);
+                    }
+                    .about-contact-item {
+                        transition: all 0.3s ease;
+                        border: 1px solid transparent;
+                    }
+                    .about-contact-item:hover {
+                        border-color: rgba(93, 92, 222, 0.2);
+                        background: rgba(93, 92, 222, 0.04);
+                    }
+                    .dark .about-contact-item:hover {
+                        border-color: rgba(93, 92, 222, 0.3);
+                        background: rgba(93, 92, 222, 0.1);
+                    }
+                </style>
 
-                    <div class="card-bg rounded-2xl shadow-lg border overflow-hidden">
-                        <div class="gradient-bg p-8 text-center">
-                            <div class="text-6xl mb-4 animate-float">🛍️</div>
-                            <h3 class="text-3xl font-bold text-white mb-2">Kuia+ Shop</h3>
-                            <p class="text-white/80 text-lg">A sua loja online de confiança</p>
-                        </div>
-                        <div class="p-8 space-y-5">
-                            <p class="text-gray-700 dark:text-gray-300 text-base leading-relaxed">
-                                A <strong class="gradient-text">Kuia+ Shop</strong> é a sua loja online dedicada a oferecer os melhores produtos com qualidade, preços acessíveis e um atendimento de excelência. Trabalhamos para garantir que cada cliente tenha uma experiência de compra simples, segura e satisfatória.
-                            </p>
-                            <p class="text-gray-700 dark:text-gray-300 text-base leading-relaxed">
-                                Estamos comprometidos em trazer as melhores opções do mercado directamente até si, com entregas rápidas e suporte dedicado para resolver qualquer dúvida ou problema.
-                            </p>
-                            <div class="flex flex-wrap gap-4 pt-2">
-                                <span class="inline-flex items-center gap-2 px-4 py-2 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full text-sm font-medium">
+                <div class="max-w-4xl mx-auto space-y-6">
+
+                    <!-- Hero Banner -->
+                    <div class="about-hero-bg rounded-3xl p-8 sm:p-12 text-center relative z-10 about-anim-1">
+                        <div class="relative z-10">
+                            <div class="text-6xl sm:text-7xl mb-5 animate-float">🛍️</div>
+                            <h2 class="text-3xl sm:text-5xl font-bold text-white mb-3 tracking-tight">Kuia+ Shop</h2>
+                            <p class="text-white/80 text-lg sm:text-xl max-w-lg mx-auto mb-6">A sua loja online de confiança em Angola</p>
+                            <div class="flex flex-wrap justify-center gap-3">
+                                <span class="inline-flex items-center gap-2 px-4 py-2 bg-white/15 backdrop-blur-sm text-white rounded-full text-sm font-medium border border-white/20">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                    Produtos de Qualidade
+                                    Qualidade
                                 </span>
-                                <span class="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-full text-sm font-medium">
+                                <span class="inline-flex items-center gap-2 px-4 py-2 bg-white/15 backdrop-blur-sm text-white rounded-full text-sm font-medium border border-white/20">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                                    Entregas Rápidas
+                                    Rapidez
                                 </span>
-                                <span class="inline-flex items-center gap-2 px-4 py-2 bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 rounded-full text-sm font-medium">
+                                <span class="inline-flex items-center gap-2 px-4 py-2 bg-white/15 backdrop-blur-sm text-white rounded-full text-sm font-medium border border-white/20">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                                    Compras Seguras
+                                    Segurança
                                 </span>
-                                <span class="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 rounded-full text-sm font-medium">
+                                <span class="inline-flex items-center gap-2 px-4 py-2 bg-white/15 backdrop-blur-sm text-white rounded-full text-sm font-medium border border-white/20">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    Preços Acessíveis
+                                    Acessibilidade
                                 </span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="card-bg rounded-2xl shadow-lg border p-8">
-                        <div class="flex items-center gap-3 mb-6">
-                            <div class="w-12 h-12 rounded-full gradient-bg flex items-center justify-center text-white text-xl">
-                                📞
+                    <!-- Nossa História -->
+                    <div class="card-bg rounded-2xl shadow-lg border p-6 sm:p-8 about-anim-2">
+                        <div class="flex items-center gap-3 mb-5">
+                            <div class="w-11 h-11 rounded-xl gradient-bg flex items-center justify-center text-white text-lg">📖</div>
+                            <h3 class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-200">Nossa História</h3>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 text-base leading-relaxed mb-4">
+                            A <strong class="gradient-text">Kuia+ Shop</strong> é a sua loja online dedicada a oferecer os melhores produtos com qualidade, preços acessíveis e um atendimento de excelência. Trabalhamos para garantir que cada cliente tenha uma experiência de compra simples, segura e satisfatória.
+                        </p>
+                        <p class="text-gray-600 dark:text-gray-400 text-base leading-relaxed">
+                            Estamos comprometidos em trazer as melhores opções do mercado directamente até si, com entregas rápidas e suporte dedicado para resolver qualquer dúvida ou problema.
+                        </p>
+                    </div>
+
+                    <!-- Missão / Visão / Valores -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 about-anim-3">
+                        <div class="about-value-card rounded-2xl p-6 text-center">
+                            <div class="w-14 h-14 rounded-2xl bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center mx-auto mb-4 text-2xl">🎯</div>
+                            <h4 class="text-lg font-bold text-gray-800 dark:text-gray-200 mb-2">Missão</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Facilitar o acesso a produtos de qualidade com preços justos e entrega eficiente em todo Angola.</p>
+                        </div>
+                        <div class="about-value-card rounded-2xl p-6 text-center">
+                            <div class="w-14 h-14 rounded-2xl bg-purple-100 dark:bg-purple-900/40 flex items-center justify-center mx-auto mb-4 text-2xl">👁️</div>
+                            <h4 class="text-lg font-bold text-gray-800 dark:text-gray-200 mb-2">Visão</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Ser a plataforma de e-commerce mais confiável e acessível do mercado angolano.</p>
+                        </div>
+                        <div class="about-value-card rounded-2xl p-6 text-center">
+                            <div class="w-14 h-14 rounded-2xl bg-pink-100 dark:bg-pink-900/40 flex items-center justify-center mx-auto mb-4 text-2xl">💎</div>
+                            <h4 class="text-lg font-bold text-gray-800 dark:text-gray-200 mb-2">Valores</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Transparência, inovação, satisfação do cliente e compromisso com a excelência.</p>
+                        </div>
+                    </div>
+
+                    <!-- Fundadores -->
+                    <div class="card-bg rounded-2xl shadow-lg border p-6 sm:p-8 about-anim-4">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-11 h-11 rounded-xl gradient-bg flex items-center justify-center text-white text-lg">👨‍👩‍👦</div>
+                            <h3 class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-200">Fundadores &amp; Desenvolvedores</h3>
+                        </div>
+                        <p class="text-gray-500 dark:text-gray-400 text-sm mb-6 ml-14">Este aplicativo foi desenvolvido com dedicação pelos irmãos Chimbili &amp; Kafundanga.</p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <!-- Mateus Chimbili -->
+                            <div class="founder-card card-bg rounded-2xl border p-6 flex flex-col items-center text-center">
+                                <div class="founder-avatar mb-4" style="background: linear-gradient(135deg, #5D5CDE 0%, #4845BE 100%);">
+                                    MC
+                                </div>
+                                <h4 class="text-lg font-bold text-gray-800 dark:text-gray-200 mb-1">Mateus Chimbili</h4>
+                                <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold gradient-bg text-white mb-3">Co-Fundador &amp; Dev</span>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">Responsável pela visão estratégica e desenvolvimento técnico da plataforma Kuia+ Shop.</p>
                             </div>
+                            <!-- Sara Kafundanga -->
+                            <div class="founder-card card-bg rounded-2xl border p-6 flex flex-col items-center text-center">
+                                <div class="founder-avatar mb-4" style="background: linear-gradient(135deg, #E74C8B 0%, #9B59B6 100%);">
+                                    SK
+                                </div>
+                                <h4 class="text-lg font-bold text-gray-800 dark:text-gray-200 mb-1">Sara Kafundanga</h4>
+                                <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold text-white mb-3" style="background: linear-gradient(135deg, #E74C8B, #9B59B6);">Co-Fundadora &amp; Dev</span>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">Responsável pela experiência do utilizador, design e gestão de conteúdos da loja.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Números / Estatísticas -->
+                    <div class="card-bg rounded-2xl shadow-lg border p-6 sm:p-8 about-anim-5">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-11 h-11 rounded-xl gradient-bg flex items-center justify-center text-white text-lg">📊</div>
+                            <h3 class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-200">Em Números</h3>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                            <div class="text-center p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60">
+                                <div class="about-stat-num">100+</div>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 font-medium">Produtos</p>
+                            </div>
+                            <div class="text-center p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60">
+                                <div class="about-stat-num">500+</div>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 font-medium">Clientes</p>
+                            </div>
+                            <div class="text-center p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60">
+                                <div class="about-stat-num">24h</div>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 font-medium">Entrega</p>
+                            </div>
+                            <div class="text-center p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60">
+                                <div class="about-stat-num">4.8</div>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 font-medium">Avaliação</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="about-divider about-anim-5"></div>
+
+                    <!-- Contactos de Suporte -->
+                    <div class="card-bg rounded-2xl shadow-lg border p-6 sm:p-8 about-anim-6">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-11 h-11 rounded-xl gradient-bg flex items-center justify-center text-white text-lg">📞</div>
                             <div>
-                                <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-200">Contactos de Suporte</h3>
-                                <p class="text-gray-500 dark:text-gray-400 text-sm">Estamos aqui para ajudar!</p>
+                                <h3 class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-200">Contactos de Suporte</h3>
+                                <p class="text-gray-500 dark:text-gray-400 text-xs">Estamos aqui para ajudar!</p>
                             </div>
                         </div>
 
-                        <div class="space-y-4">
-
-                            <a href="tel:+244932435389" class="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60 hover:bg-primary/5 dark:hover:bg-primary/10 transition-all group">
+                        <div class="space-y-3">
+                            <a href="tel:+244932435389" class="about-contact-item flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60 transition-all group">
                                 <div class="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                                     <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                                     </svg>
                                 </div>
-                                <div>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Telefone 1</p>
-                                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200">932 435 389</p>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">Telefone 1</p>
+                                    <p class="text-base font-bold text-gray-800 dark:text-gray-200">932 435 389</p>
                                 </div>
-                                <svg class="w-5 h-5 text-gray-400 ml-auto group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                <svg class="w-5 h-5 text-gray-400 flex-shrink-0 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </a>
 
-                            <a href="tel:+244955597211" class="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60 hover:bg-primary/5 dark:hover:bg-primary/10 transition-all group">
+                            <a href="tel:+244955597211" class="about-contact-item flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60 transition-all group">
                                 <div class="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                                     <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                                     </svg>
                                 </div>
-                                <div>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Telefone 2</p>
-                                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200">955 597 211</p>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">Telefone 2</p>
+                                    <p class="text-base font-bold text-gray-800 dark:text-gray-200">955 597 211</p>
                                 </div>
-                                <svg class="w-5 h-5 text-gray-400 ml-auto group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                <svg class="w-5 h-5 text-gray-400 flex-shrink-0 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </a>
 
-                            <a href="https://wa.me/244955597211" target="_blank" class="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60 hover:bg-primary/5 dark:hover:bg-primary/10 transition-all group">
+                            <a href="https://wa.me/244955597211" target="_blank" class="about-contact-item flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60 transition-all group">
                                 <div class="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                                     <svg class="w-6 h-6 text-green-600 dark:text-green-400" viewBox="0 0 24 24" fill="currentColor">
                                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                                     </svg>
                                 </div>
-                                <div>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">WhatsApp</p>
-                                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200">955 597 211</p>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">WhatsApp</p>
+                                    <p class="text-base font-bold text-gray-800 dark:text-gray-200">955 597 211</p>
                                 </div>
-                                <svg class="w-5 h-5 text-gray-400 ml-auto group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                <svg class="w-5 h-5 text-gray-400 flex-shrink-0 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </a>
-                            <a href="/cdn-cgi/l/email-protection#c0abb5a9a1b3a8afb0f780a7ada1a9aceea3afad" class="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60 hover:bg-primary/5 dark:hover:bg-primary/10 transition-all group">
+
+                            <a href="/cdn-cgi/l/email-protection#2e455b474f5d46415e1e6e49434f4742004d4143" class="about-contact-item flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60 transition-all group">
                                 <div class="w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                                     <svg class="w-6 h-6 text-red-500 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                                     </svg>
                                 </div>
-                                <div>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Email de Suporte</p>
-                                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200"><span class="__cf_email__" data-cfemail="751e001c14061d1a0542351218141c195b161a18"><span class="__cf_email__" data-cfemail="076c726e66746f68773047606a666e6b2964686a">[email&#160;protected]</span></span></p>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">Email de Suporte</p>
+                                    <p class="text-base font-bold text-gray-800 dark:text-gray-200"><span class="__cf_email__" data-cfemail="85eef0ece4f6edeaf5b5c5e2e8e4ece9abe6eae8">[email&#160;protected]</span></p>
                                 </div>
-                                <svg class="w-5 h-5 text-gray-400 ml-auto group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                <svg class="w-5 h-5 text-gray-400 flex-shrink-0 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </a>
                         </div>
                     </div>
 
-                    <div class="card-bg rounded-2xl shadow-lg border p-8">
+                    <!-- Horário de Atendimento -->
+                    <div class="card-bg rounded-2xl shadow-lg border p-6 sm:p-8 about-anim-7">
                         <div class="flex items-center gap-3 mb-6">
-                            <div class="w-12 h-12 rounded-full gradient-bg flex items-center justify-center text-white text-xl">
-                                🕐
-                            </div>
+                            <div class="w-11 h-11 rounded-xl gradient-bg flex items-center justify-center text-white text-lg">🕐</div>
                             <div>
-                                <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-200">Horário de Atendimento</h3>
-                                <p class="text-gray-500 dark:text-gray-400 text-sm">Quando pode nos contactar</p>
+                                <h3 class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-200">Horário de Atendimento</h3>
+                                <p class="text-gray-500 dark:text-gray-400 text-xs">Quando pode nos contactar</p>
                             </div>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div class="p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60">
-                                <p class="text-sm text-gray-500 dark:text-gray-400 mb-1">Segunda a Quinta</p>
-                                <p class="text-lg font-bold text-gray-800 dark:text-gray-200">08:00 - 18:00</p>
+                            <div class="p-5 rounded-xl bg-gray-50 dark:bg-gray-800/60 flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-lg bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-0.5 font-medium">Segunda a Quinta</p>
+                                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200">08:00 - 18:00</p>
+                                </div>
                             </div>
-                            <div class="p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60">
-                                <p class="text-sm text-gray-500 dark:text-gray-400 mb-1">Sexta</p>
-                                <p class="text-lg font-bold text-gray-800 dark:text-gray-200">09:00 - 14:00</p>
+                            <div class="p-5 rounded-xl bg-gray-50 dark:bg-gray-800/60 flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-900/40 flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-0.5 font-medium">Sexta</p>
+                                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200">09:00 - 14:00</p>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="text-center pb-8">
+                    <!-- Rodapé do Sobre Nós -->
+                    <div class="text-center pb-8 about-anim-8">
+                        <p class="text-xs text-gray-400 dark:text-gray-500 mb-5">Desenvolvido com ❤️ pelos irmãos <strong class="text-gray-600 dark:text-gray-300">Mateus Chimbili</strong> &amp; <strong class="text-gray-600 dark:text-gray-300">Sara Kafundanga</strong></p>
                         <button onclick="showSection('home')" class="btn-primary text-white px-10 py-4 rounded-xl hover-lift ripple text-lg font-semibold">
                             🏠 Voltar ao Início
                         </button>
@@ -6935,7 +7163,7 @@
     </div>
 
     
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     (function() {
         function updateLuandaClock() {
             var now = new Date();
