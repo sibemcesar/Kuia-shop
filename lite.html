@@ -6013,6 +6013,11 @@
             </div>
         </header>
 
+        <div id="liteBanner" style="background:linear-gradient(135deg,#5D5CDE 0%,#7c3aed 100%);padding:10px 16px;text-align:center;font-size:13px;font-weight:600;color:#fff;letter-spacing:0.02em;display:flex;align-items:center;justify-content:center;gap:8px;">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;opacity:0.85;"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <span>Você está usando a nossa aplicação <strong style="font-weight:800;text-decoration:underline;text-underline-offset:2px;">Lite</strong></span>
+        </div>
+
         <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
             <div id="homeSection" class="space-y-8">
@@ -6349,7 +6354,7 @@
   style="width:60%;"
 >
                             <input type="file" id="chatFullImageInput" accept="image/*" class="hidden">
-                            <button id="chatFullImageBtn" class="btn-secondary px-4 py-3 rounded-xl hover-lift" style="display:none;">
+                            <button id="chatFullImageBtn" class="btn-secondary px-4 py-3 rounded-xl hover-lift">
                                 📷
                             </button>
                             <button id="sendChatFullBtn" class="btn-primary text-white px-6 py-3 rounded-xl hover-lift">
@@ -7314,7 +7319,7 @@
                 <div class="max-w-3xl mx-auto">
                     <div class="flex items-center gap-3 mb-2">
                         <input type="file" id="chatOverlayImageInput" accept="image/*" class="hidden">
-                        <button id="chatOverlayImageBtn" class="btn-secondary flex-shrink-0 w-11 h-11 flex items-center justify-center rounded-xl hover-lift" aria-label="Enviar imagem" style="display:none;">
+                        <button id="chatOverlayImageBtn" class="btn-secondary flex-shrink-0 w-11 h-11 flex items-center justify-center rounded-xl hover-lift" aria-label="Enviar imagem">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h2l2-3h10l2 3h2a1 1 0 011 1v11a1 1 0 01-1 1H3a1 1 0 01-1-1V8a1 1 0 011-1zm9 3a3 3 0 100 6 3 3 0 000-6z"/></svg>
                         </button>
                         <input type="text" id="chatOverlayInput" placeholder="Digite sua mensagem..."
@@ -8050,8 +8055,37 @@
         let chatMessages = [];
         let isFullChatMode = false;
         let uploadedPhotoURL = null;
+        let currentMessagesUnsubscribe = null;
 
         const apiKeyImgBB = 'e073e02267a1f0259cd69c562e780659';
+
+        function compressImageToBase64(file, maxSize, quality) {
+            maxSize = maxSize || 800;
+            quality = quality || 0.7;
+            return new Promise(function(resolve, reject) {
+                var reader = new FileReader();
+                reader.onload = function(evt) {
+                    var img = new Image();
+                    img.onload = function() {
+                        var canvas = document.createElement('canvas');
+                        var w = img.width;
+                        var h = img.height;
+                        if (w > maxSize || h > maxSize) {
+                            if (w > h) { h = Math.round((h / w) * maxSize); w = maxSize; }
+                            else { w = Math.round((w / h) * maxSize); h = maxSize; }
+                        }
+                        canvas.width = w;
+                        canvas.height = h;
+                        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                        resolve(canvas.toDataURL('image/jpeg', quality));
+                    };
+                    img.onerror = function() { reject(new Error('Falha ao carregar imagem')); };
+                    img.src = evt.target.result;
+                };
+                reader.onerror = function() { reject(new Error('Falha ao ler arquivo')); };
+                reader.readAsDataURL(file);
+            });
+        }
 
         const loadingScreen = document.getElementById('loadingScreen');
         const loginScreen = document.getElementById('loginScreen');
@@ -8672,8 +8706,14 @@
         function loadChatMessages() {
             if (!currentChatId) return;
 
+            // Remove listener anterior para evitar duplicados
+            if (currentMessagesUnsubscribe) {
+                currentMessagesUnsubscribe();
+                currentMessagesUnsubscribe = null;
+            }
+
             const messagesRef = ref(database, `chats/messages/${currentChatId}`);
-            onValue(messagesRef, (snapshot) => {
+            currentMessagesUnsubscribe = onValue(messagesRef, (snapshot) => {
                 const messages = snapshot.val() || {};
                 const messagesList = Object.entries(messages)
                     .map(([id, msg]) => ({ id, ...msg }))
@@ -8702,10 +8742,19 @@
                 const isUser = msg.senderId === currentUser.uid;
                 let messageContent = '';
 
-                if (msg.type === 'image') {
+                if (msg.type === 'image' && msg.imageUrl) {
+                    var safeUrl = msg.imageUrl.replace(/'/g, '&#39;').replace(/"/g, '&quot;');
                     messageContent = `
-                        <img src="${msg.imageUrl}" alt="Imagem" class="max-w-full h-auto rounded-lg cursor-pointer hover-lift" 
-                             onclick="window.open('${msg.imageUrl}', '_blank')">
+                        <div style="min-width:80px;min-height:80px;position:relative;border-radius:0.5rem;overflow:hidden;background:rgba(128,128,128,0.1);">
+                            <img src="${safeUrl}" alt="Imagem enviada"
+                                 style="max-width:100%;max-height:300px;display:block;border-radius:0.5rem;cursor:pointer;object-fit:contain;"
+                                 onclick="window.open('${safeUrl}', '_blank')"
+                                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                            <div style="display:none;align-items:center;justify-content:center;min-height:80px;padding:12px;flex-direction:column;gap:4px;">
+                                <span style="font-size:1.5rem;">📷</span>
+                                <span style="font-size:0.75rem;opacity:0.7;">Imagem indisponível</span>
+                            </div>
+                        </div>
                         ${msg.text ? `<p class="text-sm mt-2">${msg.text}</p>` : ''}
                     `;
                 } else {
@@ -8830,29 +8879,48 @@
                 const file = e.target.files[0];
                 if (!file) return;
 
+                const originalHTML = btnElement.innerHTML;
                 btnElement.innerHTML = '⏳';
                 btnElement.disabled = true;
 
                 try {
-                    const formData = new FormData();
-                    formData.append('image', file);
+                    var imageUrl = null;
 
-                    const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKeyImgBB}`, {
-                        method: 'POST',
-                        body: formData
-                    });
+                    // Tenta upload via ImgBB primeiro
+                    try {
+                        const formData = new FormData();
+                        formData.append('image', file);
+                        const response = await fetch('https://api.imgbb.com/1/upload?key=' + apiKeyImgBB, {
+                            method: 'POST',
+                            body: formData
+                        });
+                        const result = await response.json();
+                        if (result.success && result.data && result.data.url) {
+                            imageUrl = result.data.url;
+                        }
+                    } catch (uploadErr) {
+                        console.error('ImgBB upload falhou, usando base64:', uploadErr);
+                    }
 
-                    const result = await response.json();
-                    if (result.success) {
-                        await sendChatMessage(null, result.data.url);
+                    // Fallback: converte para base64 comprimido
+                    if (!imageUrl) {
+                        try {
+                            imageUrl = await compressImageToBase64(file, 800, 0.7);
+                        } catch (b64Err) {
+                            console.error('Base64 fallback falhou:', b64Err);
+                        }
+                    }
+
+                    if (imageUrl) {
+                        await sendChatMessage(null, imageUrl);
                     } else {
-                        showNotificationToast('Erro', 'Erro ao fazer upload da imagem.', 'error');
+                        showNotificationToast('Erro', 'Erro ao processar a imagem. Tente novamente.', 'error');
                     }
                 } catch (error) {
                     console.error('Image upload error:', error);
-                    showNotificationToast('Erro', 'Erro ao fazer upload da imagem.', 'error');
+                    showNotificationToast('Erro', 'Erro ao enviar imagem. Tente novamente.', 'error');
                 } finally {
-                    btnElement.innerHTML = '📷';
+                    btnElement.innerHTML = originalHTML;
                     btnElement.disabled = false;
                     e.target.value = '';
                 }
@@ -12998,6 +13066,7 @@ function showPersonalizeToast(hiddenCount) {
 </script>
 </body>
 </html>
+
 
 
 
