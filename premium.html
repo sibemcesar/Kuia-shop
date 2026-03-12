@@ -9,6 +9,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+<script>
+(function() {
+  var ua = navigator.userAgent || '';
+  var isWebView = /\bwv\b/.test(ua) || (/Android/.test(ua) && /Version\/[\d.]+/.test(ua));
+
+  if (!isWebView) {
+    window.location.href = 'https://kuia-shop.vercel.app';
+  }
+})();
+</script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -94,15 +104,15 @@
             /WebView/i,
             /FBAN|FBAV/i,
             /Instagram/i,
-            /Twitter|X\//i,
-            /Line\//i,
+            /Twitter|X\
+            /Line\
             /MicroMessenger/i,
             /Snapchat/i,
             /Pinterest/i,
             /TikTok|BytedanceWebview|musical_ly/i,
             /Telegram/i,
             /WhatsApp/i,
-            /GSA\//i,
+            /GSA\
             /LinkedIn/i
         ];
         for (var i = 0; i < webviewPatterns.length; i++) {
@@ -119,7 +129,6 @@
     </script>
     <style>
 
-        
         * {
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
@@ -198,6 +207,163 @@
             scroll-snap-align: start;
         }
 
+        .recommendation-card {
+            min-width: 150px;
+            max-width: 170px;
+            flex-shrink: 0;
+            scroll-snap-align: start;
+        }
+        .recommendation-score-bar {
+            height: 3px;
+            border-radius: 3px;
+            background: linear-gradient(90deg, #5D5CDE 0%, #a855f7 50%, #ec4899 100%);
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .recommendation-reason {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            padding: 1px 6px;
+            border-radius: 6px;
+            font-size: 8px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+        }
+        .reason-fav {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+        .dark .reason-fav {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+        }
+        .reason-order {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+        .dark .reason-order {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+        }
+        .reason-viewed {
+            background: rgba(93, 92, 222, 0.1);
+            color: #5D5CDE;
+        }
+        .dark .reason-viewed {
+            background: rgba(93, 92, 222, 0.2);
+            color: #7B7AE8;
+        }
+        .reason-discount {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+        }
+        .dark .reason-discount {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fbbf24;
+        }
+        .reason-popular {
+            background: rgba(168, 85, 247, 0.1);
+            color: #a855f7;
+        }
+        .dark .reason-popular {
+            background: rgba(168, 85, 247, 0.2);
+            color: #c084fc;
+        }
+        #recommendedSection .recommendation-grid::-webkit-scrollbar { display: none; }
+        @keyframes recSlideIn {
+            0% { opacity: 0; transform: translateX(20px) scale(0.95); }
+            100% { opacity: 1; transform: translateX(0) scale(1); }
+        }
+        .rec-animate {
+            animation: recSlideIn 0.4s ease-out both;
+        }
+
+        .gallery-item {
+            break-inside: avoid;
+            overflow: hidden;
+            border-radius: 12px;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.25s cubic-bezier(.4,0,.2,1), box-shadow 0.25s ease;
+        }
+        .gallery-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+        .dark .gallery-item:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+        }
+        .gallery-item img {
+            width: 100%;
+            display: block;
+            border-radius: 12px;
+        }
+        .gallery-item .gallery-item-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            border-radius: 12px;
+            display: flex;
+            align-items: flex-end;
+            padding: 10px 12px;
+        }
+        .gallery-item:hover .gallery-item-overlay {
+            opacity: 1;
+        }
+        .gallery-item-overlay span {
+            color: #fff;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        #galleryViewer img {
+            transition: transform 0.3s ease;
+        }
+
+        .grid-toggle-btn {
+            color: #9ca3af;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .grid-toggle-btn:hover {
+            color: #6b7280;
+        }
+        .grid-toggle-btn.active {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 1px 3px rgba(93, 92, 222, 0.3);
+        }
+        .dark .grid-toggle-btn {
+            color: #6b7280;
+        }
+        .dark .grid-toggle-btn:hover {
+            color: #9ca3af;
+        }
+        .dark .grid-toggle-btn.active {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        #productsGrid.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        #productsGrid.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+        @media (min-width: 640px) {
+            #productsGrid.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            #productsGrid.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
+        @media (min-width: 1024px) {
+            #productsGrid.grid-2 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            #productsGrid.grid-3 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        }
+        @media (min-width: 1280px) {
+            #productsGrid.grid-2 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+            #productsGrid.grid-3 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+        }
+
         .gradient-bg {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
         }
@@ -232,7 +398,6 @@
             border: 1px solid rgba(93, 92, 222, 0.3);
         }
 
-        
         .orders-header-banner {
             background: linear-gradient(160deg, #4338ca 0%, #5D5CDE 35%, #7c3aed 70%, #a855f7 100%);
             border-radius: 24px;
@@ -289,7 +454,6 @@
         }
         .orders-stat-card:hover::before { opacity: 1; }
 
-        
         .orders-filter-tabs {
             display: flex;
             gap: 6px;
@@ -357,7 +521,6 @@
             color: #fff;
         }
 
-        
         .order-card-premium {
             background: var(--card-light);
             border: 1px solid var(--border-light);
@@ -550,7 +713,6 @@
             border-color: rgba(93,92,222,0.15);
         }
 
-        
         .notif-header-banner {
             background: linear-gradient(160deg, #0d9488 0%, #14b8a6 30%, #5D5CDE 65%, #7c3aed 100%);
             border-radius: 24px;
@@ -607,7 +769,6 @@
         }
         .notif-stat-card:hover::before { opacity: 1; }
 
-        
         .notif-filter-tabs {
             display: flex;
             gap: 6px;
@@ -675,7 +836,6 @@
             color: #fff;
         }
 
-        
         .notif-card-premium {
             border-radius: 20px;
             overflow: hidden;
@@ -798,7 +958,6 @@
             border-color: rgba(13,148,136,0.15);
         }
 
-        
         .fav-header-banner {
             background: linear-gradient(160deg, #4338ca 0%, #5D5CDE 35%, #7c3aed 70%, #a855f7 100%);
             border-radius: 24px;
@@ -855,7 +1014,6 @@
         }
         .fav-stat-card:hover::before { opacity: 1; }
 
-        
         .fav-filter-tabs {
             display: flex;
             gap: 6px;
@@ -923,7 +1081,6 @@
             color: #fff;
         }
 
-        
         .fav-sort-select {
             appearance: none;
             -webkit-appearance: none;
@@ -953,7 +1110,6 @@
             box-shadow: 0 0 0 3px rgba(93,92,222,0.15);
         }
 
-        /* Search Sort Select */
         .search-sort-btn {
             appearance: none;
             -webkit-appearance: none;
@@ -998,7 +1154,6 @@
             background: #1F2937;
             color: #f3f4f6;
         }
-
 
         .fav-product-card {
             background: var(--card-light);
@@ -1219,7 +1374,6 @@
             border-radius: 8px;
         }
 
-        
         .toast-premium {
             background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(24px);
@@ -1340,7 +1494,6 @@
             white-space: nowrap;
         }
 
-        
         .detail-swipe-container {
             position: relative;
             overflow: hidden;
@@ -1582,7 +1735,6 @@
             text-decoration: line-through;
         }
 
-        
         .suggest-modal-overlay {
             position: fixed;
             inset: 0;
@@ -1729,7 +1881,6 @@
             transform: translateY(0);
         }
 
-        
         .personalize-toast {
             position: fixed;
             bottom: 90px;
@@ -1799,7 +1950,6 @@
             transition: width linear;
         }
 
-        
         .all-categories-manage-btn {
             display: inline-flex;
             align-items: center;
@@ -1916,7 +2066,6 @@
             80%, 100% { content: '...'; }
         }
 
-        
         .splash-container {
             display: flex;
             flex-direction: column;
@@ -2118,7 +2267,6 @@
             100% { opacity: 0; transform: translateY(30px) scale(0.5) rotate(-12deg); }
         }
 
-        
         .product-skeleton {
             border-radius: 12px;
             overflow: hidden;
@@ -2238,7 +2386,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        
         .category-skeleton {
             border-radius: 16px;
             overflow: hidden;
@@ -2557,7 +2704,6 @@
             background: rgba(255,255,255,0.15);
         }
 
-        
         .header-clock {
             display: flex;
             flex-direction: column;
@@ -2639,7 +2785,6 @@
             }
         }
 
-        
         .app-modal-overlay {
             position: fixed;
             inset: 0;
@@ -2813,7 +2958,6 @@
             background: rgba(255,255,255,0.3);
         }
 
-        
         .support-description {
             background: rgba(124,58,237,0.06);
             border-radius: 14px;
@@ -3034,7 +3178,6 @@
             height: 300px;
         }
 
-        
         .fly-to-cart-item {
             position: fixed;
             z-index: 99999;
@@ -3054,7 +3197,6 @@
             transition: all 0.65s cubic-bezier(0.22, 0.61, 0.36, 1);
         }
 
-        
         @keyframes buyBtnSuccess {
             0% { transform: scale(1); }
             15% { transform: scale(0.92); }
@@ -3074,7 +3216,6 @@
             box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4) !important;
         }
 
-        
         .buy-particle {
             position: fixed;
             z-index: 99998;
@@ -3087,7 +3228,6 @@
             100% { opacity: 0; }
         }
 
-        
         .confetti-piece {
             position: fixed;
             z-index: 99997;
@@ -3100,7 +3240,6 @@
             100% { opacity: 0; transform: translateY(120px) rotate(720deg) scale(0.3); }
         }
 
-        
         @keyframes cartBadgePop {
             0% { transform: scale(1); }
             30% { transform: scale(1.6); }
@@ -3112,7 +3251,6 @@
             animation: cartBadgePop 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
         }
 
-        
         @keyframes heartPop {
             0% { transform: scale(1); }
             15% { transform: scale(1.4); }
@@ -3358,7 +3496,6 @@
             pointer-events: none;
         }
 
-        
         #loginScreen {
             background: #f2f2f7 !important;
             overflow-y: auto;
@@ -3483,7 +3620,6 @@
             margin-bottom: 20px;
         }
 
-        
         .m3-btn {
             width: 100%;
             display: flex;
@@ -3549,7 +3685,6 @@
             100% { opacity:1; transform:translateY(0); }
         }
 
-        
         .create-account-modal-body {
             background: #f2f2f7;
         }
@@ -3646,7 +3781,6 @@
             background: #38383a !important;
         }
 
-        
         .m3-field {
             position: relative;
             margin-bottom: 6px;
@@ -3697,7 +3831,6 @@
             background: #1c1c1e;
         }
 
-        
         .android-divider {
             display: flex;
             align-items: center;
@@ -3719,7 +3852,6 @@
             background: #38383a;
         }
 
-        
         .android-back-btn {
             display: inline-flex;
             align-items: center;
@@ -3742,7 +3874,6 @@
             background: rgba(255,255,255,0.06);
         }
 
-        
         .login-error-banner {
             background: #fff2f0;
             border: 1px solid #ffd6d1;
@@ -3775,7 +3906,6 @@
             opacity: 0.7; pointer-events: none; cursor: wait;
         }
 
-        
         .android-form-card {
             background: #fff;
             border-radius: 20px;
@@ -3789,7 +3919,6 @@
             box-shadow: none;
         }
 
-        
         .android-form-section {
             animation: androidFormIn 0.35s cubic-bezier(0.2, 0, 0, 1);
         }
@@ -3841,7 +3970,6 @@
             min-width: 0 !important;
         }
 
-        
         .promo-banner-wrapper {
             position: relative;
             width: 100%;
@@ -4129,6 +4257,371 @@
             .promo-banner-cta { font-size: 10px; padding: 5px 10px; }
         }
 
+        .loyalty-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease;
+        }
+        .loyalty-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .loyalty-overlay-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+        .loyalty-sheet {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 480px;
+            max-height: 92vh;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
+            background: var(--card-light);
+            border-radius: 28px 28px 0 0;
+            box-shadow: 0 -10px 50px rgba(0,0,0,0.2);
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+        }
+        .dark .loyalty-sheet {
+            background: #1a1a2e;
+            box-shadow: 0 -10px 50px rgba(0,0,0,0.5);
+        }
+        .loyalty-overlay.active .loyalty-sheet {
+            transform: translateY(0);
+        }
+        .loyalty-sheet::-webkit-scrollbar { width: 4px; }
+        .loyalty-sheet::-webkit-scrollbar-track { background: transparent; }
+        .loyalty-sheet::-webkit-scrollbar-thumb { background: rgba(93,92,222,0.2); border-radius: 4px; }
+        .loyalty-handle {
+            width: 40px;
+            height: 4px;
+            border-radius: 4px;
+            background: rgba(128,128,128,0.3);
+            margin: 12px auto 0;
+        }
+        .loyalty-hero {
+            position: relative;
+            overflow: hidden;
+            padding: 28px 24px 24px;
+            text-align: center;
+        }
+        .loyalty-hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+        .loyalty-hero-bg.tier-bronze {
+            background: linear-gradient(160deg, #451a03 0%, #78350f 25%, #92400e 50%, #b45309 80%, #d97706 100%);
+        }
+        .loyalty-hero-bg.tier-prata {
+            background: linear-gradient(160deg, #1f2937 0%, #374151 25%, #4b5563 55%, #6b7280 85%, #7c8694 100%);
+        }
+        .loyalty-hero-bg.tier-ouro {
+            background: linear-gradient(160deg, #451a03 0%, #78350f 20%, #92400e 40%, #b45309 60%, #d97706 80%, #f59e0b 100%);
+        }
+        .loyalty-hero-bg.tier-diamante {
+            background: linear-gradient(160deg, #1e1b4b 0%, #312e81 20%, #4338ca 45%, #6366f1 65%, #7c3aed 85%, #8b5cf6 100%);
+        }
+        .loyalty-hero-bg::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -20%;
+            width: 260px;
+            height: 260px;
+            background: radial-gradient(circle, rgba(255,255,255,0.10) 0%, transparent 60%);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        .loyalty-hero-bg::after {
+            content: '';
+            position: absolute;
+            bottom: -35%;
+            left: -10%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+        .loyalty-hero > * { position: relative; z-index: 1; }
+        .loyalty-medal {
+            width: 88px;
+            height: 88px;
+            margin: 0 auto 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.18);
+            border: 2px solid rgba(255,255,255,0.30);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            animation: profileGlow 3s ease-in-out infinite alternate;
+        }
+        .loyalty-tier-name {
+            color: #000;
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            text-shadow: none;
+        }
+        .dark .loyalty-tier-name {
+            color: #fff;
+            text-shadow: 0 2px 12px rgba(0,0,0,0.35), 0 1px 3px rgba(0,0,0,0.25);
+        }
+        .loyalty-tier-sub {
+            color: #000;
+            font-size: 13px;
+            margin-top: 4px;
+            font-weight: 500;
+            text-shadow: none;
+        }
+        .dark .loyalty-tier-sub {
+            color: rgba(255,255,255,0.9);
+            text-shadow: 0 1px 6px rgba(0,0,0,0.3);
+        }
+        .loyalty-spent-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 14px;
+            padding: 8px 20px;
+            border-radius: 20px;
+            background: rgba(0,0,0,0.22);
+            border: 1px solid rgba(255,255,255,0.25);
+            color: #fff;
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            text-shadow: 0 1px 4px rgba(0,0,0,0.25);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+        }
+        .loyalty-progress-section {
+            padding: 20px 24px;
+        }
+        .loyalty-progress-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .loyalty-progress-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #000;
+        }
+        .dark .loyalty-progress-label { color: #9ca3af; }
+        .loyalty-progress-value {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .loyalty-progress-track {
+            width: 100%;
+            height: 10px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        .dark .loyalty-progress-track { background: rgba(255,255,255,0.08); }
+        .loyalty-progress-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .loyalty-progress-fill.tier-bronze {
+            background: linear-gradient(90deg, #b45309, #f59e0b);
+        }
+        .loyalty-progress-fill.tier-prata {
+            background: linear-gradient(90deg, #6b7280, #d1d5db);
+        }
+        .loyalty-progress-fill.tier-ouro {
+            background: linear-gradient(90deg, #d97706, #fbbf24);
+        }
+        .loyalty-progress-fill.tier-diamante {
+            background: linear-gradient(90deg, #6366f1, #c084fc);
+        }
+        .loyalty-progress-fill::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%);
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .loyalty-next-tier-text {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 8px;
+            text-align: center;
+        }
+        .dark .loyalty-next-tier-text { color: #6b7280; }
+        .loyalty-tiers-section {
+            padding: 0 24px 20px;
+        }
+        .loyalty-tiers-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #374151;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dark .loyalty-tiers-title { color: #e5e7eb; }
+        .loyalty-tier-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 16px;
+            border-radius: 16px;
+            margin-bottom: 10px;
+            border: 1.5px solid transparent;
+            transition: all 0.3s ease;
+            background: #f9fafb;
+        }
+        .dark .loyalty-tier-card { background: rgba(255,255,255,0.04); }
+        .loyalty-tier-card.current-tier {
+            border-color: var(--primary);
+            background: rgba(93,92,222,0.06);
+            box-shadow: 0 4px 16px rgba(93,92,222,0.12);
+        }
+        .dark .loyalty-tier-card.current-tier {
+            background: rgba(93,92,222,0.12);
+            box-shadow: 0 4px 16px rgba(93,92,222,0.2);
+        }
+        .loyalty-tier-card.locked { opacity: 0.5; }
+        .loyalty-tier-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        .loyalty-tier-icon.tier-bronze { background: linear-gradient(135deg, rgba(180,83,9,0.12), rgba(245,158,11,0.18)); }
+        .loyalty-tier-icon.tier-prata { background: linear-gradient(135deg, rgba(107,114,128,0.12), rgba(209,213,219,0.18)); }
+        .loyalty-tier-icon.tier-ouro { background: linear-gradient(135deg, rgba(217,119,6,0.12), rgba(251,191,36,0.18)); }
+        .loyalty-tier-icon.tier-diamante { background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(192,132,252,0.18)); }
+        .loyalty-tier-info { flex: 1; min-width: 0; }
+        .loyalty-tier-info-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+        .dark .loyalty-tier-info-name { color: #f3f4f6; }
+        .loyalty-tier-info-range {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 2px;
+        }
+        .dark .loyalty-tier-info-range { color: #6b7280; }
+        .loyalty-tier-benefits {
+            margin-top: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .loyalty-benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+        .dark .loyalty-benefit-item { color: #9ca3af; }
+        .loyalty-benefit-check {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 9px;
+        }
+        .loyalty-benefit-check.active {
+            background: rgba(16,185,129,0.12);
+            color: #10b981;
+        }
+        .loyalty-benefit-check.inactive {
+            background: rgba(156,163,175,0.12);
+            color: #9ca3af;
+        }
+        .loyalty-current-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 10px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            background: linear-gradient(135deg, var(--primary), #7c3aed);
+            color: #fff;
+            margin-top: 4px;
+        }
+        .loyalty-close-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            z-index: 10;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.25);
+            border: 1px solid rgba(255,255,255,0.25);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #fff;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .loyalty-close-btn:hover {
+            background: rgba(0,0,0,0.35);
+            transform: scale(1.08);
+        }
+        .loyalty-bottom-pad { height: 24px; }
+        @media (min-width: 481px) {
+            .loyalty-sheet {
+                border-radius: 28px;
+                max-height: 85vh;
+                margin-bottom: 20px;
+            }
+            .loyalty-overlay {
+                align-items: center;
+            }
+        }
         
         .profile-hero-card {
             background: linear-gradient(160deg, #312e81 0%, #4338ca 20%, #5D5CDE 45%, #7c3aed 70%, #a855f7 90%, #c084fc 100%);
@@ -4487,7 +4980,6 @@
             color: var(--primary);
         }
 
-        /* ===== FULLSCREEN MENU OVERLAY ===== */
         .fs-menu-overlay {
             position: fixed;
             inset: 0;
@@ -5018,7 +5510,6 @@
             font-size: 13px;
         }
 
-        
         .pin-setup-modal-overlay {
             position: fixed;
             inset: 0;
@@ -5093,7 +5584,6 @@
             border-color: #ef4444;
         }
 
-        
         .profile-lock-btn {
             width: 100%;
             padding: 16px;
@@ -5139,7 +5629,6 @@
             background: rgba(239,68,68,0.08);
         }
 
-        
         .pin-keyword-field {
             width: 100%;
             max-width: 260px;
@@ -5209,7 +5698,6 @@
             color: #6b7280;
         }
 
-        
         .pin-confirm-modal-overlay {
             position: fixed;
             inset: 0;
@@ -5249,7 +5737,6 @@
             opacity: 1;
         }
 
-        /* === Terms of Use Modal === */
         .terms-modal-overlay {
             position: fixed;
             inset: 0;
@@ -5564,8 +6051,6 @@
 </head>
 <body>
 
-
-
     <div id="pinLockScreen" class="pin-lock-overlay" style="display:none;">
         <div class="pin-lock-card">
             <div class="pin-lock-icon">
@@ -5602,7 +6087,6 @@
         </div>
     </div>
 
-    
     <div id="pinSetupModal" class="pin-setup-modal-overlay">
         <div class="pin-setup-modal">
             <div class="pin-lock-icon" style="width:60px;height:60px;margin-bottom:20px;">
@@ -5649,7 +6133,6 @@
         </div>
     </div>
 
-    
     <div id="pinResetConfirmModal" class="pin-confirm-modal-overlay">
         <div class="pin-confirm-modal">
             <div style="width:56px;height:56px;border-radius:50%;background:rgba(93,92,222,0.1);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:26px;">🔑</div>
@@ -5666,7 +6149,6 @@
         </div>
     </div>
 
-    
     <div id="pinRemoveConfirmModal" class="pin-confirm-modal-overlay">
         <div class="pin-confirm-modal">
             <div style="width:56px;height:56px;border-radius:50%;background:rgba(239,68,68,0.1);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
@@ -5717,7 +6199,6 @@
     <div id="loginScreen" class="fixed inset-0 z-40 hidden" style="background:#f2f2f7;">
         <div class="android-login-wrap">
 
-            
             <div class="android-hero">
                 <div class="android-hero-circles" aria-hidden="true">
                     <span></span><span></span><span></span>
@@ -5727,12 +6208,10 @@
                 <p class="android-hero-sub">Sua loja online favorita</p>
             </div>
 
-            
             <div class="android-body">
                 <div class="android-body-title">Bem-vindo 👋</div>
                 <div class="android-body-sub">Escolha como deseja continuar</div>
 
-                
                 <div id="loginErrorBanner" class="hidden mb-4 flex items-start gap-3 login-error-banner" style="padding:14px 16px; border-radius:14px;">
                     <span class="text-lg flex-shrink-0">⚠️</span>
                     <div class="flex-1 min-w-0">
@@ -5742,7 +6221,6 @@
                     <button onclick="hideLoginError()" class="text-lg flex-shrink-0 opacity-60 hover:opacity-100 transition-opacity" style="background:none;border:none;cursor:pointer;color:inherit;">×</button>
                 </div>
 
-                
                 <div id="loginOptions" class="flex flex-col" style="gap:12px;">
                     <button id="guestBtn" class="m3-btn m3-btn-tonal android-btn-stagger ripple" style="animation-delay:0.08s">
                         <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
@@ -5760,14 +6238,12 @@
                         <span>Entrar com a minha conta</span>
                     </button>
 
-                    
                     <div class="create-account-link" style="text-align:center;margin-top:10px;animation:androidBtnSlide 0.4s cubic-bezier(0.2, 0, 0, 1) 0.28s both;">
                         <p style="font-size:13px;color:#8e8e93;">Você não tem conta?</p>
                         <button id="openCreateAccountModalBtn" style="background:none;border:none;color:var(--primary);font-size:14px;font-weight:700;cursor:pointer;padding:6px 0;text-decoration:underline;text-underline-offset:3px;">Clique aqui para criar</button>
                     </div>
                 </div>
 
-                
                 <div id="emailLoginForm" class="hidden android-form-section">
                     <div class="android-form-card">
                         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
@@ -5798,7 +6274,6 @@
                     </div>
                 </div>
 
-                
                 <div id="forgotPasswordForm" class="hidden android-form-section">
                     <div class="android-form-card">
                         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
@@ -5840,7 +6315,6 @@
         </div>
     </div>
 
-    
     <div id="createAccountModal" class="fixed inset-0 z-50 hidden" style="background:rgba(0,0,0,0.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);">
         <div class="create-account-modal-inner" style="position:absolute;inset:0;display:flex;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch;">
             
@@ -5855,7 +6329,6 @@
                 </div>
             </div>
 
-            
             <div class="create-account-modal-body" style="flex:1;padding:24px 20px 32px;">
                 
                 <div class="create-step-card" style="animation-delay:0.08s">
@@ -5866,7 +6339,6 @@
                     </div>
                 </div>
 
-                
                 <div class="create-step-card" style="animation-delay:0.16s">
                     <div class="create-step-number">2</div>
                     <div class="create-step-content">
@@ -5875,7 +6347,6 @@
                     </div>
                 </div>
 
-                
                 <div class="create-step-card" style="animation-delay:0.24s">
                     <div class="create-step-number">3</div>
                     <div class="create-step-content">
@@ -5884,7 +6355,6 @@
                     </div>
                 </div>
 
-                
                 <div class="create-step-card" style="animation-delay:0.32s">
                     <div class="create-step-number">4</div>
                     <div class="create-step-content">
@@ -5899,7 +6369,6 @@
                     </div>
                 </div>
 
-                
                 <div class="create-step-card" style="animation-delay:0.40s">
                     <div class="create-step-number">5</div>
                     <div class="create-step-content">
@@ -5908,7 +6377,6 @@
                     </div>
                 </div>
 
-                
                 <div class="create-account-notice" style="animation-delay:0.48s">
                     <div style="display:flex;align-items:flex-start;gap:10px;">
                         <span style="font-size:20px;flex-shrink:0;">💡</span>
@@ -5916,13 +6384,11 @@
                     </div>
                 </div>
 
-                
                 <a href="https://kuia.vercel.app/" target="_blank" rel="noopener noreferrer" id="createAccountExternalBtn" class="m3-btn m3-btn-filled ripple" style="margin-top:20px;text-decoration:none;animation:androidBtnSlide 0.4s cubic-bezier(0.2, 0, 0, 1) 0.56s both;">
                     <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
                     <span>Criar conta</span>
                 </a>
 
-                
                 <button id="backFromCreateAccountBtn" style="width:100%;margin-top:12px;padding:14px;border-radius:16px;background:transparent;border:1.5px solid rgba(93,92,222,0.2);color:var(--primary);font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;">
                     Já criei minha conta, voltar ao login
                 </button>
@@ -6006,7 +6472,7 @@
                                 <img id="userAvatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='50' fill='%235D5CDE'/%3E%3Ccircle cx='50' cy='40' r='14' fill='white' opacity='0.9'/%3E%3Cellipse cx='50' cy='78' rx='24' ry='16' fill='white' opacity='0.9'/%3E%3C/svg%3E" alt="Avatar" class="w-8 h-8 rounded-full border-2 border-primary object-cover" onerror="handleAvatarError(this)">
                                 <span id="userName" class="hidden sm:block text-sm font-medium">Visitante</span>
                             </button>
-                            <!-- Old dropdown replaced by fullscreen overlay #fsMenuOverlay -->
+                            
                         </div>
                     </div>
                 </div>
@@ -6017,7 +6483,6 @@
 
             <div id="homeSection" class="space-y-8">
 
-                
                 <div id="promoBannerSection" class="promo-banner-wrapper">
                     <div id="promoBannerTrack" class="promo-banner-track">
                         
@@ -6047,7 +6512,17 @@
                     <div id="filterControlsWrapper" class="filter-container collapsed">
                         <div class="flex items-center justify-between mb-2">
                             <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">📂 Categorias</span>
-                            <span id="productsCount" class="text-xs text-gray-500 dark:text-gray-400 font-medium">0 produtos encontrados</span>
+                            <div class="flex items-center gap-2">
+                                <span id="productsCount" class="text-xs text-gray-500 dark:text-gray-400 font-medium">0 produtos encontrados</span>
+                                <div id="gridToggleWrapper" class="flex items-center gap-1 ml-2 bg-gray-100 dark:bg-gray-700 rounded-lg p-0.5">
+                                    <button id="gridBtn2" onclick="setGridCols(2)" class="grid-toggle-btn active p-1 rounded-md transition-all" title="2 por linha">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="0.5" y="0.5" width="6.5" height="6.5" rx="1"/><rect x="9" y="0.5" width="6.5" height="6.5" rx="1"/><rect x="0.5" y="9" width="6.5" height="6.5" rx="1"/><rect x="9" y="9" width="6.5" height="6.5" rx="1"/></svg>
+                                    </button>
+                                    <button id="gridBtn3" onclick="setGridCols(3)" class="grid-toggle-btn p-1 rounded-md transition-all" title="3 por linha">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="0.5" y="0.5" width="4" height="4" rx="1"/><rect x="6" y="0.5" width="4" height="4" rx="1"/><rect x="11.5" y="0.5" width="4" height="4" rx="1"/><rect x="0.5" y="6" width="4" height="4" rx="1"/><rect x="6" y="6" width="4" height="4" rx="1"/><rect x="11.5" y="6" width="4" height="4" rx="1"/><rect x="0.5" y="11.5" width="4" height="4" rx="1"/><rect x="6" y="11.5" width="4" height="4" rx="1"/><rect x="11.5" y="11.5" width="4" height="4" rx="1"/></svg>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                         <div class="filter-scroll-row mb-3" id="categoryFilters">
                             <button class="category-filter-btn btn-primary text-white px-4 py-2 rounded-full text-sm font-medium hover-lift" data-category="all">
@@ -6101,7 +6576,19 @@
                     </div>
                 </div>
 
-                <div id="productsGrid" class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+                <div id="recommendedSection" class="hidden mb-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-base">✨</span>
+                            <span class="text-xs font-semibold text-purple-500 dark:text-purple-400 uppercase tracking-wider">Recomendados para si</span>
+                        </div>
+                        <span id="recommendedCount" class="text-[10px] text-gray-400 dark:text-gray-500 font-medium px-2 py-1"></span>
+                    </div>
+                    <div class="recommendation-grid flex gap-3 overflow-x-auto pb-2 scrollbar-hide" style="-webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory;">
+                    </div>
+                </div>
+
+                <div id="productsGrid" class="grid grid-2 gap-3">
                     <div class="product-skeleton product-skeleton-enter" style="animation-delay:0s">
                         <div class="sk-img"><div class="sk-fav"></div><div class="sk-img-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg></div></div>
                         <div class="sk-body"><div class="sk-line sk-title"></div><div class="sk-line sk-title-2"></div><div class="sk-line sk-cat"></div><div class="sk-price"></div><div class="sk-btn"></div></div>
@@ -6216,7 +6703,6 @@
                     </div>
                 </div>
 
-                
                 <div class="space-y-3">
                     <div class="fav-filter-tabs" id="favFilterTabs">
                         
@@ -6234,7 +6720,6 @@
                     </div>
                 </div>
 
-                
                 <div id="favoritesGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4">
                     <div class="text-center py-20 col-span-full">
                         <div class="w-14 h-14 border-[3px] border-primary border-t-transparent rounded-full animate-spin mx-auto mb-5"></div>
@@ -6278,7 +6763,6 @@
                     </div>
                 </div>
 
-                
                 <div class="space-y-3">
                     <div class="orders-filter-tabs" id="ordersFilterTabs">
                         <button class="order-filter-tab active" data-filter="all" onclick="filterOrders('all')">Todos</button>
@@ -6290,7 +6774,6 @@
                     <div id="ordersCountLabel" class="text-xs text-gray-400 dark:text-gray-500 font-semibold tracking-wide uppercase px-1"></div>
                 </div>
 
-                
                 <div id="ordersGrid" class="space-y-4">
                     <div class="text-center py-20">
                         <div class="w-14 h-14 border-[3px] border-primary border-t-transparent rounded-full animate-spin mx-auto mb-5"></div>
@@ -6356,7 +6839,6 @@
                                 📤
                             </button>
                         </div>
-                        <p class="text-xs text-gray-500 dark:text-gray-400">Pressione Enter para enviar</p>
                     </div>
                 </div>
             </div>
@@ -6392,7 +6874,6 @@
                     </div>
                 </div>
 
-                
                 <div class="space-y-3">
                     <div class="notif-filter-tabs" id="notifFilterTabs">
                         <button class="notif-filter-tab active" data-filter="all" onclick="filterNotifications('all')">Todas</button>
@@ -6415,7 +6896,6 @@
                     </div>
                 </div>
 
-                
                 <div id="notificationsList" class="space-y-4">
                     <div class="text-center py-20">
                         <div class="text-6xl mb-6 animate-float"><svg width="56" height="56" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></div>
@@ -6427,13 +6907,11 @@
             <div id="profileSection" class="hidden space-y-6">
                 <div class="max-w-2xl mx-auto space-y-5">
 
-                    
                     <div class="profile-hero-card animate-fade-in">
                         <div class="profile-hero-orb profile-hero-orb-1"></div>
                         <div class="profile-hero-orb profile-hero-orb-2"></div>
                         <div class="profile-hero-orb profile-hero-orb-3"></div>
 
-                        
                         <div class="profile-avatar-ring">
                             <img id="profileAvatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='50' fill='%235D5CDE'/%3E%3Ccircle cx='50' cy='40' r='14' fill='white' opacity='0.9'/%3E%3Cellipse cx='50' cy='78' rx='24' ry='16' fill='white' opacity='0.9'/%3E%3C/svg%3E" alt="Avatar" onerror="handleAvatarError(this)">
                             <button onclick="openProfilePictureModal()" class="profile-edit-avatar-btn" title="Alterar foto" style="display:none;">
@@ -6444,17 +6922,14 @@
                             </button>
                         </div>
 
-                        
                         <h3 id="profileName" class="profile-hero-name"></h3>
                         <p id="profileEmail" class="profile-hero-email"></p>
 
-                        
                         <div id="profileMemberBadge" class="profile-hero-member" style="display:none;">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                             <span id="profileMemberDate">Membro desde —</span>
                         </div>
 
-                        
                         <div id="chatStatus" class="profile-hero-chat-status">
                             <span class="inline-flex items-center px-3 py-1 text-xs rounded-full" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.65);">
                                 <span class="w-2 h-2 bg-gray-400 rounded-full mr-2" style="opacity:0.6;"></span>
@@ -6462,7 +6937,6 @@
                             </span>
                         </div>
 
-                        <!-- Active Time Display -->
                         <div id="activeTimeDisplay" class="profile-hero-chat-status" style="margin-top:6px;display:none;">
                             <span class="inline-flex items-center px-3 py-1 text-xs rounded-full" style="background:rgba(93,92,222,0.15);border:1px solid rgba(93,92,222,0.25);color:rgba(255,255,255,0.85);">
                                 <span class="w-2 h-2 rounded-full mr-2" style="background:#5D5CDE;animation:pulse 2s infinite;"></span>
@@ -6470,7 +6944,6 @@
                                 <span id="activeTimeText">Ativo agora</span>
                             </span>
                         </div>
-
 
                         <div class="profile-stats-row">
                             <div class="profile-stat-item" onclick="showSection('orders')">
@@ -6488,10 +6961,8 @@
                         </div>
                     </div>
 
-                    
                     <span id="profileOrderCount" class="hidden"></span>
 
-                    
                     <div class="profile-quick-actions animate-fade-in" style="animation-delay:0.1s;">
                         <div class="profile-action-card" onclick="showSection('orders')">
                             <span id="profileActionOrderBadge" class="profile-action-badge" style="display:none;">0</span>
@@ -6519,9 +6990,12 @@
                             <div class="profile-action-icon" style="background:linear-gradient(135deg,rgba(168,85,247,0.08),rgba(192,132,252,0.15));"><svg width="22" height="22" fill="none" stroke="#a855f7" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></div>
                             <div class="profile-action-label">Alertas</div>
                         </div>
+                        <div class="profile-action-card" onclick="openLoyaltyOverlay()">
+                            <div class="profile-action-icon" style="background:linear-gradient(135deg,rgba(245,158,11,0.08),rgba(251,191,36,0.18));"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3l3.057-3 3.943 4.943L16 1l3 2-4 5h5l-1 2-5 1 3 8H7l3-8-5-1-1-2h5L5 3z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 2l2.09 4.26L18.18 7l-3.09 3.01L15.82 14 12 12.27 8.18 14l.73-3.99L5.82 7l4.09-.74L12 2z"/></svg></div>
+                            <div class="profile-action-label">Meu Nível</div>
+                        </div>
                     </div>
 
-                    
                     <div class="profile-section-card animate-fade-in" style="animation-delay:0.15s;">
                         <div class="profile-section-header">
                             <div class="profile-section-title">
@@ -6546,7 +7020,6 @@
                         </div>
                     </div>
 
-                    
                     <div class="profile-section-card animate-fade-in" style="animation-delay:0.2s;">
                         <div class="profile-section-header">
                             <div class="profile-section-title">
@@ -6601,6 +7074,17 @@
                             <svg class="w-5 h-5 profile-menu-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </div>
 
+                        <div class="profile-menu-item" onclick="openLoyaltyOverlay()">
+                            <div class="profile-menu-icon" style="background:linear-gradient(135deg,rgba(245,158,11,0.08),rgba(251,191,36,0.15));">
+                                <svg width="20" height="20" fill="none" stroke="#f59e0b" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2l2.09 4.26L18.18 7l-3.09 3.01L15.82 14 12 12.27 8.18 14l.73-3.99L5.82 7l4.09-.74L12 2z"/></svg>
+                            </div>
+                            <div class="profile-menu-text">
+                                <div class="profile-menu-title">Meu Nível de Fidelidade</div>
+                                <div class="profile-menu-subtitle">Veja seu nível e benefícios</div>
+                            </div>
+                            <svg class="w-5 h-5 profile-menu-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </div>
+
                         <div class="profile-menu-item" onclick="openInviteModal()">
                             <div class="profile-menu-icon" style="background:linear-gradient(135deg,rgba(236,72,153,0.08),rgba(244,114,182,0.12));">
                                 <svg width="20" height="20" fill="none" stroke="#ec4899" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v13m0-13V6a4 4 0 00-4-4c-1.5 0-2 1-2 1s0 3.5 2.5 5.5M12 8V6a4 4 0 014-4c1.5 0 2 1 2 1s0 3.5-2.5 5.5M5 8h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V9a1 1 0 011-1zm1 4v7a2 2 0 002 2h8a2 2 0 002-2v-7"/></svg>
@@ -6613,8 +7097,6 @@
                         </div>
                     </div>
 
-                    
-                    
                     <div id="profileLockWrap" class="animate-fade-in" style="animation-delay:0.22s;">
                         <button id="profileLockBtn" class="profile-lock-btn" onclick="pinSystem.openSetupModal()">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
@@ -6775,7 +7257,6 @@
 
                 <div class="max-w-4xl mx-auto space-y-6">
 
-                    <!-- Hero Banner -->
                     <div class="about-hero-bg rounded-3xl p-8 sm:p-12 text-center relative z-10 about-anim-1">
                         <div class="relative z-10">
                             <div class="text-6xl sm:text-7xl mb-5 animate-float">🛍️</div>
@@ -6802,7 +7283,6 @@
                         </div>
                     </div>
 
-                    <!-- Nossa História -->
                     <div class="card-bg rounded-2xl shadow-lg border p-6 sm:p-8 about-anim-2">
                         <div class="flex items-center gap-3 mb-5">
                             <div class="w-11 h-11 rounded-xl gradient-bg flex items-center justify-center text-white text-lg">📖</div>
@@ -6816,7 +7296,6 @@
                         </p>
                     </div>
 
-                    <!-- Missão / Visão / Valores -->
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 about-anim-3">
                         <div class="about-value-card rounded-2xl p-6 text-center">
                             <div class="w-14 h-14 rounded-2xl bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center mx-auto mb-4 text-2xl">🎯</div>
@@ -6835,7 +7314,6 @@
                         </div>
                     </div>
 
-                    <!-- Fundadores -->
                     <div class="card-bg rounded-2xl shadow-lg border p-6 sm:p-8 about-anim-4">
                         <div class="flex items-center gap-3 mb-2">
                             <div class="w-11 h-11 rounded-xl gradient-bg flex items-center justify-center text-white text-lg">👨‍👩‍👦</div>
@@ -6844,7 +7322,7 @@
                         <p class="text-gray-500 dark:text-gray-400 text-sm mb-6 ml-14">Este aplicativo foi desenvolvido com dedicação pelos irmãos Chimbili &amp; Kafundanga.</p>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                            <!-- Mateus Chimbili -->
+                            
                             <div class="founder-card card-bg rounded-2xl border p-6 flex flex-col items-center text-center">
                                 <div class="founder-avatar mb-4" style="background: linear-gradient(135deg, #5D5CDE 0%, #4845BE 100%);">
                                     MC
@@ -6853,7 +7331,7 @@
                                 <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold gradient-bg text-white mb-3">Co-Fundador &amp; Dev</span>
                                 <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">Responsável pela visão estratégica e desenvolvimento técnico da plataforma Kuia+ Shop.</p>
                             </div>
-                            <!-- Sara Kafundanga -->
+                            
                             <div class="founder-card card-bg rounded-2xl border p-6 flex flex-col items-center text-center">
                                 <div class="founder-avatar mb-4" style="background: linear-gradient(135deg, #E74C8B 0%, #9B59B6 100%);">
                                     SK
@@ -6865,7 +7343,6 @@
                         </div>
                     </div>
 
-                    <!-- Números / Estatísticas -->
                     <div class="card-bg rounded-2xl shadow-lg border p-6 sm:p-8 about-anim-5">
                         <div class="flex items-center gap-3 mb-6">
                             <div class="w-11 h-11 rounded-xl gradient-bg flex items-center justify-center text-white text-lg">📊</div>
@@ -6893,7 +7370,6 @@
 
                     <div class="about-divider about-anim-5"></div>
 
-                    <!-- Contactos de Suporte -->
                     <div class="card-bg rounded-2xl shadow-lg border p-6 sm:p-8 about-anim-6">
                         <div class="flex items-center gap-3 mb-6">
                             <div class="w-11 h-11 rounded-xl gradient-bg flex items-center justify-center text-white text-lg">📞</div>
@@ -6943,7 +7419,7 @@
                                 <svg class="w-5 h-5 text-gray-400 flex-shrink-0 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </a>
 
-                            <a href="/cdn-cgi/l/email-protection#2e455b474f5d46415e1e6e49434f4742004d4143" class="about-contact-item flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60 transition-all group">
+                            <a href="mailto:kuiashop7@gmail.com" class="about-contact-item flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60 transition-all group">
                                 <div class="w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                                     <svg class="w-6 h-6 text-red-500 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
@@ -6951,14 +7427,13 @@
                                 </div>
                                 <div class="flex-1 min-w-0">
                                     <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">Email de Suporte</p>
-                                    <p class="text-base font-bold text-gray-800 dark:text-gray-200"><span class="__cf_email__" data-cfemail="85eef0ece4f6edeaf5b5c5e2e8e4ece9abe6eae8">[email&#160;protected]</span></p>
+                                    <p class="text-base font-bold text-gray-800 dark:text-gray-200"><span class="__cf_email__" data-cfemail="85eef0ece4f6edeaf5b5c5e2e8e4ece9abe6eae8">kuiashop7@gmail.com</span></p>
                                 </div>
                                 <svg class="w-5 h-5 text-gray-400 flex-shrink-0 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </a>
                         </div>
                     </div>
 
-                    <!-- Horário de Atendimento -->
                     <div class="card-bg rounded-2xl shadow-lg border p-6 sm:p-8 about-anim-7">
                         <div class="flex items-center gap-3 mb-6">
                             <div class="w-11 h-11 rounded-xl gradient-bg flex items-center justify-center text-white text-lg">🕐</div>
@@ -6989,7 +7464,6 @@
                         </div>
                     </div>
 
-                    <!-- Rodapé do Sobre Nós -->
                     <div class="text-center pb-8 about-anim-8">
                         <p class="text-xs text-gray-400 dark:text-gray-500 mb-5">Desenvolvido com ❤️ pelos irmãos <strong class="text-gray-600 dark:text-gray-300">Mateus Chimbili</strong> &amp; <strong class="text-gray-600 dark:text-gray-300">Sara Kafundanga</strong></p>
                         <button onclick="showSection('home')" class="btn-primary text-white px-10 py-4 rounded-xl hover-lift ripple text-lg font-semibold">
@@ -7071,7 +7545,6 @@
         </footer>
     </div>
 
-    <!-- FULLSCREEN MENU OVERLAY -->
     <div id="fsMenuOverlay" class="fs-menu-overlay">
         <div class="fs-menu-backdrop" onclick="closeFsMenu()"></div>
         <div class="fs-menu-panel">
@@ -7089,7 +7562,7 @@
                 </div>
             </div>
             <div id="fsMenuItems" class="fs-menu-items">
-                <!-- LOGGED-IN USER ITEMS -->
+                
                 <div id="fsMenuLoggedInItems">
                     <div id="viewProfileBtn" class="fs-menu-item" style="cursor:pointer;">
                         <div class="fs-menu-item-icon" style="background:linear-gradient(135deg,rgba(93,92,222,0.15),rgba(124,58,237,0.25));"><svg width="22" height="22" fill="none" stroke="#a78bfa" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zm-4 7a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></div>
@@ -7150,7 +7623,6 @@
                     </div>
                 </div>
 
-                <!-- GUEST ITEMS -->
                 <div id="fsMenuGuestItems" class="hidden">
                     <div id="guestLoginBtn" class="fs-menu-item" style="cursor:pointer;">
                         <div class="fs-menu-item-icon" style="background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(52,211,153,0.25));"><svg width="22" height="22" fill="none" stroke="#34d399" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg></div>
@@ -7202,14 +7674,14 @@
                 </div>
             </div>
             <div id="fsMenuFooter" class="fs-menu-footer">
-                <!-- Logged-in footer -->
+                
                 <div id="fsMenuLoggedInFooter">
                     <button id="logoutBtn" class="fs-menu-logout">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
                         Terminar Sessão
                     </button>
                 </div>
-                <!-- Guest footer -->
+                
                 <div id="fsMenuGuestFooter" class="hidden">
                     <button id="guestLoginFooterBtn" class="fs-menu-login-btn">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>
@@ -7287,11 +7759,16 @@
 
                 <h3 class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-base font-bold gradient-text truncate max-w-[55%] text-center pointer-events-none">Suporte ao Cliente</h3>
 
-                <div id="chatOverlayStatus" class="relative z-10 ml-auto flex-shrink-0">
-                    <span class="inline-flex items-center px-3 py-1 text-xs rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400">
-                        <span class="w-2 h-2 bg-gray-400 rounded-full mr-2"></span>
-                        Chat offline
-                    </span>
+                <div class="relative z-10 ml-auto flex-shrink-0 flex items-center gap-2">
+                    <div id="chatOverlayStatus">
+                        <span class="inline-flex items-center px-3 py-1 text-xs rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400">
+                            <span class="w-2 h-2 bg-gray-400 rounded-full mr-2"></span>
+                            Chat offline
+                        </span>
+                    </div>
+                    <button id="openGalleryBtn" class="flex items-center justify-center w-9 h-9 rounded-xl text-gray-500 dark:text-gray-400 hover:text-primary hover:bg-gray-100 dark:hover:bg-gray-800 transition-all" aria-label="Galeria de imagens" title="Galeria de imagens">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                    </button>
                 </div>
             </header>
 
@@ -7323,10 +7800,51 @@
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12L3 2l18 10L3 22l3-10zm0 0h8"/></svg>
                         </button>
                     </div>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">Pressione Enter para enviar</p>
                 </div>
             </div>
         </div>
+    </div>
+
+    <div id="chatGalleryOverlay" class="fixed inset-0 z-[60] hidden" style="transition: opacity 0.35s cubic-bezier(.4,0,.2,1), transform 0.35s cubic-bezier(.4,0,.2,1);">
+        <div class="absolute inset-0 bg-white dark:bg-gray-950 flex flex-col" style="transition: background-color 0.3s ease;">
+            <header class="relative flex items-center px-4 sm:px-6 h-14 border-b border-gray-200 dark:border-gray-800 flex-shrink-0 bg-white dark:bg-gray-950">
+                <button id="closeGalleryBtn" class="relative z-10 flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-primary transition-colors p-2 -ml-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 flex-shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    <span class="text-sm font-medium hidden sm:inline">Voltar</span>
+                </button>
+                <h3 class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-base font-bold gradient-text truncate max-w-[60%] text-center pointer-events-none flex items-center gap-2">
+                    <svg class="w-5 h-5 inline-block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                    Galeria de Imagens
+                </h3>
+                <div class="relative z-10 ml-auto flex-shrink-0">
+                    <span id="galleryCount" class="inline-flex items-center px-3 py-1 text-xs rounded-full bg-primary/10 text-primary font-semibold">0 imagens</span>
+                </div>
+            </header>
+            <div id="galleryContent" class="flex-1 overflow-y-auto p-4 sm:p-6 bg-gray-50 dark:bg-gray-950">
+                <div id="galleryGrid" class="max-w-4xl mx-auto columns-2 sm:columns-3 gap-3 space-y-3"></div>
+                <div id="galleryEmpty" class="hidden text-center py-20 animate-fade-in">
+                    <div class="text-7xl mb-5 animate-float">🖼️</div>
+                    <h3 class="text-xl font-bold text-gray-700 dark:text-gray-300 mb-2">Nenhuma imagem</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">As imagens enviadas no chat aparecerão aqui</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="galleryViewer" class="fixed inset-0 z-[70] hidden bg-black/90 backdrop-blur-sm flex items-center justify-center" style="transition: opacity 0.25s ease;">
+        <button id="closeViewerBtn" class="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-all">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+        <button id="viewerPrev" class="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-all">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <button id="viewerNext" class="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-all">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </button>
+        <img id="viewerImage" class="max-w-[92vw] max-h-[85vh] object-contain rounded-lg shadow-2xl select-none" src="" alt="Imagem">
+        <div id="viewerCounter" class="absolute bottom-5 left-1/2 -translate-x-1/2 text-white/70 text-sm font-medium bg-black/40 px-4 py-1.5 rounded-full"></div>
     </div>
 
     <div id="cartSidebar" class="fixed inset-y-0 right-0 w-80 shadow-2xl transform translate-x-full z-50">
@@ -7546,7 +8064,6 @@
         </div>
     </div>
 
-    
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     </script>
 
@@ -7655,7 +8172,6 @@
         let favorites = [];
         let favoritesLoaded = false;
         let currentFavFilter = 'all';
-        // SVG icon constants for replacing emojis
         const SVG_HEART_FILLED = '<svg width="16" height="16" viewBox="0 0 24 24" fill="#ef4444" stroke="none"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>';
         const SVG_HEART_OUTLINE = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>';
         const SVG_HEART_FILLED_SM = '<svg width="14" height="14" viewBox="0 0 24 24" fill="#ef4444" stroke="none"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>';
@@ -7700,7 +8216,12 @@
         let currentSection = 'home';
         let currentPriceFilter = 'all';
         let currentSearchSort = 'recent';
-        let productsVisibleLimit = 21;
+        let productsVisibleLimit = 40;
+        let currentGridCols = (function() {
+            var saved = safeStorage.getItem('kuia_gridCols');
+            if (saved === '2' || saved === '3') return parseInt(saved);
+            return 2;
+        })();
         let browsingHistory = (function() {
             try {
                 var saved = safeStorage.getItem('kuia_browsingHistory');
@@ -7738,6 +8259,23 @@
             var validItems = browsingHistory
                 .map(function(id) { return products[id] ? { id: id, name: products[id].name, image: products[id].image, price: products[id].price, oldPrice: products[id].oldPrice, category: products[id].category, stock: products[id].stock } : null; })
                 .filter(function(p) { return p !== null; });
+            var activeCatEl = document.querySelector('.category-filter-btn.btn-primary');
+            var activeCat = activeCatEl ? activeCatEl.dataset.category : 'all';
+            if (activeCat && activeCat !== 'all') {
+                validItems = validItems.filter(function(p) { return p.category === activeCat; });
+            }
+            if (typeof currentPriceFilter !== 'undefined' && currentPriceFilter !== 'all') {
+                validItems = validItems.filter(function(p) {
+                    var price = p.price;
+                    switch (currentPriceFilter) {
+                        case '0-1000': return price <= 1000;
+                        case '1000-5000': return price > 1000 && price <= 5000;
+                        case '5000-10000': return price > 5000 && price <= 10000;
+                        case '10000+': return price > 10000;
+                        default: return true;
+                    }
+                });
+            }
             if (validItems.length === 0) {
                 container.classList.add('hidden');
                 return;
@@ -7777,6 +8315,23 @@
                     return { id: id, name: p.name, image: p.image, price: p.price, oldPrice: p.oldPrice, category: p.category, stock: p.stock, discountPercent: discountPercent };
                 })
                 .filter(function(p) { return p !== null; });
+            var activeCatElD = document.querySelector('.category-filter-btn.btn-primary');
+            var activeCatD = activeCatElD ? activeCatElD.dataset.category : 'all';
+            if (activeCatD && activeCatD !== 'all') {
+                discountItems = discountItems.filter(function(p) { return p.category === activeCatD; });
+            }
+            if (typeof currentPriceFilter !== 'undefined' && currentPriceFilter !== 'all') {
+                discountItems = discountItems.filter(function(p) {
+                    var price = p.price;
+                    switch (currentPriceFilter) {
+                        case '0-1000': return price <= 1000;
+                        case '1000-5000': return price > 1000 && price <= 5000;
+                        case '5000-10000': return price > 5000 && price <= 10000;
+                        case '10000+': return price > 10000;
+                        default: return true;
+                    }
+                });
+            }
             discountItems.sort(function(a, b) { return b.discountPercent - a.discountPercent; });
             if (discountItems.length === 0) {
                 container.classList.add('hidden');
@@ -7807,7 +8362,272 @@
             }).join('');
         }
 
-        
+        function buildUserProfile() {
+            var profile = {
+                categoryScores: {},
+                priceSum: 0,
+                priceCount: 0,
+                avgPrice: 0,
+                favCategories: {},
+                orderCategories: {},
+                viewedCategories: {},
+                orderedProductIds: new Set(),
+                likesDiscounts: false,
+                discountInteractions: 0,
+                totalInteractions: 0
+            };
+
+            favorites.forEach(function(pid) {
+                var p = products[pid];
+                if (!p) return;
+                var cat = p.category;
+                profile.favCategories[cat] = (profile.favCategories[cat] || 0) + 1;
+                profile.categoryScores[cat] = (profile.categoryScores[cat] || 0) + 5;
+                profile.priceSum += p.price;
+                profile.priceCount++;
+                profile.totalInteractions++;
+                if (p.oldPrice && p.oldPrice > p.price) profile.discountInteractions++;
+            });
+
+            var ordersArr = typeof orders === 'object' ? Object.values(orders) : [];
+            ordersArr.forEach(function(order) {
+                if (!order.items || !Array.isArray(order.items)) return;
+                order.items.forEach(function(item) {
+                    var p = products[item.productId];
+                    if (!p) return;
+                    var cat = p.category;
+                    var qty = item.quantity || 1;
+                    profile.orderCategories[cat] = (profile.orderCategories[cat] || 0) + qty;
+                    profile.categoryScores[cat] = (profile.categoryScores[cat] || 0) + (8 * qty);
+                    profile.priceSum += p.price * qty;
+                    profile.priceCount += qty;
+                    profile.totalInteractions += qty;
+                    profile.orderedProductIds.add(item.productId);
+                    if (p.oldPrice && p.oldPrice > p.price) profile.discountInteractions += qty;
+                });
+            });
+
+            browsingHistory.forEach(function(pid, idx) {
+                var p = products[pid];
+                if (!p) return;
+                var cat = p.category;
+                var recencyBonus = Math.max(1, 3 - idx * 0.2);
+                profile.viewedCategories[cat] = (profile.viewedCategories[cat] || 0) + 1;
+                profile.categoryScores[cat] = (profile.categoryScores[cat] || 0) + (2 * recencyBonus);
+                profile.priceSum += p.price;
+                profile.priceCount++;
+                profile.totalInteractions++;
+                if (p.oldPrice && p.oldPrice > p.price) profile.discountInteractions++;
+            });
+
+            if (profile.priceCount > 0) {
+                profile.avgPrice = profile.priceSum / profile.priceCount;
+            }
+
+            if (profile.totalInteractions > 0) {
+                profile.likesDiscounts = (profile.discountInteractions / profile.totalInteractions) > 0.3;
+            }
+
+            return profile;
+        }
+
+        function getRecommendedProducts() {
+            var profile = buildUserProfile();
+            var hasAnyInteraction = profile.totalInteractions > 0;
+
+            if (!hasAnyInteraction) return [];
+
+            var allProducts = Object.entries(products).map(function(entry) {
+                return {
+                    id: entry[0],
+                    name: entry[1].name,
+                    image: entry[1].image,
+                    price: entry[1].price,
+                    oldPrice: entry[1].oldPrice,
+                    category: entry[1].category,
+                    stock: entry[1].stock,
+                    description: entry[1].description
+                };
+            });
+
+            var interactedIds = new Set(favorites.concat(browsingHistory.slice(0, 5)));
+            profile.orderedProductIds.forEach(function(id) { interactedIds.add(id); });
+
+            var maxCatScore = 0;
+            Object.values(profile.categoryScores).forEach(function(s) {
+                if (s > maxCatScore) maxCatScore = s;
+            });
+
+            var scored = allProducts
+                .filter(function(p) { return p.stock > 0; })
+                .map(function(p) {
+                    var score = 0;
+                    var reasons = [];
+
+                    var catScore = profile.categoryScores[p.category] || 0;
+                    if (catScore > 0 && maxCatScore > 0) {
+                        var catNorm = (catScore / maxCatScore) * 40;
+                        score += catNorm;
+
+                        if (profile.orderCategories[p.category]) {
+                            reasons.push('order');
+                        } else if (profile.favCategories[p.category]) {
+                            reasons.push('fav');
+                        } else if (profile.viewedCategories[p.category]) {
+                            reasons.push('viewed');
+                        }
+                    }
+
+                    if (profile.avgPrice > 0) {
+                        var priceDiff = Math.abs(p.price - profile.avgPrice);
+                        var priceRange = profile.avgPrice * 0.8;
+                        if (priceRange > 0) {
+                            var priceProximity = Math.max(0, 1 - (priceDiff / priceRange));
+                            score += priceProximity * 20;
+                        }
+                    }
+
+                    var hasDiscount = p.oldPrice && p.oldPrice > p.price;
+                    if (hasDiscount) {
+                        var discPct = Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100);
+                        if (profile.likesDiscounts) {
+                            score += Math.min(15, discPct * 0.3);
+                            if (discPct >= 20) reasons.push('discount');
+                        } else {
+                            score += Math.min(8, discPct * 0.15);
+                            if (discPct >= 30) reasons.push('discount');
+                        }
+                    }
+
+                    if (!interactedIds.has(p.id)) {
+                        score += 15;
+                    } else {
+                        score -= 10;
+                    }
+
+                    var orderCats = Object.keys(profile.orderCategories);
+                    var favCats = Object.keys(profile.favCategories);
+                    if (orderCats.length > 0 && favCats.indexOf(p.category) !== -1 && orderCats.indexOf(p.category) === -1) {
+                        score += 10;
+                        if (reasons.indexOf('fav') === -1) reasons.push('popular');
+                    }
+
+                    score += Math.random() * 5;
+
+                    return {
+                        id: p.id,
+                        name: p.name,
+                        image: p.image,
+                        price: p.price,
+                        oldPrice: p.oldPrice,
+                        category: p.category,
+                        stock: p.stock,
+                        score: score,
+                        reasons: reasons.length > 0 ? reasons : ['popular']
+                    };
+                });
+
+            scored.sort(function(a, b) { return b.score - a.score; });
+
+            var result = [];
+            var catCounts = {};
+            for (var i = 0; i < scored.length && result.length < 12; i++) {
+                var item = scored[i];
+                if (item.score <= 5) continue;
+                var cc = catCounts[item.category] || 0;
+                if (cc >= 4) continue;
+                catCounts[item.category] = cc + 1;
+                result.push(item);
+            }
+
+            for (var ri = result.length - 1; ri > 0; ri--) {
+                var rj = Math.floor(Math.random() * (ri + 1));
+                var temp = result[ri];
+                result[ri] = result[rj];
+                result[rj] = temp;
+            }
+
+            return result;
+        }
+
+        function renderRecommendations() {
+            var container = document.getElementById('recommendedSection');
+            if (!container) return;
+
+            var recommended = getRecommendedProducts();
+
+            var activeCatElR = document.querySelector('.category-filter-btn.btn-primary');
+            var activeCatR = activeCatElR ? activeCatElR.dataset.category : 'all';
+            if (activeCatR && activeCatR !== 'all') {
+                recommended = recommended.filter(function(p) { return p.category === activeCatR; });
+            }
+            if (typeof currentPriceFilter !== 'undefined' && currentPriceFilter !== 'all') {
+                recommended = recommended.filter(function(p) {
+                    var price = p.price;
+                    switch (currentPriceFilter) {
+                        case '0-1000': return price <= 1000;
+                        case '1000-5000': return price > 1000 && price <= 5000;
+                        case '5000-10000': return price > 5000 && price <= 10000;
+                        case '10000+': return price > 10000;
+                        default: return true;
+                    }
+                });
+            }
+
+            if (recommended.length === 0) {
+                container.classList.add('hidden');
+                return;
+            }
+
+            container.classList.remove('hidden');
+            var countEl = document.getElementById('recommendedCount');
+            if (countEl) countEl.textContent = recommended.length + ' sugest' + (recommended.length !== 1 ? 'ões' : 'ão');
+
+            var reasonLabels = {
+                fav: '♥ Favoritos',
+                order: '✓ Comprado',
+                viewed: '👁 Visto',
+                discount: '% Oferta',
+                popular: '★ Destaque'
+            };
+            var reasonClasses = {
+                fav: 'reason-fav',
+                order: 'reason-order',
+                viewed: 'reason-viewed',
+                discount: 'reason-discount',
+                popular: 'reason-popular'
+            };
+
+            var grid = container.querySelector('.recommendation-grid');
+            grid.innerHTML = recommended.map(function(product, idx) {
+                var hasDiscount = product.oldPrice && product.oldPrice > product.price;
+                var discountPercent = hasDiscount ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100) : 0;
+                var mainReason = product.reasons[0];
+                var reasonHTML = '<span class="recommendation-reason ' + (reasonClasses[mainReason] || 'reason-popular') + '">' + (reasonLabels[mainReason] || '★ Destaque') + '</span>';
+                var maxScore = 95;
+                var barWidth = Math.min(100, Math.max(20, (product.score / maxScore) * 100));
+
+                return '<div class="recommendation-card card-bg rounded-xl border overflow-hidden hover-lift rec-animate group cursor-pointer" style="animation-delay:' + (idx * 0.06) + 's" onclick="showProductDetail(\'' + product.id + '\')">' +
+                    '<div class="recommendation-score-bar" style="width:' + barWidth + '%"></div>' +
+                    '<div class="relative h-24 sm:h-28 bg-gray-200 dark:bg-gray-700">' +
+                        (product.image ?
+                            '<img src="' + product.image + '" alt="' + product.name + '" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" onerror="handleImgError(this,\'sm\')">' :
+                            '<div class="img-error-placeholder placeholder-sm"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zM8.25 8.625a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z"/></svg></div>'
+                        ) +
+                        (hasDiscount ? '<div class="absolute top-1 left-1 bg-red-500 text-white px-1.5 py-0.5 rounded-full text-[9px] font-bold">-' + discountPercent + '%</div>' : '') +
+                    '</div>' +
+                    '<div class="p-2">' +
+                        reasonHTML +
+                        '<h3 class="font-bold text-gray-800 dark:text-gray-200 mb-0.5 text-[10px] line-clamp-2 leading-tight mt-1">' + product.name + '</h3>' +
+                        '<div class="flex items-center gap-1">' +
+                            '<span class="text-xs font-bold gradient-text">' + formatPrice(product.price) + '</span>' +
+                            (hasDiscount ? '<span class="text-[8px] text-gray-400 line-through">' + formatPrice(product.oldPrice) + '</span>' : '') +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+        }
+
         let promoBannerIndex = 0;
         let promoBannerInterval = null;
         let promoBannerSlides = [];
@@ -8013,7 +8833,6 @@
             } catch(e) {}
         }
 
-        
         let shuffledProductIds = null;
 
         function shuffleArray(arr) {
@@ -8535,13 +9354,17 @@
             var browsingHistory = document.getElementById('browsingHistorySection');
             var discountHighlight = document.getElementById('discountHighlightSection');
 
+            var recommendedSection = document.getElementById('recommendedSection');
+
             if (promoBanner) promoBanner.style.display = '';
             if (filterControls) filterControls.style.display = '';
             if (browsingHistory) browsingHistory.style.display = '';
             if (discountHighlight) discountHighlight.style.display = '';
+            if (recommendedSection) recommendedSection.style.display = '';
 
             if (typeof renderBrowsingHistory === 'function') renderBrowsingHistory();
             if (typeof renderDiscountedProducts === 'function') renderDiscountedProducts();
+            if (typeof renderRecommendations === 'function') renderRecommendations();
         }
 
         (function() {
@@ -8594,14 +9417,10 @@
         function updateChatStatus(isActive) {
             const statusHTML = isActive ? `
                 <span class="inline-flex items-center px-3 py-1 text-xs rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400">
-                    <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
-                    Chat ativo
-                </span>
+                    <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse">
             ` : `
                 <span class="inline-flex items-center px-3 py-1 text-xs rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400">
-                    <span class="w-2 h-2 bg-gray-400 rounded-full mr-2"></span>
-                    Chat offline
-                </span>
+                   
             `;
 
             if (isActive) {
@@ -8811,6 +9630,158 @@
             }, 300);
         }
 
+        let galleryImages = [];
+        let galleryViewerIndex = 0;
+
+        function collectChatImages() {
+            const imgs = [];
+            const msgContainer = document.getElementById('chatOverlayMessages');
+            if (!msgContainer) return imgs;
+            const imgEls = msgContainer.querySelectorAll('img');
+            imgEls.forEach(function(img) {
+                const src = img.getAttribute('src');
+                if (src && src.length > 5) {
+                    imgs.push({ url: src, alt: img.getAttribute('alt') || 'Imagem' });
+                }
+            });
+            return imgs;
+        }
+
+        function openGalleryOverlay() {
+            galleryImages = collectChatImages();
+            var overlay = document.getElementById('chatGalleryOverlay');
+            var grid = document.getElementById('galleryGrid');
+            var emptyState = document.getElementById('galleryEmpty');
+            var countEl = document.getElementById('galleryCount');
+
+            if (galleryImages.length === 0) {
+                grid.innerHTML = '';
+                grid.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                countEl.textContent = '0 imagens';
+            } else {
+                emptyState.classList.add('hidden');
+                grid.classList.remove('hidden');
+                countEl.textContent = galleryImages.length + (galleryImages.length === 1 ? ' imagem' : ' imagens');
+
+                var html = '';
+                for (var i = 0; i < galleryImages.length; i++) {
+                    html += '<div class="gallery-item" data-gallery-index="' + i + '">' +
+                        '<img src="' + galleryImages[i].url + '" alt="' + galleryImages[i].alt + '" loading="lazy">' +
+                        '<div class="gallery-item-overlay"><span>' + (i + 1) + ' / ' + galleryImages.length + '</span></div>' +
+                        '</div>';
+                }
+                grid.innerHTML = html;
+
+                grid.querySelectorAll('.gallery-item').forEach(function(item) {
+                    item.addEventListener('click', function() {
+                        var idx = parseInt(this.getAttribute('data-gallery-index'), 10);
+                        openGalleryViewer(idx);
+                    });
+                });
+            }
+
+            overlay.classList.remove('hidden');
+            overlay.style.opacity = '0';
+            overlay.style.transform = 'translateY(20px)';
+            requestAnimationFrame(function() {
+                requestAnimationFrame(function() {
+                    overlay.style.opacity = '1';
+                    overlay.style.transform = 'translateY(0)';
+                });
+            });
+        }
+
+        function closeGalleryOverlay() {
+            var overlay = document.getElementById('chatGalleryOverlay');
+            overlay.style.opacity = '0';
+            overlay.style.transform = 'translateY(20px)';
+            setTimeout(function() {
+                overlay.classList.add('hidden');
+                overlay.style.opacity = '';
+                overlay.style.transform = '';
+            }, 350);
+        }
+
+        function openGalleryViewer(index) {
+            galleryViewerIndex = index;
+            var viewer = document.getElementById('galleryViewer');
+            var img = document.getElementById('viewerImage');
+            var counter = document.getElementById('viewerCounter');
+
+            img.src = galleryImages[index].url;
+            counter.textContent = (index + 1) + ' / ' + galleryImages.length;
+
+            document.getElementById('viewerPrev').style.display = galleryImages.length > 1 ? '' : 'none';
+            document.getElementById('viewerNext').style.display = galleryImages.length > 1 ? '' : 'none';
+
+            viewer.classList.remove('hidden');
+            viewer.style.opacity = '0';
+            requestAnimationFrame(function() {
+                viewer.style.opacity = '1';
+            });
+        }
+
+        function closeGalleryViewer() {
+            var viewer = document.getElementById('galleryViewer');
+            viewer.style.opacity = '0';
+            setTimeout(function() {
+                viewer.classList.add('hidden');
+                viewer.style.opacity = '';
+            }, 250);
+        }
+
+        function galleryViewerNav(dir) {
+            galleryViewerIndex += dir;
+            if (galleryViewerIndex < 0) galleryViewerIndex = galleryImages.length - 1;
+            if (galleryViewerIndex >= galleryImages.length) galleryViewerIndex = 0;
+            var img = document.getElementById('viewerImage');
+            var counter = document.getElementById('viewerCounter');
+            img.src = galleryImages[galleryViewerIndex].url;
+            counter.textContent = (galleryViewerIndex + 1) + ' / ' + galleryImages.length;
+        }
+
+        (function setupGalleryHandlers() {
+            document.getElementById('openGalleryBtn').addEventListener('click', openGalleryOverlay);
+            document.getElementById('closeGalleryBtn').addEventListener('click', closeGalleryOverlay);
+            document.getElementById('closeViewerBtn').addEventListener('click', closeGalleryViewer);
+            document.getElementById('viewerPrev').addEventListener('click', function() { galleryViewerNav(-1); });
+            document.getElementById('viewerNext').addEventListener('click', function() { galleryViewerNav(1); });
+
+            document.getElementById('galleryViewer').addEventListener('click', function(e) {
+                if (e.target === this) closeGalleryViewer();
+            });
+
+            document.addEventListener('keydown', function(e) {
+                var viewer = document.getElementById('galleryViewer');
+                if (!viewer.classList.contains('hidden')) {
+                    if (e.key === 'Escape') closeGalleryViewer();
+                    else if (e.key === 'ArrowLeft') galleryViewerNav(-1);
+                    else if (e.key === 'ArrowRight') galleryViewerNav(1);
+                    return;
+                }
+                var gallery = document.getElementById('chatGalleryOverlay');
+                if (!gallery.classList.contains('hidden') && e.key === 'Escape') {
+                    closeGalleryOverlay();
+                }
+            });
+
+            var touchStartX = 0;
+            var touchEndX = 0;
+            var viewerEl = document.getElementById('galleryViewer');
+            viewerEl.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            viewerEl.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].screenX;
+                var diff = touchStartX - touchEndX;
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0) galleryViewerNav(1);
+                    else galleryViewerNav(-1);
+                }
+            }, { passive: true });
+        })();
+
         function setupChatImageHandlers() {
             document.getElementById('chatFullImageBtn').addEventListener('click', () => {
                 document.getElementById('chatFullImageInput').click();
@@ -8935,6 +9906,7 @@
                 console.log('User orders loaded:', userOrders_array.length);
                 displayUserOrders(userOrders_array);
                 displayOrdersInGrid(userOrders_array);
+                renderRecommendations();
             });
         }
 
@@ -9145,6 +10117,7 @@
 
         function displayOrdersInGrid(userOrders_array) {
             allUserOrdersCache = userOrders_array;
+            window._loyaltyOrdersCache = userOrders_array;
             updateOrdersStats(userOrders_array);
             updateProfileStats();
             var filtered = currentOrderFilter === 'all' ? userOrders_array : userOrders_array.filter(function(o) { return o.status === currentOrderFilter; });
@@ -9609,12 +10582,10 @@
         }
 
         function startActiveTimeTracking(user) {
-            // Save lastActive on login
             update(ref(database, `users/${user.uid}`), {
                 lastActive: Date.now()
             });
 
-            // Update lastActive every 5 minutes
             if (lastActiveInterval) clearInterval(lastActiveInterval);
             lastActiveInterval = setInterval(() => {
                 if (currentUser) {
@@ -9624,7 +10595,6 @@
                 }
             }, 5 * 60 * 1000);
 
-            // Start session timer display
             sessionStartTime = Date.now();
             const activeTimeDisplay = document.getElementById('activeTimeDisplay');
             const activeTimeText = document.getElementById('activeTimeText');
@@ -9669,7 +10639,6 @@
             }
         });
 
-        /* === Fullscreen Menu open/close === */
         function openFsMenu() {
             updateFsMenuContent();
             var ov = document.getElementById('fsMenuOverlay');
@@ -9699,7 +10668,6 @@
             var sunSvg = '<svg style="width:14px;height:14px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>';
             var moonSvg = '<svg style="width:14px;height:14px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>';
 
-            // Update theme toggles for both logged-in and guest
             var themeIds = [
                 { emoji: 'fsThemeEmoji', label: 'fsThemeLabel', sw: 'fsThemeSwitch', icon: 'fsThemeIcon' },
                 { emoji: 'fsThemeEmojiGuest', label: 'fsThemeLabelGuest', sw: 'fsThemeSwitchGuest', icon: 'fsThemeIconGuest' }
@@ -9806,7 +10774,6 @@
         document.getElementById('footerOrdersBtn').addEventListener('click', () => showSection('orders'));
         document.getElementById('footerChatBtn').addEventListener('click', () => showSection('chatFull'));
 
-        /* === Fullscreen Menu Button Listeners (Logged-in) === */
         document.getElementById('viewProfileBtn').addEventListener('click', () => { fsMenuAction(() => showSection('profile')); });
         document.getElementById('viewNotificationsBtn').addEventListener('click', () => { fsMenuAction(() => showSection('notifications')); });
         document.getElementById('menuOrdersBtn').addEventListener('click', () => { fsMenuAction(() => showSection('orders')); });
@@ -9824,6 +10791,7 @@
                     favoritesLoaded = false;
                     orders = {};
                     allUserOrdersCache = [];
+                    window._loyaltyOrdersCache = [];
                     notifications = [];
                     updateCartUI();
                 } catch(e) {
@@ -9832,7 +10800,6 @@
             });
         });
 
-        /* === Fullscreen Menu Button Listeners (Guest) === */
         document.getElementById('guestLoginBtn').addEventListener('click', () => { fsMenuAction(() => showLoginScreen()); });
         document.getElementById('menuOrdersBtnGuest').addEventListener('click', () => { fsMenuAction(() => showSection('orders')); });
         document.getElementById('menuChatBtnGuest').addEventListener('click', () => { fsMenuAction(() => showSection('chatFull')); });
@@ -10019,6 +10986,7 @@
                 renderProducts();
                 renderBrowsingHistory();
                 renderDiscountedProducts();
+                renderRecommendations();
                 renderPromoBanner();
                 updateCategories();
             });
@@ -10037,6 +11005,7 @@
                     updateProfileStats();
                     if (currentSection === 'home') {
                         renderProducts();
+                        renderRecommendations();
                     }
                 });
             }
@@ -10097,6 +11066,8 @@
 
         function renderProducts() {
             const productsGrid = document.getElementById('productsGrid');
+            productsGrid.classList.remove('grid-2', 'grid-3');
+            productsGrid.classList.add('grid-' + currentGridCols);
             const productsArray = getShuffledProducts(Object.entries(products).map(([id, product]) => ({ id, ...product })));
             const searchTerm = (searchInput.value || '').toLowerCase();
             const activeCategory = document.querySelector('.category-filter-btn.btn-primary')?.dataset.category || 'all';
@@ -10214,7 +11185,7 @@
                         </p>
                         <button id="loadMoreBtn" class="btn-primary text-white px-8 py-3 rounded-xl hover-lift ripple text-sm font-semibold flex items-center gap-2 shadow-lg relative z-10 active:scale-95 transition-transform">
                             <span>Ver mais produtos</span>
-                            <span class="text-xs opacity-80">(+${remaining > 21 ? 21 : remaining})</span>
+                            <span class="text-xs opacity-80">(+${remaining > 40 ? 40 : remaining})</span>
                         </button>
                     </div>
                 `);
@@ -10226,9 +11197,36 @@
             }
         }
 
+        window.setGridCols = function(cols) {
+            currentGridCols = cols;
+            safeStorage.setItem('kuia_gridCols', String(cols));
+            var grid = document.getElementById('productsGrid');
+            if (grid) {
+                grid.classList.remove('grid-2', 'grid-3');
+                grid.classList.add('grid-' + cols);
+            }
+            var btn2 = document.getElementById('gridBtn2');
+            var btn3 = document.getElementById('gridBtn3');
+            if (btn2) btn2.classList.toggle('active', cols === 2);
+            if (btn3) btn3.classList.toggle('active', cols === 3);
+        };
+
+        (function() {
+            var savedCols = currentGridCols;
+            var grid = document.getElementById('productsGrid');
+            if (grid) {
+                grid.classList.remove('grid-2', 'grid-3');
+                grid.classList.add('grid-' + savedCols);
+            }
+            var btn2 = document.getElementById('gridBtn2');
+            var btn3 = document.getElementById('gridBtn3');
+            if (btn2) btn2.classList.toggle('active', savedCols === 2);
+            if (btn3) btn3.classList.toggle('active', savedCols === 3);
+        })();
+
         function loadMoreProducts() {
             const scrollY = window.scrollY || window.pageYOffset;
-            productsVisibleLimit += 21;
+            productsVisibleLimit += 40;
             renderProducts();
             window.scrollTo(0, scrollY);
             requestAnimationFrame(() => {
@@ -10446,8 +11444,11 @@
                         });
                         btn.classList.remove('btn-secondary');
                         btn.classList.add('btn-primary', 'text-white');
-                        productsVisibleLimit = 21;
+                        productsVisibleLimit = 40;
                         renderProducts();
+                        renderBrowsingHistory();
+                        renderDiscountedProducts();
+                        renderRecommendations();
                     });
                 });
 
@@ -10494,8 +11495,11 @@
                     btn.classList.remove('btn-secondary');
                     btn.classList.add('btn-primary', 'text-white');
                     currentPriceFilter = btn.dataset.price;
-                    productsVisibleLimit = 21;
+                    productsVisibleLimit = 40;
                     renderProducts();
+                    renderBrowsingHistory();
+                    renderDiscountedProducts();
+                    renderRecommendations();
                 });
             });
 
@@ -10650,7 +11654,6 @@
         const cartTotal = document.getElementById('cartTotal');
         const footerCartCount = document.getElementById('footerCartCount');
 
-        
         function createParticleBurst(x, y) {
             const colors = ['#5D5CDE','#7B7AE8','#10b981','#f59e0b','#ef4444','#ec4899','#8b5cf6'];
             for (let i = 0; i < 12; i++) {
@@ -10996,7 +11999,6 @@
             }, 300);
         }
 
-        
         (function initDetailSwipeNavigation() {
             const swipeContainer = document.getElementById('detailSwipeContainer');
             const swipeContent = document.getElementById('detailSwipeContent');
@@ -11200,7 +12202,6 @@
             };
         })();
         
-
         window.openHiddenCategoriesModal = function() {
             const overlay = document.getElementById('hiddenCategoriesOverlay');
             const list = document.getElementById('hiddenCatList');
@@ -11303,12 +12304,12 @@
                 categoryBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
             }
 
-            productsVisibleLimit = 21;
+            productsVisibleLimit = 40;
             renderProducts();
         };
 
         function filterProducts() {
-            productsVisibleLimit = 21;
+            productsVisibleLimit = 40;
             renderProducts();
         }
 
@@ -11548,7 +12549,6 @@
             }
         }, 2000);
 
-        
         const pinSystem = (function() {
             const PIN_STORAGE_KEY = 'kuia-app-pin';
             const KEYWORD_STORAGE_KEY = 'kuia-app-pin-keyword';
@@ -12456,13 +13456,13 @@
                         E-mail
                     </h3>
 
-                    <a href="/cdn-cgi/l/email-protection#c6adb3afa7b5aea9b6f186a1aba7afaae8a5a9ab" class="support-contact-item">
+                    <a href="mailto:kuiashop7@gmail.com" class="support-contact-item">
                         <div class="support-contact-icon" style="background:rgba(234,67,53,0.10);color:#EA4335;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                         </div>
                         <div class="support-contact-info">
                             <span class="support-contact-label">E-mail</span>
-                            <span class="support-contact-value"><span class="__cf_email__" data-cfemail="92f9e7fbf3e1fafde2a5d2f5fff3fbfebcf1fdff"><span class="__cf_email__" data-cfemail="bad1cfd3dbc9d2d5ca8dfaddd7dbd3d694d9d5d7">[email&#160;protected]</span></span></span>
+                            <span class="support-contact-value"><span class="__cf_email__" data-cfemail="92f9e7fbf3e1fafde2a5d2f5fff3fbfebcf1fdff"><span class="__cf_email__" data-cfemail="bad1cfd3dbc9d2d5ca8dfaddd7dbd3d694d9d5d7">kuiashop7@gmail.com</span></span></span>
                         </div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="support-contact-arrow"><polyline points="9 18 15 12 9 6"/></svg>
                     </a>
@@ -12682,7 +13682,6 @@ function showPersonalizeToast(hiddenCount) {
 })();
 </script>
 
-<!-- ===== INVITE FRIENDS MODAL ===== -->
 <style>
     .invite-modal-overlay {
         position: fixed; inset: 0; z-index: 99999;
@@ -12803,7 +13802,7 @@ function showPersonalizeToast(hiddenCount) {
     }
     .dark .invite-toast { background: #5D5CDE; }
     .invite-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-    /* SVG icons inside invite grid */
+    
     .invite-grid-icon svg { width: 26px; height: 26px; }
 </style>
 
@@ -12818,63 +13817,63 @@ function showPersonalizeToast(hiddenCount) {
             Já conhece a Kuia Shop? É uma loja online prática, cheia de produtos com desconto. Basta acessar o link, criar sua conta e começar a comprar sem sair de casa!
         </div>
         <div class="invite-grid">
-            <!-- WhatsApp -->
+            
             <button class="invite-grid-item" onclick="shareInvite('whatsapp')">
                 <div class="invite-grid-icon" style="background:linear-gradient(135deg,#25d366,#128c7e);">
                     <svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                 </div>
                 <span class="invite-grid-label">WhatsApp</span>
             </button>
-            <!-- Facebook -->
+            
             <button class="invite-grid-item" onclick="shareInvite('facebook')">
                 <div class="invite-grid-icon" style="background:linear-gradient(135deg,#1877f2,#0d5bbd);">
                     <svg viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                 </div>
                 <span class="invite-grid-label">Facebook</span>
             </button>
-            <!-- Messenger -->
+            
             <button class="invite-grid-item" onclick="shareInvite('messenger')">
                 <div class="invite-grid-icon" style="background:linear-gradient(135deg,#a259ff,#0099ff);">
                     <svg viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 4.974 0 11.111c0 3.498 1.744 6.614 4.469 8.654V24l4.088-2.242c1.092.301 2.246.464 3.443.464 6.627 0 12-4.975 12-11.111S18.627 0 12 0zm1.191 14.963l-3.055-3.26-5.963 3.26L10.732 8.2l3.131 3.26 5.887-3.26-6.559 6.763z"/></svg>
                 </div>
                 <span class="invite-grid-label">Messenger</span>
             </button>
-            <!-- Telegram -->
+            
             <button class="invite-grid-item" onclick="shareInvite('telegram')">
                 <div class="invite-grid-icon" style="background:linear-gradient(135deg,#2aabee,#229ed9);">
                     <svg viewBox="0 0 24 24" fill="white"><path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0h-.056zm5.814 8.215l-1.983 9.344c-.15.674-.54.838-1.093.522l-3.015-2.222-1.455 1.4c-.161.162-.296.296-.608.296l.217-3.072 5.598-5.06c.244-.216-.054-.336-.378-.12l-6.92 4.358-2.98-.93c-.648-.202-.66-.648.136-.96l11.644-4.488c.54-.196 1.012.13.837.932z"/></svg>
                 </div>
                 <span class="invite-grid-label">Telegram</span>
             </button>
-            <!-- Gmail/Email -->
+            
             <button class="invite-grid-item" onclick="shareInvite('email')">
                 <div class="invite-grid-icon" style="background:linear-gradient(135deg,#ea4335,#c5221f);">
                     <svg viewBox="0 0 24 24" fill="white"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
                 </div>
                 <span class="invite-grid-label">Email</span>
             </button>
-            <!-- LinkedIn -->
+            
             <button class="invite-grid-item" onclick="shareInvite('linkedin')">
                 <div class="invite-grid-icon" style="background:linear-gradient(135deg,#0a66c2,#004182);">
                     <svg viewBox="0 0 24 24" fill="white"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                 </div>
                 <span class="invite-grid-label">LinkedIn</span>
             </button>
-            <!-- Twitter/X -->
+            
             <button class="invite-grid-item" onclick="shareInvite('twitter')">
                 <div class="invite-grid-icon" style="background:linear-gradient(135deg,#1d1d1d,#333);">
                     <svg viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                 </div>
                 <span class="invite-grid-label">Twitter / X</span>
             </button>
-            <!-- SMS -->
+            
             <button class="invite-grid-item" onclick="shareInvite('sms')">
                 <div class="invite-grid-icon" style="background:linear-gradient(135deg,#34d399,#059669);">
                     <svg viewBox="0 0 24 24" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12zM7 9h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/></svg>
                 </div>
                 <span class="invite-grid-label">SMS</span>
             </button>
-            <!-- Copiar Link -->
+            
             <button class="invite-grid-item" onclick="shareInvite('copy')">
                 <div class="invite-grid-icon" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
                     <svg viewBox="0 0 24 24" fill="white"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
@@ -12971,7 +13970,6 @@ function showPersonalizeToast(hiddenCount) {
         document.body.removeChild(ta);
     }
 
-    /* Event listeners for fullscreen menu invite buttons */
     var menuInviteBtn = document.getElementById('menuInviteBtn');
     if (menuInviteBtn) {
         menuInviteBtn.addEventListener('click', function() {
@@ -12995,11 +13993,282 @@ function showPersonalizeToast(hiddenCount) {
 })();
 
 </script>
+
+<div id="loyaltyOverlay" class="loyalty-overlay" onclick="closeLoyaltyOverlayBackdrop(event)">
+    <div class="loyalty-overlay-backdrop"></div>
+    <div class="loyalty-sheet" id="loyaltySheet">
+        <div class="loyalty-handle"></div>
+        <div class="loyalty-hero" id="loyaltyHero">
+            <div class="loyalty-hero-bg tier-bronze" id="loyaltyHeroBg"></div>
+            <button class="loyalty-close-btn" onclick="closeLoyaltyOverlay()">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+            <div class="loyalty-medal" id="loyaltyMedal">🥉</div>
+            <div class="loyalty-tier-name" id="loyaltyTierName">Bronze</div>
+            <div class="loyalty-tier-sub" id="loyaltyTierSub">5% de cada pedido entregue</div>
+            <div class="loyalty-spent-badge" id="loyaltySpentBadge">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <span id="loyaltySpentValue">0 Kz acumulados</span>
+            </div>
+        </div>
+
+        <div class="loyalty-progress-section" id="loyaltyProgressSection">
+            <div class="loyalty-progress-header">
+                <span class="loyalty-progress-label" id="loyaltyProgressLabel">Progresso para Prata</span>
+                <span class="loyalty-progress-value" id="loyaltyProgressValue">0%</span>
+            </div>
+            <div class="loyalty-progress-track">
+                <div class="loyalty-progress-fill tier-bronze" id="loyaltyProgressFill" style="width:0%"></div>
+            </div>
+            <div class="loyalty-next-tier-text" id="loyaltyNextTierText">Faltam 5.000 Kz de progresso para o nível Prata</div>
+        </div>
+
+        <div class="loyalty-tiers-section">
+            <div class="loyalty-tiers-title">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+                Níveis de Fidelidade
+            </div>
+            <div id="loyaltyTiersList"></div>
+        </div>
+        <div class="loyalty-bottom-pad"></div>
+    </div>
+</div>
+
+<script>
+(function() {
+    var LOYALTY_TIERS = [
+        {
+            id: 'bronze',
+            name: 'Bronze',
+            medal: '🥉',
+            min: 0,
+            max: 5000,
+            benefits: [
+                { text: 'Acesso à loja completa', active: true },
+                { text: 'Suporte via chat', active: true },
+                { text: 'Ofertas exclusivas', active: false },
+                { text: 'Frete grátis', active: false }
+            ]
+        },
+        {
+            id: 'prata',
+            name: 'Prata',
+            medal: '🥈',
+            min: 5000,
+            max: 20000,
+            benefits: [
+                { text: 'Acesso à loja completa', active: true },
+                { text: 'Suporte prioritário', active: true },
+                { text: '5% de desconto em pedidos', active: true },
+                { text: 'Acesso antecipado a novidades', active: false }
+            ]
+        },
+        {
+            id: 'ouro',
+            name: 'Ouro',
+            medal: '🥇',
+            min: 20000,
+            max: 50000,
+            benefits: [
+                { text: 'Suporte prioritário VIP', active: true },
+                { text: '5% de desconto em pedidos', active: true },
+                { text: 'Frete grátis em todos os pedidos', active: true },
+                { text: 'Acesso antecipado a novidades', active: true }
+            ]
+        },
+        {
+            id: 'diamante',
+            name: 'Diamante',
+            medal: '💎',
+            min: 50000,
+            max: Infinity,
+            benefits: [
+                { text: 'Todos os benefícios Ouro', active: true },
+                { text: '15% de desconto exclusivo', active: true },
+                { text: 'Presentes surpresa em pedidos', active: true },
+                { text: 'Atendimento personalizado 24h', active: true }
+            ]
+        }
+    ];
+
+    function getTierForAmount(amount) {
+        for (var i = LOYALTY_TIERS.length - 1; i >= 0; i--) {
+            if (amount >= LOYALTY_TIERS[i].min) return i;
+        }
+        return 0;
+    }
+
+    function getProgressRateForTier(tierIdx) {
+        
+        return tierIdx >= 2 ? 0.10 : 0.05;
+    }
+
+    function calculateTotalSpent() {
+        var total = 0;
+        var ordersCache = window._loyaltyOrdersCache;
+        if (ordersCache && ordersCache.length > 0) {
+            ordersCache.forEach(function(order) {
+                if (order.total && order.status === 'delivered') {
+                    var currentTierIdx = getTierForAmount(total);
+                    var rate = getProgressRateForTier(currentTierIdx);
+                    total += order.total * rate;
+                }
+            });
+        }
+        return total;
+    }
+
+    function renderLoyaltyTiers(currentTierIdx) {
+        var container = document.getElementById('loyaltyTiersList');
+        if (!container) return;
+        container.innerHTML = LOYALTY_TIERS.map(function(tier, idx) {
+            var isCurrent = idx === currentTierIdx;
+            var isLocked = idx > currentTierIdx;
+            var cardClass = 'loyalty-tier-card';
+            if (isCurrent) cardClass += ' current-tier';
+            if (isLocked) cardClass += ' locked';
+
+            var rangeText = '';
+            if (tier.max === Infinity) {
+                rangeText = 'Acima de ' + tier.min.toLocaleString('pt-AO') + ' Kz acumulados';
+            } else if (tier.min === 0) {
+                rangeText = '0 — ' + tier.max.toLocaleString('pt-AO') + ' Kz acumulados';
+            } else {
+                rangeText = tier.min.toLocaleString('pt-AO') + ' — ' + tier.max.toLocaleString('pt-AO') + ' Kz acumulados';
+            }
+
+            var benefitsHtml = tier.benefits.map(function(b) {
+                var checkClass = (isCurrent || !isLocked) ? (b.active ? 'active' : 'inactive') : 'inactive';
+                var checkIcon = checkClass === 'active'
+                    ? '<svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>'
+                    : '<svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01"/></svg>';
+                return '<div class="loyalty-benefit-item">' +
+                    '<div class="loyalty-benefit-check ' + checkClass + '">' + checkIcon + '</div>' +
+                    '<span>' + b.text + '</span>' +
+                    '</div>';
+            }).join('');
+
+            var currentBadge = isCurrent ? '<div class="loyalty-current-badge"><svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Seu nível</div>' : '';
+
+            return '<div class="' + cardClass + '">' +
+                '<div class="loyalty-tier-icon tier-' + tier.id + '">' + tier.medal + '</div>' +
+                '<div class="loyalty-tier-info">' +
+                '<div class="loyalty-tier-info-name">' + tier.name + '</div>' +
+                '<div class="loyalty-tier-info-range">' + rangeText + '</div>' +
+                currentBadge +
+                '<div class="loyalty-tier-benefits">' + benefitsHtml + '</div>' +
+                '</div>' +
+                '</div>';
+        }).join('');
+    }
+
+    function updateLoyaltyOverlay() {
+        var totalSpent = calculateTotalSpent();
+        var tierIdx = getTierForAmount(totalSpent);
+        var tier = LOYALTY_TIERS[tierIdx];
+
+        var heroBg = document.getElementById('loyaltyHeroBg');
+        var medal = document.getElementById('loyaltyMedal');
+        var tierName = document.getElementById('loyaltyTierName');
+        var tierSub = document.getElementById('loyaltyTierSub');
+        var spentValue = document.getElementById('loyaltySpentValue');
+        var progressLabel = document.getElementById('loyaltyProgressLabel');
+        var progressValue = document.getElementById('loyaltyProgressValue');
+        var progressFill = document.getElementById('loyaltyProgressFill');
+        var nextTierText = document.getElementById('loyaltyNextTierText');
+        var progressSection = document.getElementById('loyaltyProgressSection');
+
+        if (heroBg) {
+            heroBg.className = 'loyalty-hero-bg tier-' + tier.id;
+        }
+        if (medal) medal.textContent = tier.medal;
+        if (tierName) tierName.textContent = tier.name;
+        var currentRateLabel = tierIdx >= 2 ? '10%' : '5%';
+        if (tierSub) tierSub.textContent = currentRateLabel + ' de cada pedido entregue';
+        if (spentValue) spentValue.textContent = Math.round(totalSpent).toLocaleString('pt-AO') + ' Kz acumulados';
+
+        if (tierIdx < LOYALTY_TIERS.length - 1) {
+            var nextTier = LOYALTY_TIERS[tierIdx + 1];
+            var progressRange = nextTier.min - tier.min;
+            var progressCurrent = totalSpent - tier.min;
+            var pct = Math.min(100, Math.max(0, Math.round((progressCurrent / progressRange) * 100)));
+            var remaining = nextTier.min - totalSpent;
+
+            if (progressSection) progressSection.style.display = '';
+            if (progressLabel) progressLabel.textContent = 'Progresso para ' + nextTier.name;
+            if (progressValue) progressValue.textContent = pct + '%';
+            if (progressFill) {
+                progressFill.className = 'loyalty-progress-fill tier-' + tier.id;
+                setTimeout(function() { progressFill.style.width = pct + '%'; }, 100);
+            }
+            if (nextTierText) {
+                nextTierText.textContent = 'Faltam ' + Math.round(remaining).toLocaleString('pt-AO') + ' Kz de progresso para o nível ' + nextTier.name;
+            }
+        } else {
+            if (progressSection) progressSection.style.display = 'none';
+        }
+
+        renderLoyaltyTiers(tierIdx);
+    }
+
+    window.openLoyaltyOverlay = function() {
+        var overlay = document.getElementById('loyaltyOverlay');
+        if (!overlay) return;
+        var progressFill = document.getElementById('loyaltyProgressFill');
+        if (progressFill) progressFill.style.width = '0%';
+        updateLoyaltyOverlay();
+        document.body.style.overflow = 'hidden';
+        overlay.classList.add('active');
+    };
+
+    window.closeLoyaltyOverlay = function() {
+        var overlay = document.getElementById('loyaltyOverlay');
+        if (!overlay) return;
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+    };
+
+    window.closeLoyaltyOverlayBackdrop = function(e) {
+        if (e.target === document.getElementById('loyaltyOverlay') || e.target.classList.contains('loyalty-overlay-backdrop')) {
+            closeLoyaltyOverlay();
+        }
+    };
+
+    (function() {
+        var sheet = document.getElementById('loyaltySheet');
+        if (!sheet) return;
+        var startY = 0, currentY = 0, isDragging = false;
+
+        sheet.addEventListener('touchstart', function(e) {
+            if (sheet.scrollTop <= 0) {
+                startY = e.touches[0].clientY;
+                isDragging = true;
+            }
+        }, { passive: true });
+
+        sheet.addEventListener('touchmove', function(e) {
+            if (!isDragging) return;
+            currentY = e.touches[0].clientY - startY;
+            if (currentY > 0) {
+                sheet.style.transform = 'translateY(' + currentY + 'px)';
+                sheet.style.transition = 'none';
+            }
+        }, { passive: true });
+
+        sheet.addEventListener('touchend', function() {
+            if (!isDragging) return;
+            isDragging = false;
+            sheet.style.transition = '';
+            if (currentY > 120) {
+                closeLoyaltyOverlay();
+            }
+            sheet.style.transform = '';
+            currentY = 0;
+        }, { passive: true });
+    })();
+})();
+</script>
+
 </body>
 </html>
-
-
-
-
-
 
