@@ -21,6 +21,10 @@
       --texto-escuro: #ede8f5;
       --subtexto-escuro: #a89cc4;
       --borda-escuro: rgba(122, 63, 228, 0.3);
+      --bronze: #cd7f32;
+      --prata: #a8a9b4;
+      --ouro: #ffd700;
+      --diamante: #b9f2ff;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -189,6 +193,7 @@
     .policy-item:nth-child(3) { animation-delay: 0.24s; }
     .policy-item:nth-child(4) { animation-delay: 0.32s; }
     .policy-item:nth-child(5) { animation-delay: 0.40s; }
+    .policy-item:nth-child(6) { animation-delay: 0.48s; }
 
     body.light .policy-item {
       background: var(--card-claro);
@@ -295,7 +300,7 @@
       padding: 0 20px;
     }
     .policy-answer.open {
-      max-height: 55vh;
+      max-height: 85vh;
       padding: 0 20px 20px;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
@@ -381,6 +386,181 @@
       border: 1px solid rgba(192, 132, 252, 0.15);
     }
 
+    .highlight-box.warning {
+      margin-top: 14px;
+    }
+    body.light .highlight-box.warning {
+      background: rgba(234, 179, 8, 0.08);
+      color: #92600a;
+      border: 1px solid rgba(234, 179, 8, 0.2);
+    }
+    body.dark .highlight-box.warning {
+      background: rgba(250, 204, 21, 0.07);
+      color: #fbbf24;
+      border: 1px solid rgba(250, 204, 21, 0.15);
+    }
+
+    /* Tier cards */
+    .tier-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 14px 0 8px;
+    }
+    @media (max-width: 420px) {
+      .tier-grid { grid-template-columns: 1fr; }
+    }
+
+    .tier-card {
+      border-radius: 12px;
+      padding: 14px 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .tier-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+
+    .tier-card.bronze::before { background: linear-gradient(90deg, #cd7f32, #e8a85c); }
+    .tier-card.prata::before { background: linear-gradient(90deg, #a8a9b4, #d1d1db); }
+    .tier-card.ouro::before { background: linear-gradient(90deg, #ffd700, #ffe44d); }
+    .tier-card.diamante::before { background: linear-gradient(90deg, #b9f2ff, #7dd3fc, #c4b5fd); }
+
+    body.light .tier-card {
+      background: rgba(122, 63, 228, 0.04);
+      border: 1px solid rgba(122, 63, 228, 0.1);
+    }
+    body.dark .tier-card {
+      background: rgba(192, 132, 252, 0.05);
+      border: 1px solid rgba(192, 132, 252, 0.1);
+    }
+
+    .tier-card .tier-name {
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .tier-card.bronze .tier-name { color: #cd7f32; }
+    .tier-card.prata .tier-name { color: #8b8c99; }
+    body.dark .tier-card.prata .tier-name { color: #c5c6d0; }
+    .tier-card.ouro .tier-name { color: #b8960f; }
+    body.dark .tier-card.ouro .tier-name { color: #ffd700; }
+    .tier-card.diamante .tier-name { color: #0891b2; }
+    body.dark .tier-card.diamante .tier-name { color: #67e8f9; }
+
+    .tier-card .tier-range {
+      font-size: 0.76rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    body.light .tier-card .tier-range { color: var(--subtexto-claro); }
+    body.dark .tier-card .tier-range { color: var(--subtexto-escuro); }
+
+    .tier-card .tier-detail {
+      font-size: 0.78rem;
+      line-height: 1.55;
+    }
+    body.light .tier-card .tier-detail { color: var(--subtexto-claro); }
+    body.dark .tier-card .tier-detail { color: var(--subtexto-escuro); }
+
+    .tier-card .tier-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      margin-top: 8px;
+    }
+    .tier-card.bronze .tier-badge {
+      background: rgba(205, 127, 50, 0.12);
+      color: #cd7f32;
+    }
+    .tier-card.prata .tier-badge {
+      background: rgba(168, 169, 180, 0.15);
+      color: #6b6c78;
+    }
+    body.dark .tier-card.prata .tier-badge { color: #c5c6d0; }
+    .tier-card.ouro .tier-badge {
+      background: rgba(255, 215, 0, 0.12);
+      color: #b8960f;
+    }
+    body.dark .tier-card.ouro .tier-badge { color: #ffd700; }
+    .tier-card.diamante .tier-badge {
+      background: rgba(8, 145, 178, 0.1);
+      color: #0891b2;
+    }
+    body.dark .tier-card.diamante .tier-badge { color: #67e8f9; }
+
+    .section-subtitle {
+      font-size: 0.86rem;
+      font-weight: 700;
+      margin-top: 18px;
+      margin-bottom: 4px;
+      padding-bottom: 4px;
+      border-bottom: 1px dashed;
+    }
+    body.light .section-subtitle {
+      color: var(--roxo-escuro);
+      border-color: var(--borda-claro);
+    }
+    body.dark .section-subtitle {
+      color: var(--accent);
+      border-color: var(--borda-escuro);
+    }
+
+    .renewal-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 12px 0 6px;
+      border-radius: 10px;
+      overflow: hidden;
+      font-size: 0.82rem;
+    }
+    .renewal-table th,
+    .renewal-table td {
+      padding: 10px 12px;
+      text-align: left;
+    }
+    .renewal-table th {
+      font-weight: 700;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    body.light .renewal-table th {
+      background: rgba(122, 63, 228, 0.08);
+      color: var(--roxo-escuro);
+    }
+    body.dark .renewal-table th {
+      background: rgba(192, 132, 252, 0.1);
+      color: var(--accent);
+    }
+    body.light .renewal-table td {
+      background: rgba(122, 63, 228, 0.02);
+      color: var(--subtexto-claro);
+      border-top: 1px solid rgba(122, 63, 228, 0.08);
+    }
+    body.dark .renewal-table td {
+      background: rgba(192, 132, 252, 0.03);
+      color: var(--subtexto-escuro);
+      border-top: 1px solid rgba(192, 132, 252, 0.08);
+    }
+    .renewal-table td strong {
+      font-weight: 700;
+    }
+    body.light .renewal-table td strong { color: var(--texto-claro); }
+    body.dark .renewal-table td strong { color: var(--texto-escuro); }
+
     .policy-footer {
       text-align: center;
       padding: 20px 16px 32px;
@@ -419,11 +599,9 @@
 <body>
 
   <header>
-    <button class="back-btn" aria-label="Voltar" onclick="window.location.href='index.html'">
-      <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
-    </button>
+   
     <div class="header-content">
-      <span class="header-title">Política da Loja</span>
+      <span class="header-title">Politica da Loja</span>
       <span class="header-subtitle">Termos &amp; Condições</span>
     </div>
   </header>
@@ -439,12 +617,13 @@
   <div class="updated-date-wrapper">
     <span class="updated-date">
       <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 14.5l-1.5-1.5L6 14.5l3 3 6-6-1.5-1.5L9 14.5z"/></svg>
-      Última atualização: 26 de Fevereiro de 2026
+      Última atualização: 13 de Março de 2026
     </span>
   </div>
 
   <div class="policy-container">
 
+    <!-- 1. Uso da Loja -->
     <div class="policy-item">
       <div class="policy-question" role="button" tabindex="0" aria-expanded="false">
         <div class="policy-icon">
@@ -462,218 +641,4 @@
         <div class="policy-answer-inner">
           <p>Ao aceder à Kuia+ Shop, o utilizador tem à sua disposição um conjunto de funcionalidades pensadas para tornar a experiência de compra mais prática, organizada e personalizada:</p>
           <ul>
-            <li><strong>Navegar livremente</strong> por todas as categorias de produtos disponíveis na loja, consultando descrições, imagens e preços sem qualquer custo ou necessidade de registo prévio.</li>
-            <li><strong>Realizar compras</strong> de produtos oferecidos pelos nossos vendedores parceiros, seguindo o processo de encomenda e pagamento disponível na plataforma.</li>
-            <li><strong>Personalizar categorias</strong> de acordo com as suas preferências de navegação — organizando e filtrando os produtos para encontrar exactamente o que procura de forma rápida e eficiente.</li>
-            <li><strong>Criar uma conta</strong> para desbloquear funcionalidades avançadas como finalizar compras, guardar histórico de pedidos e receber notificações sobre ofertas.</li>
-          </ul>
-          <div class="highlight-box">
-            <span class="hb-icon">
-              <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-            </span>
-            <span>O simples acesso e utilização da plataforma implica a aceitação destes termos. Caso não concorde com alguma cláusula, recomendamos que não utilize os serviços da loja.</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="policy-item">
-      <div class="policy-question" role="button" tabindex="0" aria-expanded="false">
-        <div class="policy-icon">
-          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-        </div>
-        <div class="policy-question-text">
-          <h3>2. Favoritos e Filtros</h3>
-          <span class="hint">Armazenamento local das suas preferências</span>
-        </div>
-        <span class="arrow-circle">
-          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
-        </span>
-      </div>
-      <div class="policy-answer">
-        <div class="policy-answer-inner">
-          <p>A Kuia+ Shop permite que o utilizador marque produtos como favoritos e aplique filtros de pesquisa para facilitar futuras visitas. É importante que saiba como estas informações são tratadas:</p>
-          <ul>
-            <li><strong>Armazenamento local:</strong> As suas escolhas de favoritos, filtros e preferências de categorias são guardadas directamente no seu dispositivo (através do armazenamento local do navegador). Isto significa que esses dados permanecem apenas no seu telemóvel ou computador.</li>
-            <li><strong>Sem partilha com terceiros:</strong> Nenhuma informação sobre as suas preferências é enviada para servidores externos, vendida ou partilhada com qualquer empresa, parceiro comercial ou entidade terceira.</li>
-            <li><strong>Controlo total:</strong> O utilizador pode, a qualquer momento, limpar os dados do navegador para eliminar todas as preferências salvas, sem necessidade de solicitar isso à plataforma.</li>
-          </ul>
-          <div class="highlight-box">
-            <span class="hb-icon">
-              <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z"/></svg>
-            </span>
-            <span>Os seus favoritos e filtros são 100% privados. Apenas o seu dispositivo tem acesso a essas informações — ninguém mais pode vê-las.</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="policy-item">
-      <div class="policy-question" role="button" tabindex="0" aria-expanded="false">
-        <div class="policy-icon">
-          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1 6h2v2h-2V7zm0 4h2v6h-2v-6z"/></svg>
-        </div>
-        <div class="policy-question-text">
-          <h3>3. Privacidade e Dados</h3>
-          <span class="hint">O que recolhemos e o que não recolhemos</span>
-        </div>
-        <span class="arrow-circle">
-          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
-        </span>
-      </div>
-      <div class="policy-answer">
-        <div class="policy-answer-inner">
-          <p>A Kuia+ Shop compromete-se a respeitar a privacidade de todos os utilizadores. A nossa política de dados é simples e transparente:</p>
-          <ul>
-            <li><strong>Não recolhemos dados pessoais sensíveis:</strong> A plataforma não solicita nem armazena informações como número do bilhete de identidade, dados bancários directos, localização em tempo real ou qualquer outro dado de natureza sensível sem o consentimento explícito do utilizador.</li>
-            <li><strong>Preferências de navegação:</strong> Podemos registar dados anónimos sobre como os utilizadores interagem com a loja (por exemplo, categorias mais visitadas ou produtos mais pesquisados), exclusivamente para melhorar a experiência de uso e apresentar sugestões mais relevantes.</li>
-            <li><strong>Dados de registo:</strong> Ao criar uma conta, solicitamos apenas as informações essenciais (nome, contacto e foto de perfil) para garantir a segurança e a identificação nas transacções.</li>
-            <li><strong>Sem venda de dados:</strong> Em nenhuma circunstância os seus dados serão vendidos, cedidos ou distribuídos a empresas externas para fins publicitários ou comerciais.</li>
-          </ul>
-          <div class="highlight-box">
-            <span class="hb-icon">
-              <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46A11.8 11.8 0 001 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/></svg>
-            </span>
-            <span>A sua privacidade é uma prioridade. Tratamos os seus dados com o máximo cuidado e apenas para fins estritamente necessários ao funcionamento da plataforma.</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="policy-item">
-      <div class="policy-question" role="button" tabindex="0" aria-expanded="false">
-        <div class="policy-icon">
-          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-        </div>
-        <div class="policy-question-text">
-          <h3>4. Responsabilidade sobre Produtos</h3>
-          <span class="hint">Papel da plataforma e dos vendedores</span>
-        </div>
-        <span class="arrow-circle">
-          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
-        </span>
-      </div>
-      <div class="policy-answer">
-        <div class="policy-answer-inner">
-          <p>A Kuia+ Shop funciona como um <strong>marketplace</strong>, ou seja, uma plataforma que conecta compradores a vendedores parceiros. É fundamental que o utilizador compreenda a distinção de responsabilidades:</p>
-          <ul>
-            <li><strong>Produtos dos parceiros:</strong> Todos os produtos exibidos na loja são cadastrados, descritos e vendidos por vendedores independentes. A qualidade, veracidade das descrições, preços, disponibilidade e condições de entrega são de inteira responsabilidade do vendedor que publicou o produto.</li>
-            <li><strong>Papel da Kuia+ Shop:</strong> A plataforma actua como intermediária, disponibilizando o espaço digital para que as transacções aconteçam. Nos esforçamos para verificar a idoneidade dos vendedores, mas não nos responsabilizamos directamente pela qualidade individual de cada produto.</li>
-            <li><strong>Resolução de conflitos:</strong> Em caso de problemas com um produto ou pedido, a Kuia+ Shop poderá auxiliar na mediação entre o comprador e o vendedor, buscando uma solução justa para ambas as partes.</li>
-            <li><strong>Garantias:</strong> As garantias sobre produtos são oferecidas e geridas exclusivamente pelos vendedores. Verifique sempre as condições de garantia antes de finalizar a sua compra.</li>
-          </ul>
-          <div class="highlight-box">
-            <span class="hb-icon">
-              <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M13 7.83c.85-.3 1.53-.98 1.83-1.83H18l-3 7c0 1.66 1.34 3 3 3s3-1.34 3-3l-3-7h2V4h-6.17c-.41-1.17-1.52-2-2.83-2s-2.42.83-2.83 2H2v2h2l-3 7c0 1.66 1.34 3 3 3s3-1.34 3-3L4 6h3.17c.3.85.98 1.53 1.83 1.83V18H6v2h12v-2h-5V7.83zM18 10.35L19.8 15h-3.6L18 10.35zM6 10.35L7.8 15H4.2L6 10.35zM12 6c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>
-            </span>
-            <span>Antes de comprar, verifique sempre a reputação do vendedor e leia atentamente a descrição completa do produto, incluindo políticas de devolução e garantia.</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="policy-item">
-      <div class="policy-question" role="button" tabindex="0" aria-expanded="false">
-        <div class="policy-icon">
-          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A7.96 7.96 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
-        </div>
-        <div class="policy-question-text">
-          <h3>5. Alterações aos Termos</h3>
-          <span class="hint">Atualizações e revisões periódicas</span>
-        </div>
-        <span class="arrow-circle">
-          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
-        </span>
-      </div>
-      <div class="policy-answer">
-        <div class="policy-answer-inner">
-          <p>A Kuia+ Shop reserva-se o direito de modificar, atualizar ou complementar estes Termos e Condições a qualquer momento, de modo a reflectir melhorias na plataforma, alterações legais ou novas funcionalidades:</p>
-          <ul>
-            <li><strong>Notificação de alterações:</strong> Sempre que ocorrer uma atualização significativa nos termos, procuraremos informar os utilizadores através de avisos na plataforma ou por meio dos canais de comunicação disponíveis.</li>
-            <li><strong>Data de vigência:</strong> Cada versão dos termos terá uma data de "última atualização" indicada no topo desta página. A versão mais recente é sempre a que está em vigor.</li>
-            <li><strong>Revisão periódica:</strong> Recomendamos que o utilizador consulte esta página periodicamente para se manter informado sobre quaisquer alterações. O uso continuado da plataforma após uma atualização implica a aceitação dos novos termos.</li>
-            <li><strong>Histórico:</strong> Versões anteriores dos termos poderão ser disponibilizadas mediante solicitação, para efeitos de consulta e transparência.</li>
-          </ul>
-          <div class="highlight-box">
-            <span class="hb-icon">
-              <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
-            </span>
-            <span>Fique atento às atualizações! Recomendamos que reveja esta página pelo menos uma vez por mês para garantir que está a par de todas as condições vigentes.</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="policy-footer">
-    <div class="brand">Kuia+ Shop</div>
-    <p>Ao utilizar a nossa plataforma, o utilizador declara ter lido,<br>compreendido e aceite integralmente estes Termos e Condições.</p>
-    <p style="margin-top:6px; opacity: 0.7;">© 2026 Kuia+ Shop — Todos os direitos reservados.</p>
-  </div>
-
-  <script>
-    document.querySelectorAll('.policy-question').forEach(function(q) {
-      q.addEventListener('click', function() {
-        var answer = q.nextElementSibling;
-        var arrow = q.querySelector('.arrow-circle');
-        var isOpen = answer.classList.contains('open');
-
-        document.querySelectorAll('.policy-answer').forEach(function(a) {
-          a.classList.remove('open');
-        });
-        document.querySelectorAll('.arrow-circle').forEach(function(ar) {
-          ar.classList.remove('rotate');
-        });
-        document.querySelectorAll('.policy-question').forEach(function(pq) {
-          pq.setAttribute('aria-expanded', 'false');
-        });
-
-        if (!isOpen) {
-          answer.classList.add('open');
-          arrow.classList.add('rotate');
-          q.setAttribute('aria-expanded', 'true');
-
-          setTimeout(function() {
-            q.closest('.policy-item').scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }, 120);
-        }
-      });
-
-      q.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          q.click();
-        }
-      });
-    });
-
-    function setThemeByTime() {
-      var hour = new Date().getHours();
-      if (hour >= 7 && hour < 19) {
-        document.body.classList.add('light');
-        document.body.classList.remove('dark');
-      } else {
-        document.body.classList.add('dark');
-        document.body.classList.remove('light');
-      }
-    }
-    setThemeByTime();
-
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.body.classList.add('dark');
-      document.body.classList.remove('light');
-    }
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(event) {
-      if (event.matches) {
-        document.body.classList.add('dark');
-        document.body.classList.remove('light');
-      } else {
-        document.body.classList.add('light');
-        document.body.classList.remove('dark');
-      }
-    });
-  </script>
-
-</body>
-</html>
+            <li><strong>Navegar livremente</strong> por todas as categorias de produtos disponíveis na loja, consultando descrições, imagens e preços sem qualquer custo ou necessidad
