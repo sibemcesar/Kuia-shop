@@ -22,9 +22,23 @@
       --subtexto-escuro: #a89cc4;
       --borda-escuro: rgba(122, 63, 228, 0.3);
       --bronze: #cd7f32;
-      --prata: #a8a9b4;
+      --bronze-bg: rgba(205, 127, 50, 0.12);
+      --bronze-border: rgba(205, 127, 50, 0.25);
+      --prata: #a8a9ad;
+      --prata-bg: rgba(168, 169, 173, 0.12);
+      --prata-border: rgba(168, 169, 173, 0.25);
       --ouro: #ffd700;
+      --ouro-bg: rgba(255, 215, 0, 0.12);
+      --ouro-border: rgba(255, 215, 0, 0.25);
       --diamante: #b9f2ff;
+      --diamante-bg: rgba(185, 242, 255, 0.12);
+      --diamante-border: rgba(185, 242, 255, 0.25);
+      --verde: #22c55e;
+      --verde-bg: rgba(34, 197, 94, 0.1);
+      --vermelho: #ef4444;
+      --vermelho-bg: rgba(239, 68, 68, 0.1);
+      --amarelo: #eab308;
+      --amarelo-bg: rgba(234, 179, 8, 0.1);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -93,29 +107,6 @@
       letter-spacing: 1.5px;
       text-transform: uppercase;
     }
-
-    .back-btn {
-      position: absolute;
-      left: 14px;
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #fff;
-      font-size: 1rem;
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .back-btn:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: scale(1.08);
-    }
-    .back-btn .svg-icon { width: 16px; height: 16px; }
 
     .intro-banner {
       max-width: 720px;
@@ -194,6 +185,8 @@
     .policy-item:nth-child(4) { animation-delay: 0.32s; }
     .policy-item:nth-child(5) { animation-delay: 0.40s; }
     .policy-item:nth-child(6) { animation-delay: 0.48s; }
+    .policy-item:nth-child(7) { animation-delay: 0.56s; }
+    .policy-item:nth-child(8) { animation-delay: 0.64s; }
 
     body.light .policy-item {
       background: var(--card-claro);
@@ -300,7 +293,7 @@
       padding: 0 20px;
     }
     .policy-answer.open {
-      max-height: 85vh;
+      max-height: 200vh;
       padding: 0 20px 20px;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
@@ -386,180 +379,508 @@
       border: 1px solid rgba(192, 132, 252, 0.15);
     }
 
-    .highlight-box.warning {
-      margin-top: 14px;
+    /* ===== WARNING BOX ===== */
+    .warning-box {
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-top: 12px;
+      font-size: 0.84rem;
+      line-height: 1.65;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
     }
-    body.light .highlight-box.warning {
-      background: rgba(234, 179, 8, 0.08);
-      color: #92600a;
-      border: 1px solid rgba(234, 179, 8, 0.2);
+    .warning-box .wb-icon { flex-shrink: 0; margin-top: 2px; }
+    .warning-box .wb-icon .svg-icon { width: 18px; height: 18px; }
+    body.light .warning-box {
+      background: rgba(239, 68, 68, 0.06);
+      color: #b91c1c;
+      border: 1px solid rgba(239, 68, 68, 0.15);
     }
-    body.dark .highlight-box.warning {
-      background: rgba(250, 204, 21, 0.07);
-      color: #fbbf24;
-      border: 1px solid rgba(250, 204, 21, 0.15);
+    body.dark .warning-box {
+      background: rgba(239, 68, 68, 0.08);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.2);
     }
 
-    /* Tier cards */
-    .tier-grid {
+    /* ===== SECURITY BOX ===== */
+    .security-box {
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-top: 14px;
+      font-size: 0.84rem;
+      line-height: 1.65;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      border-left: 4px solid;
+    }
+    .security-box .sb-icon { flex-shrink: 0; margin-top: 2px; }
+    .security-box .sb-icon .svg-icon { width: 20px; height: 20px; }
+    body.light .security-box {
+      background: rgba(234, 179, 8, 0.06);
+      color: #92400e;
+      border-color: #daa520;
+      border-top: 1px solid rgba(234, 179, 8, 0.15);
+      border-right: 1px solid rgba(234, 179, 8, 0.15);
+      border-bottom: 1px solid rgba(234, 179, 8, 0.15);
+    }
+    body.dark .security-box {
+      background: rgba(234, 179, 8, 0.06);
+      color: #fbbf24;
+      border-color: #fbbf24;
+      border-top: 1px solid rgba(234, 179, 8, 0.15);
+      border-right: 1px solid rgba(234, 179, 8, 0.15);
+      border-bottom: 1px solid rgba(234, 179, 8, 0.15);
+    }
+    .security-box strong {
+      font-weight: 800;
+    }
+
+    /* ===== PAYMENT METHOD GRID ===== */
+    .payment-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
-      margin: 14px 0 8px;
+      margin-top: 14px;
     }
-    @media (max-width: 420px) {
+    @media (max-width: 400px) {
+      .payment-grid { grid-template-columns: 1fr; }
+    }
+
+    .payment-card {
+      border-radius: 12px;
+      padding: 14px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .payment-card:hover { transform: translateY(-2px); }
+
+    body.light .payment-card {
+      background: rgba(122, 63, 228, 0.04);
+      border: 1px solid rgba(122, 63, 228, 0.1);
+    }
+    body.dark .payment-card {
+      background: rgba(192, 132, 252, 0.05);
+      border: 1px solid rgba(192, 132, 252, 0.12);
+    }
+    body.light .payment-card:hover {
+      box-shadow: 0 4px 14px rgba(90, 46, 166, 0.08);
+    }
+    body.dark .payment-card:hover {
+      box-shadow: 0 4px 14px rgba(123, 63, 228, 0.12);
+    }
+
+    .payment-card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+
+    .payment-card-icon.multicaixa {
+      background: linear-gradient(135deg, #e63946, #ff6b6b);
+      color: #fff;
+    }
+    .payment-card-icon.paypal {
+      background: linear-gradient(135deg, #003087, #009cde);
+      color: #fff;
+    }
+    .payment-card-icon.unitel {
+      background: linear-gradient(135deg, #ff8c00, #ffa940);
+      color: #fff;
+    }
+    .payment-card-icon.afrimoney {
+      background: linear-gradient(135deg, #16a34a, #4ade80);
+      color: #fff;
+    }
+    .payment-card-icon.entrega {
+      background: linear-gradient(135deg, var(--roxo-escuro), var(--roxo-claro));
+      color: #fff;
+    }
+
+    .payment-card-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .payment-card-name {
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+    body.light .payment-card-name { color: var(--texto-claro); }
+    body.dark .payment-card-name { color: var(--texto-escuro); }
+
+    .payment-card-desc {
+      font-size: 0.72rem;
+      font-weight: 500;
+    }
+    body.light .payment-card-desc { color: var(--subtexto-claro); }
+    body.dark .payment-card-desc { color: var(--subtexto-escuro); }
+
+    .payment-card.full-width {
+      grid-column: 1 / -1;
+    }
+
+    /* ===== LOYALTY TIER CARDS ===== */
+    .tier-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    @media (max-width: 480px) {
       .tier-grid { grid-template-columns: 1fr; }
     }
 
     .tier-card {
-      border-radius: 12px;
-      padding: 14px 16px;
+      border-radius: 14px;
+      padding: 18px 16px;
       position: relative;
       overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
+    .tier-card:hover {
+      transform: translateY(-3px) scale(1.01);
+    }
+
     .tier-card::before {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      height: 3px;
+      height: 4px;
     }
 
-    .tier-card.bronze::before { background: linear-gradient(90deg, #cd7f32, #e8a85c); }
-    .tier-card.prata::before { background: linear-gradient(90deg, #a8a9b4, #d1d1db); }
-    .tier-card.ouro::before { background: linear-gradient(90deg, #ffd700, #ffe44d); }
-    .tier-card.diamante::before { background: linear-gradient(90deg, #b9f2ff, #7dd3fc, #c4b5fd); }
+    .tier-card.bronze { border: 1px solid var(--bronze-border); }
+    .tier-card.bronze::before { background: linear-gradient(90deg, #cd7f32, #e8a862); }
+    body.light .tier-card.bronze { background: var(--bronze-bg); }
+    body.dark .tier-card.bronze { background: rgba(205, 127, 50, 0.08); border-color: rgba(205, 127, 50, 0.2); }
 
-    body.light .tier-card {
-      background: rgba(122, 63, 228, 0.04);
-      border: 1px solid rgba(122, 63, 228, 0.1);
-    }
-    body.dark .tier-card {
-      background: rgba(192, 132, 252, 0.05);
-      border: 1px solid rgba(192, 132, 252, 0.1);
+    .tier-card.prata { border: 1px solid var(--prata-border); }
+    .tier-card.prata::before { background: linear-gradient(90deg, #a8a9ad, #d1d2d6); }
+    body.light .tier-card.prata { background: var(--prata-bg); }
+    body.dark .tier-card.prata { background: rgba(168, 169, 173, 0.08); border-color: rgba(168, 169, 173, 0.2); }
+
+    .tier-card.ouro { border: 1px solid var(--ouro-border); }
+    .tier-card.ouro::before { background: linear-gradient(90deg, #ffd700, #ffec80); }
+    body.light .tier-card.ouro { background: var(--ouro-bg); }
+    body.dark .tier-card.ouro { background: rgba(255, 215, 0, 0.07); border-color: rgba(255, 215, 0, 0.2); }
+
+    .tier-card.diamante { border: 1px solid var(--diamante-border); }
+    .tier-card.diamante::before { background: linear-gradient(90deg, #89CFF0, #b9f2ff, #e0f7fa); background-size: 200% 100%; animation: diamanteShimmer 2s ease infinite; }
+    body.light .tier-card.diamante { background: var(--diamante-bg); }
+    body.dark .tier-card.diamante { background: rgba(185, 242, 255, 0.06); border-color: rgba(185, 242, 255, 0.18); }
+
+    @keyframes diamanteShimmer {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
     }
 
-    .tier-card .tier-name {
-      font-size: 0.82rem;
+    .tier-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .tier-medal {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .tier-card.bronze .tier-medal { background: linear-gradient(135deg, #cd7f32, #e8a862); color: #fff; }
+    .tier-card.prata .tier-medal { background: linear-gradient(135deg, #a8a9ad, #d1d2d6); color: #fff; }
+    .tier-card.ouro .tier-medal { background: linear-gradient(135deg, #daa520, #ffd700); color: #fff; }
+    .tier-card.diamante .tier-medal { background: linear-gradient(135deg, #89CFF0, #b9f2ff); color: #1a3a4a; }
+
+    .tier-name {
+      font-size: 0.92rem;
       font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 4px;
+      letter-spacing: 0.3px;
     }
     .tier-card.bronze .tier-name { color: #cd7f32; }
-    .tier-card.prata .tier-name { color: #8b8c99; }
-    body.dark .tier-card.prata .tier-name { color: #c5c6d0; }
-    .tier-card.ouro .tier-name { color: #b8960f; }
+    body.dark .tier-card.bronze .tier-name { color: #e8a862; }
+    .tier-card.prata .tier-name { color: #7a7b7f; }
+    body.dark .tier-card.prata .tier-name { color: #c8c9cd; }
+    .tier-card.ouro .tier-name { color: #b8860b; }
     body.dark .tier-card.ouro .tier-name { color: #ffd700; }
-    .tier-card.diamante .tier-name { color: #0891b2; }
-    body.dark .tier-card.diamante .tier-name { color: #67e8f9; }
+    .tier-card.diamante .tier-name { color: #3a8fa8; }
+    body.dark .tier-card.diamante .tier-name { color: #89CFF0; }
 
-    .tier-card .tier-range {
-      font-size: 0.76rem;
+    .tier-details {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .tier-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      line-height: 1.5;
+    }
+
+    .tier-row .tier-label {
       font-weight: 600;
-      margin-bottom: 6px;
+      min-width: 70px;
+      flex-shrink: 0;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
-    body.light .tier-card .tier-range { color: var(--subtexto-claro); }
-    body.dark .tier-card .tier-range { color: var(--subtexto-escuro); }
+    body.light .tier-row .tier-label { color: var(--subtexto-claro); }
+    body.dark .tier-row .tier-label { color: var(--subtexto-escuro); }
 
-    .tier-card .tier-detail {
-      font-size: 0.78rem;
-      line-height: 1.55;
+    .tier-row .tier-value {
+      font-weight: 700;
+      font-size: 0.82rem;
     }
-    body.light .tier-card .tier-detail { color: var(--subtexto-claro); }
-    body.dark .tier-card .tier-detail { color: var(--subtexto-escuro); }
+    body.light .tier-row .tier-value { color: var(--texto-claro); }
+    body.dark .tier-row .tier-value { color: var(--texto-escuro); }
 
-    .tier-card .tier-badge {
+    .tier-badge {
       display: inline-flex;
       align-items: center;
       gap: 4px;
       padding: 3px 10px;
       border-radius: 20px;
-      font-size: 0.72rem;
+      font-size: 0.76rem;
       font-weight: 700;
+      margin-top: 6px;
+    }
+    .tier-card.bronze .tier-badge { background: rgba(205, 127, 50, 0.18); color: #cd7f32; }
+    body.dark .tier-card.bronze .tier-badge { background: rgba(205, 127, 50, 0.15); color: #e8a862; }
+    .tier-card.prata .tier-badge { background: rgba(168, 169, 173, 0.18); color: #6a6b6f; }
+    body.dark .tier-card.prata .tier-badge { background: rgba(168, 169, 173, 0.15); color: #c8c9cd; }
+    .tier-card.ouro .tier-badge { background: rgba(218, 165, 32, 0.18); color: #b8860b; }
+    body.dark .tier-card.ouro .tier-badge { background: rgba(255, 215, 0, 0.15); color: #ffd700; }
+    .tier-card.diamante .tier-badge { background: rgba(137, 207, 240, 0.18); color: #3a8fa8; }
+    body.dark .tier-card.diamante .tier-badge { background: rgba(137, 207, 240, 0.15); color: #89CFF0; }
+
+    .tier-discount-tag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
       margin-top: 8px;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 0.74rem;
+      line-height: 1.4;
+      font-weight: 600;
     }
-    .tier-card.bronze .tier-badge {
-      background: rgba(205, 127, 50, 0.12);
-      color: #cd7f32;
-    }
-    .tier-card.prata .tier-badge {
-      background: rgba(168, 169, 180, 0.15);
-      color: #6b6c78;
-    }
-    body.dark .tier-card.prata .tier-badge { color: #c5c6d0; }
-    .tier-card.ouro .tier-badge {
-      background: rgba(255, 215, 0, 0.12);
-      color: #b8960f;
-    }
-    body.dark .tier-card.ouro .tier-badge { color: #ffd700; }
-    .tier-card.diamante .tier-badge {
-      background: rgba(8, 145, 178, 0.1);
-      color: #0891b2;
-    }
-    body.dark .tier-card.diamante .tier-badge { color: #67e8f9; }
+    .tier-discount-tag .tag-icon { flex-shrink: 0; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; }
+    .tier-discount-tag .tag-icon svg { width: 14px; height: 14px; fill: currentColor; }
 
-    .section-subtitle {
-      font-size: 0.86rem;
-      font-weight: 700;
+    .tier-card.bronze .tier-discount-tag { background: rgba(205, 127, 50, 0.1); color: #b06a25; }
+    body.dark .tier-card.bronze .tier-discount-tag { background: rgba(205, 127, 50, 0.08); color: #d4a06a; }
+    .tier-card.prata .tier-discount-tag { background: rgba(168, 169, 173, 0.12); color: #5e5f63; }
+    body.dark .tier-card.prata .tier-discount-tag { background: rgba(168, 169, 173, 0.08); color: #b0b1b5; }
+    .tier-card.ouro .tier-discount-tag { background: rgba(218, 165, 32, 0.12); color: #9a7510; }
+    body.dark .tier-card.ouro .tier-discount-tag { background: rgba(255, 215, 0, 0.08); color: #e6c530; }
+    .tier-card.diamante .tier-discount-tag { background: rgba(137, 207, 240, 0.12); color: #2d7a94; }
+    body.dark .tier-card.diamante .tier-discount-tag { background: rgba(137, 207, 240, 0.08); color: #7cc4e0; }
+
+    .tier-renewal-tag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 0.72rem;
+      line-height: 1.4;
+      font-weight: 600;
+    }
+    .tier-renewal-tag .tag-icon { flex-shrink: 0; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; }
+    .tier-renewal-tag .tag-icon svg { width: 13px; height: 13px; fill: currentColor; }
+
+    body.light .tier-renewal-tag { background: rgba(34, 197, 94, 0.1); color: #15803d; }
+    body.dark .tier-renewal-tag { background: rgba(34, 197, 94, 0.1); color: #4ade80; }
+
+    /* ===== DISCOUNT RULES CALLOUT ===== */
+    .discount-rules-box {
       margin-top: 18px;
-      margin-bottom: 4px;
-      padding-bottom: 4px;
-      border-bottom: 1px dashed;
+      padding: 16px;
+      border-radius: 12px;
+      border-left: 4px solid;
     }
-    body.light .section-subtitle {
-      color: var(--roxo-escuro);
-      border-color: var(--borda-claro);
+    body.light .discount-rules-box {
+      background: rgba(234, 179, 8, 0.06);
+      border-color: #daa520;
     }
-    body.dark .section-subtitle {
-      color: var(--accent);
-      border-color: var(--borda-escuro);
+    body.dark .discount-rules-box {
+      background: rgba(234, 179, 8, 0.06);
+      border-color: #fbbf24;
     }
+    .discount-rules-title {
+      font-size: 0.86rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    body.light .discount-rules-title { color: #92400e; }
+    body.dark .discount-rules-title { color: #fbbf24; }
+    .discount-rules-title svg { width: 18px; height: 18px; fill: currentColor; }
+    .discount-rules-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .discount-rules-list li {
+      font-size: 0.82rem;
+      line-height: 1.65;
+      padding: 4px 0 4px 20px;
+      position: relative;
+    }
+    body.light .discount-rules-list li { color: var(--subtexto-claro); }
+    body.dark .discount-rules-list li { color: var(--subtexto-escuro); }
+    .discount-rules-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 11px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+    body.light .discount-rules-list li::before { background: #daa520; }
+    body.dark .discount-rules-list li::before { background: #fbbf24; }
 
-    .renewal-table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0;
-      margin: 12px 0 6px;
+    /* ===== PROGRESS BAR VISUAL ===== */
+    .tier-progress-visual {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 12px;
+    }
+    body.light .tier-progress-visual { background: rgba(122, 63, 228, 0.04); border: 1px solid rgba(122, 63, 228, 0.08); }
+    body.dark .tier-progress-visual { background: rgba(192, 132, 252, 0.05); border: 1px solid rgba(192, 132, 252, 0.1); }
+
+    .progress-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+    body.light .progress-title { color: var(--texto-claro); }
+    body.dark .progress-title { color: var(--texto-escuro); }
+
+    .progress-track {
+      position: relative;
+      height: 10px;
       border-radius: 10px;
       overflow: hidden;
-      font-size: 0.82rem;
+      margin-bottom: 8px;
     }
-    .renewal-table th,
-    .renewal-table td {
-      padding: 10px 12px;
-      text-align: left;
+    body.light .progress-track { background: rgba(122, 63, 228, 0.1); }
+    body.dark .progress-track { background: rgba(255, 255, 255, 0.08); }
+
+    .progress-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #cd7f32 0%, #cd7f32 20%, #a8a9ad 20%, #a8a9ad 50%, #ffd700 50%, #ffd700 80%, #89CFF0 80%, #b9f2ff 100%);
+      width: 100%;
     }
-    .renewal-table th {
+
+    .progress-markers {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      margin-top: 4px;
+    }
+
+    .progress-marker {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .progress-marker-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .progress-marker-text {
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-align: center;
+      line-height: 1.3;
+    }
+    body.light .progress-marker-text { color: var(--subtexto-claro); }
+    body.dark .progress-marker-text { color: var(--subtexto-escuro); }
+
+    /* ===== BENEFITS TABLE ===== */
+    .benefits-section {
+      margin-top: 18px;
+    }
+
+    .benefits-title {
+      font-size: 0.88rem;
       font-weight: 700;
-      font-size: 0.76rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      margin-bottom: 10px;
     }
-    body.light .renewal-table th {
-      background: rgba(122, 63, 228, 0.08);
-      color: var(--roxo-escuro);
+    body.light .benefits-title { color: var(--texto-claro); }
+    body.dark .benefits-title { color: var(--texto-escuro); }
+
+    .benefits-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
-    body.dark .renewal-table th {
-      background: rgba(192, 132, 252, 0.1);
-      color: var(--accent);
+
+    .benefit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 0.84rem;
+      line-height: 1.55;
     }
-    body.light .renewal-table td {
-      background: rgba(122, 63, 228, 0.02);
-      color: var(--subtexto-claro);
-      border-top: 1px solid rgba(122, 63, 228, 0.08);
+    body.light .benefit-item { background: rgba(122, 63, 228, 0.04); }
+    body.dark .benefit-item { background: rgba(192, 132, 252, 0.05); }
+
+    .benefit-check {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+      background: linear-gradient(135deg, var(--roxo-claro), var(--accent));
+      color: #fff;
     }
-    body.dark .renewal-table td {
-      background: rgba(192, 132, 252, 0.03);
-      color: var(--subtexto-escuro);
-      border-top: 1px solid rgba(192, 132, 252, 0.08);
-    }
-    .renewal-table td strong {
-      font-weight: 700;
-    }
-    body.light .renewal-table td strong { color: var(--texto-claro); }
-    body.dark .renewal-table td strong { color: var(--texto-escuro); }
+    .benefit-check .svg-icon { width: 12px; height: 12px; }
+
+    .benefit-text { flex: 1; }
+    body.light .benefit-text { color: var(--subtexto-claro); }
+    body.dark .benefit-text { color: var(--subtexto-escuro); }
+    .benefit-text strong { font-weight: 700; }
+    body.light .benefit-text strong { color: var(--texto-claro); }
+    body.dark .benefit-text strong { color: var(--texto-escuro); }
 
     .policy-footer {
       text-align: center;
@@ -599,7 +920,6 @@
 <body>
 
   <header>
-   
     <div class="header-content">
       <span class="header-title">Politica da Loja</span>
       <span class="header-subtitle">Termos &amp; Condições</span>
@@ -611,7 +931,7 @@
       <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 2.18l7 3.12v4.7c0 4.83-3.13 9.37-7 10.82-3.87-1.45-7-5.99-7-10.82V6.3l7-3.12zM10 12l-2-2-1.41 1.41L10 14.83l6.41-6.42L15 7l-5 5z"/></svg>
     </div>
     <h2>Transparência e Confiança</h2>
-    <p>Na Kuia+ Shop, prezamos pela clareza na relação com os nossos utilizadores. Leia atentamente cada secção abaixo para conhecer os seus direitos, deveres e como protegemos a sua experiência.</p>
+    <p>Aqui na Kuia+ Shop, queremos que tudo seja claro e simples para ti. Lê cada parte abaixo para saberes como tudo funciona, os teus direitos e como cuidamos da tua experiência.</p>
   </div>
 
   <div class="updated-date-wrapper">
@@ -631,7 +951,7 @@
         </div>
         <div class="policy-question-text">
           <h3>1. Uso da Loja</h3>
-          <span class="hint">Navegação, compras e personalização</span>
+          <span class="hint">O que podes fazer na nossa loja</span>
         </div>
         <span class="arrow-circle">
           <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
@@ -639,6 +959,609 @@
       </div>
       <div class="policy-answer">
         <div class="policy-answer-inner">
-          <p>Ao aceder à Kuia+ Shop, o utilizador tem à sua disposição um conjunto de funcionalidades pensadas para tornar a experiência de compra mais prática, organizada e personalizada:</p>
+          <p>Ao entrares na Kuia+ Shop, tens acesso a várias coisas fixes para tornar as tuas compras mais fáceis e rápidas:</p>
           <ul>
-            <li><strong>Navegar livremente</strong> por todas as categorias de produtos disponíveis na loja, consultando descrições, imagens e preços sem qualquer custo ou necessidad
+            <li><strong>Ver tudo à vontade</strong> — Podes explorar todos os produtos, ver fotos, descrições e preços sem precisar de criar conta. É só abrir e navegar!</li>
+            <li><strong>Comprar o que quiseres</strong> — Encontraste algo que gostas? É só seguir os passos para encomendar e pagar. Simples assim.</li>
+            <li><strong>Organizar do teu jeito</strong> — Podes filtrar os produtos por categoria, para encontrares mais rápido aquilo que procuras.</li>
+            <li><strong>Criar a tua conta</strong> — Com uma conta, podes finalizar compras, ver o histórico dos teus pedidos e receber alertas de ofertas.</li>
+          </ul>
+          <div class="highlight-box">
+            <span class="hb-icon">
+              <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            </span>
+            <span>Ao usares a loja, estás a concordar com estas regras. Se não concordas com alguma coisa, é melhor não usar a plataforma.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Favoritos e Filtros -->
+    <div class="policy-item">
+      <div class="policy-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="policy-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </div>
+        <div class="policy-question-text">
+          <h3>2. Favoritos e Filtros</h3>
+          <span class="hint">As tuas escolhas ficam guardadas no teu telemóvel</span>
+        </div>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="policy-answer">
+        <div class="policy-answer-inner">
+          <p>Podes marcar produtos como favoritos e usar filtros para encontrar coisas mais rápido. Aqui está o que precisas de saber:</p>
+          <ul>
+            <li><strong>Fica tudo no teu aparelho:</strong> Os teus favoritos e filtros são guardados só no teu telemóvel ou computador. Ninguém mais tem acesso.</li>
+            <li><strong>Ninguém vê as tuas escolhas:</strong> Essas informações não são enviadas para lado nenhum. Não vendemos nem partilhamos nada com ninguém.</li>
+            <li><strong>Tu controlas tudo:</strong> Se quiseres apagar os teus favoritos, é só limpar os dados do navegador. Não precisas de pedir a ninguém.</li>
+          </ul>
+          <div class="highlight-box">
+            <span class="hb-icon">
+              <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z"/></svg>
+            </span>
+            <span>Os teus favoritos são 100% privados. Só o teu aparelho sabe o que tu guardaste — mais ninguém!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Privacidade e Dados -->
+    <div class="policy-item">
+      <div class="policy-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="policy-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1 6h2v2h-2V7zm0 4h2v6h-2v-6z"/></svg>
+        </div>
+        <div class="policy-question-text">
+          <h3>3. Privacidade e Dados</h3>
+          <span class="hint">Como protegemos as tuas informações</span>
+        </div>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="policy-answer">
+        <div class="policy-answer-inner">
+          <p>Respeitamos a tua privacidade e tratamos os teus dados com muito cuidado. Aqui está o resumo:</p>
+          <ul>
+            <li><strong>Não pedimos coisas sensíveis:</strong> Nunca vamos pedir o teu BI, dados bancários ou localização sem te avisar primeiro e sem a tua autorização.</li>
+            <li><strong>Vemos o que é popular:</strong> Podemos ver quais categorias e produtos são mais visitados (de forma anónima), só para melhorar a loja e mostrar coisas que te possam interessar.</li>
+            <li><strong>Conta simples:</strong> Para criares conta, só pedimos o básico — nome, contacto e foto de perfil. Nada mais.</li>
+            <li><strong>Não vendemos os teus dados:</strong> Em nenhuma situação os teus dados são vendidos ou dados a outras empresas. Ponto final.</li>
+          </ul>
+          <div class="highlight-box">
+            <span class="hb-icon">
+              <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46A11.8 11.8 0 001 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/></svg>
+            </span>
+            <span>A tua privacidade é super importante para nós. Só usamos as tuas informações para fazer a loja funcionar melhor para ti.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Responsabilidade sobre Produtos -->
+    <div class="policy-item">
+      <div class="policy-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="policy-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        </div>
+        <div class="policy-question-text">
+          <h3>4. Responsabilidade sobre Produtos</h3>
+          <span class="hint">Quem é responsável pelo quê</span>
+        </div>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="policy-answer">
+        <div class="policy-answer-inner">
+          <p>A Kuia+ Shop é tipo um <strong>centro comercial online</strong> — nós juntamos os compradores e os vendedores num só lugar. Mas é importante saberes quem faz o quê:</p>
+          <ul>
+            <li><strong>Os produtos são dos vendedores:</strong> Cada vendedor é responsável pelo que vende — a qualidade, o preço, a descrição e a entrega. Se tiveres algum problema, o vendedor é quem deve resolver.</li>
+            <li><strong>Nós somos o meio de campo:</strong> A Kuia+ Shop oferece o espaço para as vendas acontecerem. Fazemos o possível para verificar os vendedores, mas não controlamos cada produto individualmente.</li>
+            <li><strong>Se houver problema, ajudamos:</strong> Se algo correr mal com um pedido, podemos ajudar a conversar entre ti e o vendedor para encontrar uma solução justa.</li>
+            <li><strong>Garantias:</strong> As garantias dos produtos são dadas pelo vendedor. Antes de comprares, verifica sempre as condições de garantia e devolução.</li>
+          </ul>
+          <div class="highlight-box">
+            <span class="hb-icon">
+              <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M13 7.83c.85-.3 1.53-.98 1.83-1.83H18l-3 7c0 1.66 1.34 3 3 3s3-1.34 3-3l-3-7h2V4h-6.17c-.41-1.17-1.52-2-2.83-2s-2.42.83-2.83 2H2v2h2l-3 7c0 1.66 1.34 3 3 3s3-1.34 3-3L4 6h3.17c.3.85.98 1.53 1.83 1.83V18H6v2h12v-2h-5V7.83zM18 10.35L19.8 15h-3.6L18 10.35zM6 10.35L7.8 15H4.2L6 10.35zM12 6c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>
+            </span>
+            <span>Dica: antes de comprares, olha sempre a avaliação do vendedor e lê bem a descrição do produto. Assim evitas surpresas!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Pagamentos -->
+    <div class="policy-item">
+      <div class="policy-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="policy-icon" style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.18), rgba(22, 163, 74, 0.12));">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+        </div>
+        <div class="policy-question-text">
+          <h3>5. Pagamentos</h3>
+          <span class="hint">Métodos de pagamento aceites na loja</span>
+        </div>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="policy-answer">
+        <div class="policy-answer-inner">
+          <p>Para tornar as tuas compras o mais simples possível, aceitamos vários métodos de pagamento. Escolhe o que for mais conveniente para ti:</p>
+
+          <div class="payment-grid">
+            <!-- Multicaixa Express -->
+            <div class="payment-card">
+              <div class="payment-card-icon multicaixa">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17 2H7c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H7V4h10v16zm-5-1c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1z"/></svg>
+              </div>
+              <div class="payment-card-info">
+                <span class="payment-card-name">Multicaixa Express</span>
+                <span class="payment-card-desc">Pagamento móvel rápido</span>
+              </div>
+            </div>
+
+            <!-- PayPal AO -->
+            <div class="payment-card">
+              <div class="payment-card-icon paypal">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+              </div>
+              <div class="payment-card-info">
+                <span class="payment-card-name">PayPal AO</span>
+                <span class="payment-card-desc">Transferência online segura</span>
+              </div>
+            </div>
+
+            <!-- Unitel Money -->
+            <div class="payment-card">
+              <div class="payment-card-icon unitel">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
+              </div>
+              <div class="payment-card-info">
+                <span class="payment-card-name">Unitel Money</span>
+                <span class="payment-card-desc">Carteira digital Unitel</span>
+              </div>
+            </div>
+
+            <!-- Afrimoney -->
+            <div class="payment-card">
+              <div class="payment-card-icon afrimoney">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.94s4.18 1.36 4.18 3.85c0 1.89-1.44 2.98-3.12 3.19z"/></svg>
+              </div>
+              <div class="payment-card-info">
+                <span class="payment-card-name">Afrimoney</span>
+                <span class="payment-card-desc">Pagamento via Africell</span>
+              </div>
+            </div>
+
+            <!-- Pagamento na Entrega -->
+            <div class="payment-card full-width">
+              <div class="payment-card-icon entrega">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18 18.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5zM19.5 9.5l1.9 2.54-1.32 1-1.9-2.54H15V13h-2V7h5.5l1 2.5zM6 18.5c.83 0 1.5-.67 1.5-1.5S6.83 15.5 6 15.5 4.5 16.17 4.5 17 5.17 18.5 6 18.5zM20 8H17V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4z"/></svg>
+              </div>
+              <div class="payment-card-info">
+                <span class="payment-card-name">Pagamento na Entrega</span>
+                <span class="payment-card-desc">Pagas quando recebes o produto em mãos</span>
+              </div>
+            </div>
+          </div>
+
+          <ul style="margin-top: 16px;">
+            <li><strong>Confirmação obrigatória:</strong> Depois de fazeres o pagamento, deves enviar o comprovativo para confirmação. Sem comprovativo, o pedido não avança.</li>
+            <li><strong>Pagamento na entrega:</strong> Se preferires pagar na hora de receber, podes escolher essa opção. Mas atenção: prepara o valor certo, pois nem sempre temos troco disponível.</li>
+            <li><strong>Segurança:</strong> Nunca partilhes os teus dados de pagamento com terceiros. Todos os pagamentos são processados apenas pelos canais oficiais da Kuia+ Shop.</li>
+            <li><strong>Reembolsos:</strong> Em caso de cancelamento aprovado, o reembolso será feito pelo mesmo método de pagamento utilizado, dentro de 3 a 7 dias úteis.</li>
+          </ul>
+
+          <div class="highlight-box">
+            <span class="hb-icon">
+              <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1 6h2v2h-2V7zm0 4h2v6h-2v-6z"/></svg>
+            </span>
+            <span>Escolhe o método que te é mais fácil! Se tiveres dúvidas sobre como pagar, contacta-nos por telefone ou WhatsApp e nós ajudamos.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. Encomendas e Pedidos -->
+    <div class="policy-item">
+      <div class="policy-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="policy-icon" style="background: linear-gradient(135deg, rgba(234, 179, 8, 0.18), rgba(217, 119, 6, 0.12));">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+        </div>
+        <div class="policy-question-text">
+          <h3>6. Encomendas e Pedidos</h3>
+          <span class="hint">Como funcionam os pedidos e a segurança</span>
+        </div>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="policy-answer">
+        <div class="policy-answer-inner">
+          <p>Queremos que cada encomenda corra bem, por isso temos algumas regras para garantir que tudo é feito de forma segura e transparente:</p>
+
+          <ul>
+            <li><strong>Recusa de pedidos:</strong> A Kuia+ Shop reserva-se o direito de <strong>recusar qualquer pedido</strong> caso alguma informação não esteja correcta, incompleta, ou pareça suspeita. Isso inclui dados de contacto errados, endereços inválidos ou qualquer inconsistência no pedido.</li>
+            <li><strong>Verificação de identidade:</strong> Por questões de <strong>segurança</strong>, podemos pedir-te uma verificação de identidade antes de processar o teu pedido. Isto protege-te a ti e a nós contra fraudes e garante que a encomenda vai para a pessoa certa.</li>
+            <li><strong>Localização para entrega em casa:</strong> Se quiseres receber o produto em casa, precisamos da tua <strong>localização actual</strong> (morada completa ou localização GPS). Sem esta informação, não é possível fazer a entrega ao domicílio.</li>
+            <li><strong>Confirmação do pedido:</strong> Depois de fazeres o pedido, vais receber uma confirmação com os detalhes. Verifica tudo antes de confirmar para evitares problemas.</li>
+            <li><strong>Prazo de entrega:</strong> O prazo varia conforme a tua localização e a disponibilidade do produto. Faremos o possível para entregar o mais rápido possível.</li>
+          </ul>
+
+          <div class="security-box">
+            <span class="sb-icon">
+              <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+            </span>
+            <span><strong>IMPORTANTE:</strong> Todos os dados de segurança, verificação de identidade e informações do pedido são <strong>sempre</strong> tratados via <strong>número telefónico</strong> ou pelo nosso <strong>WhatsApp oficial</strong>. <strong>Nunca</strong> partilhes essas informações no Chat da Loja. O chat da loja é apenas para consultas gerais — os pedidos reais são finalizados por telefone ou WhatsApp para tua segurança.</span>
+          </div>
+
+          <div class="warning-box" style="margin-top: 10px;">
+            <span class="wb-icon">
+              <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            </span>
+            <span>Se alguma informação do teu pedido estiver incorrecta, o pedido será <strong>recusado automaticamente</strong> até que os dados sejam corrigidos. Isto é para a tua própria protecção!</span>
+          </div>
+
+          <div class="highlight-box" style="margin-top: 10px;">
+            <span class="hb-icon">
+              <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+            </span>
+            <span>Lembra-te: os pedidos e verificações são feitos <strong>apenas por telefone ou WhatsApp</strong>. Nunca no chat da loja! Isso garante mais segurança para ti.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. Programa de Fidelidade -->
+    <div class="policy-item">
+      <div class="policy-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="policy-icon" style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(192, 132, 252, 0.15));">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        </div>
+        <div class="policy-question-text">
+          <h3>7. Programa de Fidelidade</h3>
+          <span class="hint">Compra mais, ganha mais descontos</span>
+        </div>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="policy-answer">
+        <div class="policy-answer-inner">
+          <p>Na Kuia+ Shop, quanto mais comprares, mais vantagens ganhas! Criámos um <strong>Programa de Fidelidade</strong> com 4 níveis. Cada compra te aproxima de descontos melhores.</p>
+
+          <p style="margin-top: 8px;"><strong>Como funciona:</strong> Cada vez que comprares, uma parte do valor vira <strong>pontos (em Kz)</strong>. Quanto mais pontos acumulares, mais alto o teu nível e melhores os descontos. Os descontos têm prazo — mas nos níveis Prata, Ouro e Diamante, podes <strong>renovar</strong> o prazo se continuares a comprar!</p>
+
+          <!-- Tier Cards -->
+          <div class="tier-grid">
+            <!-- Bronze -->
+            <div class="tier-card bronze">
+              <div class="tier-header">
+                <div class="tier-medal">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                </div>
+                <span class="tier-name">BRONZE</span>
+              </div>
+              <div class="tier-details">
+                <div class="tier-row">
+                  <span class="tier-label">Progresso</span>
+                  <span class="tier-value">Até 5.000 Kz</span>
+                </div>
+                <div class="tier-row">
+                  <span class="tier-label">Taxa</span>
+                  <span class="tier-value">5% por compra</span>
+                </div>
+                <div class="tier-row">
+                  <span class="tier-label">Gasto total</span>
+                  <span class="tier-value">Até 100.000 Kz</span>
+                </div>
+                <div class="tier-discount-tag">
+                  <span class="tag-icon"><svg viewBox="0 0 24 24"><path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/></svg></span>
+                  Sem desconto — é o começo da tua jornada
+                </div>
+                <div class="tier-badge">Nível Inicial</div>
+              </div>
+            </div>
+
+            <!-- Prata -->
+            <div class="tier-card prata">
+              <div class="tier-header">
+                <div class="tier-medal">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                </div>
+                <span class="tier-name">PRATA</span>
+              </div>
+              <div class="tier-details">
+                <div class="tier-row">
+                  <span class="tier-label">Progresso</span>
+                  <span class="tier-value">Até 20.000 Kz</span>
+                </div>
+                <div class="tier-row">
+                  <span class="tier-label">Taxa</span>
+                  <span class="tier-value">5% por compra</span>
+                </div>
+                <div class="tier-row">
+                  <span class="tier-label">Gasto total</span>
+                  <span class="tier-value">Até 400.000 Kz</span>
+                </div>
+                <div class="tier-discount-tag">
+                  <span class="tag-icon"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></span>
+                  5% de desconto — dura 7 dias
+                </div>
+                <div class="tier-renewal-tag">
+                  <span class="tag-icon"><svg viewBox="0 0 24 24"><path d="M17.65 6.35A7.96 7.96 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg></span>
+                  +5.000 Kz = renova +7 dias
+                </div>
+                <div class="tier-badge">Nível Intermédio</div>
+              </div>
+            </div>
+
+            <!-- Ouro -->
+            <div class="tier-card ouro">
+              <div class="tier-header">
+                <div class="tier-medal">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                </div>
+                <span class="tier-name">OURO</span>
+              </div>
+              <div class="tier-details">
+                <div class="tier-row">
+                  <span class="tier-label">Progresso</span>
+                  <span class="tier-value">Até 50.000 Kz</span>
+                </div>
+                <div class="tier-row">
+                  <span class="tier-label">Taxa</span>
+                  <span class="tier-value">10% por compra</span>
+                </div>
+                <div class="tier-row">
+                  <span class="tier-label">Gasto total</span>
+                  <span class="tier-value">Até 500.000 Kz</span>
+                </div>
+                <div class="tier-discount-tag">
+                  <span class="tag-icon"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></span>
+                  5% de desconto — dura 7 dias
+                </div>
+                <div class="tier-renewal-tag">
+                  <span class="tag-icon"><svg viewBox="0 0 24 24"><path d="M17.65 6.35A7.96 7.96 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg></span>
+                  +5.000 Kz = renova +7 dias
+                </div>
+                <div class="tier-badge">Nível Avançado</div>
+              </div>
+            </div>
+
+            <!-- Diamante -->
+            <div class="tier-card diamante">
+              <div class="tier-header">
+                <div class="tier-medal">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5L2 9l10 12L22 9l-3-6zM9.62 8l1.5-3h1.76l1.5 3H9.62zM11 10v6.68L5.44 10H11zm2 0h5.56L13 16.68V10zm6.26-2h-2.65l-1.5-3h2.65l1.5 3zM6.24 5h2.65l-1.5 3H4.74l1.5-3z"/></svg>
+                </div>
+                <span class="tier-name">DIAMANTE</span>
+              </div>
+              <div class="tier-details">
+                <div class="tier-row">
+                  <span class="tier-label">Progresso</span>
+                  <span class="tier-value">+50.000 Kz</span>
+                </div>
+                <div class="tier-row">
+                  <span class="tier-label">Taxa</span>
+                  <span class="tier-value">10% por compra</span>
+                </div>
+                <div class="tier-row">
+                  <span class="tier-label">Gasto total</span>
+                  <span class="tier-value">Acima de 500.000 Kz</span>
+                </div>
+                <div class="tier-discount-tag">
+                  <span class="tag-icon"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></span>
+                  15% de desconto — dura 14 dias
+                </div>
+                <div class="tier-renewal-tag">
+                  <span class="tag-icon"><svg viewBox="0 0 24 24"><path d="M17.65 6.35A7.96 7.96 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg></span>
+                  +5.000 Kz = renova +14 dias
+                </div>
+                <div class="tier-badge">Nível Premium</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Progress Bar Visual -->
+          <div class="tier-progress-visual">
+            <div class="progress-title">A tua jornada de níveis</div>
+            <div class="progress-track">
+              <div class="progress-fill"></div>
+            </div>
+            <div class="progress-markers">
+              <div class="progress-marker">
+                <div class="progress-marker-dot" style="background: #cd7f32;"></div>
+                <span class="progress-marker-text">0 Kz<br>Bronze</span>
+              </div>
+              <div class="progress-marker">
+                <div class="progress-marker-dot" style="background: #a8a9ad;"></div>
+                <span class="progress-marker-text">5.000 Kz<br>Prata</span>
+              </div>
+              <div class="progress-marker">
+                <div class="progress-marker-dot" style="background: #ffd700;"></div>
+                <span class="progress-marker-text">20.000 Kz<br>Ouro</span>
+              </div>
+              <div class="progress-marker">
+                <div class="progress-marker-dot" style="background: #89CFF0;"></div>
+                <span class="progress-marker-text">50.000 Kz<br>Diamante</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Discount Rules Callout -->
+          <div class="discount-rules-box">
+            <div class="discount-rules-title">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9H13V7h-2v6h4.5v-2z"/></svg>
+              Como funcionam os descontos
+            </div>
+            <ul class="discount-rules-list">
+              <li><strong>Bronze:</strong> É o nível de entrada. Ainda não tem desconto, mas cada compra te aproxima do próximo nível!</li>
+              <li><strong>Prata (5%):</strong> Ganhas <strong>5% de desconto</strong> durante <strong>7 dias</strong>. E o melhor: se continuares a comprar e juntares mais <strong>5.000 Kz</strong> de progresso, o prazo renova por mais <strong>7 dias</strong>!</li>
+              <li><strong>Ouro (5%):</strong> Mesmo desconto de <strong>5%</strong> por <strong>7 dias</strong>, e também renovável — cada <strong>+5.000 Kz</strong> de progresso te dá mais <strong>7 dias</strong> de desconto.</li>
+              <li><strong>Diamante (15%):</strong> O melhor desconto! <strong>15% durante 14 dias</strong>. E claro, também renovável — a cada <strong>+5.000 Kz</strong>, ganhas mais <strong>14 dias</strong>.</li>
+            </ul>
+          </div>
+
+          <!-- Benefits Section -->
+          <div class="benefits-section">
+            <div class="benefits-title">Porquê este sistema é bom para ti</div>
+            <div class="benefits-list">
+              <div class="benefit-item">
+                <div class="benefit-check">
+                  <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                </div>
+                <div class="benefit-text"><strong>Descontos com prazo:</strong> Os descontos não ficam para sempre — isso te motiva a comprar com mais frequência para manter os benefícios ativos.</div>
+              </div>
+              <div class="benefit-item">
+                <div class="benefit-check">
+                  <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                </div>
+                <div class="benefit-text"><strong>Renovação no Prata, Ouro e Diamante:</strong> Se continuares a comprar, o teu desconto nunca acaba! Cada +5.000 Kz de progresso renova o prazo automaticamente.</div>
+              </div>
+              <div class="benefit-item">
+                <div class="benefit-check">
+                  <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                </div>
+                <div class="benefit-text"><strong>Diamante é o topo:</strong> 15% de desconto com 14 dias — o dobro do prazo do Ouro e o triplo do desconto do Prata. Vale muito a pena!</div>
+              </div>
+              <div class="benefit-item">
+                <div class="benefit-check">
+                  <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                </div>
+                <div class="benefit-text"><strong>Sempre a evoluir:</strong> O Prata te motiva a chegar ao Ouro, e o Ouro te motiva a alcançar o Diamante. Cada nível é melhor que o anterior!</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rules -->
+          <ul style="margin-top: 16px;">
+            <li><strong>Pontos automáticos:</strong> Não precisas de fazer nada — os pontos são adicionados sozinhos depois de cada compra paga.</li>
+            <li><strong>Prazo dos descontos:</strong> Prata e Ouro: 7 dias. Diamante: 14 dias. Se o prazo acabar, o desconto só volta quando renovares com mais compras (Prata, Ouro e Diamante).</li>
+            <li><strong>Renovação fácil:</strong> No Prata, Ouro e Diamante, cada vez que juntares +5.000 Kz de progresso, o prazo do desconto é renovado automaticamente.</li>
+            <li><strong>Nível para sempre:</strong> Os teus pontos e o teu nível nunca expiram! Só o prazo dos descontos é que tem limite. O teu nível fica enquanto a conta estiver ativa.</li>
+            <li><strong>Extras VIP:</strong> Clientes Ouro e Diamante podem ter acesso a promoções antes de toda a gente, ofertas exclusivas e atendimento mais rápido.</li>
+            <li><strong>Uma conta por pessoa:</strong> Cada pessoa só pode ter uma conta no programa. Se criares contas a mais, podes perder os benefícios.</li>
+          </ul>
+
+          <div class="highlight-box">
+            <span class="hb-icon">
+              <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            </span>
+            <span>Continua a comprar para manter os teus descontos ativos! No Prata, Ouro e Diamante, cada +5.000 Kz renova o prazo automaticamente. A fidelidade compensa!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. Alterações aos Termos (ÚLTIMA SECÇÃO) -->
+    <div class="policy-item">
+      <div class="policy-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="policy-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A7.96 7.96 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+        </div>
+        <div class="policy-question-text">
+          <h3>8. Alterações aos Termos</h3>
+          <span class="hint">Podemos atualizar estas regras</span>
+        </div>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="policy-answer">
+        <div class="policy-answer-inner">
+          <p>De vez em quando, podemos mudar ou melhorar estas regras. Aqui está o que precisas de saber:</p>
+          <ul>
+            <li><strong>Avisamos sempre:</strong> Quando mudarmos algo importante, vamos avisar na plataforma ou por mensagem.</li>
+            <li><strong>Data no topo:</strong> Esta página mostra sempre a data da última atualização. Assim sabes se algo mudou.</li>
+            <li><strong>Dá uma olhada de vez em quando:</strong> Recomendamos que voltes aqui de vez em quando para veres se há novidades. Se continuares a usar a loja depois de uma mudança, é porque concordas com as novas regras.</li>
+            <li><strong>Versões anteriores:</strong> Se quiseres ver uma versão antiga destas regras, é só pedir e nós mostramos.</li>
+          </ul>
+          <div class="highlight-box">
+            <span class="hb-icon">
+              <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+            </span>
+            <span>Fica atento! Dá uma passada por aqui pelo menos uma vez por mês para ficares sempre por dentro de tudo.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="policy-footer">
+    <div class="brand">Kuia+ Shop</div>
+    <p>Ao usares a nossa loja, confirmas que leste,<br>percebeste e concordas com tudo o que está aqui.</p>
+    <p style="margin-top:6px; opacity: 0.7;">&copy; 2026 Kuia+ Shop — Todos os direitos reservados.</p>
+  </div>
+
+  <script>
+    document.querySelectorAll('.policy-question').forEach(function(q) {
+      q.addEventListener('click', function() {
+        var answer = q.nextElementSibling;
+        var arrow = q.querySelector('.arrow-circle');
+        var isOpen = answer.classList.contains('open');
+
+        document.querySelectorAll('.policy-answer').forEach(function(a) {
+          a.classList.remove('open');
+        });
+        document.querySelectorAll('.arrow-circle').forEach(function(ar) {
+          ar.classList.remove('rotate');
+        });
+        document.querySelectorAll('.policy-question').forEach(function(pq) {
+          pq.setAttribute('aria-expanded', 'false');
+        });
+
+        if (!isOpen) {
+          answer.classList.add('open');
+          arrow.classList.add('rotate');
+          q.setAttribute('aria-expanded', 'true');
+
+          setTimeout(function() {
+            q.closest('.policy-item').scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 120);
+        }
+      });
+
+      q.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          q.click();
+        }
+      });
+    });
+
+    function setThemeByTime() {
+      var hour = new Date().getHours();
+      if (hour >= 7 && hour < 19) {
+        document.body.classList.add('light');
+        document.body.classList.remove('dark');
+      } else {
+        document.body.classList.add('dark');
+        document.body.classList.remove('light');
+      }
+    }
+    setThemeByTime();
+
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark');
+      document.body.classList.remove('light');
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(event) {
+      if (event.matches) {
+        document.body.classList.add('dark');
+        document.body.classList.remove('light');
+      } else {
+        document.body.classList.add('light');
+        document.body.classList.remove('dark');
+      }
+    });
+  </script>
+
+</body>
+</html>
+
