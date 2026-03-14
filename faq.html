@@ -4,201 +4,1320 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kuia+ Shop - FAQ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --roxo-escuro: #5a2ea6;
       --roxo-claro: #7b3fe4;
-      --bg-claro: #f9f9fb;
-      --texto-claro: #222;
-      --bg-escuro: #1a1a1f;
-      --texto-escuro: #fff;
+      --roxo-glow: rgba(123, 63, 228, 0.25);
+      --accent: #c084fc;
+      --bg-claro: #f4f0fa;
+      --card-claro: #ffffff;
+      --texto-claro: #2d2640;
+      --subtexto-claro: #5e5477;
+      --borda-claro: rgba(122, 63, 228, 0.15);
+      --bg-escuro: #110e1a;
+      --card-escuro: #1e1a2e;
+      --texto-escuro: #ede8f5;
+      --subtexto-escuro: #a89cc4;
+      --borda-escuro: rgba(122, 63, 228, 0.3);
+      --verde: #22c55e;
+      --verde-bg: rgba(34, 197, 94, 0.1);
+      --vermelho: #ef4444;
+      --amarelo: #eab308;
     }
 
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
-      font-family: 'Segoe UI', sans-serif;
-      line-height: 1.6;
-      margin: 0;
-      transition: background 0.4s, color 0.4s;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.7;
+      transition: background 0.5s, color 0.5s;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
     body.light {
       background: var(--bg-claro);
       color: var(--texto-claro);
     }
-
     body.dark {
       background: var(--bg-escuro);
       color: var(--texto-escuro);
     }
 
-    /* ===== Header ===== */
+    .svg-icon {
+      display: inline-block;
+      vertical-align: middle;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    /* ===== HEADER ===== */
     header {
-      background: linear-gradient(90deg, var(--roxo-escuro), var(--roxo-claro));
-      height: 55px;
+      background: linear-gradient(135deg, var(--roxo-escuro), var(--roxo-claro), #9333ea);
+      background-size: 200% 200%;
+      animation: gradientShift 6s ease infinite;
+      padding: 18px 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #fff;
       position: sticky;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+      box-shadow: 0 4px 20px rgba(90, 46, 166, 0.4);
     }
 
-    /* Botão voltar */
-    .back-btn {
-      position: absolute;
-      left: 15px;
-      background: transparent;
-      border: none;
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .header-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .header-title {
+      font-size: 1.15rem;
+      font-weight: 800;
       color: #fff;
-      font-size: 1rem;
-      padding: 6px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .back-btn:hover {
-      background: rgba(255,255,255,0.3);
+      letter-spacing: 0.5px;
     }
 
-    /* ===== FAQ ===== */
-    .faq-container {
-      max-width: 700px;
-      margin: 20px auto;
-      padding: 0 15px;
+    .header-subtitle {
+      font-size: 0.72rem;
+      color: rgba(255, 255, 255, 0.75);
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
     }
+
+    /* ===== INTRO ===== */
+    .intro-banner {
+      max-width: 720px;
+      margin: 24px auto 8px;
+      padding: 0 16px;
+      text-align: center;
+      animation: fadeInUp 0.6s ease both;
+    }
+
+    .intro-banner .faq-main-icon {
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: center;
+    }
+    .intro-banner .faq-main-icon .svg-icon { width: 52px; height: 52px; }
+    body.light .intro-banner .faq-main-icon { color: var(--roxo-claro); }
+    body.dark .intro-banner .faq-main-icon { color: var(--accent); }
+
+    .intro-banner h2 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    body.light .intro-banner h2 { color: var(--roxo-escuro); }
+    body.dark .intro-banner h2 { color: #e2d5f8; }
+
+    .intro-banner p {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      max-width: 540px;
+      margin: 0 auto;
+    }
+    body.light .intro-banner p { color: var(--subtexto-claro); }
+    body.dark .intro-banner p { color: var(--subtexto-escuro); }
+
+    /* ===== SEARCH BAR ===== */
+    .search-wrapper {
+      max-width: 720px;
+      margin: 18px auto 6px;
+      padding: 0 16px;
+      animation: fadeInUp 0.6s ease both;
+      animation-delay: 0.1s;
+    }
+
+    .search-box {
+      position: relative;
+      width: 100%;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 14px 20px 14px 48px;
+      border-radius: 14px;
+      border: 1.5px solid var(--borda-claro);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 500;
+      outline: none;
+      transition: all 0.3s;
+    }
+    body.light .search-box input {
+      background: var(--card-claro);
+      color: var(--texto-claro);
+      border-color: var(--borda-claro);
+    }
+    body.dark .search-box input {
+      background: var(--card-escuro);
+      color: var(--texto-escuro);
+      border-color: var(--borda-escuro);
+    }
+    .search-box input:focus {
+      border-color: var(--roxo-claro);
+      box-shadow: 0 0 0 3px var(--roxo-glow);
+    }
+    .search-box input::placeholder {
+      font-weight: 400;
+    }
+    body.light .search-box input::placeholder { color: #9b8fb5; }
+    body.dark .search-box input::placeholder { color: #6b5f85; }
+
+    .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      pointer-events: none;
+    }
+    body.light .search-icon { color: var(--roxo-claro); }
+    body.dark .search-icon { color: var(--accent); }
+
+    /* ===== CATEGORY PILLS ===== */
+    .category-bar {
+      max-width: 720px;
+      margin: 14px auto 20px;
+      padding: 0 16px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      animation: fadeInUp 0.6s ease both;
+      animation-delay: 0.15s;
+    }
+    .category-bar::-webkit-scrollbar { display: none; }
+
+    .cat-pill {
+      flex-shrink: 0;
+      padding: 8px 16px;
+      border-radius: 24px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: 1.5px solid transparent;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .cat-pill .svg-icon { width: 14px; height: 14px; }
+
+    body.light .cat-pill {
+      background: rgba(122, 63, 228, 0.08);
+      color: var(--subtexto-claro);
+      border-color: rgba(122, 63, 228, 0.1);
+    }
+    body.dark .cat-pill {
+      background: rgba(192, 132, 252, 0.08);
+      color: var(--subtexto-escuro);
+      border-color: rgba(192, 132, 252, 0.1);
+    }
+
+    .cat-pill.active,
+    .cat-pill:hover {
+      border-color: var(--roxo-claro);
+    }
+    body.light .cat-pill.active {
+      background: var(--roxo-claro);
+      color: #fff;
+      border-color: var(--roxo-claro);
+    }
+    body.dark .cat-pill.active {
+      background: var(--accent);
+      color: #110e1a;
+      border-color: var(--accent);
+    }
+
+    /* ===== FAQ ITEMS ===== */
+    .faq-container {
+      max-width: 720px;
+      margin: 0 auto 30px;
+      padding: 0 16px;
+    }
+
+    .faq-section-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin: 24px 0 12px 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      animation: fadeInUp 0.5s ease both;
+    }
+    .faq-section-label .svg-icon { width: 16px; height: 16px; }
+    body.light .faq-section-label { color: var(--roxo-claro); }
+    body.dark .faq-section-label { color: var(--accent); }
 
     .faq-item {
-      border-radius: 8px;
+      border-radius: 14px;
       margin-bottom: 12px;
       overflow: hidden;
-      transition: transform 0.2s ease;
-      border: 1px solid rgba(122,63,228,0.2);
+      transition: transform 0.25s ease, box-shadow 0.3s ease;
+      animation: fadeInUp 0.5s ease both;
     }
-    .faq-item:hover { transform: scale(1.01); }
+
+    body.light .faq-item {
+      background: var(--card-claro);
+      border: 1px solid var(--borda-claro);
+      box-shadow: 0 2px 8px rgba(90, 46, 166, 0.06);
+    }
+    body.dark .faq-item {
+      background: var(--card-escuro);
+      border: 1px solid var(--borda-escuro);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+    }
+    .faq-item:hover {
+      transform: translateY(-2px);
+    }
+    body.light .faq-item:hover {
+      box-shadow: 0 6px 20px rgba(90, 46, 166, 0.12);
+    }
+    body.dark .faq-item:hover {
+      box-shadow: 0 6px 24px rgba(123, 63, 228, 0.15);
+    }
+
+    .faq-item.hidden {
+      display: none;
+    }
 
     .faq-question {
-      padding: 15px 20px;
+      padding: 16px 20px;
       cursor: pointer;
-      font-weight: 600;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      gap: 14px;
+      transition: background 0.3s;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    body.light .faq-question:hover { background: rgba(122, 63, 228, 0.06); }
+    body.dark .faq-question:hover { background: rgba(122, 63, 228, 0.08); }
+
+    .faq-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.3s;
+    }
+    .faq-icon .svg-icon { width: 18px; height: 18px; }
+    body.light .faq-icon {
+      background: linear-gradient(135deg, rgba(122, 63, 228, 0.12), rgba(147, 51, 234, 0.08));
+      color: var(--roxo-claro);
+    }
+    body.dark .faq-icon {
+      background: linear-gradient(135deg, rgba(192, 132, 252, 0.18), rgba(147, 51, 234, 0.12));
+      color: var(--accent);
+    }
+    .faq-question:hover .faq-icon { transform: scale(1.08); }
+
+    .faq-question-text {
+      flex: 1;
+      font-size: 0.92rem;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+    body.light .faq-question-text { color: var(--texto-claro); }
+    body.dark .faq-question-text { color: var(--texto-escuro); }
+
+    .arrow-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.35s ease;
+    }
+    .arrow-circle .svg-icon { width: 12px; height: 12px; }
+    body.light .arrow-circle {
       background: rgba(122, 63, 228, 0.1);
       color: var(--roxo-claro);
-      transition: background 0.3s;
     }
-    .faq-question:hover { background: rgba(122, 63, 228, 0.2); }
+    body.dark .arrow-circle {
+      background: rgba(192, 132, 252, 0.15);
+      color: var(--accent);
+    }
+    .arrow-circle.rotate {
+      transform: rotate(90deg);
+    }
+    body.light .arrow-circle.rotate { background: var(--roxo-claro); color: #fff; }
+    body.dark .arrow-circle.rotate { background: var(--accent); color: #1a1a2e; }
 
     .faq-answer {
       max-height: 0;
       overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease;
       padding: 0 20px;
-      background: rgba(0,0,0,0.05);
-      transition: max-height 0.4s ease, padding 0.3s ease;
     }
     .faq-answer.open {
-      max-height: 500px; /* suficiente para caber texto longo */
-      padding: 15px 20px;
+      max-height: 200vh;
+      padding: 0 20px 20px;
     }
 
-    .arrow { transition: transform 0.3s ease; }
-    .arrow.rotate { transform: rotate(90deg); }
+    .faq-answer-inner {
+      padding-top: 4px;
+      border-top: 1px dashed;
+    }
+    body.light .faq-answer-inner { border-color: var(--borda-claro); }
+    body.dark .faq-answer-inner { border-color: var(--borda-escuro); }
+
+    .faq-answer-inner p {
+      font-size: 0.88rem;
+      line-height: 1.75;
+      margin-top: 12px;
+    }
+    body.light .faq-answer-inner p { color: var(--subtexto-claro); }
+    body.dark .faq-answer-inner p { color: var(--subtexto-escuro); }
+
+    .faq-answer-inner strong {
+      font-weight: 700;
+    }
+    body.light .faq-answer-inner strong { color: var(--texto-claro); }
+    body.dark .faq-answer-inner strong { color: var(--texto-escuro); }
+
+    .faq-answer-inner ul {
+      margin: 10px 0 6px 4px;
+      padding-left: 0;
+      list-style: none;
+    }
+    .faq-answer-inner ul li {
+      font-size: 0.86rem;
+      line-height: 1.7;
+      padding: 5px 0 5px 22px;
+      position: relative;
+    }
+    body.light .faq-answer-inner ul li { color: var(--subtexto-claro); }
+    body.dark .faq-answer-inner ul li { color: var(--subtexto-escuro); }
+
+    .faq-answer-inner ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 12px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    body.light .faq-answer-inner ul li::before {
+      background: linear-gradient(135deg, var(--roxo-claro), var(--accent));
+    }
+    body.dark .faq-answer-inner ul li::before {
+      background: linear-gradient(135deg, var(--accent), #a78bfa);
+    }
+
+    /* ===== HIGHLIGHT BOX ===== */
+    .highlight-box {
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-top: 12px;
+      font-size: 0.84rem;
+      line-height: 1.65;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .highlight-box .hb-icon { flex-shrink: 0; margin-top: 2px; }
+    .highlight-box .hb-icon .svg-icon { width: 18px; height: 18px; }
+    body.light .highlight-box {
+      background: rgba(122, 63, 228, 0.07);
+      color: var(--roxo-escuro);
+      border: 1px solid rgba(122, 63, 228, 0.12);
+    }
+    body.dark .highlight-box {
+      background: rgba(192, 132, 252, 0.08);
+      color: var(--accent);
+      border: 1px solid rgba(192, 132, 252, 0.15);
+    }
+
+    /* ===== WARNING BOX ===== */
+    .warning-box {
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-top: 12px;
+      font-size: 0.84rem;
+      line-height: 1.65;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .warning-box .wb-icon { flex-shrink: 0; margin-top: 2px; }
+    .warning-box .wb-icon .svg-icon { width: 18px; height: 18px; }
+    body.light .warning-box {
+      background: rgba(234, 179, 8, 0.08);
+      color: #92400e;
+      border: 1px solid rgba(234, 179, 8, 0.18);
+    }
+    body.dark .warning-box {
+      background: rgba(234, 179, 8, 0.06);
+      color: #fbbf24;
+      border: 1px solid rgba(234, 179, 8, 0.15);
+    }
+
+    /* ===== NO RESULTS ===== */
+    .no-results {
+      text-align: center;
+      padding: 40px 20px;
+      display: none;
+      animation: fadeInUp 0.4s ease both;
+    }
+    .no-results.visible { display: block; }
+    .no-results .nr-icon { margin-bottom: 12px; }
+    .no-results .nr-icon .svg-icon { width: 48px; height: 48px; }
+    body.light .no-results .nr-icon { color: rgba(122, 63, 228, 0.3); }
+    body.dark .no-results .nr-icon { color: rgba(192, 132, 252, 0.25); }
+    .no-results h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    body.light .no-results h3 { color: var(--texto-claro); }
+    body.dark .no-results h3 { color: var(--texto-escuro); }
+    .no-results p {
+      font-size: 0.86rem;
+    }
+    body.light .no-results p { color: var(--subtexto-claro); }
+    body.dark .no-results p { color: var(--subtexto-escuro); }
+
+    /* ===== COUNTER ===== */
+    .results-counter {
+      max-width: 720px;
+      margin: 0 auto 8px;
+      padding: 0 20px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: opacity 0.3s;
+    }
+    body.light .results-counter { color: var(--subtexto-claro); }
+    body.dark .results-counter { color: var(--subtexto-escuro); }
+
+    /* ===== FOOTER ===== */
+    .faq-footer {
+      text-align: center;
+      padding: 20px 16px 32px;
+      font-size: 0.78rem;
+      line-height: 1.6;
+    }
+    body.light .faq-footer { color: var(--subtexto-claro); }
+    body.dark .faq-footer { color: var(--subtexto-escuro); }
+
+    .faq-footer .brand {
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+    body.light .faq-footer .brand { color: var(--roxo-claro); }
+    body.dark .faq-footer .brand { color: var(--accent); }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    body.light ::-webkit-scrollbar-track { background: var(--bg-claro); }
+    body.dark ::-webkit-scrollbar-track { background: var(--bg-escuro); }
+    body.light ::-webkit-scrollbar-thumb {
+      background: rgba(122, 63, 228, 0.3);
+      border-radius: 10px;
+    }
+    body.dark ::-webkit-scrollbar-thumb {
+      background: rgba(192, 132, 252, 0.3);
+      border-radius: 10px;
+    }
   </style>
 </head>
 <body>
-  <!-- Header com botão voltar -->
-  <header>    Perguntas Frequentes– FAQ
+
+  <header>
+    <div class="header-content">
+      <span class="header-title">Perguntas Frequentes</span>
+      <span class="header-subtitle">FAQ &mdash; Kuia+ Shop</span>
+    </div>
   </header>
 
-  <!-- FAQ -->
-  <div class="faq-container">
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>Quais formas de pagamento vocês aceitam?</span>
-        <span class="arrow">▶</span>
-      </div>
-      <div class="faq-answer">
-        <p>Aceitamos Multicaixa Express, referência bancária, Afrimoney e Unitel Money, e em alguns caso, pagamentos na entrega do produto, em breve cartões de crédito/débito.</p>
-      </div>
+  <div class="intro-banner">
+    <div class="faq-main-icon">
+      <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
     </div>
+    <h2>Tens alguma dúvida?</h2>
+    <p>Encontra aqui as respostas para as perguntas mais comuns sobre a Kuia+ Shop. Se não encontrares o que procuras, fala connosco!</p>
+  </div>
 
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>Quanto tempo demora a entrega?</span>
-        <span class="arrow">▶</span>
-      </div>
-      <div class="faq-answer">
-  <p>
-    Se o pedido for dentro da mesma rua ou bairro no município de Benguela, a entrega pode ser feita em cerca de 1 hora ou algumas horas no mesmo dia.  
-    Para locais mais distantes, mas ainda dentro do município de Benguela, o prazo é de 2 a 3 dias úteis.  
-    No momento, não realizamos entregas fora do município de Benguela nem em outras províncias.
-  </p>
-</div>
-
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>Posso devolver um produto?</span>
-        <span class="arrow">▶</span>
-      </div>
-      <div class="faq-answer">
-  <p>
-    Como a Kuia+ Shop funciona como marketplace, os produtos não são vendidos diretamente pela loja, mas sim por parceiros.  
-    Por isso, as condições de devolução variam de acordo com cada vendedor e com a garantia do produto.  
-    Caso haja algum problema dentro do prazo de garantia, a devolução só será possível se o vendedor aceitar e conforme as regras estipuladas por ele.  
-    Dessa forma, o prazo de devolução não é fixo e pode variar de acordo com o produto e o fornecedor.
-  </p>
-</div>
-
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>Preciso criar conta para comprar?</span>
-        <span class="arrow">▶</span>
-      </div>
-      <div class="faq-answer">
-  <p>
-    Você pode navegar pela loja e selecionar produtos sem precisar criar uma conta.  
-    Porém, para finalizar a compra é obrigatório criar uma conta e adicionar uma foto real no seu perfil.  
-    Essa medida garante mais segurança e transparência na relação entre a Kuia+ Shop, os vendedores e os clientes.
-  </p>
-</div>
+  <!-- Search -->
+  <div class="search-wrapper">
+    <div class="search-box">
+      <svg class="svg-icon search-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <input type="text" id="searchInput" placeholder="Pesquisar perguntas..." autocomplete="off">
     </div>
   </div>
 
-  <script>
-    // Alterna FAQ (abrir/fechar)
-    document.querySelectorAll('.faq-question').forEach(q => {
-      q.addEventListener('click', () => {
-        const answer = q.nextElementSibling;
-        const arrow = q.querySelector('.arrow');
+  <!-- Category Pills -->
+  <div class="category-bar" id="categoryBar">
+    <button class="cat-pill active" data-cat="all">
+      <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg>
+      Tudo
+    </button>
+    <button class="cat-pill" data-cat="compras">
+      <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0020.01 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+      Compras
+    </button>
+    <button class="cat-pill" data-cat="pagamentos">
+      <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+      Pagamentos
+    </button>
+    <button class="cat-pill" data-cat="entregas">
+      <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18 18.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5zM19.5 9.5l1.9 2.54-1.32 1-1.9-2.54H15V13h-2V7h5.5l1 2.5zM6 18.5c.83 0 1.5-.67 1.5-1.5S6.83 15.5 6 15.5 4.5 16.17 4.5 17 5.17 18.5 6 18.5zM20 8H17V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4z"/></svg>
+      Entregas
+    </button>
+    <button class="cat-pill" data-cat="conta">
+      <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+      Conta
+    </button>
+    <button class="cat-pill" data-cat="privacidade">
+      <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+      Privacidade
+    </button>
+    <button class="cat-pill" data-cat="fidelidade">
+      <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+      Fidelidade
+    </button>
+  </div>
 
-        if (answer.classList.contains('open')) {
-          answer.classList.remove('open');
-          arrow.classList.remove('rotate');
-        } else {
-          document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
-          document.querySelectorAll('.arrow').forEach(ar => ar.classList.remove('rotate'));
+  <div class="results-counter" id="resultsCounter"></div>
+
+  <!-- FAQ Container -->
+  <div class="faq-container" id="faqContainer">
+
+    <!-- ======================== -->
+    <!-- COMPRAS & LOJA -->
+    <!-- ======================== -->
+    <div class="faq-section-label" data-section="compras">
+      <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z"/></svg>
+      COMPRAS &amp; LOJA
+    </div>
+
+    <!-- Q1 -->
+    <div class="faq-item" data-cat="compras" data-keywords="navegar ver produtos conta comprar explorar loja">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z"/></svg>
+        </div>
+        <span class="faq-question-text">O que posso fazer na Kuia+ Shop?</span>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>Na Kuia+ Shop podes:</p>
+          <ul>
+            <li><strong>Explorar à vontade</strong> — Ver todos os produtos, fotos, descrições e preços sem precisar de conta.</li>
+            <li><strong>Comprar o que quiseres</strong> — Basta seguir os passos para encomendar e pagar.</li>
+            <li><strong>Filtrar por categoria</strong> — Encontra mais rápido aquilo que procuras.</li>
+            <li><strong>Criar a tua conta</strong> — Para finalizar compras, ver histórico e receber alertas de ofertas.</li>
+          </ul>
+          <div class="highlight-box">
+            <span class="hb-icon"><svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></span>
+            <span>Ao usares a loja, concordas com os nossos termos e condições.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="faq-item" data-cat="compras" data-keywords="conta criar perfil foto obrigatório registar registo">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        </div>
+        <span class="faq-question-text">Preciso criar conta para comprar?</span>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>Podes navegar pela loja e ver os produtos sem conta. Porém, para <strong>finalizar a compra</strong>, é obrigatório criar uma conta e adicionar uma <strong>foto real no perfil</strong>.</p>
+          <p>Esta medida garante mais segurança e transparência entre a Kuia+ Shop, os vendedores e os clientes.</p>
+          <div class="highlight-box">
+            <span class="hb-icon"><svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></span>
+            <span>Só pedimos o básico para a conta: nome, contacto e foto de perfil.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="faq-item" data-cat="compras" data-keywords="responsável vendedor produto qualidade garantia marketplace">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        </div>
+        <span class="faq-question-text">Quem é responsável pelos produtos?</span>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>A Kuia+ Shop funciona como um <strong>marketplace</strong> — um centro comercial online. Cada vendedor é responsável pelos seus produtos: qualidade, preço, descrição e entrega.</p>
+          <ul>
+            <li><strong>Vendedores gerem tudo:</strong> Se tiveres algum problema, o vendedor é quem deve resolver.</li>
+            <li><strong>Nós ajudamos:</strong> Se algo correr mal, podemos mediar a conversa entre ti e o vendedor para encontrar uma solução.</li>
+            <li><strong>Garantias:</strong> São dadas pelo vendedor. Verifica sempre as condições antes de comprares.</li>
+          </ul>
+          <div class="highlight-box">
+            <span class="hb-icon"><svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></span>
+            <span>Dica: olha sempre a avaliação do vendedor e lê bem a descrição do produto antes de comprares!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="faq-item" data-cat="compras" data-keywords="devolver devolução reembolso troca defeito">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.5 6.9c1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-.39.08-.75.21-1.1.36l1.51 1.51c.32-.14.7-.23 1.09-.23zm-8.27-.88l1.41-1.41 16.97 16.97-1.41 1.41-2.26-2.26C17.64 21.55 16.11 22 14.5 22c-3.08 0-4.64-1.64-4.64-1.64L8 18.68s1.42 1.32 3.58 1.32c1.13 0 2.19-.4 2.87-1l-2.84-2.84c-1.13.04-2.61-.25-2.61-1.46 0-.41.14-.77.38-1.05l-5.15-5.15z"/></svg>
+        </div>
+        <span class="faq-question-text">Posso devolver um produto?</span>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>Como a Kuia+ Shop é um marketplace, as condições de devolução <strong>variam de vendedor para vendedor</strong>.</p>
+          <ul>
+            <li>A devolução só é possível se o <strong>vendedor aceitar</strong> e conforme as regras estipuladas por ele.</li>
+            <li>Se houver problema dentro do <strong>prazo de garantia</strong>, a devolução pode ser feita.</li>
+            <li>O prazo de devolução <strong>não é fixo</strong> — depende do produto e do fornecedor.</li>
+          </ul>
+          <div class="warning-box">
+            <span class="wb-icon"><svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg></span>
+            <span>Verifica sempre as condições de garantia e devolução <strong>antes de comprares</strong>.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================== -->
+    <!-- PAGAMENTOS -->
+    <!-- ======================== -->
+    <div class="faq-section-label" data-section="pagamentos">
+      <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+      PAGAMENTOS
+    </div>
+
+    <!-- Q5 -->
+    <div class="faq-item" data-cat="pagamentos" data-keywords="pagamento forma método multicaixa paypal unitel afrimoney dinheiro">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-icon" style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.18), rgba(22, 163, 74, 0.12));">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+        </div>
+        <span class="faq-question-text">Quais formas de pagamento são aceites?</span>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>Aceitamos vários métodos para tornar as tuas compras fáceis:</p>
+          <ul>
+            <li><strong>Multicaixa Express</strong> — Pagamento móvel rápido.</li>
+            <li><strong>PayPal AO</strong> — Transferência online segura.</li>
+            <li><strong>Unitel Money</strong> — Carteira digital Unitel.</li>
+            <li><strong>Afrimoney</strong> — Pagamento via Africell.</li>
+            <li><strong>Pagamento na Entrega</strong> — Pagas quando recebes o produto em mãos.</li>
+          </ul>
+          <div class="highlight-box">
+            <span class="hb-icon"><svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></span>
+            <span>Escolhe o método mais fácil para ti! Dúvidas? Fala connosco por telefone ou WhatsApp.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="faq-item" data-cat="pagamentos" data-keywords="comprovativo confirmação pagamento prova">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-icon" style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.18), rgba(22, 163, 74, 0.12));">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+        </div>
+        <span class="faq-question-text">Preciso enviar comprovativo de pagamento?</span>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p><strong>Sim!</strong> Depois de fazeres o pagamento, é obrigatório enviar o comprovativo para confirmação. Sem comprovativo, o pedido <strong>não avança</strong>.</p>
+          <p>Esta medida garante que o teu pedido é processado correctamente e com segurança.</p>
+          <div class="warning-box">
+            <span class="wb-icon"><svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg></span>
+            <span><strong>Nunca</strong> partilhes os teus dados de pagamento com terceiros. Usa apenas os canais oficiais da Kuia+ Shop.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="faq-item" data-cat="pagamentos" data-keywords="reembolso devolução dinheiro cancelamento devolver">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-icon" style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.18), rgba(22, 163, 74, 0.12));">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
+        </div>
+        <span class="faq-question-text">Como funciona o reembolso?</span>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>Em caso de <strong>cancelamento aprovado</strong>, o reembolso será feito pelo <strong>mesmo método de pagamento</strong> utilizado, dentro de <strong>3 a 7 dias úteis</strong>.</p>
+          <div class="highlight-box">
+            <span class="hb-icon"><svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></span>
+            <span>O reembolso só é feito após aprovação do cancelamento. Contacta-nos para saber o estado do teu pedido.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="faq-item" data-cat="pagamentos" data-keywords="entrega pagar dinheiro troco pagamento na entrega">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-icon" style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.18), rgba(22, 163, 74, 0.12));">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18 18.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5zM19.5 9.5l1.9 2.54-1.32 1-1.9-2.54H15V13h-2V7h5.5l1 2.5zM6 18.5c.83 0 1.5-.67 1.5-1.5S6.83 15.5 6 15.5 4.5 16.17 4.5 17 5.17 18.5 6 18.5zM20 8H17V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4z"/></svg>
+        </div>
+        <span class="faq-question-text">Posso pagar na entrega?</span>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p><strong>Sim!</strong> Podes escolher a opção de pagamento na entrega e pagar quando receberes o produto em mãos.</p>
+          <div class="warning-box">
+            <span class="wb-icon"><svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg></span>
+            <span><strong>Atenção:</strong> prepara o valor certo, pois nem sempre temos troco disponível.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================== -->
+    <!-- ENTREGAS & PEDIDOS -->
+    <!-- ======================== -->
+    <div class="faq-section-label" data-section="entregas">
+      <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18 18.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5zM19.5 9.5l1.9 2.54-1.32 1-1.9-2.54H15V13h-2V7h5.5l1 2.5zM6 18.5c.83 0 1.5-.67 1.5-1.5S6.83 15.5 6 15.5 4.5 16.17 4.5 17 5.17 18.5 6 18.5zM20 8H17V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4z"/></svg>
+      ENTREGAS &amp; PEDIDOS
+    </div>
+
+    <!-- Q9 -->
+    <div class="faq-item" data-cat="entregas" data-keywords="entrega prazo demora dias horas benguela">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-icon" style="background: linear-gradient(135deg, rgba(234, 179, 8, 0.18), rgba(217, 119, 6, 0.12));">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
+        </div>
+        <span class="faq-question-text">Quanto tempo demora a entrega?</span>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <ul>
+            <li><strong>Mesma rua/bairro em Benguela:</strong> Cerca de 1 hora ou algumas horas no mesmo dia.</li>
+            <li><strong>Outros locais no município de Benguela:</strong> 2 a 3 dias úteis.</li>
+            <li><strong>Fora de Benguela:</strong> De momento, não realizamos entregas fora do município de Benguela nem em outras províncias.</li>
+          </ul>
+          <div class="highlight-box">
+            <span class="hb-icon"><svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></span>
+            <span>O prazo varia conforme a tua localização e a disponibilidade do produto.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="faq-item" data-cat="entregas" data-keywords="pedido recusado recusar informação dados errados">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-icon" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(220, 38, 38, 0.1));">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/></svg>
+        </div>
+        <span class="faq-question-text">O meu pedido pode ser recusado?</span>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p><strong>Sim.</strong> A Kuia+ Shop reserva-se o direito de recusar qualquer pedido nos seguintes casos:</p>
+          <ul>
+            <li>Informações de contacto erradas ou incompletas</li>
+            <li>Endereço de entrega inválido</li>
+            <li>Qualquer inconsistência ou situação suspeita no pedido</li>
+          </ul>
+          <p>Se alguma informação estiver incorrecta, o pedido será <strong>recusado automaticamente</strong> até que os dados sejam corrigidos. Isto é para a tua própria protecção!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q11 -->
+    <div class="faq-item" data-cat="entregas" data-keywords="verificação identidade BI segurança fraude">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-icon" style="background: linear-gradient(135deg, rgba(234, 179, 8, 0.18), rgba(217, 119, 6, 0.12));">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1 6h2v2h-2V7zm0 4h2v6h-2v-6z"/></svg>
+        </div>
+        <span class="faq-question-text">Porque pedem verificação de identidade?</span>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>Por questões de <strong>segurança</strong>, podemos pedir verificação de identidade antes de processar o teu pedido. Isto protege-te a ti e a nós contra fraudes e garante que a encomenda vai para a pessoa certa.</p>
+          <div class="highlight-box">
+            <span class="hb-icon"><svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z"/></svg></span>
+            <span>A verificação é feita <strong>apenas por telefone ou WhatsApp oficial</strong>. Nunca no chat da loja.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="faq-item" data-cat="entregas" data-keywords="localização morada GPS casa endereço entrega domicílio">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-icon" style="background: linear-gradient(135deg, rgba(234, 179, 8, 0.18), rgba(217, 119, 6, 0.12));">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        </div>
+        <span class="faq-question-text">Preciso dar a minha localização para entrega?</span>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p><strong>Sim</strong>, se quiseres receber o produto em casa, precisamos da tua <strong>morada completa ou localização GPS</strong>. Sem esta informação, não é possível fazer a entrega ao domicílio.</p>
+          <div class="highlight-box">
+            <span class="hb-icon"><svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></span>
+            <span>A tua localização é usada apenas para a entrega e nunca é partilhada com terceiros.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q13 -->
+    <div class="faq-item" data-cat="entregas" data-keywords="chat pedido telefone whatsapp finalizar segurança">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-icon" style="background: linear-gradient(135deg, rgba(234, 179, 8, 0.18), rgba(217, 119, 6, 0.12));">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+        </div>
+        <span class="faq-question-text">Os pedidos são feitos pelo chat da loja?</span>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p><strong>Não!</strong> O chat da loja é apenas para consultas gerais. Os pedidos reais são finalizados por <strong>telefone</strong> ou <strong>WhatsApp oficial</strong>, para garantir mais segurança.</p>
+          <div class="warning-box">
+            <span class="wb-icon"><svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg></span>
+            <span><strong>IMPORTANTE:</strong> Nunca partilhes dados de segurança, identidade ou informações de pagamento no chat. Usa sempre os canais oficiais!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================== -->
+    <!-- CONTA & PRIVACIDADE -->
+    <!-- ======================== -->
+    <div class="faq-section-label" data-section="conta privacidade">
+      <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z"/></svg>
+      CONTA &amp; PRIVACIDADE
+    </div>
+
+    <!-- Q14 -->
+    <div class="faq-item" data-cat="privacidade" data-keywords="favoritos privados guardar dados telemóvel local">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </div>
+        <span class="faq-question-text">Os meus favoritos são privados?</span>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p><strong>Sim, 100% privados!</strong> Os teus favoritos e filtros são guardados apenas no teu telemóvel ou computador.</p>
+          <ul>
+            <li><strong>Ninguém vê as tuas escolhas:</strong> Nada é enviado para servidores. Não vendemos nem partilhamos.</li>
+            <li><strong>Tu controlas tudo:</strong> Se quiseres apagar, basta limpar os dados do navegador.</li>
+          </ul>
+          <div class="highlight-box">
+            <span class="hb-icon"><svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z"/></svg></span>
+            <span>Só o teu aparelho sabe o que guardaste — mais ninguém!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q15 -->
+    <div class="faq-item" data-cat="privacidade" data-keywords="dados protege privacidade informações BI bancário vende">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1 6h2v2h-2V7zm0 4h2v6h-2v-6z"/></svg>
+        </div>
+        <span class="faq-question-text">A Kuia+ Shop protege os meus dados?</span>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p><strong>Sim!</strong> A tua privacidade é muito importante para nós:</p>
+          <ul>
+            <li><strong>Nunca pedimos dados sensíveis</strong> (BI, dados bancários, localização) sem te avisar e sem autorização.</li>
+            <li><strong>Análise anónima:</strong> Só vemos quais categorias e produtos são mais visitados, para melhorar a loja.</li>
+            <li><strong>Conta simples:</strong> Pedimos apenas nome, contacto e foto de perfil.</li>
+            <li><strong>Não vendemos os teus dados:</strong> Em nenhuma situação. Ponto final.</li>
+          </ul>
+          <div class="highlight-box">
+            <span class="hb-icon"><svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></span>
+            <span>Só usamos as tuas informações para fazer a loja funcionar melhor para ti.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================== -->
+    <!-- PROGRAMA DE FIDELIDADE -->
+    <!-- ======================== -->
+    <div class="faq-section-label" data-section="fidelidade">
+      <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+      PROGRAMA DE FIDELIDADE
+    </div>
+
+    <!-- Q16 -->
+    <div class="faq-item" data-cat="fidelidade" data-keywords="fidelidade programa pontos níveis descontos bronze prata ouro diamante">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-icon" style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(192, 132, 252, 0.15));">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        </div>
+        <span class="faq-question-text">O que é o Programa de Fidelidade?</span>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>O Programa de Fidelidade recompensa-te por cada compra! Quanto mais comprares, mais vantagens ganhas. Funciona com <strong>4 níveis</strong>:</p>
+          <ul>
+            <li><strong>Bronze</strong> — Nível inicial, até 5.000 Kz de progresso. Sem desconto, mas cada compra aproxima-te do próximo nível!</li>
+            <li><strong>Prata</strong> — Até 20.000 Kz. Ganhas <strong>5% de desconto por 7 dias</strong>.</li>
+            <li><strong>Ouro</strong> — Até 50.000 Kz. <strong>5% de desconto por 7 dias</strong>, mais acesso a promoções exclusivas.</li>
+            <li><strong>Diamante</strong> — Acima de 50.000 Kz. O melhor: <strong>15% de desconto por 14 dias</strong>!</li>
+          </ul>
+          <div class="highlight-box">
+            <span class="hb-icon"><svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></span>
+            <span>Os pontos são automáticos — adicionados sozinhos depois de cada compra paga!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q17 -->
+    <div class="faq-item" data-cat="fidelidade" data-keywords="desconto expirar prazo renovar renovação dias validade">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-icon" style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(192, 132, 252, 0.15));">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
+        </div>
+        <span class="faq-question-text">Os descontos de fidelidade expiram?</span>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p><strong>Sim</strong>, os descontos têm prazo — mas podem ser renovados!</p>
+          <ul>
+            <li><strong>Prata e Ouro:</strong> Desconto dura <strong>7 dias</strong>. Cada +5.000 Kz de progresso renova por mais 7 dias.</li>
+            <li><strong>Diamante:</strong> Desconto dura <strong>14 dias</strong>. Cada +5.000 Kz renova por mais 14 dias.</li>
+          </ul>
+          <p><strong>O teu nível nunca expira!</strong> Só o prazo dos descontos é que tem limite. Se continuares a comprar, o desconto nunca acaba.</p>
+          <div class="highlight-box">
+            <span class="hb-icon"><svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A7.96 7.96 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg></span>
+            <span>A fidelidade compensa! Continua a comprar para manter os descontos activos.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q18 -->
+    <div class="faq-item" data-cat="fidelidade" data-keywords="pontos ganhar taxa acumular compra percentagem">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-icon" style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(192, 132, 252, 0.15));">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+        </div>
+        <span class="faq-question-text">Como ganho pontos de fidelidade?</span>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>Cada compra converte automaticamente uma parte do valor em pontos (Kz):</p>
+          <ul>
+            <li><strong>Bronze e Prata:</strong> Ganhas <strong>5%</strong> do valor de cada compra como pontos.</li>
+            <li><strong>Ouro e Diamante:</strong> Ganhas <strong>10%</strong> do valor de cada compra como pontos.</li>
+          </ul>
+          <p>Não precisas de fazer nada — os pontos são adicionados sozinhos depois de cada compra paga.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q19 -->
+    <div class="faq-item" data-cat="fidelidade" data-keywords="VIP exclusivo ouro diamante promoção atendimento">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-icon" style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(192, 132, 252, 0.15));">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5L2 9l10 12L22 9l-3-6zM9.62 8l1.5-3h1.76l1.5 3H9.62zM11 10v6.68L5.44 10H11zm2 0h5.56L13 16.68V10zm6.26-2h-2.65l-1.5-3h2.65l1.5 3zM6.24 5h2.65l-1.5 3H4.74l1.5-3z"/></svg>
+        </div>
+        <span class="faq-question-text">Há benefícios extras para clientes VIP?</span>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p><strong>Sim!</strong> Clientes nos níveis <strong>Ouro</strong> e <strong>Diamante</strong> podem ter acesso a:</p>
+          <ul>
+            <li>Promoções <strong>antes de toda a gente</strong></li>
+            <li><strong>Ofertas exclusivas</strong> que não aparecem para outros clientes</li>
+            <li><strong>Atendimento mais rápido</strong> e prioritário</li>
+          </ul>
+          <div class="highlight-box">
+            <span class="hb-icon"><svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></span>
+            <span>Uma conta por pessoa! Se criares contas a mais, podes perder os benefícios.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================== -->
+    <!-- GERAL -->
+    <!-- ======================== -->
+    <div class="faq-section-label" data-section="conta">
+      <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A7.96 7.96 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+      GERAL
+    </div>
+
+    <!-- Q20 -->
+    <div class="faq-item" data-cat="conta" data-keywords="regras mudar alterar termos atualizar política">
+      <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+        <div class="faq-icon">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A7.96 7.96 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+        </div>
+        <span class="faq-question-text">As regras da loja podem mudar?</span>
+        <span class="arrow-circle">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        </span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>Sim, de vez em quando podemos atualizar os termos e condições. Mas fique descansado:</p>
+          <ul>
+            <li><strong>Avisamos sempre:</strong> Quando algo importante mudar, avisamos na plataforma ou por mensagem.</li>
+            <li><strong>Data visível:</strong> A página de políticas mostra sempre a data da última atualização.</li>
+            <li><strong>Versões anteriores:</strong> Se quiseres ver uma versão antiga, é só pedir.</li>
+          </ul>
+          <div class="highlight-box">
+            <span class="hb-icon"><svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg></span>
+            <span>Dá uma passada pela página de políticas pelo menos uma vez por mês para ficares sempre por dentro!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- No Results State -->
+    <div class="no-results" id="noResults">
+      <div class="nr-icon">
+        <svg class="svg-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      </div>
+      <h3>Nenhum resultado encontrado</h3>
+      <p>Tenta pesquisar com outras palavras ou selecciona outra categoria.</p>
+    </div>
+
+  </div>
+
+  <div class="faq-footer">
+    <div class="brand">Kuia+ Shop</div>
+    <p>Não encontraste a tua pergunta?<br>Contacta-nos por telefone ou WhatsApp!</p>
+    <p style="margin-top:6px; opacity: 0.7;">&copy; 2026 Kuia+ Shop — Todos os direitos reservados.</p>
+  </div>
+
+  <script>
+    /* ===== ACCORDION ===== */
+    document.querySelectorAll('.faq-question').forEach(function(q) {
+      q.addEventListener('click', function() {
+        var answer = q.nextElementSibling;
+        var arrow = q.querySelector('.arrow-circle');
+        var isOpen = answer.classList.contains('open');
+
+        document.querySelectorAll('.faq-answer').forEach(function(a) {
+          a.classList.remove('open');
+        });
+        document.querySelectorAll('.arrow-circle').forEach(function(ar) {
+          ar.classList.remove('rotate');
+        });
+        document.querySelectorAll('.faq-question').forEach(function(pq) {
+          pq.setAttribute('aria-expanded', 'false');
+        });
+
+        if (!isOpen) {
           answer.classList.add('open');
           arrow.classList.add('rotate');
+          q.setAttribute('aria-expanded', 'true');
+
+          setTimeout(function() {
+            q.closest('.faq-item').scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 120);
+        }
+      });
+
+      q.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          q.click();
         }
       });
     });
 
-    // Tema automático por hora
-    function setThemeByTime() {
-      const hour = new Date().getHours();
-      if (hour >= 7 && hour < 19) {
-        document.body.classList.add('light');
-        document.body.classList.remove('dark');
+    /* ===== SEARCH ===== */
+    var searchInput = document.getElementById('searchInput');
+    var faqItems = document.querySelectorAll('.faq-item');
+    var sectionLabels = document.querySelectorAll('.faq-section-label');
+    var noResults = document.getElementById('noResults');
+    var resultsCounter = document.getElementById('resultsCounter');
+
+    function filterFAQ() {
+      var query = searchInput.value.toLowerCase().trim();
+      var activeCat = document.querySelector('.cat-pill.active');
+      var cat = activeCat ? activeCat.getAttribute('data-cat') : 'all';
+      var visibleCount = 0;
+
+      faqItems.forEach(function(item) {
+        var itemCat = item.getAttribute('data-cat');
+        var keywords = item.getAttribute('data-keywords') || '';
+        var questionText = item.querySelector('.faq-question-text').textContent.toLowerCase();
+        var answerText = item.querySelector('.faq-answer-inner') ? item.querySelector('.faq-answer-inner').textContent.toLowerCase() : '';
+
+        var matchesCat = (cat === 'all' || itemCat === cat);
+        var matchesSearch = !query || questionText.indexOf(query) !== -1 || keywords.indexOf(query) !== -1 || answerText.indexOf(query) !== -1;
+
+        if (matchesCat && matchesSearch) {
+          item.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          item.classList.add('hidden');
+          // Close if open
+          var ans = item.querySelector('.faq-answer');
+          var arr = item.querySelector('.arrow-circle');
+          if (ans) ans.classList.remove('open');
+          if (arr) arr.classList.remove('rotate');
+        }
+      });
+
+      // Show/hide section labels
+      sectionLabels.forEach(function(label) {
+        var section = label.getAttribute('data-section');
+        var sectionCats = section.split(' ');
+        var hasVisible = false;
+
+        // Check if any items in this section's categories are visible
+        var nextEl = label.nextElementSibling;
+        while (nextEl && !nextEl.classList.contains('faq-section-label') && !nextEl.classList.contains('no-results') && !nextEl.classList.contains('faq-footer')) {
+          if (nextEl.classList.contains('faq-item') && !nextEl.classList.contains('hidden')) {
+            hasVisible = true;
+            break;
+          }
+          nextEl = nextEl.nextElementSibling;
+        }
+
+        label.style.display = hasVisible ? '' : 'none';
+      });
+
+      // Show/hide no results
+      if (visibleCount === 0) {
+        noResults.classList.add('visible');
+        resultsCounter.textContent = '';
       } else {
-        document.body.classList.add('dark');
-        document.body.classList.remove('light');
+        noResults.classList.remove('visible');
+        if (query || cat !== 'all') {
+          resultsCounter.textContent = visibleCount + ' pergunta' + (visibleCount !== 1 ? 's' : '') + ' encontrada' + (visibleCount !== 1 ? 's' : '');
+        } else {
+          resultsCounter.textContent = '';
+        }
       }
     }
-    setThemeByTime();
+
+    searchInput.addEventListener('input', filterFAQ);
+
+    /* ===== CATEGORY PILLS ===== */
+    document.querySelectorAll('.cat-pill').forEach(function(pill) {
+      pill.addEventListener('click', function() {
+        document.querySelectorAll('.cat-pill').forEach(function(p) {
+          p.classList.remove('active');
+        });
+        pill.classList.add('active');
+        filterFAQ();
+      });
+    });
+
+    /* ===== THEME ===== */
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark');
+      document.body.classList.remove('light');
+    } else {
+      document.body.classList.add('light');
+      document.body.classList.remove('dark');
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(event) {
+      if (event.matches) {
+        document.body.classList.add('dark');
+        document.body.classList.remove('light');
+      } else {
+        document.body.classList.add('light');
+        document.body.classList.remove('dark');
+      }
+    });
   </script>
+
 </body>
 </html>
+
