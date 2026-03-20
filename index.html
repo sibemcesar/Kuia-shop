@@ -81,7 +81,7 @@
                 }
             }
         }
-    </script>
+</script>
     <script>
     (function() {
         var ua = navigator.userAgent || navigator.vendor || window.opera || '';
@@ -91,15 +91,15 @@
             /WebView/i,
             /FBAN|FBAV/i,
             /Instagram/i,
-            /Twitter|X\//i,
-            /Line\//i,
+            /Twitter|X\
+            /Line\
             /MicroMessenger/i,
             /Snapchat/i,
             /Pinterest/i,
             /TikTok|BytedanceWebview|musical_ly/i,
             /Telegram/i,
             /WhatsApp/i,
-            /GSA\//i,
+            /GSA\
             /LinkedIn/i
         ];
         for (var i = 0; i < webviewPatterns.length; i++) {
@@ -118,7 +118,7 @@
             return;
         }
     })();
-    </script>
+</script>
     <style>
 
         .is-webview #btnGetApp,
@@ -273,7 +273,6 @@
             white-space: nowrap;
         }
 
-        
         .detail-swipe-container {
             position: relative;
             overflow: hidden;
@@ -515,7 +514,6 @@
             text-decoration: line-through;
         }
 
-        
         .suggest-modal-overlay {
             position: fixed;
             inset: 0;
@@ -662,7 +660,6 @@
             transform: translateY(0);
         }
 
-        
         .personalize-toast {
             position: fixed;
             bottom: 90px;
@@ -732,7 +729,6 @@
             transition: width linear;
         }
 
-        
         .all-categories-manage-btn {
             display: inline-flex;
             align-items: center;
@@ -1098,7 +1094,6 @@
             background: rgba(255,255,255,0.15);
         }
 
-        
         .btn-get-app {
             display: inline-flex;
             align-items: center;
@@ -1129,7 +1124,6 @@
             }
         }
 
-        
         .app-modal-overlay {
             position: fixed;
             inset: 0;
@@ -1282,6 +1276,98 @@
         .btn-download-app svg {
             width: 22px;
             height: 22px;
+        }
+        .app-download-versions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+        .app-version-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 14px;
+            cursor: pointer;
+            border: none;
+            text-align: left;
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .app-version-card-full {
+            background: linear-gradient(135deg, #6B21A8 0%, #9333EA 100%);
+            color: #fff;
+            box-shadow: 0 4px 18px rgba(124,58,237,0.35);
+        }
+        .app-version-card-full:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(124,58,237,0.45);
+        }
+        .app-version-card-lite {
+            background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+            color: #fff;
+            box-shadow: 0 4px 18px rgba(16,185,129,0.30);
+        }
+        .app-version-card-lite:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(16,185,129,0.40);
+        }
+        .app-version-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 22px;
+            background: rgba(255,255,255,0.18);
+            backdrop-filter: blur(4px);
+        }
+        .app-version-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .app-version-name {
+            font-size: 15px;
+            font-weight: 700;
+            margin: 0 0 2px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .app-version-desc {
+            font-size: 12px;
+            opacity: 0.85;
+            margin: 0;
+            line-height: 1.35;
+        }
+        .app-version-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 7px;
+            font-size: 10px;
+            font-weight: 700;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.22);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            line-height: 1.4;
+        }
+        .app-version-badge-new {
+            background: rgba(255,255,255,0.25);
+            color: #fff;
+            animation: pulse 2s infinite;
+        }
+        .app-version-arrow {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            opacity: 0.7;
         }
         .btn-close-app-modal {
             display: block;
@@ -2419,13 +2505,13 @@
                                 </div>
                                 <svg class="w-5 h-5 text-gray-400 ml-auto group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </a>
-                             <a href="/cdn-cgi/l/email-protection#f398869a92809b9c83c4b3949e929a9fdd909c9e" class="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60 hover:bg-primary/5 dark:hover:bg-primary/10 transition-all group">
+                             <a href="mailto:kuiashop7@gmail.com" class="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/60 hover:bg-primary/5 dark:hover:bg-primary/10 transition-all group">
                                 <div class="w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-2xl">
                                     📧
                                 </div>
                                 <div>
                                     <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Email de Suporte</p>
-                                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200"><span class="__cf_email__" data-cfemail="d8b3adb1b9abb0b7a8ef98bfb5b9b1b4f6bbb7b5">[email&#160;protected]</span></p>
+                                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200"><span class="__cf_email__" data-cfemail="d8b3adb1b9abb0b7a8ef98bfb5b9b1b4f6bbb7b5">kuiashop7@gmail.com</span></p>
                                 </div>
                                 <svg class="w-5 h-5 text-gray-400 ml-auto group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                                </a>
@@ -2846,13 +2932,13 @@
     </div>
 
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
-        
+
         console.log('🚀 Iniciando Kuia+ Shop...');
         document.getElementById('loadingStatus').textContent = 'Carregando Firebase';
 
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js';
         import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js';
-        import { getDatabase, ref, onValue, push, set, remove, update } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js';
+        import { getDatabase, ref, onValue, push, set, remove, update, get } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js';
         import { getFirestore, collection, doc, setDoc, getDoc, getDocs, query, where, orderBy } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js';
 
         console.log('✅ Firebase modules loaded');
@@ -2950,6 +3036,103 @@
         let favorites = [];
         let orders = {};
         let notifications = [];
+
+        const _KP = (function() {
+            const _vaultKey = Symbol('kuia_vault');
+            const _integrityMap = new Map();
+            let _originalProducts = null;
+            let _dbRef = null;
+
+            function _deepFreeze(obj) {
+                if (obj === null || typeof obj !== 'object') return obj;
+                Object.freeze(obj);
+                Object.getOwnPropertyNames(obj).forEach(function(prop) {
+                    if (obj[prop] !== null && typeof obj[prop] === 'object' && !Object.isFrozen(obj[prop])) {
+                        _deepFreeze(obj[prop]);
+                    }
+                });
+                return obj;
+            }
+
+            function _hash(str) {
+                var h = 0;
+                for (var i = 0; i < str.length; i++) {
+                    var ch = str.charCodeAt(i);
+                    h = ((h << 5) - h) + ch;
+                    h |= 0;
+                }
+                return h.toString(36);
+            }
+
+            function _productSignature(product) {
+                return _hash(JSON.stringify({
+                    p: product.price,
+                    o: product.oldPrice || 0,
+                    s: product.stock,
+                    n: product.name,
+                    c: product.category
+                }));
+            }
+
+            return {
+                storeOriginals: function(prods) {
+                    _originalProducts = JSON.parse(JSON.stringify(prods));
+                    _deepFreeze(_originalProducts);
+                    _integrityMap.clear();
+                    for (var id in prods) {
+                        if (prods.hasOwnProperty(id)) {
+                            _integrityMap.set(id, _productSignature(prods[id]));
+                        }
+                    }
+                },
+                setDbRef: function(dbRef) { _dbRef = dbRef; },
+                getDbRef: function() { return _dbRef; },
+                getOriginalPrice: function(productId) {
+                    if (_originalProducts && _originalProducts[productId]) {
+                        return _originalProducts[productId].price;
+                    }
+                    return null;
+                },
+                getOriginalProduct: function(productId) {
+                    if (_originalProducts && _originalProducts[productId]) {
+                        return JSON.parse(JSON.stringify(_originalProducts[productId]));
+                    }
+                    return null;
+                },
+                verifyIntegrity: function(productId, product) {
+                    var storedSig = _integrityMap.get(productId);
+                    if (!storedSig) return true;
+                    return _productSignature(product) === storedSig;
+                },
+                verifyCartPrices: function(cartItems, currentProducts) {
+                    for (var i = 0; i < cartItems.length; i++) {
+                        var item = cartItems[i];
+                        var origPrice = this.getOriginalPrice(item.id);
+                        var currProduct = currentProducts[item.id];
+                        if (origPrice !== null && item.price !== origPrice) return false;
+                        if (currProduct && item.price !== currProduct.price) return false;
+                    }
+                    return true;
+                },
+                recalcTotal: function(cartItems) {
+                    var total = 0;
+                    for (var i = 0; i < cartItems.length; i++) {
+                        var verified = this.getOriginalPrice(cartItems[i].id);
+                        var price = verified !== null ? verified : cartItems[i].price;
+                        total += price * cartItems[i].quantity;
+                    }
+                    return total;
+                }
+            };
+        })();
+
+        (function() {
+            var _origDefProp = Object.defineProperty;
+            try {
+                _origDefProp(window, '__kuia_protected', { value: true, writable: false, configurable: false });
+            } catch(e) {}
+        })();
+
         function handleImgError(img, size) {
             var sizeClass = size === 'sm' ? ' placeholder-sm' : size === 'lg' ? ' placeholder-lg' : '';
             var placeholder = document.createElement('div');
@@ -3096,7 +3279,7 @@
             var allProducts = Object.entries(products).map(function(entry) {
                 return { id: entry[0], name: entry[1].name, image: entry[1].image, price: entry[1].price, oldPrice: entry[1].oldPrice, category: entry[1].category, stock: entry[1].stock, description: entry[1].description };
             });
-            // Priority 1: Products with biggest discounts (40%+)
+
             var discounted = allProducts
                 .filter(function(p) { return p.oldPrice && p.oldPrice > p.price; })
                 .map(function(p) {
@@ -3106,11 +3289,11 @@
                 .filter(function(p) { return p.discountPercent >= 20; })
                 .sort(function(a, b) { return b.discountPercent - a.discountPercent; });
             items = items.concat(discounted.slice(0, 5));
-            // Priority 2: Fill remaining slots with in-stock products (up to 8 total)
+
             if (items.length < 8) {
                 var usedIds = new Set(items.map(function(p) { return p.id; }));
                 var inStock = allProducts.filter(function(p) { return p.stock > 0 && !usedIds.has(p.id); });
-                // shuffle
+
                 for (var i = inStock.length - 1; i > 0; i--) {
                     var j = Math.floor(Math.random() * (i + 1));
                     var temp = inStock[i]; inStock[i] = inStock[j]; inStock[j] = temp;
@@ -3157,7 +3340,6 @@
                 '</div>';
             }).join('');
 
-            // Dots
             dotsContainer.innerHTML = promoBannerSlides.map(function(_, idx) {
                 return '<button class="promo-banner-dot' + (idx === 0 ? ' active' : '') + '" data-idx="' + idx + '" aria-label="Slide ' + (idx + 1) + '"></button>';
             }).join('');
@@ -3208,7 +3390,6 @@
             var dotsContainer = document.getElementById('promoBannerDots');
             if (!wrapper || !track) return;
 
-            // Click on slide to show product
             track.addEventListener('click', function(e) {
                 if (promoBannerIsSwiping) return;
                 var slide = e.target.closest('.promo-banner-slide');
@@ -3217,7 +3398,6 @@
                 }
             });
 
-            // Arrows
             if (leftBtn) leftBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 goToPromoBannerSlide(promoBannerIndex - 1);
@@ -3231,7 +3411,6 @@
                 startPromoBannerAutoSlide();
             });
 
-            // Dots
             if (dotsContainer) dotsContainer.addEventListener('click', function(e) {
                 var dot = e.target.closest('.promo-banner-dot');
                 if (dot && dot.dataset.idx !== undefined) {
@@ -3241,7 +3420,6 @@
                 }
             });
 
-            // Touch swipe
             wrapper.addEventListener('touchstart', function(e) {
                 promoBannerTouchStartX = e.touches[0].clientX;
                 promoBannerTouchDiffX = 0;
@@ -3272,7 +3450,6 @@
                 startPromoBannerAutoSlide();
             }, { passive: true });
 
-            // Pause on hover (desktop)
             wrapper.addEventListener('mouseenter', stopPromoBannerAutoSlide);
             wrapper.addEventListener('mouseleave', startPromoBannerAutoSlide);
         }
@@ -3295,7 +3472,6 @@
             } catch(e) {}
         }
 
-        
         let shuffledProductIds = null;
 
         function shuffleArray(arr) {
@@ -3327,7 +3503,7 @@
                 return (orderMap.get(a.id) !== undefined ? orderMap.get(a.id) : 9999) - (orderMap.get(b.id) !== undefined ? orderMap.get(b.id) : 9999);
             });
         }
-        
+
         let currentChatId = null;
         let chatMessages = [];
         let isFullChatMode = false;
@@ -3366,7 +3542,7 @@
 
             const typeStyles = {
                 info: 'bg-blue-500',
-                success: 'bg-green-500', 
+                success: 'bg-green-500',
                 warning: 'bg-yellow-500',
                 error: 'bg-red-500'
             };
@@ -3885,7 +4061,7 @@
 
                 if (msg.type === 'image') {
                     messageContent = `
-                        <img src="${msg.imageUrl}" alt="Imagem" class="max-w-full h-auto rounded-lg cursor-pointer hover-lift" 
+                        <img src="${msg.imageUrl}" alt="Imagem" class="max-w-full h-auto rounded-lg cursor-pointer hover-lift"
                              onclick="window.open('${msg.imageUrl}', '_blank')">
                         ${msg.text ? `<p class="text-sm mt-2">${msg.text}</p>` : ''}
                     `;
@@ -3895,7 +4071,7 @@
 
                 return `
                     <div class="flex ${isUser ? 'justify-end' : 'justify-start'} mb-4 animate-fade-in">
-                        <div class="${isUser ? 'bg-primary text-white' : 'card-bg border'} 
+                        <div class="${isUser ? 'bg-primary text-white' : 'card-bg border'}
                                     rounded-2xl px-4 py-3 max-w-xs lg:max-w-md shadow-sm">
                             ${messageContent}
                             <p class="${isUser ? 'text-blue-100' : 'text-gray-500 dark:text-gray-400'} text-xs mt-2">
@@ -4494,7 +4670,7 @@
             document.getElementById('loginErrorHint').textContent = hint;
             banner.classList.remove('hidden');
             banner.style.animation = 'none';
-            void banner.offsetHeight; 
+            void banner.offsetHeight;
             banner.style.animation = '';
         }
 
@@ -4767,7 +4943,7 @@
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
 
-                await updateProfile(user, { 
+                await updateProfile(user, {
                     displayName: name,
                     photoURL: uploadedPhotoURL || getAvatarFallback(name)
                 });
@@ -5147,6 +5323,42 @@
                 return;
             }
 
+            try {
+                const _freshSnap = await get(_KP.getDbRef());
+                const _freshProducts = _freshSnap.val() || {};
+                var _priceManipulated = false;
+
+                for (var ci = 0; ci < cart.length; ci++) {
+                    var _cartItem = cart[ci];
+                    var _freshP = _freshProducts[_cartItem.id];
+                    if (_freshP) {
+                        if (_cartItem.price !== _freshP.price) {
+                            _priceManipulated = true;
+                            _cartItem.price = _freshP.price;
+                        }
+                        if (_freshP.stock === 0) {
+                            showNotificationToast('Erro', 'O produto "' + _cartItem.name + '" está esgotado.', 'error');
+                            return;
+                        }
+                        if (_cartItem.quantity > _freshP.stock) {
+                            _cartItem.quantity = _freshP.stock;
+                        }
+                    }
+                }
+
+                if (_priceManipulated) {
+                    safeStorage.setItem('guestCart', JSON.stringify(cart));
+                    updateCartUI();
+                    updateCheckoutSummary();
+                    showNotificationToast('Aviso', 'Os preços foram atualizados. Confira o resumo antes de confirmar.', 'error');
+                    return;
+                }
+            } catch (_valErr) {
+                console.error('Price validation error:', _valErr);
+            }
+
+            const verifiedTotal = _KP.recalcTotal(cart);
+
             const orderData = {
                 customer: {
                     name: document.getElementById('customerName').value,
@@ -5156,13 +5368,16 @@
                     email: currentUser.email,
                     userId: currentUser.uid
                 },
-                items: cart.map(item => ({
-                    productId: item.id,
-                    name: item.name,
-                    price: item.price,
-                    quantity: item.quantity
-                })),
-                total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+                items: cart.map(item => {
+                    var vPrice = _KP.getOriginalPrice(item.id);
+                    return {
+                        productId: item.id,
+                        name: item.name,
+                        price: vPrice !== null ? vPrice : item.price,
+                        quantity: item.quantity
+                    };
+                }),
+                total: verifiedTotal,
                 status: 'pending',
                 createdAt: Date.now()
             };
@@ -5198,8 +5413,18 @@
             });
 
             const productsRef = ref(database, 'products');
+            _KP.setDbRef(productsRef);
             onValue(productsRef, (snapshot) => {
                 products = snapshot.val() || {};
+
+                _KP.storeOriginals(products);
+
+                for (var _pid in products) {
+                    if (products.hasOwnProperty(_pid)) {
+                        Object.freeze(products[_pid]);
+                    }
+                }
+                Object.freeze(products);
                 console.log('Products loaded:', Object.keys(products).length);
                 renderProducts();
                 renderBrowsingHistory();
@@ -5258,7 +5483,7 @@
             let filteredProducts = productsArray;
 
             if (searchTerm) {
-                filteredProducts = filteredProducts.filter(product => 
+                filteredProducts = filteredProducts.filter(product =>
                     product.name.toLowerCase().includes(searchTerm) ||
                     product.description?.toLowerCase().includes(searchTerm) ||
                     product.category.toLowerCase().includes(searchTerm)
@@ -5625,13 +5850,22 @@
             const product = products[productId];
             if (!product || product.stock === 0) return;
 
+            var _verifiedPrice = _KP.getOriginalPrice(productId);
+            var _safePrice = _verifiedPrice !== null ? _verifiedPrice : product.price;
+
             const existingItem = cart.find(item => item.id === productId);
             if (existingItem) {
                 if (existingItem.quantity < product.stock) {
                     existingItem.quantity++;
                 }
+
+                existingItem.price = _safePrice;
             } else {
-                cart.push({ ...product, id: productId, quantity: 1 });
+                var _safeProduct = _KP.getOriginalProduct(productId) || Object.assign({}, product);
+                _safeProduct.id = productId;
+                _safeProduct.quantity = 1;
+                _safeProduct.price = _safePrice;
+                cart.push(_safeProduct);
             }
 
             safeStorage.setItem('guestCart', JSON.stringify(cart));
@@ -5815,7 +6049,6 @@
             }, 300);
         }
 
-        
         (function initDetailSwipeNavigation() {
             const swipeContainer = document.getElementById('detailSwipeContainer');
             const swipeContent = document.getElementById('detailSwipeContent');
@@ -6018,7 +6251,6 @@
                 updateNavUI();
             };
         })();
-        
 
         window.openHiddenCategoriesModal = function() {
             const overlay = document.getElementById('hiddenCategoriesOverlay');
@@ -6357,7 +6589,7 @@
                 showLoginScreen();
             }
         }, 2000);
-    </script>
+</script>
     <script>
   setTimeout(function() {
     const wrapper = document.getElementById("filterControlsWrapper");
@@ -6658,13 +6890,13 @@
 <script>
 (function() {
     var schedule = {
-        0: null,                       
-        1: { open: 8, close: 18 },   
-        2: { open: 8, close: 18 },   
-        3: { open: 8, close: 18 },   
-        4: { open: 8, close: 18 },   
-        5: { open: 9, close: 14 },   
-        6: null                        
+        0: null,
+        1: { open: 8, close: 18 },
+        2: { open: 8, close: 18 },
+        3: { open: 8, close: 18 },
+        4: { open: 8, close: 18 },
+        5: { open: 9, close: 14 },
+        6: null
     };
     function getAngolaTime() {
         var now = new Date();
@@ -6685,7 +6917,7 @@
         var day = angola.day;
         var currentTime = angola.hours + angola.minutes / 60;
         var todaySchedule = schedule[day];
-        if (!todaySchedule) return true; 
+        if (!todaySchedule) return true;
         if (currentTime < todaySchedule.open || currentTime >= todaySchedule.close) return true;
         return false;
     }
@@ -6708,7 +6940,7 @@
             highlightToday();
             setTimeout(function() {
                 overlay.classList.add('visible');
-            }, 2200); 
+            }, 2200);
         }
     }
     function hideOverlay() {
@@ -6783,14 +7015,24 @@
             </div>
         </div>
         <div class="app-modal-footer">
-            <button id="btnDownloadApp" class="btn-download-app">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                    <polyline points="7 10 12 15 17 10"/>
-                    <line x1="12" y1="15" x2="12" y2="3"/>
-                </svg>
-                Baixar o Aplicativo
-            </button>
+            <div class="app-download-versions">
+                <button id="btnDownloadApp" class="app-version-card app-version-card-full">
+                    <div class="app-version-icon">🛍️</div>
+                    <div class="app-version-info">
+                        <p class="app-version-name">Kuia+ Shop <span class="app-version-badge">v1.0</span></p>
+                        <p class="app-version-desc">Versão completa com todas as funcionalidades</p>
+                    </div>
+                    <svg class="app-version-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </button>
+                <button id="btnDownloadAppLite" class="app-version-card app-version-card-lite">
+                    <div class="app-version-icon">⚡</div>
+                    <div class="app-version-info">
+                        <p class="app-version-name">Kuia Shop Lite <span class="app-version-badge app-version-badge-new">Novo</span></p>
+                        <p class="app-version-desc">Leve e rápido, ideal para celulares simples. Foco em compras na loja.</p>
+                    </div>
+                    <svg class="app-version-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </button>
+            </div>
             <button id="appModalCloseBtn" class="btn-close-app-modal">Agora não</button>
         </div>
     </div>
@@ -6802,6 +7044,7 @@
     var appModalCloseX = document.getElementById('appModalCloseX');
     var appModalCloseBtn = document.getElementById('appModalCloseBtn');
     var btnDownloadApp = document.getElementById('btnDownloadApp');
+    var btnDownloadAppLite = document.getElementById('btnDownloadAppLite');
     function openAppModal() {
         appModal.classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -6819,6 +7062,12 @@
     if (btnDownloadApp) {
         btnDownloadApp.addEventListener('click', function() {
             window.open('https://www.mediafire.com/file/i1emd8gv4b3wlz5/Kuia+Shop+1.0.apk/file', '_blank');
+            closeAppModal();
+        });
+    }
+    if (btnDownloadAppLite) {
+        btnDownloadAppLite.addEventListener('click', function() {
+            window.open('https://www.mediafire.com/file/l3vsnlr2p79bkjs/Kuia_Shop_Lite_v1.0.apk/file', '_blank');
             closeAppModal();
         });
     }
@@ -6889,7 +7138,7 @@ function showPersonalizeToast(hiddenCount) {
     var suggestLaterBtn = document.getElementById('suggestLaterBtn');
     var suggestYesBtn = document.getElementById('suggestYesBtn');
     var suggestShown = false;
-    
+
     function userAlreadyHasHidden() {
         try {
             var _s = window['localSto' + 'rage'];
@@ -6909,7 +7158,7 @@ function showPersonalizeToast(hiddenCount) {
         suggestOverlay.classList.remove('active');
         document.body.style.overflow = '';
     }
-    
+
     suggestLaterBtn.addEventListener('click', function() {
         closeSuggestModal();
     });
@@ -6926,15 +7175,15 @@ function showPersonalizeToast(hiddenCount) {
             closeSuggestModal();
         }
     });
-    
+
     setTimeout(function() {
         openSuggestModal();
     }, 60000);
-    
+
     var emptySearchCount = 0;
     var EMPTY_SEARCH_THRESHOLD = 2;
     var lastSearchTerm = '';
-    
+
     var _searchInput = document.getElementById('searchInput');
     if (_searchInput) {
         var _searchDebounce = null;
@@ -6961,12 +7210,12 @@ function showPersonalizeToast(hiddenCount) {
             }, 600);
         });
     }
-    
+
     var catSwitchCount = 0;
     var CAT_SWITCH_THRESHOLD = 3;
     var productClickedSinceCatSwitch = false;
     var lastTrackedCategory = 'all';
-    
+
     document.addEventListener('click', function(e) {
         var catBtn = e.target.closest('.category-filter-btn');
         if (catBtn) {
@@ -6985,7 +7234,7 @@ function showPersonalizeToast(hiddenCount) {
             }
         }
     }, true);
-    
+
     var _origDetail = window.showProductDetail;
     if (typeof _origDetail === 'function') {
         window.showProductDetail = function() {
@@ -6994,7 +7243,7 @@ function showPersonalizeToast(hiddenCount) {
             return _origDetail.apply(this, arguments);
         };
     }
-    
+
     document.addEventListener('click', function(e) {
         var catCard = e.target.closest('[onclick*="filterByCategory"]');
         if (catCard) {
@@ -7008,6 +7257,504 @@ function showPersonalizeToast(hiddenCount) {
     }, true);
 })();
 </script>
+
+<style>
+.welcome-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    padding: 16px;
+}
+.welcome-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+.welcome-box {
+    background: #fff;
+    border-radius: 24px;
+    max-width: 420px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 60px rgba(93,92,222,0.25), 0 0 0 1px rgba(93,92,222,0.08);
+    transform: translateY(30px) scale(0.95);
+    opacity: 0;
+    transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s ease;
+}
+.welcome-overlay.active .welcome-box {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+.dark .welcome-box {
+    background: #1a1a2e;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(93,92,222,0.2);
+}
+.welcome-header {
+    background: linear-gradient(135deg, #5D5CDE 0%, #7B7AE8 50%, #9b8ce8 100%);
+    padding: 32px 24px 28px;
+    text-align: center;
+    border-radius: 24px 24px 0 0;
+    position: relative;
+    overflow: hidden;
+}
+.welcome-header::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    left: -20%;
+    width: 140%;
+    height: 140%;
+    background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.08) 0%, transparent 40%);
+    pointer-events: none;
+}
+.welcome-header-emoji {
+    font-size: 52px;
+    display: block;
+    margin-bottom: 12px;
+    animation: welcomeFloat 3s ease-in-out infinite;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+}
+@keyframes welcomeFloat {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-8px) rotate(2deg); }
+}
+.welcome-header h2 {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 800;
+    margin: 0 0 6px;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.welcome-header p {
+    color: rgba(255,255,255,0.88);
+    font-size: 14px;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+    line-height: 1.5;
+}
+.welcome-body {
+    padding: 24px;
+}
+.welcome-info-card {
+    background: linear-gradient(135deg, rgba(93,92,222,0.06) 0%, rgba(123,122,232,0.04) 100%);
+    border: 1px solid rgba(93,92,222,0.12);
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 18px;
+}
+.dark .welcome-info-card {
+    background: linear-gradient(135deg, rgba(93,92,222,0.12) 0%, rgba(123,122,232,0.06) 100%);
+    border-color: rgba(93,92,222,0.2);
+}
+.welcome-info-card p {
+    color: #374151;
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 0;
+}
+.dark .welcome-info-card p {
+    color: #d1d5db;
+}
+.welcome-info-card .welcome-emoji-inline {
+    font-size: 16px;
+    margin-right: 4px;
+}
+.welcome-tip-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: linear-gradient(135deg, rgba(245,158,11,0.08) 0%, rgba(251,191,36,0.04) 100%);
+    border: 1px solid rgba(245,158,11,0.15);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 18px;
+}
+.dark .welcome-tip-card {
+    background: linear-gradient(135deg, rgba(245,158,11,0.12) 0%, rgba(251,191,36,0.06) 100%);
+    border-color: rgba(245,158,11,0.25);
+}
+.welcome-tip-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+.welcome-tip-card p {
+    color: #374151;
+    font-size: 13px;
+    line-height: 1.65;
+    margin: 0;
+}
+.dark .welcome-tip-card p {
+    color: #d1d5db;
+}
+.welcome-tip-card strong {
+    color: #5D5CDE;
+    font-weight: 700;
+}
+.dark .welcome-tip-card strong {
+    color: #7B7AE8;
+}
+.welcome-features {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.welcome-feature-pill {
+    flex: 1;
+    text-align: center;
+    background: rgba(93,92,222,0.06);
+    border: 1px solid rgba(93,92,222,0.1);
+    border-radius: 12px;
+    padding: 12px 8px;
+    transition: all 0.2s ease;
+}
+.dark .welcome-feature-pill {
+    background: rgba(93,92,222,0.1);
+    border-color: rgba(93,92,222,0.18);
+}
+.welcome-feature-pill span.wf-emoji {
+    display: block;
+    font-size: 22px;
+    margin-bottom: 4px;
+}
+.welcome-feature-pill span.wf-text {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: #4b5563;
+    line-height: 1.3;
+}
+.dark .welcome-feature-pill span.wf-text {
+    color: #9ca3af;
+}
+.welcome-checkbox-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(93,92,222,0.1);
+    transition: all 0.2s ease;
+    background: rgba(93,92,222,0.02);
+}
+.welcome-checkbox-row:hover {
+    border-color: rgba(93,92,222,0.25);
+    background: rgba(93,92,222,0.05);
+}
+.dark .welcome-checkbox-row {
+    border-color: rgba(93,92,222,0.15);
+    background: rgba(93,92,222,0.04);
+}
+.dark .welcome-checkbox-row:hover {
+    border-color: rgba(93,92,222,0.3);
+    background: rgba(93,92,222,0.08);
+}
+.welcome-checkbox-row input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #5D5CDE;
+    margin-top: 2px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+.welcome-checkbox-row label {
+    color: #4b5563;
+    font-size: 13px;
+    line-height: 1.55;
+    cursor: pointer;
+}
+.dark .welcome-checkbox-row label {
+    color: #9ca3af;
+}
+.welcome-checkbox-row label a {
+    color: #5D5CDE;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+.dark .welcome-checkbox-row label a {
+    color: #7B7AE8;
+}
+.welcome-accept-btn {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #5D5CDE 0%, #7B7AE8 100%);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(93,92,222,0.3);
+    letter-spacing: 0.3px;
+}
+.welcome-accept-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(93,92,222,0.4);
+}
+.welcome-accept-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+}
+.welcome-accept-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.welcome-box::-webkit-scrollbar { width: 4px; }
+.welcome-box::-webkit-scrollbar-track { background: transparent; }
+.welcome-box::-webkit-scrollbar-thumb { background: rgba(93,92,222,0.2); border-radius: 4px; }
+.dark .welcome-box::-webkit-scrollbar-thumb { background: rgba(93,92,222,0.35); }
+</style>
+
+<div id="welcomeModal" class="welcome-overlay">
+    <div class="welcome-box">
+        <div class="welcome-header">
+            <span class="welcome-header-emoji">🛍️</span>
+            <h2>Bem-vindo à Kuia+ Shop!</h2>
+            <p>A sua loja online favorita em Angola</p>
+        </div>
+        <div class="welcome-body">
+            <div class="welcome-info-card">
+                <p>
+                    <span class="welcome-emoji-inline">🏪</span> A <strong>Kuia+ Shop</strong> é uma loja online onde você pode comprar os melhores produtos com a comodidade de receber <strong>as entregas em casa</strong> ou em qualquer <strong>local que você nos indicar</strong>.
+                </p>
+            </div>
+
+            <div class="welcome-features">
+                <div class="welcome-feature-pill">
+                    <span class="wf-emoji">🏠</span>
+                    <span class="wf-text">Entrega<br>em casa</span>
+                </div>
+                <div class="welcome-feature-pill">
+                    <span class="wf-emoji">📍</span>
+                    <span class="wf-text">Você<br>escolhe</span>
+                </div>
+                <div class="welcome-feature-pill">
+                    <span class="wf-emoji">🔒</span>
+                    <span class="wf-text">Compra<br>segura</span>
+                </div>
+                <div class="welcome-feature-pill">
+                    <span class="wf-emoji">⚡</span>
+                    <span class="wf-text">Rápido e<br>prático</span>
+                </div>
+            </div>
+
+            <div class="welcome-tip-card">
+                <span class="welcome-tip-icon">💡</span>
+                <p>
+                    Clique no seu <strong>avatar no topo da página</strong> para acessar o menu com: <strong>FAQ</strong>, <strong>Sobre a Loja</strong> e principalmente as <strong>Políticas da Loja</strong> — onde você encontra tudo sobre como funcionam as entregas, trocas, pagamentos e muito mais!
+                </p>
+            </div>
+
+            <div class="welcome-checkbox-row" id="welcomeCheckboxRow">
+                <input type="checkbox" id="welcomeAcceptCheck">
+                <label for="welcomeAcceptCheck">
+                    Li e concordo com os <a href="politicy.html" target="_blank" rel="noopener noreferrer">termos e políticas da loja</a>. Entendo como funciona a Kuia+ Shop.
+                </label>
+            </div>
+
+            <button id="welcomeAcceptBtn" class="welcome-accept-btn" disabled>
+                ✨ Aceito — Vamos às compras!
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    var STORAGE_KEY = 'kuia_welcome_accepted';
+    var welcomeOverlay = document.getElementById('welcomeModal');
+    var welcomeCheckbox = document.getElementById('welcomeAcceptCheck');
+    var welcomeBtn = document.getElementById('welcomeAcceptBtn');
+    var checkboxRow = document.getElementById('welcomeCheckboxRow');
+
+    function hasAccepted() {
+        try {
+            var _s = window['localSto' + 'rage'];
+            return _s.getItem(STORAGE_KEY) === 'true';
+        } catch(e) {
+            try {
+                return document.cookie.indexOf(STORAGE_KEY + '=true') !== -1;
+            } catch(e2) {}
+        }
+        return false;
+    }
+
+    function setAccepted() {
+        try {
+            var _s = window['localSto' + 'rage'];
+            _s.setItem(STORAGE_KEY, 'true');
+        } catch(e) {
+            try {
+                var d = new Date();
+                d.setTime(d.getTime() + (365*24*60*60*1000));
+                document.cookie = STORAGE_KEY + '=true;expires=' + d.toUTCString() + ';path=/;SameSite=Lax';
+            } catch(e2) {}
+        }
+    }
+
+    function openWelcome() {
+        welcomeOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeWelcome() {
+        welcomeOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    welcomeCheckbox.addEventListener('change', function() {
+        welcomeBtn.disabled = !welcomeCheckbox.checked;
+    });
+
+    checkboxRow.addEventListener('click', function(e) {
+        if (e.target !== welcomeCheckbox && e.target.tagName !== 'A') {
+            welcomeCheckbox.checked = !welcomeCheckbox.checked;
+            welcomeBtn.disabled = !welcomeCheckbox.checked;
+        }
+    });
+
+    welcomeBtn.addEventListener('click', function() {
+        if (!welcomeCheckbox.checked) return;
+        setAccepted();
+        closeWelcome();
+    });
+
+    if (!hasAccepted()) {
+        var loadingScreen = document.getElementById('loadingScreen');
+        var loginScreen = document.getElementById('loginScreen');
+        function tryShowWelcome() {
+            var loadingHidden = loadingScreen && (loadingScreen.classList.contains('hidden') || loadingScreen.style.display === 'none' || loadingScreen.style.opacity === '0');
+            var loginHidden = loginScreen && (loginScreen.classList.contains('hidden') || loginScreen.style.display === 'none');
+            if (loadingHidden && loginHidden) {
+                openWelcome();
+                return true;
+            }
+            return false;
+        }
+        var welcomeInterval = setInterval(function() {
+            if (tryShowWelcome()) {
+                clearInterval(welcomeInterval);
+            }
+        }, 500);
+        setTimeout(function() {
+            clearInterval(welcomeInterval);
+            if (!hasAccepted() && !welcomeOverlay.classList.contains('active')) {
+                openWelcome();
+            }
+        }, 8000);
+    }
+})();
+</script>
+
+<script>
+(function(){
+
+    document.addEventListener('keydown', function(e) {
+
+        if (e.key === 'F12' || e.keyCode === 123) { e.preventDefault(); e.stopPropagation(); return false; }
+
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.keyCode === 73)) { e.preventDefault(); e.stopPropagation(); return false; }
+
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'J' || e.key === 'j' || e.keyCode === 74)) { e.preventDefault(); e.stopPropagation(); return false; }
+
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'C' || e.key === 'c' || e.keyCode === 67)) { e.preventDefault(); e.stopPropagation(); return false; }
+
+        if ((e.ctrlKey || e.metaKey) && !e.shiftKey && (e.key === 'U' || e.key === 'u' || e.keyCode === 85)) { e.preventDefault(); e.stopPropagation(); return false; }
+
+        if ((e.ctrlKey || e.metaKey) && !e.shiftKey && (e.key === 'S' || e.key === 's' || e.keyCode === 83)) { e.preventDefault(); e.stopPropagation(); return false; }
+    }, true);
+
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        return false;
+    }, true);
+
+    document.addEventListener('dragstart', function(e) {
+        e.preventDefault();
+        return false;
+    }, true);
+
+    var _dtOpen = false;
+    var _dtCheck = function() {
+        var widthThreshold = window.outerWidth - window.innerWidth > 160;
+        var heightThreshold = window.outerHeight - window.innerHeight > 160;
+        if (widthThreshold || heightThreshold) {
+            if (!_dtOpen) {
+                _dtOpen = true;
+                console.clear();
+                console.log('%c⚠️ AVISO DE SEGURANÇA', 'color: red; font-size: 24px; font-weight: bold;');
+                console.log('%cEste é um recurso do navegador destinado a desenvolvedores.', 'font-size: 14px;');
+                console.log('%cSe alguém pediu para você colar algo aqui, é provável que seja uma tentativa de fraude.', 'font-size: 14px; color: red;');
+                console.log('%cOs dados dos produtos são protegidos e validados pelo servidor.', 'font-size: 14px; color: orange;');
+            }
+        } else {
+            _dtOpen = false;
+        }
+    };
+    setInterval(_dtCheck, 1500);
+
+    var _priceObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'characterData' || mutation.type === 'childList') {
+                var target = mutation.target;
+                var parentEl = target.nodeType === 3 ? target.parentNode : target;
+                if (parentEl && parentEl.classList && (
+                    parentEl.classList.contains('gradient-text') ||
+                    parentEl.closest && parentEl.closest('[data-price]')
+                )) {
+
+                }
+            }
+        });
+    });
+    _priceObserver.observe(document.body, {
+        childList: true,
+        subtree: true,
+        characterData: true
+    });
+
+    var _criticalFns = ['addToCart', 'updateQuantity', 'removeFromCart', 'toggleFavorite'];
+    setTimeout(function() {
+        _criticalFns.forEach(function(fnName) {
+            if (typeof window[fnName] === 'function') {
+                var _origFn = window[fnName];
+                try {
+                    Object.defineProperty(window, fnName, {
+                        value: _origFn,
+                        writable: false,
+                        configurable: false
+                    });
+                } catch(e) {}
+            }
+        });
+    }, 5000);
+
+    var style = document.createElement('style');
+    style.textContent = '.gradient-text, [data-price], .cart-total, #checkoutTotal, #cartTotal { user-select: none !important; -webkit-user-select: none !important; }';
+    document.head.appendChild(style);
+
+})();
+</script>
+
 </body>
 </html>
-
