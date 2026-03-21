@@ -1977,7 +1977,7 @@
                     labels: dayLabels,
                     datasets: [
                         {
-                            label: 'Valor (R$)',
+                            label: 'Valor (Kz)',
                             data: salesAmounts,
                             type: 'line',
                             borderColor: '#5D5CDE',
@@ -2030,8 +2030,8 @@
                             cornerRadius: 8,
                             callbacks: {
                                 label: function(context) {
-                                    if (context.dataset.label === 'Valor (R$)') {
-                                        return ' Valor: R$ ' + context.parsed.y.toFixed(2).replace('.', ',');
+                                    if (context.dataset.label === 'Valor (Kz)') {
+                                        return ' Valor: ' + Math.round(context.parsed.y).toLocaleString('pt-AO') + ' Kz';
                                     }
                                     return ' Pedidos: ' + context.parsed.y;
                                 }
@@ -2056,12 +2056,12 @@
                                 font: { size: 11 },
                                 color: '#5D5CDE',
                                 callback: function(value) {
-                                    return 'R$ ' + value.toFixed(0);
+                                    return Math.round(value).toLocaleString('pt-AO') + ' Kz';
                                 }
                             },
                             title: {
                                 display: true,
-                                text: 'Valor (R$)',
+                                text: 'Valor (Kz)',
                                 color: '#5D5CDE',
                                 font: { size: 12, weight: '600' }
                             }
@@ -4609,5 +4609,6 @@ Admin: ${currentUser.email}
     </script>
 </body>
 </html>
+
 
 
