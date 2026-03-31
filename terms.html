@@ -4590,8 +4590,137 @@ Admin: ${currentUser.email}
         window.runSystemCheck = runSystemCheck;
         window.showSystemInfo = showSystemInfo;
         window.updateOrderStatus = updateOrderStatus;
-        window.showOrderDetail = (orderId) => {}; // Placeholder
-        window.closeOrderDetailModal = () => {}; // Placeholder
+        window.showOrderDetail = (orderId) => {
+            const order = orders[orderId];
+            if (!order) {
+                showNotificationToast('Erro', 'Pedido não encontrado.', 'error');
+                return;
+            }
+
+            const modal = document.getElementById('orderDetailModal');
+            const title = document.getElementById('orderDetailTitle');
+            const content = document.getElementById('orderDetailContent');
+
+            title.textContent = `Pedido #${orderId.slice(-6)}`;
+
+            const statusColor = getOrderStatusColor(order.status);
+            const statusText = getOrderStatusText(order.status);
+            const createdAt = new Date(order.createdAt || Date.now()).toLocaleString('pt-BR');
+
+            const itemsHtml = (order.items || []).map(item => `
+                <div class="flex justify-between items-center py-3 border-b border-gray-100 last:border-0">
+                    <div>
+                        <p class="font-medium text-gray-800">${item.name || 'Produto'}</p>
+                        <p class="text-sm text-gray-500">Qtd: ${item.quantity || 1}</p>
+                    </div>
+                    <p class="font-bold text-gray-800">${formatPrice((item.price || 0) * (item.quantity || 1))}</p>
+                </div>
+            `).join('') || '<p class="text-gray-500 text-sm">Sem itens registados</p>';
+
+            const actionButtons = (() => {
+                let btns = '';
+                if (order.status === 'pending') {
+                    btns += `
+                        <button onclick="updateOrderStatus('${orderId}', 'approved'); closeOrderDetailModal();" class="flex-1 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all font-semibold">
+                            ✅ Aprovar
+                        </button>
+                        <button onclick="updateOrderStatus('${orderId}', 'rejected'); closeOrderDetailModal();" class="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all font-semibold">
+                            ❌ Rejeitar
+                        </button>`;
+                }
+                if (order.status === 'approved') {
+                    btns += `
+                        <button onclick="updateOrderStatus('${orderId}', 'delivered'); closeOrderDetailModal();" class="flex-1 px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-all font-semibold">
+                            🎉 Marcar Entregue
+                        </button>`;
+                }
+                if (order.customer?.userId) {
+                    btns += `
+                        <button onclick="startChatWithUser('${order.customer.userId}'); closeOrderDetailModal();" class="flex-1 px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-all font-semibold">
+                            💬 Chat com Cliente
+                        </button>`;
+                }
+                return btns;
+            })();
+
+            content.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Status e Data -->
+                    <div class="bg-gray-50 rounded-xl p-5">
+                        <h4 class="font-bold text-gray-800 mb-4 text-lg">📋 Informações do Pedido</h4>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">ID do Pedido:</span>
+                                <span class="font-mono font-bold text-gray-800">#${orderId.slice(-6)}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Data:</span>
+                                <span class="font-medium text-gray-800">${createdAt}</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-500">Estado:</span>
+                                <span class="px-3 py-1 rounded-full text-xs font-bold ${statusColor}">${statusText}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Total:</span>
+                                <span class="font-bold text-primary text-base">${formatPrice(order.total || 0)}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cliente -->
+                    <div class="bg-gray-50 rounded-xl p-5">
+                        <h4 class="font-bold text-gray-800 mb-4 text-lg">👤 Dados do Cliente</h4>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex items-start gap-2">
+                                <span class="text-gray-500 shrink-0">👤 Nome:</span>
+                                <span class="font-medium text-gray-800">${order.customer?.name || 'N/A'}</span>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <span class="text-gray-500 shrink-0">📧 Email:</span>
+                                <span class="font-medium text-gray-800 break-all">${order.customer?.email || 'N/A'}</span>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <span class="text-gray-500 shrink-0">📞 Tel:</span>
+                                <span class="font-medium text-gray-800">${order.customer?.phone || 'N/A'}</span>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <span class="text-gray-500 shrink-0">📍 Local:</span>
+                                <span class="font-medium text-gray-800">${order.customer?.location || 'N/A'}</span>
+                            </div>
+                            ${order.customer?.message ? `
+                            <div class="flex items-start gap-2">
+                                <span class="text-gray-500 shrink-0">💬 Nota:</span>
+                                <span class="font-medium text-gray-800 italic">${order.customer.message}</span>
+                            </div>` : ''}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Itens -->
+                <div class="bg-gray-50 rounded-xl p-5">
+                    <h4 class="font-bold text-gray-800 mb-4 text-lg">📦 Itens do Pedido (${(order.items || []).length})</h4>
+                    <div class="divide-y divide-gray-100">
+                        ${itemsHtml}
+                    </div>
+                    <div class="flex justify-between items-center mt-4 pt-4 border-t border-gray-200">
+                        <span class="font-bold text-gray-800 text-lg">Total</span>
+                        <span class="font-bold text-primary text-xl">${formatPrice(order.total || 0)}</span>
+                    </div>
+                </div>
+
+                ${actionButtons ? `
+                <div class="flex flex-wrap gap-3">
+                    ${actionButtons}
+                </div>` : ''}
+            `;
+
+            modal.classList.remove('hidden');
+        };
+
+        window.closeOrderDetailModal = () => {
+            document.getElementById('orderDetailModal').classList.add('hidden');
+        };
         window.startChatWithUser = startChatWithUser;
         window.sendNotificationToUser = sendNotificationToUser;
         window.openProfilePictureModal = () => {}; // Placeholder
