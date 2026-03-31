@@ -532,20 +532,14 @@
             </div>
 
             <!-- Chat Section -->
-            <div id="chatSection" class="hidden">
-                <div class="mb-8">
-                    <h2 class="text-4xl font-bold text-gray-800 mb-2">Central de Chat</h2>
-                    <p class="text-gray-600 text-lg">Converse com os clientes em tempo real</p>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div id="chatSection" class="hidden fixed inset-x-0 bottom-0 z-20 bg-gray-50 flex" style="top: 64px;">
                     <!-- Users List -->
-                    <div class="bg-white rounded-xl shadow-lg border border-gray-200">
-                        <div class="p-6 border-b border-gray-200">
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">Usuários</h3>
-                            <p class="text-sm text-gray-500">Clique para iniciar conversa</p>
+                    <div class="w-72 shrink-0 bg-white border-r border-gray-200 flex flex-col">
+                        <div class="p-4 border-b border-gray-200">
+                            <h3 class="text-lg font-bold text-gray-800">💬 Central de Chat</h3>
+                            <p class="text-xs text-gray-500 mt-1">Clique para iniciar conversa</p>
                         </div>
-                        <div id="usersList" class="p-4 max-h-96 overflow-y-auto">
+                        <div id="usersList" class="flex-1 overflow-y-auto p-3">
                             <div class="text-center py-8 text-gray-500">
                                 <div class="animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent mx-auto mb-4"></div>
                                 <p>Carregando usuários...</p>
@@ -554,8 +548,8 @@
                     </div>
 
                     <!-- Chat Area -->
-                    <div class="lg:col-span-2 bg-white rounded-xl shadow-lg border border-gray-200 flex flex-col h-96">
-                        <div class="flex items-center justify-between p-6 border-b border-gray-200">
+                    <div class="flex-1 bg-white flex flex-col overflow-hidden">
+                        <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 shrink-0">
                             <div id="chatHeader" class="flex items-center space-x-3">
                                 <div class="text-2xl">💬</div>
                                 <div>
@@ -569,15 +563,15 @@
                         </div>
                         
                         <div id="chatMessages" class="flex-1 overflow-y-auto p-6 bg-gray-50">
-                            <div class="text-center text-gray-500 py-12">
+                            <div class="text-center text-gray-500 py-24">
                                 <div class="text-6xl mb-4">💬</div>
                                 <p class="text-lg">Selecione um usuário para começar a conversar</p>
                                 <p class="text-sm mt-2">Suporte em tempo real para seus clientes</p>
                             </div>
                         </div>
                         
-                        <div id="chatInputContainer" class="p-6 border-t border-gray-200 hidden">
-                            <div class="flex space-x-3 mb-3">
+                        <div id="chatInputContainer" class="px-6 py-4 border-t border-gray-200 hidden shrink-0">
+                            <div class="flex space-x-3 mb-2">
                                 <input type="text" id="chatInput" placeholder="Digite sua mensagem..." 
                                        class="flex-1 px-4 py-3 text-base border border-gray-300 rounded-xl bg-white text-gray-900 focus:ring-2 focus:ring-primary focus:border-transparent">
                                 <input type="file" id="chatImageInput" accept="image/*" class="hidden">
@@ -591,7 +585,6 @@
                             <p class="text-xs text-gray-500">Pressione Enter para enviar • Clique em 📷 para enviar imagem</p>
                         </div>
                     </div>
-                </div>
             </div>
 
             <!-- Notifications Section -->
@@ -2102,11 +2095,20 @@
             
             // Hide all sections
             ['dashboard', 'products', 'categories', 'orders', 'chat', 'notifications', 'users', 'reports', 'soldProducts', 'settings'].forEach(sec => {
-                document.getElementById(`${sec}Section`).classList.add('hidden');
+                const el = document.getElementById(`${sec}Section`);
+                el.classList.add('hidden');
+                el.style.display = '';
             });
             
-            // Show target section
-            document.getElementById(`${section}Section`).classList.remove('hidden');
+            // Show target section (chat needs flex, others use block)
+            const targetEl = document.getElementById(`${section}Section`);
+            targetEl.classList.remove('hidden');
+            if (section === 'chat') {
+                targetEl.style.display = 'flex';
+                // Adjust top for mobile nav bar presence
+                const mobileNav = document.querySelector('.lg\\:hidden');
+                targetEl.style.top = mobileNav ? (64 + mobileNav.offsetHeight) + 'px' : '64px';
+            }
             
             // Update navigation buttons
             document.querySelectorAll('.nav-btn, .mobile-nav-btn').forEach(btn => {
