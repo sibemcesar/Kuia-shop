@@ -1207,6 +1207,21 @@
         </div>
     </div>
 
+    <!-- User Profile Modal -->
+    <div id="userProfileModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden">
+        <div class="bg-white rounded-xl max-w-3xl w-full max-h-screen overflow-y-auto animate-scale-in shadow-2xl">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800">👤 Perfil do Cliente</h3>
+                    <button onclick="closeUserProfileModal()" class="text-gray-500 hover:text-gray-700 text-2xl transition-all">❌</button>
+                </div>
+                <div id="userProfileContent" class="space-y-6">
+                    <!-- populated dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Order Detail Modal -->
     <div id="orderDetailModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden">
         <div class="bg-white rounded-xl max-w-4xl w-full max-h-screen overflow-y-auto animate-scale-in shadow-2xl">
@@ -3258,11 +3273,14 @@
                         </div>
                         
                         <div class="flex space-x-2">
+                            <button onclick="showUserProfile('${userUID}')" class="flex-1 px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-all font-semibold">
+                                👁️ Ver Perfil
+                            </button>
                             <button onclick="startChatWithUser('${userUID}')" class="flex-1 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all font-semibold">
                                 💬 Chat
                             </button>
                             <button onclick="sendNotificationToUser('${userUID}')" class="px-4 py-2 bg-purple-50 text-purple-600 rounded-lg hover:bg-purple-100 transition-all">
-                                🔔 Notificar
+                                🔔
                             </button>
                         </div>
                     </div>
@@ -4789,6 +4807,138 @@ Admin: ${currentUser.email}
                     </div>
                 `).join('');
             }, { onlyOnce: true });
+        };
+
+        window.closeUserProfileModal = () => {
+            document.getElementById('userProfileModal').classList.add('hidden');
+        };
+
+        window.showUserProfile = (userId) => {
+            const user = users[userId];
+            if (!user) { showNotificationToast('Erro', 'Utilizador não encontrado.', 'error'); return; }
+
+            const modal = document.getElementById('userProfileModal');
+            const content = document.getElementById('userProfileContent');
+
+            const avatarUrl = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || user.email?.charAt(0) || 'U')}&background=5D5CDE&color=fff`;
+            const loginType = user.photoURL && user.photoURL.includes('googleusercontent.com') ? 'Google' : 'Email';
+
+            // --- Pedidos deste utilizador ---
+            const userOrders = Object.entries(orders)
+                .map(([id, o]) => ({ id, ...o }))
+                .filter(o => o.customer?.userId === userId)
+                .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+            const totalSpent = userOrders
+                .filter(o => o.status === 'delivered')
+                .reduce((sum, o) => sum + (o.total || 0), 0);
+
+            const pendingCount   = userOrders.filter(o => o.status === 'pending').length;
+            const approvedCount  = userOrders.filter(o => o.status === 'approved').length;
+            const deliveredCount = userOrders.filter(o => o.status === 'delivered').length;
+            const rejectedCount  = userOrders.filter(o => o.status === 'rejected').length;
+
+            // --- Favoritos ---
+            const favList = Object.values(user.favorites || {});
+
+            const ordersHtml = userOrders.length === 0
+                ? '<p class="text-gray-500 text-sm text-center py-4">Nenhum pedido ainda</p>'
+                : userOrders.slice(0, 10).map(o => `
+                    <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                        <div>
+                            <p class="text-sm font-semibold text-gray-800">#${o.id.slice(-6)}</p>
+                            <p class="text-xs text-gray-500">${new Date(o.createdAt || Date.now()).toLocaleDateString('pt-BR')}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm font-bold text-primary">${formatPrice(o.total || 0)}</p>
+                            <span class="px-2 py-0.5 rounded-full text-xs font-medium ${getOrderStatusColor(o.status)}">${getOrderStatusText(o.status)}</span>
+                        </div>
+                    </div>
+                `).join('');
+
+            const favsHtml = favList.length === 0
+                ? '<p class="text-gray-500 text-sm text-center py-4">Sem favoritos</p>'
+                : favList.map(fav => {
+                    const product = Object.values(products).find(p => p.id === fav || p.name === fav) || {};
+                    return `
+                        <div class="flex items-center gap-3 py-2 border-b border-gray-100 last:border-0">
+                            <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-lg shrink-0">
+                                ${product.imageUrl ? `<img src="${product.imageUrl}" class="w-8 h-8 rounded-lg object-cover">` : '⭐'}
+                            </div>
+                            <p class="text-sm text-gray-800">${product.name || fav}</p>
+                        </div>
+                    `;
+                }).join('');
+
+            const inferredLastActive = getUserLastActive(user, userId);
+            const isActive = inferredLastActive && (Date.now() - inferredLastActive) < 24 * 60 * 60 * 1000;
+
+            content.innerHTML = `
+                <!-- Header do perfil -->
+                <div class="flex items-center gap-5 p-5 bg-gradient-to-r from-primary/10 to-primary/5 rounded-xl">
+                    <img src="${avatarUrl}" class="w-20 h-20 rounded-full border-4 border-primary shadow-lg">
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-xl font-bold text-gray-800">${user.name || 'Utilizador'}</h4>
+                        <p class="text-sm text-gray-600 truncate">${user.email}</p>
+                        <p class="text-sm text-gray-500">${user.phone || user.telefone || 'Sem telefone'}</p>
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <span class="px-2 py-1 text-xs rounded-full ${loginType === 'Google' ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'}">
+                                ${loginType === 'Google' ? '🔗 Google' : '📧 Email'}
+                            </span>
+                            ${isActive ? '<span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">🟢 Online hoje</span>' : ''}
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2 shrink-0">
+                        <button onclick="startChatWithUser('${userId}'); closeUserProfileModal();" class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary-dark transition-all">💬 Chat</button>
+                        <button onclick="sendNotificationToUser('${userId}'); closeUserProfileModal();" class="px-4 py-2 bg-purple-100 text-purple-700 rounded-lg text-sm font-semibold hover:bg-purple-200 transition-all">🔔 Notificar</button>
+                    </div>
+                </div>
+
+                <!-- Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <div class="bg-blue-50 rounded-xl p-4 text-center">
+                        <p class="text-2xl font-bold text-blue-600">${userOrders.length}</p>
+                        <p class="text-xs text-blue-600 mt-1">Total Pedidos</p>
+                    </div>
+                    <div class="bg-green-50 rounded-xl p-4 text-center">
+                        <p class="text-lg font-bold text-green-600">${formatPrice(totalSpent)}</p>
+                        <p class="text-xs text-green-600 mt-1">Total Gasto</p>
+                    </div>
+                    <div class="bg-yellow-50 rounded-xl p-4 text-center">
+                        <p class="text-2xl font-bold text-yellow-600">${pendingCount + approvedCount}</p>
+                        <p class="text-xs text-yellow-600 mt-1">Em Curso</p>
+                    </div>
+                    <div class="bg-purple-50 rounded-xl p-4 text-center">
+                        <p class="text-2xl font-bold text-purple-600">${deliveredCount}</p>
+                        <p class="text-xs text-purple-600 mt-1">Entregues</p>
+                    </div>
+                </div>
+
+                <!-- Info pessoal -->
+                <div class="bg-gray-50 rounded-xl p-5">
+                    <h5 class="font-bold text-gray-800 mb-3">📋 Informação Pessoal</h5>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                        <div class="flex justify-between"><span class="text-gray-500">UID:</span><span class="font-mono text-xs text-gray-700">${userId.slice(0, 16)}...</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">Registado:</span><span class="text-gray-700">${new Date(user.createdAt || Date.now()).toLocaleDateString('pt-BR')}</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">Último acesso:</span><span class="text-gray-700">${inferredLastActive ? getTimeAgo(inferredLastActive) : 'Desconhecido'}</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">Pedidos rejeitados:</span><span class="text-red-600 font-semibold">${rejectedCount}</span></div>
+                    </div>
+                </div>
+
+                <!-- Pedidos -->
+                <div class="bg-gray-50 rounded-xl p-5">
+                    <h5 class="font-bold text-gray-800 mb-3">🛒 Histórico de Pedidos ${userOrders.length > 10 ? `<span class="text-xs font-normal text-gray-500">(últimos 10 de ${userOrders.length})</span>` : ''}</h5>
+                    <div>${ordersHtml}</div>
+                </div>
+
+                <!-- Favoritos -->
+                <div class="bg-gray-50 rounded-xl p-5">
+                    <h5 class="font-bold text-gray-800 mb-3">⭐ Favoritos (${favList.length})</h5>
+                    <div>${favsHtml}</div>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
         };
 
         window.closeOrderDetailModal = () => {
