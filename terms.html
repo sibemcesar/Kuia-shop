@@ -1574,8 +1574,9 @@
                 addDebugLog('Checking admin access...');
                 
                 // Check super admin by email
-                if (currentUser.email === 'sibemcesar02@gmail.com') {
-                    addDebugLog('Super admin detected by email');
+                const superAdminEmails = ['sibemcesar@gmail.com', 'kuiashop7@gmail.com'];
+                if (superAdminEmails.includes(currentUser.email)) {
+                    addDebugLog('Super admin detected by email: ' + currentUser.email);
                     isAdmin = true;
                     await ensureAdminAccess();
                     showAdminPanel();
@@ -1669,9 +1670,10 @@
                 return;
             }
             
-            if (currentUser.email !== 'sibemcesar@gmail.com') {
+            const superAdminEmails = ['sibemcesar@gmail.com', 'kuiashop7@gmail.com'];
+            if (!superAdminEmails.includes(currentUser.email)) {
                 addDebugLog('User is not super admin, cannot force access');
-                showNotificationToast('Erro', 'Apenas sibemcesar@gmail.com pode forçar acesso', 'error');
+                showNotificationToast('Erro', 'Apenas admins autorizados podem forçar acesso', 'error');
                 return;
             }
             
