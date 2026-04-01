@@ -4294,7 +4294,7 @@
 
                 await update(ref(database, `orders/${orderId}`), updateData);
 
-                // Gravar entrada no histórico
+                // Gravar histórico num nó separado para não poluir o objeto orders
                 const historyEntry = {
                     timestamp: Date.now(),
                     oldStatus,
@@ -4303,13 +4303,12 @@
                     adminName: currentUser.displayName || currentUser.email,
                     adminPhoto: currentUser.photoURL || ''
                 };
-                await push(ref(database, `orders/${orderId}/history`), historyEntry);
+                await push(ref(database, `ordersHistory/${orderId}`), historyEntry);
 
                 const statusText = getOrderStatusText(newStatus);
                 showNotificationToast('Sucesso', `Pedido ${statusText.toLowerCase()} com sucesso!`, 'success');
 
                 // Send notification to user
-                const order = orders[orderId];
                 if (order && order.customer?.userId) {
                     const notificationData = {
                         title: '📦 Atualização do Pedido',
@@ -4732,7 +4731,7 @@ Admin: ${currentUser.email}
             modal.classList.remove('hidden');
 
             // Carregar histórico em tempo real
-            const historyRef = ref(database, `orders/${orderId}/history`);
+            const historyRef = ref(database, `ordersHistory/${orderId}`);
             onValue(historyRef, (snapshot) => {
                 const historyContainer = document.getElementById('orderHistoryTimeline');
                 if (!historyContainer) return;
