@@ -532,57 +532,50 @@
             </div>
 
             <!-- Chat Section -->
-            <div id="chatSection" class="hidden fixed inset-x-0 bottom-0 z-20 bg-gray-50 flex" style="top: 64px;">
-                    <!-- Users List -->
-                    <div class="w-72 shrink-0 bg-white border-r border-gray-200 flex flex-col">
-                        <div class="p-4 border-b border-gray-200">
+            <div id="chatSection" class="hidden fixed inset-x-0 bottom-0 z-20 bg-white" style="top: 64px;">
+
+                    <!-- Users List Panel -->
+                    <div id="chatUsersPanel" class="absolute inset-0 flex flex-col bg-white">
+                        <div class="p-4 border-b border-gray-200 shrink-0">
                             <h3 class="text-lg font-bold text-gray-800">💬 Central de Chat</h3>
-                            <p class="text-xs text-gray-500 mt-1">Clique para iniciar conversa</p>
+                            <p class="text-xs text-gray-500 mt-1">Toque num utilizador para conversar</p>
                         </div>
-                        <div id="usersList" class="flex-1 overflow-y-auto p-3">
-                            <div class="text-center py-8 text-gray-500">
-                                <div class="animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent mx-auto mb-4"></div>
-                                <p>Carregando usuários...</p>
-                            </div>
-                        </div>
+                        <div id="usersList" class="flex-1 overflow-y-auto p-3"></div>
                     </div>
 
-                    <!-- Chat Area -->
-                    <div class="flex-1 bg-white flex flex-col overflow-hidden">
-                        <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 shrink-0">
-                            <div id="chatHeader" class="flex items-center space-x-3">
+                    <!-- Chat Conversation Panel (hidden until user selected) -->
+                    <div id="chatConversationPanel" class="absolute inset-0 flex-col bg-white hidden">
+                        <!-- Header -->
+                        <div class="flex items-center px-4 py-3 border-b border-gray-200 shrink-0 bg-white">
+                            <button onclick="closeChatConversation()" class="mr-3 text-gray-500 hover:text-gray-800 text-xl transition-all">←</button>
+                            <div id="chatHeader" class="flex items-center space-x-3 flex-1 min-w-0">
                                 <div class="text-2xl">💬</div>
-                                <div>
-                                    <h4 class="font-bold text-gray-800">Selecione um usuário</h4>
-                                    <p class="text-sm text-gray-500">Para iniciar uma conversa</p>
+                                <div class="min-w-0">
+                                    <h4 class="font-bold text-gray-800 truncate">Selecione um usuário</h4>
+                                    <p class="text-xs text-gray-500">Para iniciar uma conversa</p>
                                 </div>
                             </div>
-                            <button id="closeChatBtn" class="text-gray-500 hover:text-gray-700 hidden transition-all">
-                                ❌
-                            </button>
+                            <button id="closeChatBtn" class="text-gray-400 hover:text-gray-700 hidden transition-all ml-2">❌</button>
                         </div>
-                        
-                        <div id="chatMessages" class="flex-1 overflow-y-auto p-6 bg-gray-50">
+
+                        <!-- Messages -->
+                        <div id="chatMessages" class="flex-1 overflow-y-auto p-4 bg-gray-50">
                             <div class="text-center text-gray-500 py-24">
                                 <div class="text-6xl mb-4">💬</div>
                                 <p class="text-lg">Selecione um usuário para começar a conversar</p>
-                                <p class="text-sm mt-2">Suporte em tempo real para seus clientes</p>
                             </div>
                         </div>
-                        
-                        <div id="chatInputContainer" class="px-6 py-4 border-t border-gray-200 hidden shrink-0">
-                            <div class="flex space-x-3 mb-2">
-                                <input type="text" id="chatInput" placeholder="Digite sua mensagem..." 
+
+                        <!-- Input -->
+                        <div id="chatInputContainer" class="px-4 py-3 border-t border-gray-200 hidden shrink-0 bg-white">
+                            <div class="flex space-x-2">
+                                <input type="text" id="chatInput" placeholder="Digite sua mensagem..."
                                        class="flex-1 px-4 py-3 text-base border border-gray-300 rounded-xl bg-white text-gray-900 focus:ring-2 focus:ring-primary focus:border-transparent">
                                 <input type="file" id="chatImageInput" accept="image/*" class="hidden">
-                                <button id="chatImageBtn" class="px-4 py-3 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition-all">
-                                    📷
-                                </button>
-                                <button id="sendChatBtn" class="px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary-dark transition-all font-semibold">
-                                    📤 Enviar
-                                </button>
+                                <button id="chatImageBtn" class="px-4 py-3 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition-all">📷</button>
+                                <button id="sendChatBtn" class="px-5 py-3 bg-primary text-white rounded-xl hover:bg-primary-dark transition-all font-semibold">📤</button>
                             </div>
-                            <p class="text-xs text-gray-500">Pressione Enter para enviar • Clique em 📷 para enviar imagem</p>
+                            <p class="text-xs text-gray-500 mt-2">Pressione Enter para enviar • 📷 para imagem</p>
                         </div>
                     </div>
             </div>
@@ -2104,7 +2097,7 @@
             const targetEl = document.getElementById(`${section}Section`);
             targetEl.classList.remove('hidden');
             if (section === 'chat') {
-                targetEl.style.display = 'flex';
+                targetEl.style.display = 'block';
                 // Adjust top for mobile nav bar presence
                 const mobileNav = document.querySelector('.lg\\:hidden');
                 targetEl.style.top = mobileNav ? (64 + mobileNav.offsetHeight) + 'px' : '64px';
@@ -3417,6 +3410,12 @@
                 if (currentSection !== 'chat') {
                     showSection('chat');
                 }
+
+                // Show conversation panel, hide users list
+                document.getElementById('chatUsersPanel').classList.add('hidden');
+                const convPanel = document.getElementById('chatConversationPanel');
+                convPanel.classList.remove('hidden');
+                convPanel.style.display = 'flex';
                 
                 showNotificationToast('Chat', `Chat iniciado com ${user.name || user.email}`, 'success');
                 
@@ -3551,27 +3550,16 @@
             }
         });
 
-        document.getElementById('closeChatBtn').addEventListener('click', () => {
+        function closeChatConversation() {
             currentChatId = null;
             selectedUserId = null;
-            
-            document.getElementById('chatHeader').innerHTML = `
-                <div class="text-2xl">💬</div>
-                <div>
-                    <h4 class="font-bold text-gray-800">Selecione um usuário</h4>
-                    <p class="text-sm text-gray-500">Para iniciar uma conversa</p>
-                </div>
-            `;
-            document.getElementById('closeChatBtn').classList.add('hidden');
-            document.getElementById('chatInputContainer').classList.add('hidden');
-            document.getElementById('chatMessages').innerHTML = `
-                <div class="text-center text-gray-500 py-12">
-                    <div class="text-6xl mb-4">💬</div>
-                    <p class="text-lg">Selecione um usuário para começar a conversar</p>
-                    <p class="text-sm mt-2">Suporte em tempo real para seus clientes</p>
-                </div>
-            `;
-        });
+            document.getElementById('chatConversationPanel').classList.add('hidden');
+            document.getElementById('chatConversationPanel').style.display = '';
+            document.getElementById('chatUsersPanel').classList.remove('hidden');
+        }
+        window.closeChatConversation = closeChatConversation;
+
+        document.getElementById('closeChatBtn').addEventListener('click', closeChatConversation);
 
         // Função para enviar notificação para usuário específico - IMPLEMENTADA
         async function sendNotificationToUser(userId) {
