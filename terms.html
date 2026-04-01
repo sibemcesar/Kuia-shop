@@ -4284,12 +4284,26 @@
         // Order functions
         async function updateOrderStatus(orderId, newStatus) {
             try {
+                const order = orders[orderId];
+                const oldStatus = order?.status || 'unknown';
+
                 const updateData = {
                     status: newStatus,
                     updatedAt: Date.now()
                 };
 
                 await update(ref(database, `orders/${orderId}`), updateData);
+
+                // Gravar entrada no histórico
+                const historyEntry = {
+                    timestamp: Date.now(),
+                    oldStatus,
+                    newStatus,
+                    adminId: currentUser.uid,
+                    adminName: currentUser.displayName || currentUser.email,
+                    adminPhoto: currentUser.photoURL || ''
+                };
+                await push(ref(database, `orders/${orderId}/history`), historyEntry);
 
                 const statusText = getOrderStatusText(newStatus);
                 showNotificationToast('Sucesso', `Pedido ${statusText.toLowerCase()} com sucesso!`, 'success');
@@ -4699,6 +4713,16 @@ Admin: ${currentUser.email}
                     </div>
                 </div>
 
+                <!-- Histórico -->
+                <div class="bg-gray-50 rounded-xl p-5">
+                    <h4 class="font-bold text-gray-800 mb-4 text-lg">🕓 Histórico de Alterações</h4>
+                    <div id="orderHistoryTimeline" class="space-y-3">
+                        <div class="text-center py-4">
+                            <div class="animate-spin rounded-full h-6 w-6 border-2 border-primary border-t-transparent mx-auto"></div>
+                        </div>
+                    </div>
+                </div>
+
                 ${actionButtons ? `
                 <div class="flex flex-wrap gap-3">
                     ${actionButtons}
@@ -4706,6 +4730,64 @@ Admin: ${currentUser.email}
             `;
 
             modal.classList.remove('hidden');
+
+            // Carregar histórico em tempo real
+            const historyRef = ref(database, `orders/${orderId}/history`);
+            onValue(historyRef, (snapshot) => {
+                const historyContainer = document.getElementById('orderHistoryTimeline');
+                if (!historyContainer) return;
+
+                const raw = snapshot.val() || {};
+                const entries = Object.values(raw).sort((a, b) => a.timestamp - b.timestamp);
+
+                // Linha de criação sempre presente
+                const creationEntry = {
+                    timestamp: order.createdAt || 0,
+                    type: 'created',
+                    label: 'Pedido criado',
+                    color: 'bg-gray-400',
+                    icon: '🛒'
+                };
+
+                const statusMeta = {
+                    pending:  { color: 'bg-yellow-400', icon: '⏳', label: 'Marcado como Pendente' },
+                    approved: { color: 'bg-blue-500',   icon: '✅', label: 'Aprovado' },
+                    delivered:{ color: 'bg-green-500',  icon: '🎉', label: 'Marcado como Entregue' },
+                    rejected: { color: 'bg-red-500',    icon: '❌', label: 'Rejeitado' },
+                };
+
+                const timelineItems = [creationEntry, ...entries.map(e => ({
+                    timestamp: e.timestamp,
+                    icon: statusMeta[e.newStatus]?.icon || '🔄',
+                    color: statusMeta[e.newStatus]?.color || 'bg-gray-400',
+                    label: statusMeta[e.newStatus]?.label || `Estado alterado para ${e.newStatus}`,
+                    admin: e.adminName,
+                    adminPhoto: e.adminPhoto,
+                    oldStatus: e.oldStatus,
+                    newStatus: e.newStatus
+                }))];
+
+                if (timelineItems.length === 1) {
+                    historyContainer.innerHTML = `<p class="text-sm text-gray-500 text-center py-2">Nenhuma alteração registada ainda.</p>`;
+                    return;
+                }
+
+                historyContainer.innerHTML = timelineItems.map((item, i) => `
+                    <div class="flex items-start gap-3">
+                        <div class="flex flex-col items-center shrink-0">
+                            <div class="w-8 h-8 rounded-full ${item.color} flex items-center justify-center text-white text-sm shadow">
+                                ${item.icon}
+                            </div>
+                            ${i < timelineItems.length - 1 ? '<div class="w-0.5 flex-1 bg-gray-200 mt-1" style="min-height:20px"></div>' : ''}
+                        </div>
+                        <div class="pb-4 flex-1">
+                            <p class="font-semibold text-gray-800 text-sm">${item.label}</p>
+                            ${item.admin ? `<p class="text-xs text-gray-500 mt-0.5">por ${item.admin}</p>` : ''}
+                            <p class="text-xs text-gray-400 mt-0.5">${new Date(item.timestamp).toLocaleString('pt-BR')}</p>
+                        </div>
+                    </div>
+                `).join('');
+            }, { onlyOnce: true });
         };
 
         window.closeOrderDetailModal = () => {
