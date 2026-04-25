@@ -6405,12 +6405,24 @@
         function loadUserOrders() {
             if (!currentUser) return;
 
-            const ordersRef = ref(database, 'orders');
-            onValue(ordersRef, (snapshot) => {
-                const allOrders = snapshot.val() || {};
-                const userOrders_array = Object.entries(allOrders)
-                    .filter(([id, order]) => order.customer && order.customer.userId === currentUser.uid)
-                    .map(([id, order]) => ({ id, ...order }))
+            const userOrdersRef = ref(database, `userOrders/${currentUser.uid}`);
+            onValue(userOrdersRef, async (snapshot) => {
+                const orderIds = snapshot.val() || {};
+                const ids = Object.keys(orderIds);
+
+                if (ids.length === 0) {
+                    orders = {};
+                    displayUserOrders([]);
+                    displayOrdersInGrid([]);
+                    return;
+                }
+
+                const orderPromises = ids.map(id => get(ref(database, `orders/${id}`)));
+                const snapshots = await Promise.all(orderPromises);
+
+                const userOrders_array = snapshots
+                    .filter(s => s.exists())
+                    .map(s => ({ id: s.key, ...s.val() }))
                     .sort((a, b) => b.createdAt - a.createdAt);
 
                 orders = userOrders_array.reduce((acc, order) => {
@@ -8039,7 +8051,10 @@
 
             try {
                 const newOrderRef = push(ref(database, 'orders'));
-                await set(newOrderRef, orderData);
+                await update(ref(database), {
+                    [`orders/${newOrderRef.key}`]: orderData,
+                    [`userOrders/${currentUser.uid}/${newOrderRef.key}`]: true
+                });
                 await setDoc(doc(firestore, 'orders', newOrderRef.key), orderData);
 
                 cart = [];
