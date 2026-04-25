@@ -9664,6 +9664,9 @@
             loadingScreen.style.opacity = '0';
             setTimeout(() => {
                 loadingScreen.classList.add('hidden');
+                loadingScreen.style.setProperty('display', 'none', 'important');
+                loadingScreen.style.setProperty('visibility', 'hidden', 'important');
+                loadingScreen.style.setProperty('z-index', '-1', 'important');
                 loginScreen.classList.add('hidden'); loginScreen.style.display = 'none';
                 mainApp.classList.remove('hidden');
                 mainApp.style.opacity = '0';
@@ -9676,6 +9679,9 @@
 
         function showLoginScreen() {
             loadingScreen.classList.add('hidden');
+            loadingScreen.style.setProperty('display', 'none', 'important');
+            loadingScreen.style.setProperty('visibility', 'hidden', 'important');
+            loadingScreen.style.setProperty('z-index', '-1', 'important');
             mainApp.classList.add('hidden');
             loginScreen.classList.remove('hidden'); loginScreen.style.display = 'flex'; loginScreen.style.padding = '24px 16px'; loginScreen.style.boxSizing = 'border-box';
 
@@ -9709,6 +9715,30 @@
                 showLoginScreen();
             }
         }, 2000);
+
+        // ✅ CORREÇÃO: Timeout de emergência — força saída da loading screen após 5s
+        setTimeout(() => {
+            const ls = document.getElementById('loadingScreen');
+            if (ls && ls.style.display !== 'none' && getComputedStyle(ls).display !== 'none') {
+                console.warn('⚠️ Timeout de segurança: forçando saída da loading screen.');
+                ls.style.setProperty('display', 'none', 'important');
+                ls.style.setProperty('visibility', 'hidden', 'important');
+                ls.style.setProperty('opacity', '0', 'important');
+                ls.style.setProperty('z-index', '-1', 'important');
+
+                const loginScr = document.getElementById('loginScreen');
+                if (loginScr) {
+                    loginScr.style.setProperty('display', 'flex', 'important');
+                    loginScr.style.padding = '24px 16px';
+                    loginScr.style.boxSizing = 'border-box';
+                    loginScr.classList.remove('hidden');
+                }
+
+                if (typeof showLoginScreen === 'function') {
+                    try { showLoginScreen(); } catch(e) {}
+                }
+            }
+        }, 5000);
 </script>
     <script>
   setTimeout(function() {
