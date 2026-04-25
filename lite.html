@@ -4011,6 +4011,23 @@
                                 <p style="font-size:11px;color:#9ca3af;margin:2px 0 0;">Requer PIN para voltar a entrar</p>
                             </div>
                         </button>
+                        <div class="profile-card-sep" style="height:1px;background:#f3f4f6;margin:0 16px;"></div>
+                        <div id="pinOnStartRow" style="display:flex;align-items:center;gap:12px;padding:12px 16px;">
+                            <div class="profile-icon-wrap" style="width:34px;height:34px;border-radius:10px;background:#ede9fe;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+                                <svg width="16" height="16" fill="none" stroke="#7c3aed" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+                            </div>
+                            <div style="flex:1;">
+                                <p style="font-size:13px;font-weight:500;color:#374151;margin:0;">Pedir PIN ao abrir</p>
+                                <p style="font-size:11px;color:#9ca3af;margin:2px 0 0;">Pede o PIN sempre que a aplicação carregar</p>
+                            </div>
+                            <label style="position:relative;display:inline-block;width:44px;height:24px;flex-shrink:0;">
+                                <input type="checkbox" id="pinOnStartToggle" onchange="window.togglePinOnStart(this.checked)"
+                                    style="opacity:0;width:0;height:0;position:absolute;">
+                                <span id="pinOnStartSlider" style="position:absolute;cursor:pointer;inset:0;border-radius:24px;background:#d1d5db;transition:background 0.25s;">
+                                    <span style="position:absolute;left:2px;bottom:2px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform 0.25s;display:block;" id="pinOnStartThumb"></span>
+                                </span>
+                            </label>
+                        </div>
                     </div>
                 </div>
 
@@ -11064,13 +11081,46 @@ function showPersonalizeToast(hiddenCount) {
 (function() {
     var PIN_KEY = 'kuia_app_pin';
     var LOCKED_KEY = 'kuia_app_locked';
+    var PIN_ON_START_KEY = 'kuia_pin_on_start';
 
     // ── Utilitários ───────────────────────────────────────────
     function getPin()  { return localStorage.getItem(PIN_KEY) || null; }
     function setPin(p) { localStorage.setItem(PIN_KEY, p); }
-    function clearPin(){ localStorage.removeItem(PIN_KEY); localStorage.removeItem(LOCKED_KEY); }
+    function clearPin(){ localStorage.removeItem(PIN_KEY); localStorage.removeItem(LOCKED_KEY); localStorage.removeItem(PIN_ON_START_KEY); }
     function isLocked(){ return localStorage.getItem(LOCKED_KEY) === '1'; }
     function setLocked(v){ v ? localStorage.setItem(LOCKED_KEY,'1') : localStorage.removeItem(LOCKED_KEY); }
+    function isPinOnStart(){ return localStorage.getItem(PIN_ON_START_KEY) === '1'; }
+    function setPinOnStart(v){ v ? localStorage.setItem(PIN_ON_START_KEY,'1') : localStorage.removeItem(PIN_ON_START_KEY); }
+
+    function refreshPinOnStartUI() {
+        var cb     = document.getElementById('pinOnStartToggle');
+        var slider = document.getElementById('pinOnStartSlider');
+        var thumb  = document.getElementById('pinOnStartThumb');
+        var row    = document.getElementById('pinOnStartRow');
+        if (!cb) return;
+        var active = isPinOnStart() && !!getPin();
+        cb.checked = active;
+        if (slider) slider.style.background = active ? '#5D5CDE' : '#d1d5db';
+        if (thumb)  thumb.style.transform   = active ? 'translateX(20px)' : 'translateX(0)';
+        if (row)    row.style.display        = getPin() ? 'flex' : 'none';
+    }
+
+    window.togglePinOnStart = function(checked) {
+        if (!getPin()) {
+            if (window.showNotificationToast) window.showNotificationToast('PIN não definido', 'Define primeiro um PIN de segurança.', 'warning');
+            refreshPinOnStartUI();
+            return;
+        }
+        setPinOnStart(checked);
+        refreshPinOnStartUI();
+        if (window.showNotificationToast) {
+            if (checked) {
+                window.showNotificationToast('PIN ao abrir activado', 'O PIN será pedido sempre que a página carregar.', 'success');
+            } else {
+                window.showNotificationToast('PIN ao abrir desactivado', 'A página abre sem pedir PIN.', 'info');
+            }
+        }
+    };
 
     // ── Atualizar UI do perfil ────────────────────────────────
     function refreshPinProfileUI() {
@@ -11087,6 +11137,7 @@ function showPersonalizeToast(hiddenCount) {
             if (sub) sub.textContent = '';
             if (removeRow) removeRow.style.display = 'none';
         }
+        refreshPinOnStartUI();
     }
     window.refreshPinProfileUI = refreshPinProfileUI;
 
@@ -11161,9 +11212,11 @@ function showPersonalizeToast(hiddenCount) {
     // Verificar bloqueio ao carregar
     window.addEventListener('load', function() {
         refreshPinProfileUI();
-        if (isLocked() && getPin()) {
+        if ((isLocked() || isPinOnStart()) && getPin()) {
             lockEntry = '';
             updateLockDots();
+            var sub = document.getElementById('pinLockSubtitle');
+            if (sub) sub.textContent = 'Insere o teu PIN de 4 dígitos';
             document.getElementById('pinLockOverlay').style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
