@@ -238,7 +238,7 @@
             border: 1px solid rgba(93, 92, 222, 0.3);
         }
 
-        /* Grid toggle buttons */
+        
         .grid-toggle-btn {
             color: #9ca3af;
             border-color: #e5e7eb;
@@ -259,7 +259,7 @@
             background: rgba(93, 92, 222, 0.2);
         }
 
-        /* Grid modes for productsGrid */
+        
         #productsGrid.grid-cols-mode-1 {
             grid-template-columns: 1fr !important;
         }
@@ -270,13 +270,13 @@
             grid-template-columns: repeat(3, 1fr) !important;
         }
 
-        /* Modo 1 coluna: card horizontal */
+        
         #productsGrid.grid-cols-mode-1 > div {
             display: flex;
             flex-direction: row;
         }
         #productsGrid.grid-cols-mode-1 > div > div:first-child {
-            /* bloco da imagem */
+            
             width: 120px !important;
             min-width: 120px !important;
             height: auto !important;
@@ -284,7 +284,7 @@
             flex-shrink: 0;
         }
         #productsGrid.grid-cols-mode-1 > div > div:last-child {
-            /* bloco de info */
+            
             flex: 1;
             display: flex;
             flex-direction: column;
@@ -301,14 +301,14 @@
         #productsGrid.grid-cols-mode-1 > div .gradient-text {
             font-size: 15px !important;
         }
-        /* botão comprar no modo 1 col */
+        
         #productsGrid.grid-cols-mode-1 > div button[onclick*="addToCart"] {
             padding-top: 8px !important;
             padding-bottom: 8px !important;
             font-size: 13px !important;
             margin-top: 6px;
         }
-        /* col-span-full (Ver mais / empty state) não deve ficar horizontal */
+        
         #productsGrid.grid-cols-mode-1 > div.col-span-full {
             flex-direction: column !important;
         }
@@ -1987,15 +1987,13 @@
 
         
 
-        /* ═══════════════════════════════════════════════
-           KUIA+ LOGIN — FULLSCREEN OFFICIAL APP STYLE
-           ═══════════════════════════════════════════════ */
+        
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
-        /* Hide old bg elements */
+        
         .login-bg-mesh, .login-dot-grid, .login-particles { display: none !important; }
 
-        /* ── FULLSCREEN WRAPPER ── */
+        
         #loginScreen {
             font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
             display: flex;
@@ -2010,7 +2008,7 @@
             display: none !important;
         }
 
-        /* ── LEFT PANEL — brand side ── */
+        
         .login-card-entrance {
             display: flex;
             flex-direction: row;
@@ -2029,7 +2027,7 @@
             100% { opacity: 1; }
         }
 
-        /* Brand panel (left/top) */
+        
         .login-card-top {
             width: 45%;
             min-height: 100vh;
@@ -2045,7 +2043,7 @@
             flex-shrink: 0;
             border-radius: 0 !important;
         }
-        /* Decorative circles */
+        
         .login-card-top::before {
             content: '';
             position: absolute;
@@ -2062,7 +2060,7 @@
             border-radius: 50%;
             background: rgba(255,255,255,0.05);
         }
-        /* Extra decoration */
+        
         .login-brand-deco {
             position: absolute;
             top: 50%; right: -60px;
@@ -2072,7 +2070,7 @@
             transform: translateY(-50%);
         }
 
-        /* Logo */
+        
         .login-logo-wrap {
             width: 80px;
             height: 80px;
@@ -2118,7 +2116,7 @@
             100% { opacity: 1; transform: translateY(0); }
         }
 
-        /* Brand feature list */
+        
         .login-brand-features {
             display: flex;
             flex-direction: column;
@@ -2144,7 +2142,7 @@
             flex-shrink: 0;
         }
 
-        /* Brand footer */
+        
         .login-brand-footer {
             position: absolute;
             bottom: 28px; left: 52px;
@@ -2154,7 +2152,7 @@
             z-index: 1;
         }
 
-        /* ── RIGHT PANEL — form side ── */
+        
         .login-card-body {
             flex: 1;
             display: flex;
@@ -2166,13 +2164,13 @@
             overflow-y: auto;
         }
 
-        /* Form inner container */
+        
         .login-form-inner {
             width: 100%;
             max-width: 380px;
         }
 
-        /* Right panel heading */
+        
         .login-right-heading {
             margin-bottom: 32px;
         }
@@ -2190,7 +2188,7 @@
             margin: 0;
         }
 
-        /* ── Buttons ── */
+        
         .login-btn-stagger { animation: btnReveal 0.3s ease-out both; }
         @keyframes btnReveal {
             0% { opacity: 0; transform: translateY(8px); }
@@ -2263,7 +2261,7 @@
             background: rgba(93,92,222,0.03);
         }
 
-        /* ── Divider ── */
+        
         .login-divider { display: flex; align-items: center; gap: 12px; margin: 4px 0; }
         .login-divider span { flex: 1; height: 1px; background: #eeeff5; }
         .login-divider p {
@@ -2275,7 +2273,7 @@
             white-space: nowrap;
         }
 
-        /* ── Email forms ── */
+        
         #emailLoginForm, #emailRegisterForm, #forgotPasswordForm { color: #1a1a2e; }
         #emailLoginForm h3, #emailRegisterForm h3, #forgotPasswordForm h3 {
             color: #0f0f1a !important;
@@ -2294,7 +2292,7 @@
         }
         #backToOptionsBtn:hover, #backToLoginBtn:hover, #backToLoginFromForgotBtn:hover { color: #5D5CDE !important; }
 
-        /* ── Input fields ── */
+        
         #loginEmail, #loginPassword,
         #registerName, #registerEmail, #registerPassword,
         #forgotEmail {
@@ -2325,7 +2323,7 @@
             box-shadow: 0 0 0 3px rgba(93,92,222,0.1) !important;
         }
 
-        /* ── Submit buttons ── */
+        
         #loginForm button[type="submit"],
         #forgotPasswordSubmitBtn,
         #registerSubmitBtn {
@@ -2353,7 +2351,7 @@
         #forgotPasswordSubmitBtn:active,
         #registerSubmitBtn:active { transform: translateY(0) !important; }
 
-        /* ── Secondary links ── */
+        
         #showForgotPasswordBtn, #showRegisterBtn {
             color: #5D5CDE !important;
             font-size: 13px !important;
@@ -2368,11 +2366,11 @@
         }
         #emailLoginForm .text-gray-500 { color: #9ca3af !important; }
 
-        /* ── Avatar ── */
+        
         #previewAvatar { border-color: rgba(93,92,222,0.4) !important; }
         #registerForm .text-xs { color: #9ca3af !important; }
 
-        /* ── Error banner ── */
+        
         .login-error-banner {
             background: #fff5f5 !important;
             border-color: #fecaca !important;
@@ -2390,11 +2388,11 @@
             60% { transform: translateX(2px); }
         }
 
-        /* ── Forgot success ── */
+        
         #forgotPasswordSuccess { background: #f0fdf4 !important; border-color: #bbf7d0 !important; }
         #forgotPasswordSuccess p { color: #16a34a !important; }
 
-        /* ── Animations ── */
+        
         @keyframes toastSlideIn {
             from { opacity: 0; transform: translateX(20px) scale(0.97); }
             to { opacity: 1; transform: translateX(0) scale(1); }
@@ -2407,7 +2405,7 @@
         }
         .login-btn-loading { opacity: 0.65; pointer-events: none; cursor: wait; }
 
-        /* ── Trust badges ── */
+        
         .login-trust-row {
             display: flex;
             align-items: center;
@@ -2427,10 +2425,10 @@
         }
         .login-trust-item svg { color: #10b981; flex-shrink: 0; }
 
-        /* ── Google spinner ── */
+        
         #googleBtnLoader div { border-color: #ccc; border-top-color: #555; }
 
-        /* ── MOBILE — stack vertically ── */
+        
         @media (max-width: 700px) {
             #loginScreen {
                 flex-direction: column;
@@ -3229,7 +3227,7 @@
 
         <div class="login-card-entrance">
 
-            <!-- LEFT: Brand Panel -->
+            
             <div class="login-card-top">
                 <div class="login-brand-deco"></div>
 
@@ -3263,7 +3261,7 @@
                 <div class="login-brand-footer">© 2025 Kuia+ Shop · Luanda, Angola</div>
             </div>
 
-            <!-- RIGHT: Form Panel -->
+            
             <div class="login-card-body">
                 <div class="login-form-inner">
 
@@ -3272,7 +3270,7 @@
                         <p>Aceda à sua conta ou crie uma nova</p>
                     </div>
 
-                    <!-- Error banner -->
+                    
                     <div id="loginErrorBanner" class="hidden mb-4 p-3 rounded-xl border flex items-start gap-3 login-error-banner">
                         <span class="text-lg flex-shrink-0">⚠️</span>
                         <div class="flex-1 min-w-0">
@@ -3282,7 +3280,7 @@
                         <button onclick="hideLoginError()" style="color:#dc2626;opacity:0.5;font-size:18px;background:none;border:none;cursor:pointer;line-height:1;">×</button>
                     </div>
 
-                    <!-- Login options -->
+                    
                     <div id="loginOptions" class="login-options-flex">
 
                         <button id="googleLoginBtn" class="login-btn-stagger" style="animation-delay:0.1s">
@@ -3312,7 +3310,7 @@
                             Continuar como Visitante
                         </button>
 
-                        <!-- Trust badges -->
+                        
                         <div class="login-trust-row">
                             <div class="login-trust-item">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -3328,7 +3326,7 @@
                             </div>
                         </div>
 
-                        <!-- FAQ & Politicas links -->
+                        
                         <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:16px;flex-wrap:wrap;">
                             <a href="faq.html" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:5px;color:#5D5CDE;font-size:12px;font-weight:600;text-decoration:none;padding:6px 14px;border-radius:20px;border:1.5px solid rgba(93,92,222,0.25);background:rgba(93,92,222,0.05);">
                                 <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
@@ -3342,7 +3340,7 @@
                         </div>
                     </div>
 
-                    <!-- Email login form -->
+                    
                     <div id="emailLoginForm" class="hidden animate-fade-in">
                         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
                             <h3>Entrar</h3>
@@ -3362,7 +3360,7 @@
                         </div>
                     </div>
 
-                    <!-- Forgot password form -->
+                    
                     <div id="forgotPasswordForm" class="hidden animate-fade-in">
                         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
                             <h3>Recuperar Senha</h3>
@@ -3389,7 +3387,7 @@
                         </div>
                     </div>
 
-                    <!-- Register form -->
+                    
                     <div id="emailRegisterForm" class="hidden animate-fade-in">
                         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
                             <h3>Criar Conta</h3>
@@ -3422,7 +3420,7 @@
 
                 </div>
             </div>
-            <!-- END RIGHT -->
+            
 
         </div>
     </div>
@@ -3438,7 +3436,7 @@
                 <div class="flex justify-between items-center h-16 header-row">
 
                     <div id="headerLeft" class="flex items-center min-w-0 header-left-transition flex-shrink-0" style="overflow:hidden;max-width:50%;gap:8px;">
-                        <!-- Botão menu hambúrguer -->
+                        
                         <button id="hamburgerMenuBtn" onclick="openUserMenu()" style="width:38px;height:38px;border-radius:12px;border:none;background:rgba(255,255,255,0.15);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;flex-shrink:0;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
                             <span style="display:block;width:18px;height:2px;background:#fff;border-radius:2px;"></span>
                             <span style="display:block;width:18px;height:2px;background:#fff;border-radius:2px;"></span>
@@ -3570,7 +3568,7 @@
 
                 <div>
 
-                    <!-- Barra de contagem + toggle de grid — sempre visível -->
+                    
                     <div class="flex items-center justify-between mb-2">
                         <span id="productsCount" class="text-xs text-gray-500 dark:text-gray-400 font-medium">0 produtos encontrados</span>
                         <div class="flex items-center gap-1" id="gridToggleBtns">
@@ -3747,14 +3745,14 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Botão abrir galeria -->
+                        
                         <button onclick="window.openGalleryOverlay()" style="padding:5px 12px;border-radius:10px;border:1.5px solid rgba(93,92,222,0.25);background:rgba(93,92,222,0.07);color:#5D5CDE;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:5px;">
                             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                             Galeria
                         </button>
                     </div>
 
-                    <!-- Painel Chat -->
+                    
                     <div id="chatTabPanel" class="flex flex-col flex-1" style="min-height:0;">
                         <div id="chatFullContainer" class="flex-1 overflow-y-auto p-6 bg-gray-50 dark:bg-gray-900">
                             <div id="chatFullMessages" class="space-y-4">
@@ -3978,7 +3976,7 @@
                         <span class="profile-card-title" style="font-size:14px;font-weight:700;color:#111827;">Segurança</span>
                     </div>
                     <div style="padding:4px 0;">
-                        <!-- Definir / Alterar PIN -->
+                        
                         <button class="profile-row-btn" onclick="window.openPinSetup()" style="width:100%;display:flex;align-items:center;gap:12px;padding:12px 16px;background:none;border:none;cursor:pointer;text-align:left;">
                             <div class="profile-icon-wrap" style="width:34px;height:34px;border-radius:10px;background:#ede9fe;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
                                 <svg width="16" height="16" fill="none" stroke="#7c3aed" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
@@ -4001,7 +3999,25 @@
                             </button>
                         </div>
                         <div class="profile-card-sep" style="height:1px;background:#f3f4f6;margin:0 16px;"></div>
-                        <!-- Bloquear App -->
+
+                        <div id="pinAlwaysAskRow" style="display:none;">
+                            <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;">
+                                <div class="profile-icon-wrap" style="width:34px;height:34px;border-radius:10px;background:#e0f2fe;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+                                    <svg width="16" height="16" fill="none" stroke="#0284c7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                </div>
+                                <div style="flex:1;">
+                                    <p style="font-size:13px;font-weight:500;color:#374151;margin:0;">Pedir PIN ao abrir</p>
+                                    <p style="font-size:11px;color:#9ca3af;margin:2px 0 0;">Solicita o PIN sempre que a página carregar</p>
+                                </div>
+                                <label style="position:relative;display:inline-block;width:42px;height:24px;flex-shrink:0;">
+                                    <input type="checkbox" id="pinAlwaysAskToggle" onchange="window.togglePinAlwaysAsk(this.checked)" style="opacity:0;width:0;height:0;position:absolute;">
+                                    <span id="pinAlwaysAskSlider" style="position:absolute;cursor:pointer;inset:0;background:#d1d5db;border-radius:24px;transition:background 0.25s;"></span>
+                                    <span id="pinAlwaysAskThumb" style="position:absolute;content:'';height:18px;width:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:transform 0.25s;box-shadow:0 1px 3px rgba(0,0,0,0.2);"></span>
+                                </label>
+                            </div>
+                            <div class="profile-card-sep" style="height:1px;background:#f3f4f6;margin:0 16px;"></div>
+                        </div>
+
                         <button class="profile-row-btn" onclick="window.lockApp()" style="width:100%;display:flex;align-items:center;gap:12px;padding:12px 16px;background:none;border:none;cursor:pointer;text-align:left;">
                             <div class="profile-icon-wrap" style="width:34px;height:34px;border-radius:10px;background:#fef3c7;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
                                 <svg width="16" height="16" fill="none" stroke="#d97706" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
@@ -4819,7 +4835,7 @@
 
         let currentUser = null;
         let isGuest = false;
-        let guestConfirmed = false; // flag permanente: visitante escolheu entrar como guest
+        let guestConfirmed = false;
         let cart = JSON.parse(safeStorage.getItem('guestCart') || '[]');
         let products = {};
         let categories = [];
@@ -6114,7 +6130,6 @@
             document.getElementById('chatFullMessages').innerHTML = messagesHTML;
             document.getElementById('chatOverlayMessages').innerHTML = messagesHTML;
 
-            // Se galeria overlay estiver visível, actualizar
             var galleryOverlay = document.getElementById('galleryOverlay');
             if (galleryOverlay && galleryOverlay.style.display !== 'none') {
                 window._loadGalleryOverlay();
@@ -6301,7 +6316,7 @@
                     const formData = new FormData();
                     formData.append('image', file);
 
-                    const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKeyImgBB}`, {
+                    const response = await fetch(`https:
                         method: 'POST',
                         body: formData
                     });
@@ -6939,7 +6954,6 @@
             isGuest = true;
             guestConfirmed = true;
             currentUser = null;
-            // Esconde login imediatamente (síncrono) antes de qualquer callback do Firebase
             loginScreen.classList.add('hidden');
             loginScreen.style.display = 'none';
             loadingScreen.classList.add('hidden');
@@ -7141,7 +7155,7 @@
                 const formData = new FormData();
                 formData.append('image', file);
 
-                const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKeyImgBB}`, {
+                const response = await fetch(`https:
                     method: 'POST',
                     body: formData
                 });
@@ -7736,7 +7750,6 @@
 
         window.openUserMenu = openUserMenu;
 
-        // Avatar: abre perfil (autenticado) ou login (visitante)
         window.handleAvatarClick = function() {
             if (currentUser) {
                 showSection('profile');
@@ -7745,8 +7758,6 @@
             }
         };
 
-        // O userMenuBtn agora chama handleAvatarClick via onclick inline
-        // Mantemos o listener apenas para fechar ao clicar fora
         userMenuOverlay.addEventListener('click', closeUserMenu);
 
         document.addEventListener('click', (e) => {
@@ -8123,7 +8134,6 @@
             }
         }
 
-        // ── Grid Cols Toggle ──────────────────────────────────────
         var currentGridCols = parseInt(localStorage.getItem('kuia_grid_cols') || '3', 10);
         if (![1,2,3].includes(currentGridCols)) currentGridCols = 3;
 
@@ -8132,7 +8142,6 @@
             if (!grid) return;
             grid.classList.remove('grid-cols-mode-1','grid-cols-mode-2','grid-cols-mode-3');
             grid.classList.add('grid-cols-mode-' + cols);
-            // Update active button state
             [1,2,3].forEach(function(n) {
                 var btn = document.getElementById('gridBtn' + n);
                 if (!btn) return;
@@ -8148,9 +8157,7 @@
         }
         window.setGridCols = setGridCols;
 
-        // ── Gallery Fullscreen Overlay ─────────────────────────────
         window.switchChatTab = function(tab) {
-            // Compatibilidade: se pedir galeria, abre o overlay
             if (tab === 'gallery') { window.openGalleryOverlay(); }
         };
 
@@ -8235,17 +8242,13 @@
                 if (count) count.textContent = '0 imagens';
             }
         };
-        // ─────────────────────────────────────────────────────────
 
-        // Initialise on DOM ready (buttons may not exist yet at script parse time)
         document.addEventListener('DOMContentLoaded', function() {
             applyGridCols(currentGridCols);
         });
-        // Also call immediately in case DOMContentLoaded already fired
         (function() {
             if (document.readyState !== 'loading') applyGridCols(currentGridCols);
         })();
-        // ─────────────────────────────────────────────────────────
 
         function renderProducts() {
             const productsGrid = document.getElementById('productsGrid');
@@ -9528,7 +9531,7 @@
                 const formData = new FormData();
                 formData.append('image', file);
 
-                const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKeyImgBB}`, {
+                const response = await fetch(`https:
                     method: 'POST',
                     body: formData
                 });
@@ -10942,18 +10945,16 @@ function showPersonalizeToast(hiddenCount) {
                 </div>
             </div>
         </div>
-<!-- ═══════════════════════════════════════════════════════════
-     PIN LOCK OVERLAY
-     ═══════════════════════════════════════════════════════════ -->
+
 <div id="pinLockOverlay" style="display:none;position:fixed;inset:0;z-index:99999;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;">
-    <!-- Logo / ícone -->
+    
     <div style="width:72px;height:72px;border-radius:24px;background:rgba(93,92,222,0.2);border:2px solid rgba(93,92,222,0.4);display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
         <svg width="32" height="32" fill="none" stroke="#7B7AE8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
     </div>
     <p style="color:#fff;font-size:20px;font-weight:700;margin:0 0 6px;text-align:center;">Aplicação Bloqueada</p>
     <p id="pinLockSubtitle" style="color:rgba(255,255,255,0.5);font-size:13px;margin:0 0 36px;text-align:center;">Insere o teu PIN de 4 dígitos</p>
 
-    <!-- Dots indicadores -->
+    
     <div style="display:flex;gap:16px;margin-bottom:36px;" id="pinDots">
         <div class="pin-dot"></div>
         <div class="pin-dot"></div>
@@ -10961,7 +10962,7 @@ function showPersonalizeToast(hiddenCount) {
         <div class="pin-dot"></div>
     </div>
 
-    <!-- Teclado numérico -->
+    
     <div style="display:grid;grid-template-columns:repeat(3,72px);gap:12px;">
         <button class="pin-key" onclick="window._pinInput('1')">1</button>
         <button class="pin-key" onclick="window._pinInput('2')">2</button>
@@ -10980,9 +10981,6 @@ function showPersonalizeToast(hiddenCount) {
     </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════
-     PIN SETUP OVERLAY (definir / alterar PIN)
-     ═══════════════════════════════════════════════════════════ -->
 <div id="pinSetupOverlay" style="display:none;position:fixed;inset:0;z-index:99999;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;">
     <button onclick="window.closePinSetup()" style="position:absolute;top:20px;right:20px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
         <svg width="18" height="18" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
@@ -11064,33 +11062,51 @@ function showPersonalizeToast(hiddenCount) {
 (function() {
     var PIN_KEY = 'kuia_app_pin';
     var LOCKED_KEY = 'kuia_app_locked';
+    var PIN_ALWAYS_ASK_KEY = 'kuia_pin_always_ask';
 
-    // ── Utilitários ───────────────────────────────────────────
     function getPin()  { return localStorage.getItem(PIN_KEY) || null; }
     function setPin(p) { localStorage.setItem(PIN_KEY, p); }
-    function clearPin(){ localStorage.removeItem(PIN_KEY); localStorage.removeItem(LOCKED_KEY); }
+    function clearPin(){ localStorage.removeItem(PIN_KEY); localStorage.removeItem(LOCKED_KEY); localStorage.removeItem(PIN_ALWAYS_ASK_KEY); }
     function isLocked(){ return localStorage.getItem(LOCKED_KEY) === '1'; }
     function setLocked(v){ v ? localStorage.setItem(LOCKED_KEY,'1') : localStorage.removeItem(LOCKED_KEY); }
+    function isPinAlwaysAsk(){ return localStorage.getItem(PIN_ALWAYS_ASK_KEY) === '1'; }
+    function setPinAlwaysAsk(v){ v ? localStorage.setItem(PIN_ALWAYS_ASK_KEY,'1') : localStorage.removeItem(PIN_ALWAYS_ASK_KEY); }
 
-    // ── Atualizar UI do perfil ────────────────────────────────
+    function _updateToggleUI(checked) {
+        var slider = document.getElementById('pinAlwaysAskSlider');
+        var thumb  = document.getElementById('pinAlwaysAskThumb');
+        var toggle = document.getElementById('pinAlwaysAskToggle');
+        if (slider) slider.style.background = checked ? '#5D5CDE' : '#d1d5db';
+        if (thumb)  thumb.style.transform   = checked ? 'translateX(18px)' : 'translateX(0)';
+        if (toggle) toggle.checked = checked;
+    }
+
+    window.togglePinAlwaysAsk = function(checked) {
+        setPinAlwaysAsk(checked);
+        _updateToggleUI(checked);
+    };
+
     function refreshPinProfileUI() {
         var label   = document.getElementById('pinSetupLabel');
         var sub     = document.getElementById('pinSetupSub');
-        var removeRow = document.getElementById('pinRemoveRow');
+        var removeRow     = document.getElementById('pinRemoveRow');
+        var alwaysAskRow  = document.getElementById('pinAlwaysAskRow');
         if (!label) return;
         if (getPin()) {
             label.textContent = 'Alterar PIN de Segurança';
             if (sub) sub.textContent = 'PIN activo ✓';
-            if (removeRow) removeRow.style.display = 'block';
+            if (removeRow)    removeRow.style.display    = 'block';
+            if (alwaysAskRow) alwaysAskRow.style.display = 'block';
+            _updateToggleUI(isPinAlwaysAsk());
         } else {
             label.textContent = 'Definir PIN de Segurança';
             if (sub) sub.textContent = '';
-            if (removeRow) removeRow.style.display = 'none';
+            if (removeRow)    removeRow.style.display    = 'none';
+            if (alwaysAskRow) alwaysAskRow.style.display = 'none';
         }
     }
     window.refreshPinProfileUI = refreshPinProfileUI;
 
-    // ── ECRÃ DE BLOQUEIO ──────────────────────────────────────
     var lockEntry = '';
 
     function updateLockDots() {
@@ -11143,7 +11159,6 @@ function showPersonalizeToast(hiddenCount) {
         if (lockEntry.length > 0) { lockEntry = lockEntry.slice(0, -1); updateLockDots(); }
     };
 
-    // ── BLOQUEAR APP ─────────────────────────────────────────
     window.lockApp = function() {
         if (!getPin()) {
             if (window.showNotificationToast) window.showNotificationToast('PIN não definido', 'Define primeiro um PIN de segurança.', 'warning');
@@ -11158,19 +11173,20 @@ function showPersonalizeToast(hiddenCount) {
         document.body.style.overflow = 'hidden';
     };
 
-    // Verificar bloqueio ao carregar
     window.addEventListener('load', function() {
         refreshPinProfileUI();
-        if (isLocked() && getPin()) {
+        var pin = getPin();
+        if (pin && (isLocked() || isPinAlwaysAsk())) {
             lockEntry = '';
             updateLockDots();
+            var sub = document.getElementById('pinLockSubtitle');
+            if (sub) sub.textContent = 'Insere o teu PIN de 4 dígitos';
             document.getElementById('pinLockOverlay').style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
     });
 
-    // ── SETUP DE PIN ─────────────────────────────────────────
-    var setupStep = 'first'; // 'first' | 'confirm'
+    var setupStep = 'first';
     var firstPin  = '';
     var setupEntry = '';
 
@@ -11242,7 +11258,6 @@ function showPersonalizeToast(hiddenCount) {
         if (setupEntry.length > 0) { setupEntry = setupEntry.slice(0, -1); updateSetupDots(); }
     };
 
-    // ── REMOVER PIN ──────────────────────────────────────────
     window.removePinConfirm = function() {
         var sheet = document.createElement('div');
         sheet.style.cssText = 'position:fixed;inset:0;z-index:100000;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);';
@@ -11868,12 +11883,9 @@ window.handleGuestGateBackdrop = function(e) {
 })();
 </script>
 
-<!-- ═══════════════════════════════════════════════════════════
-     GALLERY FULLSCREEN OVERLAY
-     ═══════════════════════════════════════════════════════════ -->
 <div id="galleryOverlay" style="display:none;position:fixed;inset:0;z-index:9999;background:var(--bg-dark,#111);flex-direction:column;overflow:hidden;">
 
-    <!-- Header -->
+    
     <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(0,0,0,0.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.08);flex-shrink:0;">
         <div style="display:flex;align-items:center;gap:10px;">
             <div style="width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,#a18cd1,#fbc2eb);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
@@ -11889,24 +11901,23 @@ window.handleGuestGateBackdrop = function(e) {
         </button>
     </div>
 
-    <!-- Grid de imagens -->
+    
     <div id="galleryOverlayScroll" style="flex:1;overflow-y:auto;padding:12px;">
-        <!-- Estado: loading -->
+        
         <div id="galleryOverlayLoading" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:60vh;gap:12px;">
             <svg width="36" height="36" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="animation:spin 1.2s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
             <p style="color:rgba(255,255,255,0.45);font-size:13px;">A carregar imagens...</p>
         </div>
-        <!-- Estado: vazio -->
+        
         <div id="galleryOverlayEmpty" style="display:none;flex-direction:column;align-items:center;justify-content:center;height:60vh;gap:12px;text-align:center;padding:24px;">
             <div style="width:64px;height:64px;border-radius:18px;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;margin-bottom:4px;"><svg width="30" height="30" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
             <p style="color:#fff;font-size:15px;font-weight:700;">Nenhuma imagem ainda</p>
             <p style="color:rgba(255,255,255,0.45);font-size:12px;max-width:220px;">As fotos que enviares no chat aparecerão aqui</p>
         </div>
-        <!-- Grid -->
+        
         <div id="galleryOverlayGrid" style="display:none;grid-template-columns:repeat(3,1fr);gap:3px;"></div>
     </div>
 </div>
-
 
 <div id="contactsModalOverlay" class="contacts-modal-overlay" onclick="handleContactsModalBackdrop(event)">
     <div class="contacts-modal-sheet" id="contactsModalSheet">
