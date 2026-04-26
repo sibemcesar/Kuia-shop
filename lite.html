@@ -204,57 +204,46 @@
             scroll-snap-align: start;
         }
 
+        /* ── Recomendações ── */
         .recommendation-card {
-            min-width: 130px;
-            max-width: 150px;
+            min-width: 120px;
+            max-width: 140px;
             flex-shrink: 0;
             scroll-snap-align: start;
             position: relative;
-            overflow: hidden;
         }
-
         .recommendation-score-bar {
             position: absolute;
-            top: 0;
-            left: 0;
+            top: 0; left: 0;
             height: 3px;
             background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            border-radius: 3px 3px 0 0;
             z-index: 1;
-            border-radius: 0 2px 0 0;
+            transition: width 0.6s ease;
         }
-
         .recommendation-reason {
             display: inline-block;
-            font-size: 8px;
+            font-size: 9px;
             font-weight: 700;
             padding: 2px 6px;
             border-radius: 20px;
             margin-bottom: 2px;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
         }
-
-        .reason-fav { background: #fce7f3; color: #be185d; }
-        .reason-order { background: #dcfce7; color: #15803d; }
+        .reason-fav    { background: #fce7f3; color: #be185d; }
+        .reason-order  { background: #dcfce7; color: #15803d; }
         .reason-viewed { background: #e0f2fe; color: #0369a1; }
-        .reason-discount { background: #fef2f2; color: #dc2626; }
-        .reason-popular { background: #fef9c3; color: #a16207; }
-
-        .dark .reason-fav { background: #831843; color: #fbcfe8; }
-        .dark .reason-order { background: #14532d; color: #bbf7d0; }
-        .dark .reason-viewed { background: #0c4a6e; color: #bae6fd; }
-        .dark .reason-discount { background: #7f1d1d; color: #fecaca; }
-        .dark .reason-popular { background: #713f12; color: #fef08a; }
-
+        .reason-discount { background: #fee2e2; color: #dc2626; }
+        .reason-popular  { background: #f3f4f6; color: #6b7280; }
+        .dark .reason-fav    { background: rgba(190,24,93,0.18); color: #f9a8d4; }
+        .dark .reason-order  { background: rgba(21,128,61,0.18); color: #86efac; }
+        .dark .reason-viewed { background: rgba(3,105,161,0.18); color: #7dd3fc; }
+        .dark .reason-discount { background: rgba(220,38,38,0.18); color: #fca5a5; }
+        .dark .reason-popular  { background: rgba(107,114,128,0.15); color: #9ca3af; }
         .rec-animate {
             opacity: 0;
-            transform: translateY(10px);
-            animation: recFadeIn 0.4s ease forwards;
+            animation: fadeIn 0.4s ease-out forwards;
         }
-
-        @keyframes recFadeIn {
-            to { opacity: 1; transform: translateY(0); }
-        }
+        #recommendedSection .recommendation-grid::-webkit-scrollbar { display: none; }
 
         .gradient-bg {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
@@ -5056,14 +5045,12 @@
             if (browsingHistory.length > 15) browsingHistory = browsingHistory.slice(0, 15);
             saveBrowsingHistory();
             renderBrowsingHistory();
-            renderRecommendations();
         }
 
         window.clearBrowsingHistory = function() {
             browsingHistory = [];
             saveBrowsingHistory();
             renderBrowsingHistory();
-            renderRecommendations();
         };
 
         function renderBrowsingHistory() {
@@ -5098,6 +5085,7 @@
             }).join('');
         }
 
+        // ── Sistema de Recomendações ─────────────────────────────────────────
         function buildUserProfile() {
             var profile = {
                 categoryScores: {},
@@ -5162,7 +5150,6 @@
             if (profile.totalInteractions > 0) {
                 profile.likesDiscounts = (profile.discountInteractions / profile.totalInteractions) > 0.3;
             }
-
             return profile;
         }
 
@@ -5185,6 +5172,7 @@
                 .map(function(p) {
                     var score = 0;
                     var reasons = [];
+
                     var catScore = profile.categoryScores[p.category] || 0;
                     if (catScore > 0 && maxCatScore > 0) {
                         score += (catScore / maxCatScore) * 40;
@@ -5192,29 +5180,28 @@
                         else if (profile.favCategories[p.category]) reasons.push('fav');
                         else if (profile.viewedCategories[p.category]) reasons.push('viewed');
                     }
+
                     if (profile.avgPrice > 0) {
                         var priceDiff = Math.abs(p.price - profile.avgPrice);
                         var priceRange = profile.avgPrice * 0.8;
                         if (priceRange > 0) score += Math.max(0, 1 - (priceDiff / priceRange)) * 20;
                     }
-                    var hasDiscount = p.oldPrice && p.oldPrice > p.price;
-                    if (hasDiscount) {
+
+                    if (p.oldPrice && p.oldPrice > p.price) {
                         var discPct = Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100);
-                        if (profile.likesDiscounts) {
-                            score += Math.min(15, discPct * 0.3);
-                            if (discPct >= 20) reasons.push('discount');
-                        } else {
-                            score += Math.min(8, discPct * 0.15);
-                            if (discPct >= 30) reasons.push('discount');
-                        }
+                        score += profile.likesDiscounts ? Math.min(15, discPct * 0.3) : Math.min(8, discPct * 0.15);
+                        if ((profile.likesDiscounts && discPct >= 20) || discPct >= 30) reasons.push('discount');
                     }
+
                     score += interactedIds.has(p.id) ? -10 : 15;
-                    var favCats = Object.keys(profile.favCategories);
+
                     var orderCats = Object.keys(profile.orderCategories);
+                    var favCats = Object.keys(profile.favCategories);
                     if (orderCats.length > 0 && favCats.indexOf(p.category) !== -1 && orderCats.indexOf(p.category) === -1) {
                         score += 10;
                         if (reasons.indexOf('fav') === -1) reasons.push('popular');
                     }
+
                     score += Math.random() * 5;
                     return { id: p.id, name: p.name, image: p.image, price: p.price, oldPrice: p.oldPrice, category: p.category, stock: p.stock, score: score, reasons: reasons.length > 0 ? reasons : ['popular'] };
                 });
@@ -5232,11 +5219,11 @@
                 result.push(item);
             }
 
+            // Fisher-Yates shuffle
             for (var ri = result.length - 1; ri > 0; ri--) {
                 var rj = Math.floor(Math.random() * (ri + 1));
-                var tmp = result[ri]; result[ri] = result[rj]; result[rj] = tmp;
+                var temp = result[ri]; result[ri] = result[rj]; result[rj] = temp;
             }
-
             return result;
         }
 
@@ -5245,24 +5232,6 @@
             if (!container) return;
 
             var recommended = getRecommendedProducts();
-
-            var activeCatEl = document.querySelector('.category-filter-btn.btn-primary');
-            var activeCat = activeCatEl ? activeCatEl.dataset.category : 'all';
-            if (activeCat && activeCat !== 'all') {
-                recommended = recommended.filter(function(p) { return p.category === activeCat; });
-            }
-            if (typeof currentPriceFilter !== 'undefined' && currentPriceFilter !== 'all') {
-                recommended = recommended.filter(function(p) {
-                    var price = p.price;
-                    switch (currentPriceFilter) {
-                        case '0-1000': return price <= 1000;
-                        case '1000-5000': return price > 1000 && price <= 5000;
-                        case '5000-10000': return price > 5000 && price <= 10000;
-                        case '10000+': return price > 10000;
-                        default: return true;
-                    }
-                });
-            }
 
             if (recommended.length === 0) {
                 container.classList.add('hidden');
@@ -5283,12 +5252,13 @@
                 var mainReason = product.reasons[0];
                 var reasonHTML = '<span class="recommendation-reason ' + (reasonClasses[mainReason] || 'reason-popular') + '">' + (reasonLabels[mainReason] || '★ Destaque') + '</span>';
                 var barWidth = Math.min(100, Math.max(20, (product.score / 95) * 100));
-                return '<div class="recommendation-card card-bg rounded-xl border overflow-hidden hover-lift rec-animate group cursor-pointer" style="animation-delay:' + (idx * 0.06) + 's" onclick="showProductDetail('' + product.id + '')">' +
+
+                return '<div class="recommendation-card card-bg rounded-xl border overflow-hidden hover-lift rec-animate group cursor-pointer" style="animation-delay:' + (idx * 0.06) + 's" onclick="showProductDetail(\'' + product.id + '\')">' +
                     '<div class="recommendation-score-bar" style="width:' + barWidth + '%"></div>' +
-                    '<div class="relative h-24 bg-gray-200 dark:bg-gray-700">' +
+                    '<div class="relative h-24 sm:h-28 bg-gray-200 dark:bg-gray-700">' +
                         (product.image ?
-                            '<img src="' + product.image + '" alt="' + product.name + '" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" onerror="handleImgError(this,'sm')">' :
-                            '<div class="img-error-placeholder placeholder-sm"></div>'
+                            '<img src="' + product.image + '" alt="' + product.name + '" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" onerror="handleImgError(this,\'sm\')">' :
+                            '<div class="img-error-placeholder placeholder-sm"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zM8.25 8.625a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z"/></svg></div>'
                         ) +
                         (hasDiscount ? '<div class="absolute top-1 left-1 bg-red-500 text-white px-1.5 py-0.5 rounded-full text-[9px] font-bold">-' + discountPercent + '%</div>' : '') +
                     '</div>' +
@@ -5303,6 +5273,7 @@
                 '</div>';
             }).join('');
         }
+        // ── Fim Recomendações ────────────────────────────────────────────────
 
         function renderDiscountedProducts() {
             var container = document.getElementById('discountHighlightSection');
@@ -8363,6 +8334,7 @@
                     renderFavorites();
                     if (currentSection === 'home') {
                         renderProducts();
+                        renderRecommendations();
                     }
                 });
             }
