@@ -3770,7 +3770,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="chatFullInputContainer" class="p-4 border-t hidden flex-shrink-0">
+                        <div id="chatFullInputContainer" class="p-4 border-t flex-shrink-0">
                             <div class="flex space-x-2 mb-2">
                                <input 
                               type="text" 
@@ -4376,7 +4376,7 @@
                 </div>
             </div>
 
-            <div id="chatOverlayInputContainer" class="flex-shrink-0 border-t border-gray-200 dark:border-gray-700 px-4 sm:px-6 py-3 hidden" style="background:inherit;">
+            <div id="chatOverlayInputContainer" class="flex-shrink-0 border-t border-gray-200 dark:border-gray-700 px-4 sm:px-6 py-3" style="background:inherit;">
                 <div class="max-w-3xl mx-auto">
                     <div class="flex items-center gap-3 mb-2">
                         <input type="file" id="chatOverlayImageInput" accept="image/*" class="hidden">
@@ -5995,62 +5995,36 @@
             const statusHTML = isActive ? `
                 <span class="inline-flex items-center px-3 py-1 text-xs rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400">
                     <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
-                    Chat ativo
+                    Administrador online
                 </span>
             ` : `
-                <span class="inline-flex items-center px-3 py-1 text-xs rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400">
-                    <span class="w-2 h-2 bg-gray-400 rounded-full mr-2"></span>
-                    Chat offline
+                <span class="inline-flex items-center px-3 py-1 text-xs rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400">
+                    <span class="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></span>
+                    Suporte disponível
                 </span>
             `;
 
+            // Atualizar todos os elementos de status
+            const chatFullStatus = document.getElementById('chatFullStatus');
+            if (chatFullStatus) chatFullStatus.innerHTML = statusHTML;
+
+            const chatOverlayStatus = document.getElementById('chatOverlayStatus');
+            if (chatOverlayStatus) chatOverlayStatus.innerHTML = statusHTML;
+
+            const chatStatus = document.getElementById('chatStatus');
+            if (chatStatus) chatStatus.innerHTML = statusHTML;
+
+            // Input sempre visível
+            document.getElementById('chatFullInputContainer').classList.remove('hidden');
+            document.getElementById('chatOverlayInputContainer').classList.remove('hidden');
+
             if (isActive) {
-                document.getElementById('chatFullStatus').innerHTML = statusHTML;
                 document.getElementById('adminOnlineFullStatus').classList.remove('hidden');
-                document.getElementById('chatFullInputContainer').classList.remove('hidden');
-
-                document.getElementById('chatOverlayStatus').innerHTML = statusHTML;
-                document.getElementById('chatOverlayInputContainer').classList.remove('hidden');
-
-                const chatStatus = document.getElementById('chatStatus');
-                if (chatStatus) {
-                    chatStatus.innerHTML = statusHTML;
-                }
-
                 const chatNotifEl = document.getElementById('chatNotification');
                 if (chatNotifEl) chatNotifEl.classList.remove('hidden');
                 document.getElementById('footerChatNotification').classList.remove('hidden');
-
-                const activeMessage = `
-                    <div class="text-center text-gray-500 dark:text-gray-400 mb-4">
-                        <div class="bg-green-50 dark:bg-green-900 rounded-2xl p-6 border border-green-200 dark:border-green-700 animate-bounce-in inline-block">
-                            <p class="text-green-700 dark:text-green-400 text-lg mb-2">✅ Chat iniciado pelo administrador</p>
-                            <p class="text-sm">Você pode conversar agora sobre seus pedidos</p>
-                        </div>
-                    </div>
-                `;
-
-                document.getElementById('chatFullMessages').innerHTML = activeMessage;
-                document.getElementById('chatOverlayMessages').innerHTML = activeMessage;
-
-                showNotificationToast('Chat Ativo', 'O administrador iniciou um chat com você', 'success');
             } else {
-                document.getElementById('chatFullStatus').innerHTML = statusHTML;
                 document.getElementById('adminOnlineFullStatus').classList.add('hidden');
-                // Chat sempre aberto — input nunca é escondido
-                document.getElementById('chatFullInputContainer').classList.remove('hidden');
-
-                document.getElementById('chatOverlayStatus').innerHTML = statusHTML;
-                document.getElementById('chatOverlayInputContainer').classList.remove('hidden');
-
-                const chatStatus = document.getElementById('chatStatus');
-                if (chatStatus) {
-                    chatStatus.innerHTML = statusHTML;
-                }
-
-                const chatNotifElOff = document.getElementById('chatNotification');
-                if (chatNotifElOff) chatNotifElOff.classList.add('hidden');
-                document.getElementById('footerChatNotification').classList.add('hidden');
             }
         }
 

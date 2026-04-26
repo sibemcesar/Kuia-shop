@@ -3570,7 +3570,15 @@
             }
         });
 
-        function closeChatConversation() {
+        async function closeChatConversation() {
+            // Marcar admin como offline para o utilizador
+            if (selectedUserId) {
+                try {
+                    await update(ref(database, `chats/users/${selectedUserId}`), {
+                        active: false
+                    });
+                } catch(e) {}
+            }
             currentChatId = null;
             selectedUserId = null;
             document.getElementById('chatConversationPanel').classList.add('hidden');
