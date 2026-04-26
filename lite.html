@@ -204,7 +204,7 @@
             scroll-snap-align: start;
         }
 
-        /* ── Recomendações ── */
+
         .recommendation-card {
             min-width: 120px;
             max-width: 140px;
@@ -279,7 +279,7 @@
             border: 1px solid rgba(93, 92, 222, 0.3);
         }
 
-        /* Grid toggle buttons */
+
         .grid-toggle-btn {
             color: #9ca3af;
             border-color: #e5e7eb;
@@ -300,7 +300,7 @@
             background: rgba(93, 92, 222, 0.2);
         }
 
-        /* Grid modes for productsGrid */
+
         #productsGrid.grid-cols-mode-1 {
             grid-template-columns: 1fr !important;
         }
@@ -311,13 +311,13 @@
             grid-template-columns: repeat(3, 1fr) !important;
         }
 
-        /* Modo 1 coluna: card horizontal */
+
         #productsGrid.grid-cols-mode-1 > div {
             display: flex;
             flex-direction: row;
         }
         #productsGrid.grid-cols-mode-1 > div > div:first-child {
-            /* bloco da imagem */
+
             width: 120px !important;
             min-width: 120px !important;
             height: auto !important;
@@ -325,7 +325,7 @@
             flex-shrink: 0;
         }
         #productsGrid.grid-cols-mode-1 > div > div:last-child {
-            /* bloco de info */
+
             flex: 1;
             display: flex;
             flex-direction: column;
@@ -342,14 +342,14 @@
         #productsGrid.grid-cols-mode-1 > div .gradient-text {
             font-size: 15px !important;
         }
-        /* botão comprar no modo 1 col */
+
         #productsGrid.grid-cols-mode-1 > div button[onclick*="addToCart"] {
             padding-top: 8px !important;
             padding-bottom: 8px !important;
             font-size: 13px !important;
             margin-top: 6px;
         }
-        /* col-span-full (Ver mais / empty state) não deve ficar horizontal */
+
         #productsGrid.grid-cols-mode-1 > div.col-span-full {
             flex-direction: column !important;
         }
@@ -630,7 +630,7 @@
             text-decoration: line-through;
         }
 
-        
+
         .contacts-modal-overlay {
             position: fixed;
             inset: 0;
@@ -765,7 +765,7 @@
         .contacts-item:hover .contacts-item-arrow { color: #5D5CDE; }
         .contacts-section { margin-bottom: 6px; }
 
-        
+
         .guest-gate-overlay {
             position: fixed; inset: 0; z-index: 10020;
             background: rgba(0,0,0,0.5);
@@ -829,7 +829,7 @@
         .dark .guest-gate-btn-secondary { border-color: #374151; color: #9ca3af; }
         .guest-gate-btn-secondary:active { opacity: 0.7; }
 
-        
+
         @keyframes shimmer {
             0%   { background-position: -400px 0; }
             100% { background-position:  400px 0; }
@@ -910,7 +910,7 @@
             animation: upload-pulse 1.2s ease-in-out infinite;
         }
 
-        
+
         #imgLightbox {
             position: fixed; inset: 0; z-index: 10050;
             background: rgba(0,0,0,0);
@@ -1028,7 +1028,7 @@
             transition: fill 0.25s ease, stroke 0.25s ease;
             display: block;
         }
-        
+
 
         @keyframes skeletonShimmer {
             0%   { background-position: -400px 0; }
@@ -2026,17 +2026,15 @@
             height: 300px;
         }
 
-        
 
-        /* ═══════════════════════════════════════════════
-           KUIA+ LOGIN — FULLSCREEN OFFICIAL APP STYLE
-           ═══════════════════════════════════════════════ */
+
+
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
-        /* Hide old bg elements */
+
         .login-bg-mesh, .login-dot-grid, .login-particles { display: none !important; }
 
-        /* ── FULLSCREEN WRAPPER ── */
+
         #loginScreen {
             font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
             display: flex;
@@ -2051,7 +2049,7 @@
             display: none !important;
         }
 
-        /* ── LEFT PANEL — brand side ── */
+
         .login-card-entrance {
             display: flex;
             flex-direction: row;
@@ -2070,7 +2068,7 @@
             100% { opacity: 1; }
         }
 
-        /* Brand panel (left/top) */
+
         .login-card-top {
             width: 45%;
             min-height: 100vh;
@@ -2086,7 +2084,7 @@
             flex-shrink: 0;
             border-radius: 0 !important;
         }
-        /* Decorative circles */
+
         .login-card-top::before {
             content: '';
             position: absolute;
@@ -2103,7 +2101,7 @@
             border-radius: 50%;
             background: rgba(255,255,255,0.05);
         }
-        /* Extra decoration */
+
         .login-brand-deco {
             position: absolute;
             top: 50%; right: -60px;
@@ -2113,7 +2111,7 @@
             transform: translateY(-50%);
         }
 
-        /* Logo */
+
         .login-logo-wrap {
             width: 80px;
             height: 80px;
@@ -2159,7 +2157,7 @@
             100% { opacity: 1; transform: translateY(0); }
         }
 
-        /* Brand feature list */
+
         .login-brand-features {
             display: flex;
             flex-direction: column;
@@ -2185,7 +2183,7 @@
             flex-shrink: 0;
         }
 
-        /* Brand footer */
+
         .login-brand-footer {
             position: absolute;
             bottom: 28px; left: 52px;
@@ -2195,7 +2193,7 @@
             z-index: 1;
         }
 
-        /* ── RIGHT PANEL — form side ── */
+
         .login-card-body {
             flex: 1;
             display: flex;
@@ -2207,13 +2205,13 @@
             overflow-y: auto;
         }
 
-        /* Form inner container */
+
         .login-form-inner {
             width: 100%;
             max-width: 380px;
         }
 
-        /* Right panel heading */
+
         .login-right-heading {
             margin-bottom: 32px;
         }
@@ -2231,7 +2229,7 @@
             margin: 0;
         }
 
-        /* ── Buttons ── */
+
         .login-btn-stagger { animation: btnReveal 0.3s ease-out both; }
         @keyframes btnReveal {
             0% { opacity: 0; transform: translateY(8px); }
@@ -2304,7 +2302,7 @@
             background: rgba(93,92,222,0.03);
         }
 
-        /* ── Divider ── */
+
         .login-divider { display: flex; align-items: center; gap: 12px; margin: 4px 0; }
         .login-divider span { flex: 1; height: 1px; background: #eeeff5; }
         .login-divider p {
@@ -2316,7 +2314,7 @@
             white-space: nowrap;
         }
 
-        /* ── Email forms ── */
+
         #emailLoginForm, #emailRegisterForm, #forgotPasswordForm { color: #1a1a2e; }
         #emailLoginForm h3, #emailRegisterForm h3, #forgotPasswordForm h3 {
             color: #0f0f1a !important;
@@ -2335,7 +2333,7 @@
         }
         #backToOptionsBtn:hover, #backToLoginBtn:hover, #backToLoginFromForgotBtn:hover { color: #5D5CDE !important; }
 
-        /* ── Input fields ── */
+
         #loginEmail, #loginPassword,
         #registerName, #registerEmail, #registerPassword,
         #forgotEmail {
@@ -2366,7 +2364,7 @@
             box-shadow: 0 0 0 3px rgba(93,92,222,0.1) !important;
         }
 
-        /* ── Submit buttons ── */
+
         #loginForm button[type="submit"],
         #forgotPasswordSubmitBtn,
         #registerSubmitBtn {
@@ -2394,7 +2392,7 @@
         #forgotPasswordSubmitBtn:active,
         #registerSubmitBtn:active { transform: translateY(0) !important; }
 
-        /* ── Secondary links ── */
+
         #showForgotPasswordBtn, #showRegisterBtn {
             color: #5D5CDE !important;
             font-size: 13px !important;
@@ -2409,11 +2407,11 @@
         }
         #emailLoginForm .text-gray-500 { color: #9ca3af !important; }
 
-        /* ── Avatar ── */
+
         #previewAvatar { border-color: rgba(93,92,222,0.4) !important; }
         #registerForm .text-xs { color: #9ca3af !important; }
 
-        /* ── Error banner ── */
+
         .login-error-banner {
             background: #fff5f5 !important;
             border-color: #fecaca !important;
@@ -2431,11 +2429,11 @@
             60% { transform: translateX(2px); }
         }
 
-        /* ── Forgot success ── */
+
         #forgotPasswordSuccess { background: #f0fdf4 !important; border-color: #bbf7d0 !important; }
         #forgotPasswordSuccess p { color: #16a34a !important; }
 
-        /* ── Animations ── */
+
         @keyframes toastSlideIn {
             from { opacity: 0; transform: translateX(20px) scale(0.97); }
             to { opacity: 1; transform: translateX(0) scale(1); }
@@ -2448,7 +2446,7 @@
         }
         .login-btn-loading { opacity: 0.65; pointer-events: none; cursor: wait; }
 
-        /* ── Trust badges ── */
+
         .login-trust-row {
             display: flex;
             align-items: center;
@@ -2468,10 +2466,10 @@
         }
         .login-trust-item svg { color: #10b981; flex-shrink: 0; }
 
-        /* ── Google spinner ── */
+
         #googleBtnLoader div { border-color: #ccc; border-top-color: #555; }
 
-        /* ── MOBILE — stack vertically ── */
+
         @media (max-width: 700px) {
             #loginScreen {
                 flex-direction: column;
@@ -2852,7 +2850,7 @@
             border-color: rgba(239,68,68,0.3) !important;
         }
 
-        
+
         .dark #profileSection .profile-shortcut-btn {
             background: #1f2937 !important;
             border-color: #374151 !important;
@@ -2890,7 +2888,7 @@
             color: #818cf8 !important;
         }
 
-        
+
         .dark #userOrders .profile-order-row {
             border-color: #374151;
         }
@@ -2913,7 +2911,7 @@
             color: #374151 !important;
         }
 
-        
+
         .loyalty-overlay {
             position: fixed;
             inset: 0;
@@ -3212,31 +3210,31 @@
 
     <div id="loadingScreen" class="fixed inset-0 z-50 flex items-center justify-center" style="background:linear-gradient(135deg,#3730a3 0%,#5D5CDE 45%,#7B7AE8 100%);">
 
-        
+
         <div style="position:absolute;top:-80px;right:-80px;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,0.05);pointer-events:none;"></div>
         <div style="position:absolute;bottom:-60px;left:-60px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,0.05);pointer-events:none;"></div>
         <div style="position:absolute;top:30%;left:-40px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.04);pointer-events:none;"></div>
 
-        
+
         <div style="text-align:center;position:relative;z-index:1;animation:splashFadeIn 0.6s ease-out both;">
 
-            
+
             <div style="width:96px;height:96px;border-radius:28px;overflow:hidden;margin:0 auto 24px;animation:splashBounce 0.7s cubic-bezier(0.34,1.56,0.64,1) 0.2s both;box-shadow:0 20px 60px rgba(0,0,0,0.2);">
                 <img src="logo.jpeg" alt="Kuia+ Shop" style="width:100%;height:100%;object-fit:cover;display:block;">
             </div>
 
-            
+
             <h1 style="color:#fff;font-size:28px;font-weight:800;margin:0 0 6px;letter-spacing:-0.02em;animation:splashSlideUp 0.5s ease-out 0.4s both;">Kuia+ Shop</h1>
 
-            
+
             <p style="color:rgba(255,255,255,0.7);font-size:14px;font-weight:400;margin:0 0 40px;animation:splashSlideUp 0.5s ease-out 0.55s both;">A tua loja online de confiança</p>
 
-            
+
             <div style="width:160px;height:3px;border-radius:99px;background:rgba(255,255,255,0.2);margin:0 auto;overflow:hidden;animation:splashSlideUp 0.5s ease-out 0.65s both;">
                 <div style="height:100%;border-radius:99px;background:#fff;animation:splashProgress 2s ease-in-out 0.7s both;"></div>
             </div>
 
-            
+
             <p id="loadingStatus" style="color:rgba(255,255,255,0.5);font-size:12px;margin:14px 0 0;animation:splashSlideUp 0.5s ease-out 0.75s both;">A carregar...</p>
         </div>
 
@@ -3270,7 +3268,7 @@
 
         <div class="login-card-entrance">
 
-            <!-- LEFT: Brand Panel -->
+
             <div class="login-card-top">
                 <div class="login-brand-deco"></div>
 
@@ -3304,7 +3302,7 @@
                 <div class="login-brand-footer">© 2025 Kuia+ Shop · Luanda, Angola</div>
             </div>
 
-            <!-- RIGHT: Form Panel -->
+
             <div class="login-card-body">
                 <div class="login-form-inner">
 
@@ -3313,7 +3311,7 @@
                         <p>Aceda à sua conta ou crie uma nova</p>
                     </div>
 
-                    <!-- Error banner -->
+
                     <div id="loginErrorBanner" class="hidden mb-4 p-3 rounded-xl border flex items-start gap-3 login-error-banner">
                         <span class="text-lg flex-shrink-0">⚠️</span>
                         <div class="flex-1 min-w-0">
@@ -3323,7 +3321,7 @@
                         <button onclick="hideLoginError()" style="color:#dc2626;opacity:0.5;font-size:18px;background:none;border:none;cursor:pointer;line-height:1;">×</button>
                     </div>
 
-                    <!-- Login options -->
+
                     <div id="loginOptions" class="login-options-flex">
 
                         <button id="googleLoginBtn" class="login-btn-stagger" style="animation-delay:0.1s">
@@ -3353,7 +3351,7 @@
                             Continuar como Visitante
                         </button>
 
-                        <!-- Trust badges -->
+
                         <div class="login-trust-row">
                             <div class="login-trust-item">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -3369,7 +3367,7 @@
                             </div>
                         </div>
 
-                        <!-- FAQ & Politicas links -->
+
                         <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:16px;flex-wrap:wrap;">
                             <a href="faq.html" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:5px;color:#5D5CDE;font-size:12px;font-weight:600;text-decoration:none;padding:6px 14px;border-radius:20px;border:1.5px solid rgba(93,92,222,0.25);background:rgba(93,92,222,0.05);">
                                 <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
@@ -3383,7 +3381,7 @@
                         </div>
                     </div>
 
-                    <!-- Email login form -->
+
                     <div id="emailLoginForm" class="hidden animate-fade-in">
                         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
                             <h3>Entrar</h3>
@@ -3403,7 +3401,7 @@
                         </div>
                     </div>
 
-                    <!-- Forgot password form -->
+
                     <div id="forgotPasswordForm" class="hidden animate-fade-in">
                         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
                             <h3>Recuperar Senha</h3>
@@ -3430,7 +3428,7 @@
                         </div>
                     </div>
 
-                    <!-- Register form -->
+
                     <div id="emailRegisterForm" class="hidden animate-fade-in">
                         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
                             <h3>Criar Conta</h3>
@@ -3463,7 +3461,7 @@
 
                 </div>
             </div>
-            <!-- END RIGHT -->
+
 
         </div>
     </div>
@@ -3479,7 +3477,7 @@
                 <div class="flex justify-between items-center h-16 header-row">
 
                     <div id="headerLeft" class="flex items-center min-w-0 header-left-transition flex-shrink-0" style="overflow:hidden;max-width:50%;gap:8px;">
-                        <!-- Botão menu hambúrguer -->
+
                         <button id="hamburgerMenuBtn" onclick="openUserMenu()" style="width:38px;height:38px;border-radius:12px;border:none;background:rgba(255,255,255,0.15);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;flex-shrink:0;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
                             <span style="display:block;width:18px;height:2px;background:#fff;border-radius:2px;"></span>
                             <span style="display:block;width:18px;height:2px;background:#fff;border-radius:2px;"></span>
@@ -3560,7 +3558,7 @@
             </div>
         </header>
 
-        
+
         <div id="searchFilterPanel" class="hidden sticky z-20 border-b" style="top:64px;background:var(--bg-light);border-color:var(--border-light);">
             <div class="dark:bg-gray-900 dark:border-gray-700 border-b border-gray-100">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 space-y-2">
@@ -3611,7 +3609,7 @@
 
                 <div>
 
-                    <!-- Barra de contagem + toggle de grid — sempre visível -->
+
                     <div class="flex items-center justify-between mb-2">
                         <span id="productsCount" class="text-xs text-gray-500 dark:text-gray-400 font-medium">0 produtos encontrados</span>
                         <div class="flex items-center gap-1" id="gridToggleBtns">
@@ -3734,7 +3732,7 @@
             </div>
 
             <div id="favoritesSection" class="hidden" style="padding-bottom:8px;">
-                
+
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
                     <h2 class="text-2xl font-bold gradient-text" style="font-size:22px;">Favoritos</h2>
                     <span id="favoritesCountBadge" style="display:none;font-size:12px;font-weight:600;color:#6b7280;background:#f3f4f6;padding:4px 10px;border-radius:20px;" class="dark:bg-gray-700 dark:text-gray-300"></span>
@@ -3750,13 +3748,13 @@
             </div>
 
             <div id="ordersSection" class="hidden" style="padding-bottom:8px;">
-                
+
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
                     <h2 class="text-2xl font-bold gradient-text" style="font-size:22px;">Meus Pedidos</h2>
                     <span id="ordersCountBadge" style="font-size:12px;font-weight:600;color:#6b7280;background:#f3f4f6;padding:4px 10px;border-radius:20px;display:none;" class="dark:bg-gray-700 dark:text-gray-300"></span>
                 </div>
 
-                
+
                 <div id="ordersFilterBar" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;margin-bottom:20px;-webkit-overflow-scrolling:touch;" class="scrollbar-hide">
                     <button onclick="filterOrdersByStatus('all')" data-filter="all" class="order-filter-btn order-filter-active" style="flex-shrink:0;display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:20px;border:1.5px solid #5D5CDE;background:#5D5CDE;color:#fff;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all 0.2s;">
                         Todos
@@ -3800,14 +3798,14 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Botão abrir galeria -->
+
                         <button onclick="window.openGalleryOverlay()" style="padding:5px 12px;border-radius:10px;border:1.5px solid rgba(93,92,222,0.25);background:rgba(93,92,222,0.07);color:#5D5CDE;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:5px;">
                             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                             Galeria
                         </button>
                     </div>
 
-                    <!-- Painel Chat -->
+
                     <div id="chatTabPanel" class="flex flex-col flex-1" style="min-height:0;">
                         <div id="chatFullContainer" class="flex-1 overflow-y-auto p-6 bg-gray-50 dark:bg-gray-900">
                             <div id="chatFullMessages" class="space-y-4">
@@ -3825,10 +3823,10 @@
                         </div>
                         <div id="chatFullInputContainer" class="p-4 border-t flex-shrink-0">
                             <div class="flex space-x-2 mb-2">
-                               <input 
-                              type="text" 
-                              id="chatFullInput" 
-                              placeholder="Digite sua mensagem..." 
+                               <input
+                              type="text"
+                              id="chatFullInput"
+                              placeholder="Digite sua mensagem..."
                               maxlength="500"
                               class="flex-1 px-4 py-3 text-base card-bg border rounded-xl focus:ring-2 focus:ring-primary"
                             >
@@ -3879,14 +3877,14 @@
             </div>
 
             <div id="profileSection" class="hidden">
-                
+
                 <div style="background:linear-gradient(135deg,#5D5CDE 0%,#7B7AE8 100%);border-radius:20px;padding:28px 20px 20px;margin-bottom:20px;position:relative;overflow:hidden;">
-                    
+
                     <div style="position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.07);pointer-events:none;"></div>
                     <div style="position:absolute;bottom:-20px;left:-20px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.05);pointer-events:none;"></div>
 
                     <div style="display:flex;align-items:center;gap:16px;position:relative;">
-                        
+
                         <div style="position:relative;flex-shrink:0;">
                             <img id="profileAvatar"
                                 src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='50' fill='%235D5CDE'/%3E%3Ccircle cx='50' cy='40' r='14' fill='white' opacity='0.9'/%3E%3Cellipse cx='50' cy='78' rx='24' ry='16' fill='white' opacity='0.9'/%3E%3C/svg%3E"
@@ -3899,7 +3897,7 @@
                             </button>
                         </div>
 
-                        
+
                         <div style="flex:1;min-width:0;">
                             <h3 id="profileName" style="color:#fff;font-size:18px;font-weight:700;margin:0 0 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></h3>
                             <p id="profileEmail" style="color:rgba(255,255,255,0.72);font-size:12px;margin:0 0 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></p>
@@ -3920,7 +3918,7 @@
                     </div>
                 </div>
 
-                
+
                 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;">
                     <button id="profileShortcutOrders" onclick="showSection('orders')" style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 8px;border-radius:16px;border:1.5px solid #e5e7eb;background:#fff;cursor:pointer;transition:all 0.2s;" class="profile-shortcut-btn">
                         <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#f093fb,#f5576c);display:flex;align-items:center;justify-content:center;">
@@ -3948,7 +3946,7 @@
                     </button>
                 </div>
 
-                
+
                 <div class="profile-card" style="border-radius:16px;border:1.5px solid #e5e7eb;overflow:hidden;margin-bottom:16px;background:#fff;">
                     <div class="profile-card-header" style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #f3f4f6;">
                         <span class="profile-card-title" style="font-size:14px;font-weight:700;color:#111827;">Pedidos Recentes</span>
@@ -3962,7 +3960,7 @@
                     </div>
                 </div>
 
-                
+
                 <div class="profile-card" style="border-radius:16px;border:1.5px solid #e5e7eb;overflow:hidden;background:#fff;margin-bottom:16px;">
                     <div class="profile-card-header" style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #f3f4f6;">
                         <div style="display:flex;align-items:center;gap:8px;">
@@ -3972,7 +3970,7 @@
                             <span class="profile-card-title" style="font-size:14px;font-weight:700;color:#111827;">Dados de Entrega</span>
                         </div>
                         <div id="deliveryActions" style="display:flex;gap:6px;align-items:center;">
-                            
+
                             <button id="editDeliveryBtn" onclick="editDeliveryData()" style="display:none;align-items:center;gap:4px;font-size:12px;font-weight:600;color:#5D5CDE;background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:8px;transition:background 0.15s;">
                                 <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                                 Editar
@@ -3981,7 +3979,7 @@
                                 <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
                                 Excluir
                             </button>
-                            
+
                             <button id="saveDeliveryBtn" onclick="saveDeliveryData()" style="display:inline-block;font-size:12px;font-weight:600;color:#fff;background:linear-gradient(135deg,#5D5CDE,#7B7AE8);border:none;cursor:pointer;padding:5px 12px;border-radius:8px;transition:opacity 0.15s;">Guardar</button>
                         </div>
                     </div>
@@ -4004,7 +4002,7 @@
                     </div>
                 </div>
 
-                
+
                 <div class="profile-card" style="border-radius:16px;border:1.5px solid #e5e7eb;background:#fff;">
                     <div class="profile-card-header" style="padding:14px 16px;border-bottom:1px solid #f3f4f6;">
                         <span class="profile-card-title" style="font-size:14px;font-weight:700;color:#111827;">Conta</span>
@@ -4032,13 +4030,13 @@
                     </div>
                 </div>
 
-                
+
                 <div class="profile-card" style="border-radius:16px;border:1.5px solid #e5e7eb;background:#fff;margin-top:16px;">
                     <div class="profile-card-header" style="padding:14px 16px;border-bottom:1px solid #f3f4f6;">
                         <span class="profile-card-title" style="font-size:14px;font-weight:700;color:#111827;">Segurança</span>
                     </div>
                     <div style="padding:4px 0;">
-                        <!-- Definir / Alterar PIN -->
+
                         <button class="profile-row-btn" onclick="window.openPinSetup()" style="width:100%;display:flex;align-items:center;gap:12px;padding:12px 16px;background:none;border:none;cursor:pointer;text-align:left;">
                             <div class="profile-icon-wrap" style="width:34px;height:34px;border-radius:10px;background:#ede9fe;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
                                 <svg width="16" height="16" fill="none" stroke="#7c3aed" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
@@ -4061,7 +4059,7 @@
                             </button>
                         </div>
                         <div class="profile-card-sep" style="height:1px;background:#f3f4f6;margin:0 16px;"></div>
-                        <!-- Bloquear App -->
+
                         <button class="profile-row-btn" onclick="window.lockApp()" style="width:100%;display:flex;align-items:center;gap:12px;padding:12px 16px;background:none;border:none;cursor:pointer;text-align:left;">
                             <div class="profile-icon-wrap" style="width:34px;height:34px;border-radius:10px;background:#fef3c7;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
                                 <svg width="16" height="16" fill="none" stroke="#d97706" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
@@ -4091,7 +4089,7 @@
                     </div>
                 </div>
 
-                
+
                 <div style="margin-top:16px;padding-bottom:24px;">
                     <button id="profileLogoutBtn" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border-radius:14px;border:1.5px solid #fee2e2;background:#fff5f5;color:#ef4444;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;">
                         <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
@@ -4107,22 +4105,22 @@
                 </div>
                 <div class="max-w-4xl mx-auto space-y-5">
 
-                    
+
                     <div class="relative overflow-hidden rounded-3xl shadow-xl">
-                        
+
                         <div class="gradient-bg absolute inset-0"></div>
-                        
+
                         <div class="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-white/10"></div>
                         <div class="absolute -bottom-8 -left-8 w-36 h-36 rounded-full bg-white/10"></div>
                         <div class="absolute top-1/2 right-8 w-20 h-20 rounded-full bg-white/5"></div>
-                        
+
                         <div class="relative z-10 p-8 text-center">
                             <div class="mx-auto mb-5 w-24 h-24 rounded-2xl overflow-hidden shadow-2xl border-2 border-white/30 animate-float" style="background:#fff;">
                                 <img src="logo.jpeg" alt="Kuia+ Shop" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<div class=\'w-full h-full gradient-bg flex items-center justify-center\'><svg class=\'w-10 h-10 text-white\' fill=\'none\' stroke=\'currentColor\' viewBox=\'0 0 24 24\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z\'/></svg></div>'">
                             </div>
                             <h3 class="text-3xl font-extrabold text-white mb-1 tracking-tight">Kuia+ Shop</h3>
                             <p class="text-white/75 text-base font-medium mb-6">A sua loja online de confiança</p>
-                            
+
                             <div class="flex flex-wrap justify-center gap-2">
                                 <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/15 backdrop-blur-sm text-white rounded-full text-xs font-semibold border border-white/20">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
@@ -4142,7 +4140,7 @@
                                 </span>
                             </div>
                         </div>
-                        
+
                         <div class="relative z-10 bg-white/10 backdrop-blur-sm border-t border-white/20 px-8 py-5">
                             <p class="text-white/90 text-sm leading-relaxed text-center">
                                 A <strong class="text-white font-semibold">Kuia+ Shop</strong> oferece os melhores produtos com qualidade, preços acessíveis e atendimento de excelência — entregas rápidas e suporte dedicado em cada compra.
@@ -4150,9 +4148,9 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="card-bg rounded-2xl shadow-md border border-gray-100 dark:border-gray-700/60 overflow-hidden">
-                        
+
                         <div class="flex items-center gap-3 px-6 py-4 border-b border-gray-100 dark:border-gray-700/60">
                             <div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center flex-shrink-0">
                                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -4235,7 +4233,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="card-bg rounded-2xl shadow-md border border-gray-100 dark:border-gray-700/60 overflow-hidden">
                         <div class="flex items-center gap-3 px-6 py-4 border-b border-gray-100 dark:border-gray-700/60">
                             <div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center flex-shrink-0">
@@ -4464,7 +4462,7 @@
 
     <div id="cartSidebar" class="fixed inset-y-0 right-0 w-80 card-bg shadow-2xl transform translate-x-full transition-transform z-50 border-l">
         <div class="flex flex-col h-full">
-            
+
             <div class="flex items-center justify-between px-5 py-4 border-b gradient-bg flex-shrink-0">
                 <div class="flex items-center gap-3">
                     <div style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;">
@@ -4480,7 +4478,7 @@
                 </button>
             </div>
 
-            
+
             <div id="cartItems" class="flex-1 overflow-y-auto" style="padding:12px 16px;">
                 <div class="text-center py-20 animate-fade-in">
                     <div style="width:72px;height:72px;border-radius:22px;background:linear-gradient(135deg,rgba(93,92,222,0.1),rgba(123,122,232,0.15));display:flex;align-items:center;justify-content:center;margin:0 auto 16px;animation:float 3s ease-in-out infinite;">
@@ -4495,9 +4493,9 @@
                 </div>
             </div>
 
-            
+
             <div class="border-t flex-shrink-0" style="padding:14px 16px 18px;">
-                
+
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
                     <span style="font-size:12px;color:#9ca3af;" id="cartSummaryItems">0 itens</span>
                     <button id="clearCartBtn" style="font-size:11px;font-weight:600;color:#ef4444;background:none;border:none;cursor:pointer;padding:0;display:none;transition:opacity 0.2s;" onmouseenter="this.style.opacity='0.7'" onmouseleave="this.style.opacity='1'">Limpar tudo</button>
@@ -4539,7 +4537,7 @@
     <div id="checkoutModal" class="fixed inset-0 z-50 hidden" style="transition: opacity 0.3s ease, transform 0.3s ease;">
         <div class="absolute inset-0 bg-white dark:bg-gray-900 flex flex-col" style="transition: background-color 0.3s ease;">
 
-            
+
             <header class="relative flex items-center px-4 sm:px-6 border-b border-gray-200 dark:border-gray-700 flex-shrink-0" style="background:inherit;height:56px;">
                 <button id="closeCheckoutBtn" class="relative z-10 flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-primary transition-colors p-2 -ml-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 flex-shrink-0">
                     <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
@@ -4551,11 +4549,11 @@
                 <div class="ml-auto w-9 flex-shrink-0"></div>
             </header>
 
-            
+
             <div class="flex-1 overflow-y-auto">
                 <div class="max-w-lg mx-auto px-4 sm:px-6 py-6 space-y-5">
 
-                    
+
                     <div id="loginRequiredMessage" class="hidden" style="border-radius:16px;background:linear-gradient(135deg,rgba(245,158,11,0.08),rgba(245,158,11,0.04));border:1.5px solid rgba(245,158,11,0.25);padding:20px;">
                         <div style="display:flex;align-items:flex-start;gap:14px;">
                             <div style="width:40px;height:40px;border-radius:12px;background:rgba(245,158,11,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
@@ -4574,7 +4572,7 @@
 
                     <form id="checkoutForm" class="space-y-5">
 
-                        
+
                         <div style="border-radius:16px;border:1.5px solid #e5e7eb;overflow:hidden;" class="dark:border-gray-700">
                             <div style="padding:12px 16px;background:#f9fafb;border-bottom:1px solid #e5e7eb;" class="dark:bg-gray-800 dark:border-gray-700">
                                 <div style="display:flex;align-items:center;gap:8px;">
@@ -4628,7 +4626,7 @@
                             </div>
                         </div>
 
-                        
+
                         <div style="border-radius:16px;border:1.5px solid #e5e7eb;overflow:hidden;" class="dark:border-gray-700">
                             <div style="padding:12px 16px;background:#f9fafb;border-bottom:1px solid #e5e7eb;" class="dark:bg-gray-800 dark:border-gray-700">
                                 <div style="display:flex;align-items:center;gap:8px;">
@@ -4650,7 +4648,7 @@
                 </div>
             </div>
 
-            
+
             <div class="flex-shrink-0 border-t border-gray-200 dark:border-gray-700 px-4 sm:px-6 py-3" style="background:inherit;">
                 <div class="max-w-lg mx-auto">
                     <button type="submit" form="checkoutForm" id="confirmOrderBtn" style="width:100%;padding:15px;border-radius:14px;border:none;background:linear-gradient(135deg,#5D5CDE,#7B7AE8);color:#fff;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 15px rgba(93,92,222,0.35);transition:all 0.2s;">
@@ -4737,7 +4735,7 @@
 
             <div class="flex-shrink-0 border-t border-gray-200 dark:border-gray-700 px-4 sm:px-6 py-3" style="background:inherit;">
                 <div class="max-w-3xl mx-auto flex items-center gap-3">
-                    
+
                     <button id="detailShareFooterBtn" title="Partilhar produto"
                         style="flex-shrink:0;width:48px;height:48px;border-radius:14px;border:1.5px solid;border-color:var(--border-light);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;color:#5D5CDE;"
                         onmouseenter="this.style.background='rgba(93,92,222,0.07)';this.style.borderColor='rgba(93,92,222,0.35)'"
@@ -4758,7 +4756,7 @@
         document.getElementById('loadingStatus').textContent = 'Carregando Firebase';
 
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js';
-        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js';
+        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile, sendPasswordResetEmail, sendEmailVerification } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js';
         import { getDatabase, ref, onValue, push, set, remove, update, get } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js';
         import { getFirestore, collection, doc, setDoc, getDoc, getDocs, updateDoc, query, where, orderBy } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js';
 
@@ -4788,17 +4786,17 @@
             document.getElementById('loadingStatus').textContent = 'Erro na conexão. Usando modo offline';
         }
 
-        
-        
-        
+
+
+
         const UPLOAD_DAILY_LIMIT = 10;
 
-        // ── Limite diário de mensagens de chat ──────────────────────────────
+
         const CHAT_DAILY_LIMIT   = 30;
         const CHAT_MAX_CHARS     = 500;
 
         function _chatLimitPath(uid) {
-            const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+            const today = new Date().toISOString().slice(0, 10);
             return `chatLimits/${uid}/${today}`;
         }
 
@@ -4844,7 +4842,7 @@
             });
         }
 
-        // ── Limite diário de pedidos ────────────────────────────────────────
+
         const ORDER_DAILY_LIMIT = 10;
 
         function _orderLimitPath(uid) {
@@ -4867,14 +4865,91 @@
 
             await set(dbRef, count + 1);
         }
-        // ───────────────────────────────────────────────────────────────────
-        // ───────────────────────────────────────────────────────────────────
+
+        const ORDER_UNVERIFIED_LIMIT = 2;
+
+
+        function isEmailVerified() {
+            if (!currentUser) return false;
+            return currentUser.emailVerified === true;
+        }
+
+
+        async function countTotalOrders() {
+            if (!currentUser) return 0;
+            try {
+                const snap = await get(ref(database, `userOrders/${currentUser.uid}`));
+                if (!snap.exists()) return 0;
+                return Object.keys(snap.val() || {}).length;
+            } catch (e) { return 0; }
+        }
+
+
+        window.sendVerificationEmail = async function() {
+            if (!currentUser || isEmailVerified()) return;
+            const btn = document.getElementById('kuia-send-verify-btn');
+            if (btn) { btn.disabled = true; btn.textContent = 'A enviar...'; }
+            try {
+                await sendEmailVerification(currentUser);
+                showNotificationToast('Email enviado', 'Verifique a sua caixa de entrada e clique no link de confirmação.', 'success');
+                if (btn) { btn.textContent = 'Enviado ✓'; setTimeout(() => { if(btn){ btn.disabled=false; btn.textContent='Reenviar email'; } }, 60000); }
+            } catch(e) {
+                showNotificationToast('Erro', 'Não foi possível enviar o email. Tente mais tarde.', 'error');
+                if (btn) { btn.disabled = false; btn.textContent = 'Reenviar email'; }
+            }
+        };
+
+
+        window.refreshEmailVerification = async function() {
+            if (!currentUser) return;
+            try {
+                await currentUser.reload();
+                currentUser = auth.currentUser;
+                updateUserUI();
+                renderEmailVerificationBanner();
+                if (isEmailVerified()) {
+                    showNotificationToast('Conta verificada!', 'O seu email foi confirmado. Já pode usar todas as funcionalidades.', 'success');
+                } else {
+                    showNotificationToast('Pendente', 'O email ainda não foi confirmado. Verifique a sua caixa de entrada.', 'warning');
+                }
+            } catch(e) {}
+        };
+
+
+        function renderEmailVerificationBanner() {
+            var existing = document.getElementById('kuia-email-verify-banner');
+            if (existing) existing.remove();
+            if (!currentUser || isGuest || isEmailVerified()) return;
+
+            var banner = document.createElement('div');
+            banner.id = 'kuia-email-verify-banner';
+            banner.style.cssText = 'position:fixed;bottom:70px;left:0;right:0;z-index:9990;padding:0 12px;pointer-events:none;';
+            banner.innerHTML = `
+                <div style="max-width:480px;margin:0 auto;background:linear-gradient(135deg,#1a1040,#0f0a2e);border:1px solid rgba(255,200,0,0.3);border-radius:16px;padding:14px 16px;box-shadow:0 8px 32px rgba(0,0,0,0.4);pointer-events:auto;animation:bounceIn 0.5s ease-out;">
+                    <div style="display:flex;align-items:flex-start;gap:12px;">
+                        <div style="width:36px;height:36px;border-radius:10px;background:rgba(255,200,0,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <svg width="18" height="18" fill="none" stroke="#FFD580" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        </div>
+                        <div style="flex:1;min-width:0;">
+                            <p style="color:#FFD580;font-size:13px;font-weight:700;margin:0 0 3px;">Confirme o seu email</p>
+                            <p style="color:rgba(255,255,255,0.65);font-size:12px;margin:0 0 10px;line-height:1.5;">Sem confirmação: máximo de <strong style="color:#FFD580;">${ORDER_UNVERIFIED_LIMIT} pedidos</strong> e sem acesso ao chat.</p>
+                            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                                <button id="kuia-send-verify-btn" onclick="window.sendVerificationEmail()" style="padding:7px 14px;border-radius:10px;border:none;background:linear-gradient(135deg,#FFD580,#f59e0b);color:#1a1040;font-size:12px;font-weight:700;cursor:pointer;">Enviar email de verificação</button>
+                                <button onclick="window.refreshEmailVerification()" style="padding:7px 12px;border-radius:10px;border:1px solid rgba(255,200,0,0.3);background:transparent;color:#FFD580;font-size:12px;font-weight:600;cursor:pointer;">Já confirmei ✓</button>
+                                <button onclick="document.getElementById('kuia-email-verify-banner').remove()" style="padding:7px 10px;border-radius:10px;border:none;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.5);font-size:12px;cursor:pointer;">✕</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            document.body.appendChild(banner);
+        }
+
 
         async function checkAndIncrementUploadLimit() {
             if (!currentUser) throw new Error('not_authenticated');
 
             const uid  = currentUser.uid;
-            const today = new Date().toISOString().slice(0, 10); 
+            const today = new Date().toISOString().slice(0, 10);
             const ref  = doc(firestore, 'uploadLimits', uid);
 
             const snap = await getDoc(ref);
@@ -4885,7 +4960,7 @@
                     if (data.count >= UPLOAD_DAILY_LIMIT) {
                         throw new Error('limit_reached');
                     }
-                    
+
                     await setDoc(ref, {
                         date: today,
                         count: data.count + 1,
@@ -4893,7 +4968,7 @@
                         updatedAt: new Date().toISOString()
                     });
                 } else {
-                    
+
                     await setDoc(ref, {
                         date: today,
                         count: 1,
@@ -4902,7 +4977,7 @@
                     });
                 }
             } else {
-                
+
                 await setDoc(ref, {
                     date: today,
                     count: 1,
@@ -4968,7 +5043,7 @@
 
             safeStorage.setItem('kuia-theme', isDark ? 'dark' : 'light');
 
-            
+
             const umc = document.getElementById('userMenuContent');
             if (umc) {
                 umc.style.background = isDark ? '#111827' : '#ffffff';
@@ -4992,7 +5067,7 @@
 
         let currentUser = null;
         let isGuest = false;
-        let guestConfirmed = false; // flag permanente: visitante escolheu entrar como guest
+        let guestConfirmed = false;
         let cart = JSON.parse(safeStorage.getItem('guestCart') || '[]');
         let products = {};
         let categories = [];
@@ -5189,7 +5264,7 @@
             }).join('');
         }
 
-        // ── Sistema de Recomendações ─────────────────────────────────────────
+
         function buildUserProfile() {
             var profile = {
                 categoryScores: {},
@@ -5323,7 +5398,7 @@
                 result.push(item);
             }
 
-            // Fisher-Yates shuffle
+
             for (var ri = result.length - 1; ri > 0; ri--) {
                 var rj = Math.floor(Math.random() * (ri + 1));
                 var temp = result[ri]; result[ri] = result[rj]; result[rj] = temp;
@@ -5377,7 +5452,7 @@
                 '</div>';
             }).join('');
         }
-        // ── Fim Recomendações ────────────────────────────────────────────────
+
 
         function renderDiscountedProducts() {
             var container = document.getElementById('discountHighlightSection');
@@ -5840,21 +5915,21 @@
             const unreadCount = notifications.filter(n => !n.read && !n.deleted).length;
             const countText = unreadCount > 99 ? '99+' : String(unreadCount);
 
-            
+
             const badge = document.getElementById('notificationBadge');
             if (badge) {
                 badge.textContent = countText;
                 badge.style.display = unreadCount > 0 ? 'inline-flex' : 'none';
             }
 
-            
+
             const sidebarBadge = document.getElementById('sidebarNotifBadge');
             if (sidebarBadge) {
                 sidebarBadge.textContent = countText;
                 sidebarBadge.style.display = unreadCount > 0 ? 'inline-flex' : 'none';
             }
 
-            
+
             const footerBadge = document.getElementById('footerNotifBadge');
             if (footerBadge) {
                 footerBadge.textContent = countText;
@@ -5879,13 +5954,13 @@
             const hasNotifications = notifications.length > 0;
             const unreadCount = notifications.filter(n => !n.read).length;
 
-            
+
             const markBtn = document.getElementById('markAllAsReadBtn');
             const deleteBtn = document.getElementById('deleteAllNotificationsBtn');
             if (markBtn) { markBtn.style.display = hasUnreadNotifications ? 'inline-flex' : 'none'; }
             if (deleteBtn) { deleteBtn.style.display = hasNotifications ? 'inline-flex' : 'none'; }
 
-            
+
             const unreadBadge = document.getElementById('unreadNotifBadge');
             if (unreadBadge) {
                 unreadBadge.textContent = unreadCount;
@@ -5912,7 +5987,7 @@
                 return;
             }
 
-            
+
             const groups = {};
             const today = new Date(); today.setHours(0,0,0,0);
             const yesterday = new Date(today); yesterday.setDate(yesterday.getDate() - 1);
@@ -5936,7 +6011,7 @@
 
             notificationsList.innerHTML = Object.entries(groups).map(([dateLabel, items]) => `
                 <div class="animate-fade-in">
-                    
+
                     <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;margin-top:4px;">
                         <span style="font-size:11px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.06em;white-space:nowrap;">${dateLabel}</span>
                         <div style="flex:1;height:1px;background:var(--border-light);opacity:0.7;"></div>
@@ -5951,12 +6026,12 @@
                             return `
                                 <div class="card-bg" style="border-radius:14px;border:1px solid;border-color:var(--border-light);overflow:hidden;transition:all 0.2s;${isUnread ? 'border-left:3px solid ' + cfg.color + ';' : ''}" onmouseenter="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 12px rgba(0,0,0,0.06)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
                                     <div style="display:flex;align-items:flex-start;gap:12px;padding:13px 14px;">
-                                        
+
                                         <div style="flex-shrink:0;width:34px;height:34px;border-radius:10px;background:${cfg.bg};display:flex;align-items:center;justify-content:center;color:${cfg.color};margin-top:1px;">
                                             ${cfg.icon}
                                         </div>
 
-                                        
+
                                         <div style="flex:1;min-width:0;">
                                             <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:3px;">
                                                 <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;">
@@ -6149,7 +6224,7 @@
             });
             setTimeout(function() { searchInput.focus(); }, 150);
 
-            
+
             _searchHiddenSections = [];
             var toHide = [
                 'promoBannerSection',
@@ -6182,13 +6257,13 @@
                 var btnGetApp = document.getElementById('btnGetApp');
                 if (btnGetApp) btnGetApp.style.display = '';
 
-                
+
                 var sfPanel = document.getElementById('searchFilterPanel');
                 var sfBtn   = document.getElementById('searchFilterToggleBtn');
                 if (sfPanel) sfPanel.classList.add('hidden');
                 if (sfBtn)   { sfBtn.classList.remove('btn-primary', 'text-white'); sfBtn.classList.add('btn-secondary'); }
 
-                
+
                 _searchHiddenSections.forEach(function(id) {
                     var el = document.getElementById(id);
                     if (el) el.classList.remove('hidden');
@@ -6224,14 +6299,14 @@
             });
         })();
 
-        
+
         (function() {
             var filterToggleBtn = document.getElementById('searchFilterToggleBtn');
             var filterPanel     = document.getElementById('searchFilterPanel');
             var activeDot       = document.getElementById('searchFilterActiveDot');
             if (!filterToggleBtn || !filterPanel) return;
 
-            
+
             filterToggleBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 var isHidden = filterPanel.classList.contains('hidden');
@@ -6239,7 +6314,7 @@
                     filterPanel.classList.remove('hidden');
                     filterToggleBtn.classList.add('btn-primary', 'text-white');
                     filterToggleBtn.classList.remove('btn-secondary');
-                    
+
                     _buildSearchCategoryChips();
                 } else {
                     filterPanel.classList.add('hidden');
@@ -6248,14 +6323,14 @@
                 }
             });
 
-            
+
             document.querySelectorAll('.search-price-btn').forEach(function(btn) {
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.search-price-btn').forEach(function(b) {
                         b.classList.remove('btn-primary', 'text-white');
                         b.classList.add('btn-secondary');
                     });
-                    
+
                     document.querySelectorAll('.price-filter-btn').forEach(function(b) {
                         b.classList.remove('btn-primary', 'text-white');
                         b.classList.add('btn-secondary');
@@ -6294,7 +6369,7 @@
                             c.classList.remove('btn-primary', 'text-white'); c.classList.add('btn-secondary');
                         });
                         chip.classList.remove('btn-secondary'); chip.classList.add('btn-primary', 'text-white');
-                        
+
                         document.querySelectorAll('.category-filter-btn').forEach(function(b) {
                             b.classList.remove('btn-primary', 'text-white'); b.classList.add('btn-secondary');
                         });
@@ -6313,23 +6388,23 @@
                 if (activeDot) activeDot.classList.toggle('hidden', !hasFilter);
             };
 
-            
+
             var _origClose = window.closeInlineSearch;
-            
+
             document.getElementById('searchToggleBtn')?.addEventListener('click', function() {
                 setTimeout(_updateSearchFilterDot, 50);
             });
         })();
-        
+
 
         function initializeChat() {
             if (!currentUser) return;
 
-            // Chat sempre disponível — chatId é sempre o UID do utilizador
+
             currentChatId = currentUser.uid;
             loadChatMessages();
 
-            // Ouvir se o admin está online para mostrar indicador verde/vermelho
+
             const userChatsRef = ref(database, `chats/users/${currentUser.uid}`);
             onValue(userChatsRef, (snapshot) => {
                 const chatData = snapshot.val();
@@ -6353,7 +6428,7 @@
                 </span>
             `;
 
-            // Atualizar todos os elementos de status
+
             const chatFullStatus = document.getElementById('chatFullStatus');
             if (chatFullStatus) chatFullStatus.innerHTML = statusHTML;
 
@@ -6363,7 +6438,7 @@
             const chatStatus = document.getElementById('chatStatus');
             if (chatStatus) chatStatus.innerHTML = statusHTML;
 
-            // Input sempre visível
+
             document.getElementById('chatFullInputContainer').classList.remove('hidden');
             document.getElementById('chatOverlayInputContainer').classList.remove('hidden');
 
@@ -6373,7 +6448,7 @@
                 if (chatNotifEl) chatNotifEl.classList.remove('hidden');
                 document.getElementById('footerChatNotification').classList.remove('hidden');
 
-                // Toast apenas quando muda de indisponível para disponível
+
                 if (_lastAdminStatus === false) {
                     showNotificationToast('Suporte', 'O administrador está disponível para conversar!', 'success');
                 }
@@ -6445,7 +6520,7 @@
             document.getElementById('chatFullMessages').innerHTML = messagesHTML;
             document.getElementById('chatOverlayMessages').innerHTML = messagesHTML;
 
-            // Se galeria overlay estiver visível, actualizar
+
             var galleryOverlay = document.getElementById('galleryOverlay');
             if (galleryOverlay && galleryOverlay.style.display !== 'none') {
                 window._loadGalleryOverlay();
@@ -6462,13 +6537,13 @@
         async function sendChatMessage(messageText = null, imageUrl = null) {
             if (!currentChatId || (!messageText && !imageUrl)) return;
 
-            // ── Limite de caracteres ─────────────────────────────────────
+
             if (messageText && messageText.length > CHAT_MAX_CHARS) {
                 showNotificationToast('Mensagem muito longa', `Máximo de ${CHAT_MAX_CHARS} caracteres por mensagem.`, 'error');
                 return;
             }
 
-            // ── Limite diário de mensagens ───────────────────────────────
+
             try {
                 await checkAndIncrementChatLimit();
             } catch (limitErr) {
@@ -6510,10 +6585,22 @@
             closeChatOverlay();
         });
 
-        function openChatOverlay() {
+        async function openChatOverlay() {
             const overlay = document.getElementById('chatOverlay');
             const messagesEl = document.getElementById('chatOverlayMessages');
             const inputContainer = document.getElementById('chatOverlayInputContainer');
+
+
+            overlay.classList.remove('hidden');
+            overlay.scrollTop = 0;
+            overlay.style.opacity = '0';
+            overlay.style.transform = 'translateY(24px)';
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    overlay.style.opacity = '1';
+                    overlay.style.transform = 'translateY(0)';
+                });
+            });
 
             if (!currentUser && !isGuest) {
                 messagesEl.innerHTML = `
@@ -6527,20 +6614,64 @@
                     </div>
                 `;
                 inputContainer.classList.add('hidden');
-            } else {
-                isFullChatMode = true;
+                return;
             }
 
-            overlay.classList.remove('hidden');
-            overlay.scrollTop = 0;
-            overlay.style.opacity = '0';
-            overlay.style.transform = 'translateY(24px)';
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    overlay.style.opacity = '1';
-                    overlay.style.transform = 'translateY(0)';
-                });
-            });
+            if (currentUser) {
+
+                try {
+                    await currentUser.reload();
+                    currentUser = auth.currentUser;
+                } catch(e) {  }
+            }
+
+            if (currentUser && !isEmailVerified()) {
+
+                const userEmail = currentUser.email || '';
+                messagesEl.innerHTML = `
+                    <div class="animate-fade-in" style="padding:40px 24px;display:flex;flex-direction:column;align-items:center;text-align:center;">
+                        <div style="width:80px;height:80px;border-radius:24px;background:linear-gradient(135deg,rgba(255,200,0,0.15),rgba(245,158,11,0.1));display:flex;align-items:center;justify-content:center;margin:0 auto 20px;animation:float 3s ease-in-out infinite;">
+                            <svg width="36" height="36" fill="none" stroke="#FFD580" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        </div>
+                        <h3 style="font-size:18px;font-weight:700;color:#111827;margin:0 0 8px;" class="dark:text-gray-100">Confirme o seu email</h3>
+                        <p style="font-size:13px;color:#6b7280;margin:0 0 6px;line-height:1.6;max-width:300px;" class="dark:text-gray-400">
+                            Enviámos um email de confirmação para <strong style="color:#374151;" class="dark:text-gray-200">${userEmail}</strong>.
+                        </p>
+                        <div style="background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);border-radius:12px;padding:12px 16px;margin:12px 0 20px;max-width:300px;text-align:left;">
+                            <p style="font-size:12px;color:#92400e;font-weight:600;margin:0 0 6px;" class="dark:text-yellow-300">💡 Não encontra o email?</p>
+                            <p style="font-size:12px;color:#78350f;margin:0;line-height:1.6;" class="dark:text-yellow-400">Verifique a pasta de <strong>Spam</strong>, <strong>Lixo</strong> ou <strong>Promoções</strong>. O email pode ter sido filtrado automaticamente.</p>
+                        </div>
+                        <div style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:280px;">
+                            <button id="kuia-send-verify-btn" onclick="window.sendVerificationEmail()" style="padding:13px 20px;border-radius:13px;border:none;background:linear-gradient(135deg,#FFD580,#f59e0b);color:#1a1040;font-size:14px;font-weight:700;cursor:pointer;">
+                                📧 Reenviar email de verificação
+                            </button>
+                            <button onclick="window._chatRecheck()" style="padding:12px 20px;border-radius:13px;border:1.5px solid rgba(93,92,222,0.3);background:rgba(93,92,222,0.06);color:#5D5CDE;font-size:13px;font-weight:600;cursor:pointer;">
+                                ✓ Já confirmei — verificar agora
+                            </button>
+                        </div>
+                    </div>
+                `;
+                inputContainer.classList.add('hidden');
+
+
+                window._chatRecheck = async function() {
+                    try {
+                        await currentUser.reload();
+                        currentUser = auth.currentUser;
+                        updateUserUI();
+                        renderEmailVerificationBanner();
+                    } catch(e) {}
+                    if (isEmailVerified()) {
+                        closeChatOverlay();
+                        setTimeout(() => openChatOverlay(), 300);
+                    } else {
+                        showNotificationToast('Pendente', 'O email ainda não foi confirmado. Verifique a pasta de spam também.', 'warning');
+                    }
+                };
+            } else {
+                isFullChatMode = true;
+                inputContainer.classList.remove('hidden');
+            }
         }
 
         function closeChatOverlay() {
@@ -6573,7 +6704,7 @@
                 const file = e.target.files[0];
                 if (!file) return;
 
-                
+
                 try {
                     await checkAndIncrementUploadLimit();
                 } catch (limitErr) {
@@ -6589,19 +6720,19 @@
                 btnElement.innerHTML = '⏳';
                 btnElement.disabled = true;
 
-                
+
                 const sizeLabel = file.size < 1024 * 1024
                     ? (file.size / 1024).toFixed(0) + ' KB'
                     : (file.size / (1024 * 1024)).toFixed(1) + ' MB';
 
-                
+
                 const previewUrl = await new Promise(resolve => {
                     const r = new FileReader();
                     r.onload = ev => resolve(ev.target.result);
                     r.readAsDataURL(file);
                 });
 
-                
+
                 const skeletonId = 'img-sk-' + Date.now();
 
                 const skeletonHTML = `
@@ -6628,13 +6759,13 @@
                         </div>
                     </div>`;
 
-                
+
                 const fullContainer   = document.getElementById('chatFullMessages');
                 const overlayContainer = document.getElementById('chatOverlayMessages');
                 fullContainer.insertAdjacentHTML('beforeend', skeletonHTML);
                 overlayContainer.insertAdjacentHTML('beforeend', skeletonHTML.replace(skeletonId, skeletonId + '-ov'));
 
-                
+
                 const scrollToBottom = () => {
                     document.getElementById('chatFullContainer').scrollTop = 99999;
                     document.getElementById('chatOverlayContainer').scrollTop = 99999;
@@ -6738,7 +6869,7 @@
                 }
             });
 
-            // Carregar estado do limite ao abrir
+
             refreshChatLimitUI();
 
             const openFullChatBtn = document.createElement('button');
@@ -6839,13 +6970,13 @@
             }
         }
 
-        
+
         let _allOrdersCache = [];
         let _activeOrderFilter = 'all';
 
         window.filterOrdersByStatus = function(status) {
             _activeOrderFilter = status;
-            
+
             document.querySelectorAll('.order-filter-btn').forEach(btn => {
                 const isActive = btn.dataset.filter === status;
                 btn.style.background = isActive ? '#5D5CDE' : 'transparent';
@@ -6859,7 +6990,7 @@
         function displayOrdersInGrid(userOrders_array) {
             _allOrdersCache = userOrders_array;
             window._loyaltyOrdersCache = userOrders_array;
-            
+
             (function() {
                 var tiers = [{min:0},{min:5000},{min:20000},{min:50000}];
                 var medals = ['🥉','🥈','🥇','💎'];
@@ -6879,7 +7010,7 @@
             })();
             _activeOrderFilter = 'all';
 
-            
+
             document.querySelectorAll('.order-filter-btn').forEach(btn => {
                 const isAll = btn.dataset.filter === 'all';
                 btn.style.background = isAll ? '#5D5CDE' : 'transparent';
@@ -6887,11 +7018,11 @@
                 btn.style.borderColor = isAll ? '#5D5CDE' : '#e5e7eb';
             });
 
-            
+
             const filterBar = document.getElementById('ordersFilterBar');
             if (filterBar) filterBar.style.display = userOrders_array.length > 0 ? 'flex' : 'none';
 
-            
+
             const badge = document.getElementById('ordersCountBadge');
             if (badge) {
                 badge.textContent = userOrders_array.length + (userOrders_array.length === 1 ? ' pedido' : ' pedidos');
@@ -6947,11 +7078,11 @@
 
                 return `
                     <div class="card-bg animate-fade-in" style="border-radius:16px;border:1px solid;border-color:var(--border-light);overflow:hidden;transition:all 0.25s ease;" onmouseenter="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.08)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
-                        
+
                         <div style="height:3px;background:${cfg.dot};opacity:0.7;"></div>
 
                         <div style="padding:16px;">
-                            
+
                             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
                                 <div>
                                     <span style="font-size:13px;font-weight:700;color:#111827;" class="dark:text-gray-100">Pedido #${order.id.slice(-6)}</span>
@@ -6966,10 +7097,10 @@
                                 </span>
                             </div>
 
-                            
+
                             <div style="height:1px;background:var(--border-light);margin-bottom:12px;opacity:0.6;"></div>
 
-                            
+
                             <div style="margin-bottom:12px;">
                                 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
                                     <span style="font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.05em;">${order.items.length} item${order.items.length !== 1 ? 's' : ''}</span>
@@ -6991,13 +7122,13 @@
                                 </div>
                             </div>
 
-                            
+
                             <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:12px;background:rgba(93,92,222,0.05);">
                                 <span style="font-size:12px;font-weight:600;color:#6b7280;" class="dark:text-gray-400">Total do pedido</span>
                                 <span class="gradient-text" style="font-size:16px;font-weight:800;">${formatPrice(order.total)}</span>
                             </div>
 
-                            
+
                             <div style="display:flex;align-items:center;gap:6px;margin-top:10px;padding:0 2px;">
                                 <span style="width:6px;height:6px;border-radius:50%;background:${cfg.dot};flex-shrink:0;${order.status === 'pending' ? 'animation:chatDotPulse 2s ease-in-out infinite;' : ''}"></span>
                                 <span style="font-size:12px;color:#6b7280;" class="dark:text-gray-400">${cfg.msg}</span>
@@ -7062,7 +7193,7 @@
             updateSearchVisibility();
             window.scrollTo(0, 0);
 
-            // ── Sincronizar URL ──────────────────────────────────────────
+
             if (!_skipNextPushState) {
                 const _urlParams = new URLSearchParams(window.location.search);
                 if (section === 'home') {
@@ -7074,7 +7205,7 @@
                 history.pushState({ p: section }, '', window.location.pathname + (_newSearch ? '?' + _newSearch : ''));
             }
             _skipNextPushState = false;
-            // ─────────────────────────────────────────────────────────────
+
 
             const sections = ['homeSection', 'categoriesSection', 'favoritesSection', 'ordersSection', 'chatFullSection', 'profileSection', 'notificationsSection', 'aboutSection'];
             sections.forEach(id => {
@@ -7134,7 +7265,56 @@
                     navBtn = document.getElementById('chatFullBtn');
                     footerBtn = document.getElementById('footerChatBtn');
                     if (currentUser && !isGuest) {
-                        isFullChatMode = true;
+
+                        (async () => {
+                            try {
+                                await currentUser.reload();
+                                currentUser = auth.currentUser;
+                            } catch(e) {}
+                            if (!isEmailVerified()) {
+                                isFullChatMode = false;
+                                const userEmail = currentUser ? currentUser.email : '';
+                                document.getElementById('chatFullMessages').innerHTML = `
+                                    <div class="animate-fade-in" style="padding:40px 24px;display:flex;flex-direction:column;align-items:center;text-align:center;">
+                                        <div style="width:80px;height:80px;border-radius:24px;background:linear-gradient(135deg,rgba(255,200,0,0.15),rgba(245,158,11,0.1));display:flex;align-items:center;justify-content:center;margin:0 auto 20px;animation:float 3s ease-in-out infinite;">
+                                            <svg width="36" height="36" fill="none" stroke="#FFD580" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                        </div>
+                                        <h3 style="font-size:18px;font-weight:700;color:#111827;margin:0 0 8px;" class="dark:text-gray-100">Confirme o seu email</h3>
+                                        <p style="font-size:13px;color:#6b7280;margin:0 0 6px;line-height:1.6;max-width:300px;" class="dark:text-gray-400">
+                                            Enviámos um email de confirmação para <strong style="color:#374151;" class="dark:text-gray-200">${userEmail}</strong>.
+                                        </p>
+                                        <div style="background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);border-radius:12px;padding:12px 16px;margin:12px 0 20px;max-width:300px;text-align:left;">
+                                            <p style="font-size:12px;color:#92400e;font-weight:600;margin:0 0 6px;" class="dark:text-yellow-300">💡 Não encontra o email?</p>
+                                            <p style="font-size:12px;color:#78350f;margin:0;line-height:1.6;" class="dark:text-yellow-400">Verifique a pasta de <strong>Spam</strong>, <strong>Lixo</strong> ou <strong>Promoções</strong>. O email pode ter sido filtrado automaticamente.</p>
+                                        </div>
+                                        <div style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:280px;">
+                                            <button id="kuia-send-verify-btn" onclick="window.sendVerificationEmail()" style="padding:13px 20px;border-radius:13px;border:none;background:linear-gradient(135deg,#FFD580,#f59e0b);color:#1a1040;font-size:14px;font-weight:700;cursor:pointer;">📧 Reenviar email de verificação</button>
+                                            <button onclick="window._chatFullRecheck()" style="padding:12px 20px;border-radius:13px;border:1.5px solid rgba(93,92,222,0.3);background:rgba(93,92,222,0.06);color:#5D5CDE;font-size:13px;font-weight:600;cursor:pointer;">✓ Já confirmei — verificar agora</button>
+                                        </div>
+                                    </div>
+                                `;
+                                document.getElementById('chatFullInputContainer').classList.add('hidden');
+
+                                window._chatFullRecheck = async function() {
+                                    try {
+                                        await currentUser.reload();
+                                        currentUser = auth.currentUser;
+                                        updateUserUI();
+                                        renderEmailVerificationBanner();
+                                    } catch(e) {}
+                                    if (isEmailVerified()) {
+                                        showSection('chatFull');
+                                    } else {
+                                        showNotificationToast('Pendente', 'O email ainda não foi confirmado. Verifique a pasta de spam também.', 'warning');
+                                    }
+                                };
+                            } else {
+                                isFullChatMode = true;
+                                document.getElementById('chatFullInputContainer').classList.remove('hidden');
+                                updateUserUI();
+                                renderEmailVerificationBanner();
+                            }
+                        })();
                     } else {
                         document.getElementById('chatFullMessages').innerHTML = `
                             <div class="text-center text-gray-500 dark:text-gray-400 py-20 animate-fade-in">
@@ -7341,7 +7521,7 @@
             isGuest = true;
             guestConfirmed = true;
             currentUser = null;
-            // Esconde login imediatamente (síncrono) antes de qualquer callback do Firebase
+
             loginScreen.classList.add('hidden');
             loginScreen.style.display = 'none';
             loadingScreen.classList.add('hidden');
@@ -7584,7 +7764,7 @@
                     photoURL: uploadedPhotoURL || getAvatarFallback(name)
                 });
 
-                
+
                 currentUser = auth.currentUser;
                 updateUserUI();
 
@@ -7618,7 +7798,14 @@
                     });
                 }
 
-                showNotificationToast('Sucesso', 'Conta criada com sucesso!', 'success');
+                showNotificationToast('Sucesso', 'Conta criada com sucesso! Enviamos um email de confirmação para ' + email, 'success');
+
+
+                try {
+                    await sendEmailVerification(user);
+                } catch(evErr) {
+                    console.warn('Could not send verification email:', evErr);
+                }
 
             } catch (error) {
                 console.error('Register error:', error);
@@ -7631,7 +7818,7 @@
             }
         });
 
-        
+
         let lastActiveInterval   = null;
         let sessionStartTime     = null;
         let sessionTimerInterval = null;
@@ -7698,6 +7885,7 @@
                 setupChatImageHandlers();
                 setupChatEventHandlers();
                 startActiveTimeTracking(user);
+                setTimeout(renderEmailVerificationBanner, 1500);
             } else if (!isGuest && !guestConfirmed) {
                 currentUser = null;
                 stopActiveTimeTracking();
@@ -7716,7 +7904,7 @@
                 userName.textContent = currentUser.displayName || currentUser.email;
 
                 userMenuContent.innerHTML = `
-                    
+
                     <div style="background:linear-gradient(135deg,#5D5CDE 0%,#7B7AE8 100%);padding:48px 20px 24px;position:relative;flex-shrink:0;">
                         <button id="closeMenuDrawerBtn" style="position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.2);border:none;color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;">✕</button>
                         <div style="display:flex;align-items:center;gap:14px;">
@@ -7725,45 +7913,26 @@
                                 <p style="color:#fff;font-weight:700;font-size:16px;margin:0 0 2px;">${currentUser.displayName || 'Utilizador'}</p>
                                 <p style="color:rgba(255,255,255,0.75);font-size:12px;margin:0;">${currentUser.email || ''}</p>
                                 ${(function(){
-                                    const hasRealPhoto = currentUser.photoURL && !currentUser.photoURL.startsWith('data:image/svg+xml');
-                                    if (hasRealPhoto) {
-                                        return `<span style="display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,0.2);color:#fff;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;margin-top:6px;"><svg width="10" height="10" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Conta verificada</span>`;
+                                    if (currentUser.emailVerified) {
+                                        return `<span style="display:inline-flex;align-items:center;gap:4px;background:rgba(34,197,94,0.25);color:#86efac;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;margin-top:6px;border:1px solid rgba(34,197,94,0.3);"><svg width="10" height="10" fill="none" stroke="#86efac" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Email verificado</span>`;
                                     } else {
                                         return `
                                         <div style="position:relative;display:inline-block;margin-top:6px;">
                                             <span onclick="var t=document.getElementById('kuia-unverified-tip');t.style.display=t.style.display==='none'?'block':'none';" style="display:inline-flex;align-items:center;gap:4px;background:rgba(255,165,0,0.3);color:#FFD580;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;cursor:pointer;border:1px solid rgba(255,200,0,0.35);">
                                                 <svg width="10" height="10" fill="none" stroke="#FFD580" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                                Conta não verificada ▾
+                                                Email não verificado ▾
                                             </span>
                                             <div id="kuia-unverified-tip" style="display:none;position:fixed;left:12px;right:12px;top:auto;margin-top:8px;background:#1a1040;border:1px solid rgba(255,200,0,0.2);border-radius:14px;padding:16px;z-index:99999;box-shadow:0 12px 40px rgba(0,0,0,0.5);">
                                                 <p style="color:#FFD580;font-size:12px;font-weight:700;margin:0 0 8px;display:flex;align-items:center;gap:6px;">
                                                     <svg width="13" height="13" fill="none" stroke="#FFD580" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                                    Conta não verificada
+                                                    Email não verificado
                                                 </p>
                                                 <p style="color:rgba(255,255,255,0.8);font-size:11.5px;line-height:1.6;margin:0 0 12px;">
-                                                    Contas sem foto de perfil tendem a receber <strong style="color:#FFD580;">mais rejeições nos pedidos</strong>. Para manter sua conta segura e confiável:
+                                                    Sem verificação: máximo de <strong style="color:#FFD580;">${ORDER_UNVERIFIED_LIMIT} pedidos</strong> e <strong style="color:#FFD580;">sem acesso ao chat</strong>.
                                                 </p>
-                                                <div style="display:flex;flex-direction:column;gap:7px;">
-                                                    <div style="display:flex;align-items:center;gap:8px;">
-                                                        <div style="width:20px;height:20px;border-radius:50%;background:rgba(34,197,94,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                                                            <svg width="11" height="11" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-                                                        </div>
-                                                        <span style="color:rgba(255,255,255,0.8);font-size:11.5px;">Use um <strong style="color:#fff;">Gmail válido</strong></span>
-                                                    </div>
-                                                    <div style="display:flex;align-items:center;gap:8px;">
-                                                        <div style="width:20px;height:20px;border-radius:50%;background:rgba(34,197,94,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                                                            <svg width="11" height="11" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-                                                        </div>
-                                                        <span style="color:rgba(255,255,255,0.8);font-size:11.5px;">Use seu <strong style="color:#fff;">nome verdadeiro</strong></span>
-                                                    </div>
-                                                    <div style="display:flex;align-items:center;gap:8px;">
-                                                        <div style="width:20px;height:20px;border-radius:50%;background:rgba(34,197,94,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                                                            <svg width="11" height="11" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-                                                        </div>
-                                                        <span style="color:rgba(255,255,255,0.8);font-size:11.5px;">Adicione uma <strong style="color:#fff;">foto de perfil real</strong></span>
-                                                    </div>
-                                                </div>
-                                                <button onclick="document.getElementById('kuia-unverified-tip').style.display='none';" style="margin-top:14px;width:100%;padding:9px;border-radius:10px;border:none;background:rgba(255,255,255,0.1);color:#fff;font-size:12px;font-weight:600;cursor:pointer;">Entendi</button>
+                                                <button id="kuia-send-verify-btn" onclick="window.sendVerificationEmail()" style="width:100%;padding:9px;border-radius:10px;border:none;background:linear-gradient(135deg,#FFD580,#f59e0b);color:#1a1040;font-size:12px;font-weight:700;cursor:pointer;margin-bottom:8px;">📧 Enviar email de verificação</button>
+                                                <button onclick="window.refreshEmailVerification()" style="width:100%;padding:8px;border-radius:10px;border:1px solid rgba(255,200,0,0.25);background:transparent;color:#FFD580;font-size:12px;font-weight:600;cursor:pointer;margin-bottom:8px;">✓ Já confirmei</button>
+                                                <button onclick="document.getElementById('kuia-unverified-tip').style.display='none';" style="margin-top:2px;width:100%;padding:8px;border-radius:10px;border:none;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.5);font-size:12px;font-weight:600;cursor:pointer;">Fechar</button>
                                             </div>
                                         </div>`;
                                     }
@@ -7772,7 +7941,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div style="padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;flex-shrink:0;">
                         <button id="viewProfileBtn" style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 8px;border-radius:14px;border:1.5px solid #e5e7eb;background:#f9fafb;cursor:pointer;transition:all 0.2s;" class="dark:bg-gray-800 dark:border-gray-700">
                             <div style="width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;">
@@ -7812,7 +7981,7 @@
                             <span style="font-size:12px;font-weight:600;color:#374151;" class="dark:text-gray-200">Nível</span>
                         </button>
                     </div>
-                    
+
                     <div style="padding:0 16px 14px;">
                         <button id="menuOpenChatQuickBtn" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:14px;border:1.5px solid rgba(67,233,123,0.35);background:linear-gradient(135deg,rgba(67,233,123,0.08),rgba(56,249,215,0.08));color:#059669;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;" class="dark:border-green-700/40 dark:text-green-400">
                             <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -7820,10 +7989,10 @@
                         </button>
                     </div>
 
-                    
+
                     <div class="menu-list-sep" style="margin:0 16px;height:1px;background:#e5e7eb;"></div>
 
-                    
+
                     <div style="padding:10px 12px;">
                         <button id="faq" onclick="window.location.href='faq.html'" style="width:100%;display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;border:none;background:transparent;cursor:pointer;text-align:left;transition:background 0.15s;" class="hover:bg-gray-100 dark:hover:bg-gray-700">
                             <div style="width:34px;height:34px;border-radius:10px;background:#fff7ed;display:flex;align-items:center;justify-content:center;flex-shrink:0;" class="menu-list-icon-wrap">
@@ -7853,7 +8022,7 @@
                             <svg style="margin-left:auto;color:#9ca3af;" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                         </button>
 
-                        
+
                         <button id="menuThemeToggle" style="width:100%;display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;border:none;background:transparent;cursor:pointer;text-align:left;transition:background 0.15s;" class="hover:bg-gray-100 dark:hover:bg-gray-700">
                             <div style="width:34px;height:34px;border-radius:10px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;flex-shrink:0;" class="menu-list-icon-wrap">${document.documentElement.classList.contains('dark') ? '<svg width=\"18\" height=\"18\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"5\"/><line x1=\"12\" y1=\"1\" x2=\"12\" y2=\"3\"/><line x1=\"12\" y1=\"21\" x2=\"12\" y2=\"23\"/><line x1=\"4.22\" y1=\"4.22\" x2=\"5.64\" y2=\"5.64\"/><line x1=\"18.36\" y1=\"18.36\" x2=\"19.78\" y2=\"19.78\"/><line x1=\"1\" y1=\"12\" x2=\"3\" y2=\"12\"/><line x1=\"21\" y1=\"12\" x2=\"23\" y2=\"12\"/><line x1=\"4.22\" y1=\"19.78\" x2=\"5.64\" y2=\"18.36\"/><line x1=\"18.36\" y1=\"5.64\" x2=\"19.78\" y2=\"4.22\"/></svg>' : '<svg width=\"18\" height=\"18\" fill=\"none\" stroke=\"#6366f1\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" viewBox=\"0 0 24 24\"><path d=\"M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z\"/></svg>'}</div>
                             <span class="menu-list-text" style="font-size:13px;font-weight:500;color:#374151;">${document.documentElement.classList.contains('dark') ? 'Modo Claro' : 'Modo Escuro'}</span>
@@ -7862,10 +8031,10 @@
                         </button>
                     </div>
 
-                    
+
                     <div class="menu-list-sep" style="margin:0 16px;height:1px;background:#e5e7eb;"></div>
 
-                    
+
                     <div style="padding:16px;padding-bottom:calc(16px + env(safe-area-inset-bottom, 0px));flex-shrink:0;">
                         <button id="logoutBtn" class="menu-logout-btn" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border-radius:14px;border:1.5px solid #fee2e2;background:#fff5f5;color:#ef4444;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;">
                             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="flex-shrink:0;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Terminar Sessão
@@ -7963,7 +8132,7 @@
                 userName.textContent = 'Visitante';
 
                 userMenuContent.innerHTML = `
-                    
+
                     <div style="background:linear-gradient(135deg,#5D5CDE 0%,#7B7AE8 100%);padding:48px 20px 24px;position:relative;flex-shrink:0;">
                         <button id="closeMenuDrawerBtn" style="position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.2);border:none;color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;">✕</button>
                         <div style="display:flex;align-items:center;gap:14px;">
@@ -7975,7 +8144,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div style="padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;flex-shrink:0;">
                         <button id="menuOrdersBtnGuest" style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 8px;border-radius:14px;border:1.5px solid #e5e7eb;background:#f9fafb;cursor:pointer;transition:all 0.2s;" class="dark:bg-gray-800 dark:border-gray-700">
                             <div style="width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#f093fb,#f5576c);display:flex;align-items:center;justify-content:center;"><svg width="20" height="20" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
@@ -7994,7 +8163,7 @@
                             <span style="font-size:12px;font-weight:600;color:#374151;" class="dark:text-gray-200">Nível</span>
                         </button>
                     </div>
-                    
+
                     <div style="padding:0 16px 14px;">
                         <button id="menuOpenChatQuickBtnGuest" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:14px;border:1.5px solid rgba(67,233,123,0.35);background:linear-gradient(135deg,rgba(67,233,123,0.08),rgba(56,249,215,0.08));color:#059669;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;" class="dark:border-green-700/40 dark:text-green-400">
                             <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -8086,7 +8255,7 @@
         const userMenu = document.getElementById('userMenu');
         const userMenuOverlay = document.getElementById('userMenuOverlay');
 
-        
+
         async function _shareStore() {
             const storeUrl = 'https://kuia-shop.vercel.app/';
             const shareText = '🛍️ Já conheces a Kuia+ Shop? Encontrei produtos incríveis com os melhores descontos!\n\nVale muito a pena dar uma vista de olhos 👉 ' + storeUrl;
@@ -8098,7 +8267,7 @@
                 } catch(e) { if (e.name === 'AbortError') return; }
             }
 
-            
+
             try {
                 await navigator.clipboard.writeText(shareText);
             } catch(e) {
@@ -8111,12 +8280,12 @@
             }
             showNotificationToast('Copiado!', 'Link da loja copiado — partilha com os teus amigos 😊', 'success');
         }
-        
+
 
         function openUserMenu() {
             userMenu.classList.remove('hidden');
             userMenuOverlay.classList.remove('hidden');
-            
+
             userMenu.querySelector('#userMenuContent').style.background =
                 document.documentElement.classList.contains('dark') ? '#111827' : '#ffffff';
             requestAnimationFrame(() => {
@@ -8138,7 +8307,7 @@
 
         window.openUserMenu = openUserMenu;
 
-        // Avatar: abre perfil (autenticado) ou login (visitante)
+
         window.handleAvatarClick = function() {
             if (currentUser) {
                 showSection('profile');
@@ -8147,8 +8316,8 @@
             }
         };
 
-        // O userMenuBtn agora chama handleAvatarClick via onclick inline
-        // Mantemos o listener apenas para fechar ao clicar fora
+
+
         userMenuOverlay.addEventListener('click', closeUserMenu);
 
         document.addEventListener('click', (e) => {
@@ -8243,7 +8412,7 @@
 
         closeDetailModalBtn.addEventListener('click', closeProductDetail);
 
-        
+
         window.addEventListener('popstate', function(e) {
             var modal = document.getElementById('productDetailModal');
             if (modal && !modal.classList.contains('hidden')) {
@@ -8257,7 +8426,7 @@
                 return;
             }
 
-            // Navegar para a página indicada no histórico ou na URL
+
             var _p = (e.state && e.state.p)
                 ? e.state.p
                 : (new URLSearchParams(window.location.search).get('p') || 'home');
@@ -8265,7 +8434,7 @@
             showSection(_p);
         });
 
-        // Deep-link: abrir página direto pela URL (?p=orders, etc.)
+
         (function() {
             var _p = new URLSearchParams(window.location.search).get('p');
             var _validPages = ['home','categories','favorites','orders','notifications','about','profile'];
@@ -8297,7 +8466,7 @@
                 document.getElementById('customerPhone').value = phoneVal;
                 document.getElementById('customerLocation').value = locationVal;
 
-                // Atualizar contadores
+
                 document.getElementById('customerNameCount').textContent = nameVal.length + '/15';
                 document.getElementById('customerPhoneCount').textContent = phoneVal.length + '/15';
                 document.getElementById('customerLocationCount').textContent = locationVal.length + '/150';
@@ -8392,7 +8561,37 @@
 
             setProcessing();
 
-            // ── Limite diário de pedidos ─────────────────────────────────
+
+            if (!isEmailVerified()) {
+                const totalOrders = await countTotalOrders();
+                if (totalOrders >= ORDER_UNVERIFIED_LIMIT) {
+                    resetBtn();
+
+                    var _verifySheet = document.createElement('div');
+                    _verifySheet.style.cssText = 'position:fixed;inset:0;z-index:100000;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);';
+                    _verifySheet.innerHTML = `
+                        <div style="background:linear-gradient(135deg,#1a1040,#0f0a2e);border-radius:24px 24px 0 0;width:100%;max-width:480px;padding:28px 24px calc(36px + env(safe-area-inset-bottom,0px));border-top:1px solid rgba(255,200,0,0.2);">
+                            <div style="width:36px;height:4px;border-radius:2px;background:rgba(255,255,255,0.15);margin:0 auto 22px;"></div>
+                            <div style="text-align:center;margin-bottom:20px;">
+                                <div style="width:64px;height:64px;border-radius:20px;background:rgba(255,200,0,0.15);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+                                    <svg width="28" height="28" fill="none" stroke="#FFD580" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                </div>
+                                <p style="color:#FFD580;font-size:17px;font-weight:700;margin:0 0 8px;">Limite de pedidos atingido</p>
+                                <p style="color:rgba(255,255,255,0.65);font-size:13px;line-height:1.6;margin:0;">Contas sem email verificado só podem fazer <strong style="color:#FFD580;">${ORDER_UNVERIFIED_LIMIT} pedidos</strong>. Confirme o seu email para continuar a comprar.</p>
+                            </div>
+                            <button id="_kuia-vsheet-send" onclick="window.sendVerificationEmail()" style="width:100%;padding:15px;border-radius:14px;border:none;background:linear-gradient(135deg,#FFD580,#f59e0b);color:#1a1040;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;">📧 Enviar email de verificação</button>
+                            <button onclick="window.refreshEmailVerification()" style="width:100%;padding:13px;border-radius:14px;border:1.5px solid rgba(255,200,0,0.25);background:transparent;color:#FFD580;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:8px;">✓ Já confirmei o email</button>
+                            <button id="_kuia-vsheet-close" style="width:100%;padding:12px;border-radius:14px;border:none;background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.5);font-size:13px;cursor:pointer;">Fechar</button>
+                        </div>`;
+                    document.body.appendChild(_verifySheet);
+                    _verifySheet.querySelector('#_kuia-vsheet-close').onclick = () => _verifySheet.remove();
+                    _verifySheet.addEventListener('click', e => { if(e.target === _verifySheet) _verifySheet.remove(); });
+                    return;
+                }
+            }
+
+
+
             try {
                 await checkAndIncrementOrderLimit();
             } catch (limitErr) {
@@ -8404,7 +8603,7 @@
                 resetBtn();
                 return;
             }
-            // ─────────────────────────────────────────────────────────────
+
 
             try {
                 const _freshSnap = await get(_KP.getDbRef());
@@ -8523,7 +8722,7 @@
                 renderPromoBanner();
                 updateCategories();
 
-                
+
                 try {
                     var _deepLinkId = new URLSearchParams(window.location.search).get('produto');
                     if (_deepLinkId && products[_deepLinkId]) {
@@ -8576,7 +8775,7 @@
             }
         }
 
-        // ── Grid Cols Toggle ──────────────────────────────────────
+
         var currentGridCols = parseInt(localStorage.getItem('kuia_grid_cols') || '3', 10);
         if (![1,2,3].includes(currentGridCols)) currentGridCols = 3;
 
@@ -8585,7 +8784,7 @@
             if (!grid) return;
             grid.classList.remove('grid-cols-mode-1','grid-cols-mode-2','grid-cols-mode-3');
             grid.classList.add('grid-cols-mode-' + cols);
-            // Update active button state
+
             [1,2,3].forEach(function(n) {
                 var btn = document.getElementById('gridBtn' + n);
                 if (!btn) return;
@@ -8601,9 +8800,9 @@
         }
         window.setGridCols = setGridCols;
 
-        // ── Gallery Fullscreen Overlay ─────────────────────────────
+
         window.switchChatTab = function(tab) {
-            // Compatibilidade: se pedir galeria, abre o overlay
+
             if (tab === 'gallery') { window.openGalleryOverlay(); }
         };
 
@@ -8854,7 +9053,7 @@
                 </div>
             `;
 
-            
+
             const badge = document.getElementById('favoritesCountBadge');
 
             if (!currentUser) {
@@ -8893,7 +9092,7 @@
                 return;
             }
 
-            
+
             if (badge) {
                 badge.textContent = favoriteProducts.length + (favoriteProducts.length === 1 ? ' item' : ' itens');
                 badge.style.display = 'inline-block';
@@ -8911,14 +9110,14 @@
                      onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 28px rgba(0,0,0,0.09)'"
                      onmouseleave="this.style.transform='';this.style.boxShadow=''">
 
-                    
+
                     <div style="position:relative;aspect-ratio:1/1;background:#f3f4f6;overflow:hidden;" class="dark:bg-gray-700">
                         ${product.image
                             ? `<img src="${product.image}" alt="${product.name}" style="width:100%;height:100%;object-fit:cover;transition:transform 0.35s ease;" class="group-hover:scale-110" onerror="handleImgError(this)">`
                             : `<div class="img-error-placeholder" style="width:100%;height:100%;"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zM8.25 8.625a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z"/></svg></div>`
                         }
 
-                        
+
                         <button onclick="event.stopPropagation(); toggleFavorite('${product.id}')"
                                 title="Remover dos favoritos"
                                 style="position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.9);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.12);transition:all 0.2s;backdrop-filter:blur(4px);"
@@ -8927,14 +9126,14 @@
                             <svg width="13" height="13" fill="#ef4444" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                         </button>
 
-                        
+
                         ${hasDiscount ? `
                             <div style="position:absolute;top:8px;left:8px;background:#ef4444;color:#fff;font-size:10px;font-weight:700;padding:3px 7px;border-radius:8px;line-height:1.2;">
                                 -${discountPercent}%
                             </div>
                         ` : ''}
 
-                        
+
                         ${isOutOfStock ? `
                             <div style="position:absolute;inset:0;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;">
                                 <span style="color:#fff;font-size:11px;font-weight:700;background:rgba(239,68,68,0.9);padding:4px 10px;border-radius:8px;">Esgotado</span>
@@ -8942,7 +9141,7 @@
                         ` : ''}
                     </div>
 
-                    
+
                     <div style="padding:10px 10px 11px;">
                         <p style="font-size:10px;color:#9ca3af;margin:0 0 2px;text-transform:capitalize;font-weight:500;">${getCategoryName(product.category)}</p>
                         <h3 style="font-size:12px;font-weight:700;color:#111827;margin:0 0 6px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;" class="dark:text-gray-100">${product.name}</h3>
@@ -9083,7 +9282,7 @@
             }).join('');
         }
 
-        
+
 
         function setDeliveryLocked(locked) {
             var phoneEl = document.getElementById('profilePhone');
@@ -9116,7 +9315,7 @@
                 setTimeout(function(){ phoneEl.focus(); }, 60);
             }
 
-            
+
             if (card) {
                 card.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
                 card.style.opacity = '0.4';
@@ -9135,7 +9334,7 @@
             localStorage.setItem('kuia_delivery_phone', phone);
             localStorage.setItem('kuia_delivery_location', location);
 
-            
+
             var card = document.getElementById('deliveryFieldsCard');
             if (card) {
                 card.style.transition = 'box-shadow 0.3s ease, border-color 0.3s ease';
@@ -9247,13 +9446,13 @@
         };
 
         window.favBtnClick = function(btn, productId) {
-            
+
             btn.classList.remove('fav-pop');
-            void btn.offsetWidth; 
+            void btn.offsetWidth;
             btn.classList.add('fav-pop');
             setTimeout(function(){ btn.classList.remove('fav-pop'); }, 400);
 
-            
+
             var svg = btn.querySelector('svg');
             var isFavNow = btn.getAttribute('data-fav') === '1';
             if (svg) {
@@ -9360,15 +9559,15 @@
             cartTotal.textContent = formatPrice(totalPrice);
             checkoutBtn.disabled = cart.length === 0;
 
-            
+
             const cartItemCount = document.getElementById('cartItemCount');
             if (cartItemCount) cartItemCount.textContent = totalItems + (totalItems === 1 ? ' item' : ' itens');
 
-            
+
             const cartSummaryItems = document.getElementById('cartSummaryItems');
             if (cartSummaryItems) cartSummaryItems.textContent = totalItems + (totalItems === 1 ? ' item' : ' itens');
 
-            
+
             const clearCartBtn = document.getElementById('clearCartBtn');
             if (clearCartBtn) clearCartBtn.style.display = cart.length > 0 ? 'block' : 'none';
 
@@ -9401,18 +9600,18 @@
                     const subtotal = item.price * item.quantity;
                     return `
                     <div class="animate-fade-in" style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border-light);">
-                        
+
                         <div style="flex-shrink:0;width:54px;height:54px;border-radius:12px;overflow:hidden;background:#f3f4f6;" class="dark:bg-gray-700">
                             ${item.image
                                 ? `<img src="${item.image}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;" onerror="handleImgError(this,'sm')">`
                                 : `<div class="img-error-placeholder placeholder-sm" style="width:100%;height:100%;"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zM8.25 8.625a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z"/></svg></div>`
                             }
                         </div>
-                        
+
                         <div style="flex:1;min-width:0;">
                             <p style="font-size:12px;font-weight:600;color:#111827;margin:0 0 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" class="dark:text-gray-100">${item.name}</p>
                             <p style="font-size:11px;color:#9ca3af;margin:0 0 6px;">${formatPrice(item.price)} × ${item.quantity}</p>
-                            
+
                             <div style="display:flex;align-items:center;gap:6px;">
                                 <button onclick="updateQuantity('${item.id}', -1)" style="width:24px;height:24px;border-radius:7px;border:1.5px solid #e5e7eb;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s;flex-shrink:0;" class="dark:bg-gray-700 dark:border-gray-600" onmouseenter="this.style.borderColor='#5D5CDE';this.style.color='#5D5CDE'" onmouseleave="this.style.borderColor='';this.style.color=''">
                                     <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -9423,7 +9622,7 @@
                                 </button>
                             </div>
                         </div>
-                        
+
                         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0;">
                             <span style="font-size:13px;font-weight:700;background:linear-gradient(135deg,#5D5CDE,#7B7AE8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">${formatPrice(subtotal)}</span>
                             <button onclick="removeFromCart('${item.id}')" style="width:24px;height:24px;border-radius:7px;border:1.5px solid #fee2e2;background:#fff5f5;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s;" onmouseenter="this.style.background='#fee2e2'" onmouseleave="this.style.background='#fff5f5'">
@@ -9495,14 +9694,14 @@
             window._currentDetailProductId = productId;
             addToBrowsingHistory(productId);
 
-            
+
             try {
                 var _urlParams = new URLSearchParams(window.location.search);
                 _urlParams.set('produto', productId);
                 history.pushState({ produtoId: productId }, '', window.location.pathname + '?' + _urlParams.toString());
             } catch(e) {}
 
-            
+
             const _buildShareUrl = () => {
                 return 'https://kuia-shop.vercel.app/?produto=' + encodeURIComponent(productId);
             };
@@ -9518,7 +9717,7 @@
                 const btn = document.getElementById('detailShareFooterBtn');
                 const headerBtn = document.getElementById('detailShareBtn');
 
-                
+
                 if (navigator.share) {
                     try {
                         await navigator.share({ title: product.name, text: shareText });
@@ -9526,11 +9725,11 @@
                     } catch(e) { if (e.name === 'AbortError') return; }
                 }
 
-                
+
                 try {
                     await navigator.clipboard.writeText(shareText);
                 } catch(e) {
-                    
+
                     const ta = document.createElement('textarea');
                     ta.value = shareText;
                     ta.style.position = 'fixed'; ta.style.opacity = '0';
@@ -9539,7 +9738,7 @@
                     document.body.removeChild(ta);
                 }
 
-                
+
                 [btn, headerBtn].forEach(b => {
                     if (!b) return;
                     const orig = b.innerHTML;
@@ -9560,7 +9759,7 @@
 
             document.getElementById('detailShareFooterBtn').onclick = _shareProduct;
             document.getElementById('detailShareBtn').onclick = _shareProduct;
-            
+
 
             const isFavorite = currentUser && favorites.includes(productId);
             var _favSvg = '<svg width="20" height="20" viewBox="0 0 24 24" fill="' + (isFavorite ? '#ef4444' : 'none') + '" stroke="' + (isFavorite ? '#ef4444' : '#9ca3af') + '" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="transition:fill 0.2s,stroke 0.2s;display:block;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
@@ -9596,7 +9795,7 @@
             productDetailModal.style.opacity = '0';
             productDetailModal.style.transform = 'translateY(24px)';
 
-            
+
             try {
                 var _urlParams = new URLSearchParams(window.location.search);
                 _urlParams.delete('produto');
@@ -9957,7 +10156,7 @@
             const file = e.target.files[0];
             if (!file) return;
 
-            
+
             try {
                 await checkAndIncrementUploadLimit();
             } catch (limitErr) {
@@ -10026,7 +10225,7 @@
                 document.getElementById('userAvatar').src = uploadedPhotoURL;
                 document.getElementById('profileAvatar').src = uploadedPhotoURL;
 
-                
+
                 currentUser = auth.currentUser;
                 updateUserUI();
 
@@ -10161,7 +10360,7 @@
         window.showSection = showSection;
         window.closeCart = closeCart;
 
-        
+
         window._firebaseDb     = database;
         window._firebaseRef    = ref;
         window._firebaseRemove = remove;
@@ -10727,12 +10926,12 @@ function showPersonalizeToast(hiddenCount) {
     var suggestYesBtn = document.getElementById('suggestYesBtn');
     var suggestShown = false;
 
-    
+
     var _pageLoadTime = Date.now();
-    var _DELAY_MS = 5 * 60 * 1000; 
+    var _DELAY_MS = 5 * 60 * 1000;
 
     function _isLoggedIn() {
-        
+
         try { return !!(window.currentUser && !window.isGuest); } catch(e) { return false; }
     }
 
@@ -10780,7 +10979,7 @@ function showPersonalizeToast(hiddenCount) {
         }
     });
 
-    
+
     setTimeout(function() {
         openSuggestModal(true);
     }, _DELAY_MS);
@@ -11361,14 +11560,14 @@ function showPersonalizeToast(hiddenCount) {
 })();
 </script>
 
-        
+
         <div id="orderDetailModal" style="display:none;position:fixed;inset:0;z-index:99990;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);transition:opacity 0.25s ease;" onclick="if(event.target===this)closeOrderDetail()">
             <div style="position:absolute;bottom:0;left:0;right:0;max-height:85vh;border-radius:24px 24px 0 0;background:#fff;display:flex;flex-direction:column;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);" id="orderDetailSheet" class="dark:bg-gray-900">
-                
+
                 <div style="display:flex;justify-content:center;padding:12px 0 4px;">
                     <div style="width:36px;height:4px;border-radius:2px;background:#e5e7eb;" class="dark:bg-gray-700"></div>
                 </div>
-                
+
                 <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 20px 16px;border-bottom:1px solid #f3f4f6;" class="dark:border-gray-700">
                     <div>
                         <p id="orderDetailId" style="font-size:16px;font-weight:700;color:#111827;margin:0;" class="dark:text-gray-100"></p>
@@ -11381,12 +11580,12 @@ function showPersonalizeToast(hiddenCount) {
                         </button>
                     </div>
                 </div>
-                
+
                 <div style="overflow-y:auto;flex:1;padding:16px 20px;">
                     <p style="font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.05em;margin:0 0 12px;">Produtos</p>
                     <div id="orderDetailItems" style="display:flex;flex-direction:column;gap:10px;"></div>
                 </div>
-                
+
                 <div style="padding:16px 20px;border-top:1px solid #f3f4f6;background:inherit;" class="dark:border-gray-700">
                     <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-radius:14px;background:rgba(93,92,222,0.06);">
                         <span style="font-size:14px;font-weight:600;color:#6b7280;" class="dark:text-gray-400">Total do pedido</span>
@@ -11395,18 +11594,16 @@ function showPersonalizeToast(hiddenCount) {
                 </div>
             </div>
         </div>
-<!-- ═══════════════════════════════════════════════════════════
-     PIN LOCK OVERLAY
-     ═══════════════════════════════════════════════════════════ -->
+
 <div id="pinLockOverlay" style="display:none;position:fixed;inset:0;z-index:99999;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;">
-    <!-- Logo / ícone -->
+
     <div style="width:72px;height:72px;border-radius:24px;background:rgba(93,92,222,0.2);border:2px solid rgba(93,92,222,0.4);display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
         <svg width="32" height="32" fill="none" stroke="#7B7AE8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
     </div>
     <p style="color:#fff;font-size:20px;font-weight:700;margin:0 0 6px;text-align:center;">Aplicação Bloqueada</p>
     <p id="pinLockSubtitle" style="color:rgba(255,255,255,0.5);font-size:13px;margin:0 0 36px;text-align:center;">Insere o teu PIN de 4 dígitos</p>
 
-    <!-- Dots indicadores -->
+
     <div style="display:flex;gap:16px;margin-bottom:36px;" id="pinDots">
         <div class="pin-dot"></div>
         <div class="pin-dot"></div>
@@ -11414,7 +11611,7 @@ function showPersonalizeToast(hiddenCount) {
         <div class="pin-dot"></div>
     </div>
 
-    <!-- Teclado numérico -->
+
     <div style="display:grid;grid-template-columns:repeat(3,72px);gap:12px;">
         <button class="pin-key" onclick="window._pinInput('1')">1</button>
         <button class="pin-key" onclick="window._pinInput('2')">2</button>
@@ -11433,9 +11630,6 @@ function showPersonalizeToast(hiddenCount) {
     </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════
-     PIN SETUP OVERLAY (definir / alterar PIN)
-     ═══════════════════════════════════════════════════════════ -->
 <div id="pinSetupOverlay" style="display:none;position:fixed;inset:0;z-index:99999;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;">
     <button onclick="window.closePinSetup()" style="position:absolute;top:20px;right:20px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
         <svg width="18" height="18" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
@@ -11519,7 +11713,7 @@ function showPersonalizeToast(hiddenCount) {
     var LOCKED_KEY = 'kuia_app_locked';
     var PIN_ON_START_KEY = 'kuia_pin_on_start';
 
-    // ── Utilitários ───────────────────────────────────────────
+
     function getPin()  { return localStorage.getItem(PIN_KEY) || null; }
     function setPin(p) { localStorage.setItem(PIN_KEY, p); }
     function clearPin(){ localStorage.removeItem(PIN_KEY); localStorage.removeItem(LOCKED_KEY); localStorage.removeItem(PIN_ON_START_KEY); }
@@ -11558,7 +11752,7 @@ function showPersonalizeToast(hiddenCount) {
         }
     };
 
-    // ── Atualizar UI do perfil ────────────────────────────────
+
     function refreshPinProfileUI() {
         var label   = document.getElementById('pinSetupLabel');
         var sub     = document.getElementById('pinSetupSub');
@@ -11577,7 +11771,7 @@ function showPersonalizeToast(hiddenCount) {
     }
     window.refreshPinProfileUI = refreshPinProfileUI;
 
-    // ── ECRÃ DE BLOQUEIO ──────────────────────────────────────
+
     var lockEntry = '';
 
     function updateLockDots() {
@@ -11630,7 +11824,7 @@ function showPersonalizeToast(hiddenCount) {
         if (lockEntry.length > 0) { lockEntry = lockEntry.slice(0, -1); updateLockDots(); }
     };
 
-    // ── BLOQUEAR APP ─────────────────────────────────────────
+
     window.lockApp = function() {
         if (!getPin()) {
             if (window.showNotificationToast) window.showNotificationToast('PIN não definido', 'Define primeiro um PIN de segurança.', 'warning');
@@ -11645,7 +11839,7 @@ function showPersonalizeToast(hiddenCount) {
         document.body.style.overflow = 'hidden';
     };
 
-    // Verificar bloqueio ao carregar
+
     window.addEventListener('load', function() {
         refreshPinProfileUI();
         if ((isLocked() || isPinOnStart()) && getPin()) {
@@ -11658,8 +11852,8 @@ function showPersonalizeToast(hiddenCount) {
         }
     });
 
-    // ── SETUP DE PIN ─────────────────────────────────────────
-    var setupStep = 'first'; // 'first' | 'confirm'
+
+    var setupStep = 'first';
     var firstPin  = '';
     var setupEntry = '';
 
@@ -11731,7 +11925,7 @@ function showPersonalizeToast(hiddenCount) {
         if (setupEntry.length > 0) { setupEntry = setupEntry.slice(0, -1); updateSetupDots(); }
     };
 
-    // ── REMOVER PIN ──────────────────────────────────────────
+
     window.removePinConfirm = function() {
         var sheet = document.createElement('div');
         sheet.style.cssText = 'position:fixed;inset:0;z-index:100000;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);';
@@ -12098,7 +12292,7 @@ function showPersonalizeToast(hiddenCount) {
         }
     };
 
-    
+
     (function() {
         var sheet = document.getElementById('loyaltySheet');
         if (!sheet) return;
@@ -12169,8 +12363,8 @@ function showPersonalizeToast(hiddenCount) {
         zoomed = false;
         _msgId = msgId || null;
 
-        
-        
+
+
         if (isUser === true && msgId) {
             lbDel.classList.add('visible');
         } else {
@@ -12201,7 +12395,7 @@ function showPersonalizeToast(hiddenCount) {
         img.classList.toggle('zoomed', zoomed);
     };
 
-    
+
     window.confirmDeleteLightboxImage = async function() {
         if (!_msgId) return;
 
@@ -12234,7 +12428,7 @@ function showPersonalizeToast(hiddenCount) {
         try {
             var chatId = window._getCurrentChatId ? window._getCurrentChatId() : null;
             if (!chatId) throw new Error('no chat id');
-            
+
             var msgRef = window._firebaseRef(window._firebaseDb, 'chats/messages/' + chatId + '/' + _msgId);
             await window._firebaseRemove(msgRef);
             window.closeLightbox();
@@ -12245,17 +12439,17 @@ function showPersonalizeToast(hiddenCount) {
         }
     };
 
-    
+
     lb.addEventListener('click', function(e) {
         if (e.target === lb) window.closeLightbox();
     });
 
-    
+
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && lb.classList.contains('active')) window.closeLightbox();
     });
 
-    
+
     var touchStartY = 0, touchStartX = 0, isDragging = false;
     lbImg.addEventListener('touchstart', function(e) {
         if (zoomed) return;
@@ -12357,12 +12551,9 @@ window.handleGuestGateBackdrop = function(e) {
 })();
 </script>
 
-<!-- ═══════════════════════════════════════════════════════════
-     GALLERY FULLSCREEN OVERLAY
-     ═══════════════════════════════════════════════════════════ -->
 <div id="galleryOverlay" style="display:none;position:fixed;inset:0;z-index:9999;background:var(--bg-dark,#111);flex-direction:column;overflow:hidden;">
 
-    <!-- Header -->
+
     <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(0,0,0,0.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.08);flex-shrink:0;">
         <div style="display:flex;align-items:center;gap:10px;">
             <div style="width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,#a18cd1,#fbc2eb);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
@@ -12378,24 +12569,23 @@ window.handleGuestGateBackdrop = function(e) {
         </button>
     </div>
 
-    <!-- Grid de imagens -->
+
     <div id="galleryOverlayScroll" style="flex:1;overflow-y:auto;padding:12px;">
-        <!-- Estado: loading -->
+
         <div id="galleryOverlayLoading" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:60vh;gap:12px;">
             <svg width="36" height="36" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="animation:spin 1.2s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
             <p style="color:rgba(255,255,255,0.45);font-size:13px;">A carregar imagens...</p>
         </div>
-        <!-- Estado: vazio -->
+
         <div id="galleryOverlayEmpty" style="display:none;flex-direction:column;align-items:center;justify-content:center;height:60vh;gap:12px;text-align:center;padding:24px;">
             <div style="width:64px;height:64px;border-radius:18px;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;margin-bottom:4px;"><svg width="30" height="30" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
             <p style="color:#fff;font-size:15px;font-weight:700;">Nenhuma imagem ainda</p>
             <p style="color:rgba(255,255,255,0.45);font-size:12px;max-width:220px;">As fotos que enviares no chat aparecerão aqui</p>
         </div>
-        <!-- Grid -->
+
         <div id="galleryOverlayGrid" style="display:none;grid-template-columns:repeat(3,1fr);gap:3px;"></div>
     </div>
 </div>
-
 
 <div id="contactsModalOverlay" class="contacts-modal-overlay" onclick="handleContactsModalBackdrop(event)">
     <div class="contacts-modal-sheet" id="contactsModalSheet">
@@ -12418,7 +12608,7 @@ window.handleGuestGateBackdrop = function(e) {
         </div>
         <div class="contacts-modal-body">
 
-            
+
             <div class="contacts-section">
                 <div class="contacts-channel-label">📞 Telefone — Atendimento Prioritário</div>
                 <div class="contacts-channel-tip">
@@ -12456,7 +12646,7 @@ window.handleGuestGateBackdrop = function(e) {
                 </a>
             </div>
 
-            
+
             <div class="contacts-section" style="margin-top:8px;">
                 <div class="contacts-channel-label">💬 WhatsApp — Confirmação de Pedidos</div>
                 <div class="contacts-channel-tip">
@@ -12474,7 +12664,7 @@ window.handleGuestGateBackdrop = function(e) {
                 </a>
             </div>
 
-            
+
             <div class="contacts-section" style="margin-top:8px;">
                 <div class="contacts-channel-label">📧 E-mail — Reclamações & Denúncias</div>
                 <div class="contacts-channel-tip">
@@ -12492,7 +12682,7 @@ window.handleGuestGateBackdrop = function(e) {
                 </a>
             </div>
 
-            
+
             <div class="contacts-section" style="margin-top:8px;">
                 <div class="contacts-channel-label">💭 Chat da Loja — Dúvidas & Conversa</div>
                 <div class="contacts-channel-tip">
