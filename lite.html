@@ -5978,17 +5978,16 @@
         function initializeChat() {
             if (!currentUser) return;
 
+            // Chat sempre disponível — chatId é sempre o UID do utilizador
+            currentChatId = currentUser.uid;
+            loadChatMessages();
+
+            // Ouvir se o admin está online para mostrar indicador verde/vermelho
             const userChatsRef = ref(database, `chats/users/${currentUser.uid}`);
             onValue(userChatsRef, (snapshot) => {
                 const chatData = snapshot.val();
-                if (chatData && chatData.active) {
-                    currentChatId = chatData.chatId;
-                    updateChatStatus(true);
-                    loadChatMessages();
-                } else {
-                    currentChatId = null;
-                    updateChatStatus(false);
-                }
+                const adminOnline = chatData && chatData.active;
+                updateChatStatus(adminOnline);
             });
         }
 
@@ -6038,10 +6037,11 @@
             } else {
                 document.getElementById('chatFullStatus').innerHTML = statusHTML;
                 document.getElementById('adminOnlineFullStatus').classList.add('hidden');
-                document.getElementById('chatFullInputContainer').classList.add('hidden');
+                // Chat sempre aberto — input nunca é escondido
+                document.getElementById('chatFullInputContainer').classList.remove('hidden');
 
                 document.getElementById('chatOverlayStatus').innerHTML = statusHTML;
-                document.getElementById('chatOverlayInputContainer').classList.add('hidden');
+                document.getElementById('chatOverlayInputContainer').classList.remove('hidden');
 
                 const chatStatus = document.getElementById('chatStatus');
                 if (chatStatus) {
@@ -6051,22 +6051,6 @@
                 const chatNotifElOff = document.getElementById('chatNotification');
                 if (chatNotifElOff) chatNotifElOff.classList.add('hidden');
                 document.getElementById('footerChatNotification').classList.add('hidden');
-
-                const offlineMessage = `
-                    <div class="text-center text-gray-500 dark:text-gray-400">
-                        <div class="card-bg rounded-2xl p-6 border inline-block animate-fade-in">
-                            <p class="mb-2 text-lg">💬 Chat de Suporte</p>
-                            <p class="text-sm">O administrador irá iniciar o chat quando necessário para confirmar detalhes dos seus pedidos</p>
-                            <div class="mt-4 flex items-center justify-center">
-                                <span class="w-3 h-3 bg-gray-400 rounded-full mr-2 animate-pulse"></span>
-                                <span class="text-sm">Aguardando...</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-
-                document.getElementById('chatFullMessages').innerHTML = offlineMessage;
-                document.getElementById('chatOverlayMessages').innerHTML = offlineMessage;
             }
         }
 
