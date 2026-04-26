@@ -204,58 +204,6 @@
             scroll-snap-align: start;
         }
 
-        .recommendation-card {
-            min-width: 130px;
-            max-width: 150px;
-            flex-shrink: 0;
-            scroll-snap-align: start;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .recommendation-score-bar {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--primary-light));
-            z-index: 1;
-            border-radius: 0 2px 0 0;
-        }
-
-        .recommendation-reason {
-            display: inline-block;
-            font-size: 8px;
-            font-weight: 700;
-            padding: 2px 6px;
-            border-radius: 20px;
-            margin-bottom: 2px;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-
-        .reason-fav { background: #fce7f3; color: #be185d; }
-        .reason-order { background: #dcfce7; color: #15803d; }
-        .reason-viewed { background: #e0f2fe; color: #0369a1; }
-        .reason-discount { background: #fef2f2; color: #dc2626; }
-        .reason-popular { background: #fef9c3; color: #a16207; }
-
-        .dark .reason-fav { background: #831843; color: #fbcfe8; }
-        .dark .reason-order { background: #14532d; color: #bbf7d0; }
-        .dark .reason-viewed { background: #0c4a6e; color: #bae6fd; }
-        .dark .reason-discount { background: #7f1d1d; color: #fecaca; }
-        .dark .reason-popular { background: #713f12; color: #fef08a; }
-
-        .rec-animate {
-            opacity: 0;
-            transform: translateY(10px);
-            animation: recFadeIn 0.4s ease forwards;
-        }
-
-        @keyframes recFadeIn {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         .gradient-bg {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
         }
@@ -3694,18 +3642,6 @@
                     </div>
                 </div>
 
-                <div id="recommendedSection" class="hidden mb-4">
-                    <div class="flex items-center justify-between mb-2">
-                        <div class="flex items-center gap-2">
-                            <span class="text-base">✨</span>
-                            <span class="text-xs font-semibold text-purple-500 dark:text-purple-400 uppercase tracking-wider">Recomendados para si</span>
-                        </div>
-                        <span id="recommendedCount" class="text-[10px] text-gray-400 dark:text-gray-500 font-medium px-2 py-1"></span>
-                    </div>
-                    <div class="recommendation-grid flex gap-3 overflow-x-auto pb-2 scrollbar-hide" style="-webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory;">
-                    </div>
-                </div>
-
                 <div id="discountHighlightSection" class="hidden mb-4">
                     <div class="flex items-center justify-between mb-2">
                         <div class="flex items-center gap-2">
@@ -5056,14 +4992,12 @@
             if (browsingHistory.length > 15) browsingHistory = browsingHistory.slice(0, 15);
             saveBrowsingHistory();
             renderBrowsingHistory();
-            renderRecommendations();
         }
 
         window.clearBrowsingHistory = function() {
             browsingHistory = [];
             saveBrowsingHistory();
             renderBrowsingHistory();
-            renderRecommendations();
         };
 
         function renderBrowsingHistory() {
@@ -5093,212 +5027,6 @@
                     '<div class="p-2">' +
                         '<h3 class="font-bold text-gray-800 dark:text-gray-200 mb-0.5 text-[10px] line-clamp-2 leading-tight">' + product.name + '</h3>' +
                         '<span class="text-xs font-bold gradient-text">' + formatPrice(product.price) + '</span>' +
-                    '</div>' +
-                '</div>';
-            }).join('');
-        }
-
-        function buildUserProfile() {
-            var profile = {
-                categoryScores: {},
-                priceSum: 0,
-                priceCount: 0,
-                avgPrice: 0,
-                favCategories: {},
-                orderCategories: {},
-                viewedCategories: {},
-                orderedProductIds: new Set(),
-                likesDiscounts: false,
-                discountInteractions: 0,
-                totalInteractions: 0
-            };
-
-            favorites.forEach(function(pid) {
-                var p = products[pid];
-                if (!p) return;
-                var cat = p.category;
-                profile.favCategories[cat] = (profile.favCategories[cat] || 0) + 1;
-                profile.categoryScores[cat] = (profile.categoryScores[cat] || 0) + 5;
-                profile.priceSum += p.price;
-                profile.priceCount++;
-                profile.totalInteractions++;
-                if (p.oldPrice && p.oldPrice > p.price) profile.discountInteractions++;
-            });
-
-            var ordersArr = typeof orders === 'object' ? Object.values(orders) : [];
-            ordersArr.forEach(function(order) {
-                if (!order.items || !Array.isArray(order.items)) return;
-                order.items.forEach(function(item) {
-                    var p = products[item.productId];
-                    if (!p) return;
-                    var cat = p.category;
-                    var qty = item.quantity || 1;
-                    profile.orderCategories[cat] = (profile.orderCategories[cat] || 0) + qty;
-                    profile.categoryScores[cat] = (profile.categoryScores[cat] || 0) + (8 * qty);
-                    profile.priceSum += p.price * qty;
-                    profile.priceCount += qty;
-                    profile.totalInteractions += qty;
-                    profile.orderedProductIds.add(item.productId);
-                    if (p.oldPrice && p.oldPrice > p.price) profile.discountInteractions += qty;
-                });
-            });
-
-            browsingHistory.forEach(function(pid, idx) {
-                var p = products[pid];
-                if (!p) return;
-                var cat = p.category;
-                var recencyBonus = Math.max(1, 3 - idx * 0.2);
-                profile.viewedCategories[cat] = (profile.viewedCategories[cat] || 0) + 1;
-                profile.categoryScores[cat] = (profile.categoryScores[cat] || 0) + (2 * recencyBonus);
-                profile.priceSum += p.price;
-                profile.priceCount++;
-                profile.totalInteractions++;
-                if (p.oldPrice && p.oldPrice > p.price) profile.discountInteractions++;
-            });
-
-            if (profile.priceCount > 0) {
-                profile.avgPrice = profile.priceSum / profile.priceCount;
-            }
-            if (profile.totalInteractions > 0) {
-                profile.likesDiscounts = (profile.discountInteractions / profile.totalInteractions) > 0.3;
-            }
-
-            return profile;
-        }
-
-        function getRecommendedProducts() {
-            var profile = buildUserProfile();
-            if (profile.totalInteractions === 0) return [];
-
-            var allProducts = Object.entries(products).map(function(entry) {
-                return { id: entry[0], name: entry[1].name, image: entry[1].image, price: entry[1].price, oldPrice: entry[1].oldPrice, category: entry[1].category, stock: entry[1].stock };
-            });
-
-            var interactedIds = new Set(favorites.concat(browsingHistory.slice(0, 5)));
-            profile.orderedProductIds.forEach(function(id) { interactedIds.add(id); });
-
-            var maxCatScore = 0;
-            Object.values(profile.categoryScores).forEach(function(s) { if (s > maxCatScore) maxCatScore = s; });
-
-            var scored = allProducts
-                .filter(function(p) { return p.stock > 0; })
-                .map(function(p) {
-                    var score = 0;
-                    var reasons = [];
-                    var catScore = profile.categoryScores[p.category] || 0;
-                    if (catScore > 0 && maxCatScore > 0) {
-                        score += (catScore / maxCatScore) * 40;
-                        if (profile.orderCategories[p.category]) reasons.push('order');
-                        else if (profile.favCategories[p.category]) reasons.push('fav');
-                        else if (profile.viewedCategories[p.category]) reasons.push('viewed');
-                    }
-                    if (profile.avgPrice > 0) {
-                        var priceDiff = Math.abs(p.price - profile.avgPrice);
-                        var priceRange = profile.avgPrice * 0.8;
-                        if (priceRange > 0) score += Math.max(0, 1 - (priceDiff / priceRange)) * 20;
-                    }
-                    var hasDiscount = p.oldPrice && p.oldPrice > p.price;
-                    if (hasDiscount) {
-                        var discPct = Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100);
-                        if (profile.likesDiscounts) {
-                            score += Math.min(15, discPct * 0.3);
-                            if (discPct >= 20) reasons.push('discount');
-                        } else {
-                            score += Math.min(8, discPct * 0.15);
-                            if (discPct >= 30) reasons.push('discount');
-                        }
-                    }
-                    score += interactedIds.has(p.id) ? -10 : 15;
-                    var favCats = Object.keys(profile.favCategories);
-                    var orderCats = Object.keys(profile.orderCategories);
-                    if (orderCats.length > 0 && favCats.indexOf(p.category) !== -1 && orderCats.indexOf(p.category) === -1) {
-                        score += 10;
-                        if (reasons.indexOf('fav') === -1) reasons.push('popular');
-                    }
-                    score += Math.random() * 5;
-                    return { id: p.id, name: p.name, image: p.image, price: p.price, oldPrice: p.oldPrice, category: p.category, stock: p.stock, score: score, reasons: reasons.length > 0 ? reasons : ['popular'] };
-                });
-
-            scored.sort(function(a, b) { return b.score - a.score; });
-
-            var result = [];
-            var catCounts = {};
-            for (var i = 0; i < scored.length && result.length < 12; i++) {
-                var item = scored[i];
-                if (item.score <= 5) continue;
-                var cc = catCounts[item.category] || 0;
-                if (cc >= 4) continue;
-                catCounts[item.category] = cc + 1;
-                result.push(item);
-            }
-
-            for (var ri = result.length - 1; ri > 0; ri--) {
-                var rj = Math.floor(Math.random() * (ri + 1));
-                var tmp = result[ri]; result[ri] = result[rj]; result[rj] = tmp;
-            }
-
-            return result;
-        }
-
-        function renderRecommendations() {
-            var container = document.getElementById('recommendedSection');
-            if (!container) return;
-
-            var recommended = getRecommendedProducts();
-
-            var activeCatEl = document.querySelector('.category-filter-btn.btn-primary');
-            var activeCat = activeCatEl ? activeCatEl.dataset.category : 'all';
-            if (activeCat && activeCat !== 'all') {
-                recommended = recommended.filter(function(p) { return p.category === activeCat; });
-            }
-            if (typeof currentPriceFilter !== 'undefined' && currentPriceFilter !== 'all') {
-                recommended = recommended.filter(function(p) {
-                    var price = p.price;
-                    switch (currentPriceFilter) {
-                        case '0-1000': return price <= 1000;
-                        case '1000-5000': return price > 1000 && price <= 5000;
-                        case '5000-10000': return price > 5000 && price <= 10000;
-                        case '10000+': return price > 10000;
-                        default: return true;
-                    }
-                });
-            }
-
-            if (recommended.length === 0) {
-                container.classList.add('hidden');
-                return;
-            }
-
-            container.classList.remove('hidden');
-            var countEl = document.getElementById('recommendedCount');
-            if (countEl) countEl.textContent = recommended.length + ' sugest' + (recommended.length !== 1 ? 'ões' : 'ão');
-
-            var reasonLabels = { fav: '♥ Favoritos', order: '✓ Comprado', viewed: '👁 Visto', discount: '% Oferta', popular: '★ Destaque' };
-            var reasonClasses = { fav: 'reason-fav', order: 'reason-order', viewed: 'reason-viewed', discount: 'reason-discount', popular: 'reason-popular' };
-
-            var grid = container.querySelector('.recommendation-grid');
-            grid.innerHTML = recommended.map(function(product, idx) {
-                var hasDiscount = product.oldPrice && product.oldPrice > product.price;
-                var discountPercent = hasDiscount ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100) : 0;
-                var mainReason = product.reasons[0];
-                var reasonHTML = '<span class="recommendation-reason ' + (reasonClasses[mainReason] || 'reason-popular') + '">' + (reasonLabels[mainReason] || '★ Destaque') + '</span>';
-                var barWidth = Math.min(100, Math.max(20, (product.score / 95) * 100));
-                return '<div class="recommendation-card card-bg rounded-xl border overflow-hidden hover-lift rec-animate group cursor-pointer" style="animation-delay:' + (idx * 0.06) + 's" onclick="showProductDetail('' + product.id + '')">' +
-                    '<div class="recommendation-score-bar" style="width:' + barWidth + '%"></div>' +
-                    '<div class="relative h-24 bg-gray-200 dark:bg-gray-700">' +
-                        (product.image ?
-                            '<img src="' + product.image + '" alt="' + product.name + '" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" onerror="handleImgError(this,'sm')">' :
-                            '<div class="img-error-placeholder placeholder-sm"></div>'
-                        ) +
-                        (hasDiscount ? '<div class="absolute top-1 left-1 bg-red-500 text-white px-1.5 py-0.5 rounded-full text-[9px] font-bold">-' + discountPercent + '%</div>' : '') +
-                    '</div>' +
-                    '<div class="p-2">' +
-                        reasonHTML +
-                        '<h3 class="font-bold text-gray-800 dark:text-gray-200 mb-0.5 text-[10px] line-clamp-2 leading-tight mt-1">' + product.name + '</h3>' +
-                        '<div class="flex items-center gap-1">' +
-                            '<span class="text-xs font-bold gradient-text">' + formatPrice(product.price) + '</span>' +
-                            (hasDiscount ? '<span class="text-[8px] text-gray-400 line-through">' + formatPrice(product.oldPrice) + '</span>' : '') +
-                        '</div>' +
                     '</div>' +
                 '</div>';
             }).join('');
@@ -8339,7 +8067,6 @@
                 renderProducts();
                 renderBrowsingHistory();
                 renderDiscountedProducts();
-                renderRecommendations();
                 renderPromoBanner();
                 updateCategories();
 
