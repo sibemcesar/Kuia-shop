@@ -3829,6 +3829,7 @@
                               type="text" 
                               id="chatFullInput" 
                               placeholder="Digite sua mensagem..." 
+                              maxlength="500"
                               class="flex-1 px-4 py-3 text-base card-bg border rounded-xl focus:ring-2 focus:ring-primary"
                             >
                                 <input type="file" id="chatFullImageInput" accept="image/*" class="hidden">
@@ -3839,7 +3840,13 @@
                                     📤
                                 </button>
                             </div>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">Pressione Enter para enviar • Clique em 📷 para enviar imagem</p>
+                            <div class="flex items-center justify-between">
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Pressione Enter para enviar • Clique em 📷 para enviar imagem</p>
+                                <span id="chatFullCharCount" class="text-xs text-gray-400 dark:text-gray-500">0/500</span>
+                            </div>
+                            <div id="chatFullLimitBanner" class="hidden mt-2 text-xs text-red-500 font-medium text-center py-1 px-2 bg-red-50 dark:bg-red-900/20 rounded-lg">
+                                🚫 Limite diário de 30 mensagens atingido. Volta amanhã!
+                            </div>
                         </div>
                     </div>
 
@@ -4437,12 +4444,19 @@
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h2l2-3h10l2 3h2a1 1 0 011 1v11a1 1 0 01-1 1H3a1 1 0 01-1-1V8a1 1 0 011-1zm9 3a3 3 0 100 6 3 3 0 000-6z"/></svg>
                         </button>
                         <input type="text" id="chatOverlayInput" placeholder="Digite sua mensagem..."
+                               maxlength="500"
                                class="flex-1 min-w-0 px-4 py-3 text-base card-bg border rounded-xl focus:ring-2 focus:ring-primary">
                         <button id="sendChatOverlayBtn" class="btn-primary flex-shrink-0 text-white w-11 h-11 flex items-center justify-center rounded-xl hover-lift" aria-label="Enviar mensagem">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12L3 2l18 10L3 22l3-10zm0 0h8"/></svg>
                         </button>
                     </div>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">Pressione Enter para enviar • Clique em 📷 para enviar imagem</p>
+                    <div class="flex items-center justify-between">
+                        <p class="text-xs text-gray-500 dark:text-gray-400">Pressione Enter para enviar • Clique em 📷 para enviar imagem</p>
+                        <span id="chatOverlayCharCount" class="text-xs text-gray-400 dark:text-gray-500">0/500</span>
+                    </div>
+                    <div id="chatOverlayLimitBanner" class="hidden mt-2 text-xs text-red-500 font-medium text-center py-1 px-2 bg-red-50 dark:bg-red-900/20 rounded-lg">
+                        🚫 Limite diário de 30 mensagens atingido. Volta amanhã!
+                    </div>
                 </div>
             </div>
         </div>
@@ -4766,6 +4780,58 @@
         
         
         const UPLOAD_DAILY_LIMIT = 10;
+
+        // ── Limite diário de mensagens de chat ──────────────────────────────
+        const CHAT_DAILY_LIMIT   = 30;
+        const CHAT_MAX_CHARS     = 500;
+
+        function _chatLimitPath(uid) {
+            const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+            return `chatLimits/${uid}/${today}`;
+        }
+
+        async function checkAndIncrementChatLimit() {
+            if (!currentUser) throw new Error('not_authenticated');
+            const uid   = currentUser.uid;
+            const path  = _chatLimitPath(uid);
+            const dbRef = ref(database, path);
+
+            const snap = await get(dbRef);
+            const count = snap.exists() ? (snap.val() || 0) : 0;
+
+            if (count >= CHAT_DAILY_LIMIT) {
+                throw new Error('chat_limit_reached');
+            }
+
+            await set(dbRef, count + 1);
+        }
+
+        async function getRemainingChatMessages() {
+            if (!currentUser) return 0;
+            try {
+                const snap = await get(ref(database, _chatLimitPath(currentUser.uid)));
+                const used = snap.exists() ? (snap.val() || 0) : 0;
+                return Math.max(0, CHAT_DAILY_LIMIT - used);
+            } catch { return CHAT_DAILY_LIMIT; }
+        }
+
+        async function refreshChatLimitUI() {
+            const remaining = await getRemainingChatMessages();
+            const blocked   = remaining <= 0;
+            ['chatFullInput', 'chatOverlayInput'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.disabled = blocked;
+            });
+            ['sendChatFullBtn', 'sendChatOverlayBtn'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.disabled = blocked;
+            });
+            ['chatFullLimitBanner', 'chatOverlayLimitBanner'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.toggle('hidden', !blocked);
+            });
+        }
+        // ───────────────────────────────────────────────────────────────────
 
         async function checkAndIncrementUploadLimit() {
             if (!currentUser) throw new Error('not_authenticated');
@@ -6358,6 +6424,25 @@
         async function sendChatMessage(messageText = null, imageUrl = null) {
             if (!currentChatId || (!messageText && !imageUrl)) return;
 
+            // ── Limite de caracteres ─────────────────────────────────────
+            if (messageText && messageText.length > CHAT_MAX_CHARS) {
+                showNotificationToast('Mensagem muito longa', `Máximo de ${CHAT_MAX_CHARS} caracteres por mensagem.`, 'error');
+                return;
+            }
+
+            // ── Limite diário de mensagens ───────────────────────────────
+            try {
+                await checkAndIncrementChatLimit();
+            } catch (limitErr) {
+                if (limitErr.message === 'chat_limit_reached') {
+                    showNotificationToast('Limite diário atingido', `Atingiu o limite de ${CHAT_DAILY_LIMIT} mensagens por dia. Tente novamente amanhã.`, 'error');
+                    refreshChatLimitUI();
+                } else {
+                    showNotificationToast('Erro', 'Não foi possível verificar o limite de mensagens.', 'error');
+                }
+                return;
+            }
+
             try {
                 const messageData = {
                     senderId: currentUser.uid,
@@ -6376,6 +6461,7 @@
                 }
 
                 await push(ref(database, `chats/messages/${currentChatId}`), messageData);
+                await refreshChatLimitUI();
             } catch (error) {
                 console.error('Error sending message:', error);
                 showNotificationToast('Erro', 'Erro ao enviar mensagem. Tente novamente.', 'error');
@@ -6561,6 +6647,7 @@
                 if (messageText) {
                     sendChatMessage(messageText);
                     document.getElementById('chatFullInput').value = '';
+                    document.getElementById('chatFullCharCount').textContent = '0/500';
                 }
             });
 
@@ -6570,7 +6657,17 @@
                     if (messageText) {
                         sendChatMessage(messageText);
                         document.getElementById('chatFullInput').value = '';
+                        document.getElementById('chatFullCharCount').textContent = '0/500';
                     }
+                }
+            });
+
+            document.getElementById('chatFullInput').addEventListener('input', function() {
+                const len = this.value.length;
+                const counter = document.getElementById('chatFullCharCount');
+                if (counter) {
+                    counter.textContent = `${len}/500`;
+                    counter.style.color = len > 450 ? '#ef4444' : '';
                 }
             });
 
@@ -6579,6 +6676,7 @@
                 if (messageText) {
                     sendChatMessage(messageText);
                     document.getElementById('chatOverlayInput').value = '';
+                    document.getElementById('chatOverlayCharCount').textContent = '0/500';
                 }
             });
 
@@ -6588,9 +6686,22 @@
                     if (messageText) {
                         sendChatMessage(messageText);
                         document.getElementById('chatOverlayInput').value = '';
+                        document.getElementById('chatOverlayCharCount').textContent = '0/500';
                     }
                 }
             });
+
+            document.getElementById('chatOverlayInput').addEventListener('input', function() {
+                const len = this.value.length;
+                const counter = document.getElementById('chatOverlayCharCount');
+                if (counter) {
+                    counter.textContent = `${len}/500`;
+                    counter.style.color = len > 450 ? '#ef4444' : '';
+                }
+            });
+
+            // Carregar estado do limite ao abrir
+            refreshChatLimitUI();
 
             const openFullChatBtn = document.createElement('button');
             openFullChatBtn.className = 'w-full btn-secondary py-3 rounded-xl hover-lift text-sm';
