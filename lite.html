@@ -4588,30 +4588,42 @@
                                 <div>
                                     <label style="font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;">Nome completo *</label>
                                     <input type="text" id="customerName" required placeholder="Ex: João Silva"
+                                        maxlength="15"
+                                        oninput="document.getElementById('customerNameCount').textContent=this.value.length+'/15';document.getElementById('customerNameCount').style.color=this.value.length>12?'#ef4444':'';"
                                         style="width:100%;padding:11px 14px;font-size:14px;border-radius:11px;border:1.5px solid #e5e7eb;background:#fff;color:#111827;outline:none;transition:border-color 0.2s;box-sizing:border-box;"
                                         class="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-500"
                                         onfocus="this.style.borderColor='#5D5CDE'" onblur="this.style.borderColor=''">
+                                    <div style="text-align:right;margin-top:4px;"><span id="customerNameCount" style="font-size:11px;color:#9ca3af;">0/15</span></div>
                                 </div>
                                 <div>
                                     <label style="font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;">Telefone *</label>
                                     <input type="tel" id="customerPhone" required placeholder="+244 9xx xxx xxx"
+                                        maxlength="15"
+                                        oninput="document.getElementById('customerPhoneCount').textContent=this.value.length+'/15';document.getElementById('customerPhoneCount').style.color=this.value.length>12?'#ef4444':'';"
                                         style="width:100%;padding:11px 14px;font-size:14px;border-radius:11px;border:1.5px solid #e5e7eb;background:#fff;color:#111827;outline:none;transition:border-color 0.2s;box-sizing:border-box;"
                                         class="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-500"
                                         onfocus="this.style.borderColor='#5D5CDE'" onblur="this.style.borderColor=''">
+                                    <div style="text-align:right;margin-top:4px;"><span id="customerPhoneCount" style="font-size:11px;color:#9ca3af;">0/15</span></div>
                                 </div>
                                 <div>
                                     <label style="font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;">Localização exacta *</label>
                                     <textarea id="customerLocation" required rows="2" placeholder="Bairro, rua, referência próxima..."
+                                        maxlength="150"
+                                        oninput="document.getElementById('customerLocationCount').textContent=this.value.length+'/150';document.getElementById('customerLocationCount').style.color=this.value.length>130?'#ef4444':'';"
                                         style="width:100%;padding:11px 14px;font-size:14px;border-radius:11px;border:1.5px solid #e5e7eb;background:#fff;color:#111827;outline:none;resize:none;transition:border-color 0.2s;box-sizing:border-box;"
                                         class="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-500"
                                         onfocus="this.style.borderColor='#5D5CDE'" onblur="this.style.borderColor=''"></textarea>
+                                    <div style="text-align:right;margin-top:4px;"><span id="customerLocationCount" style="font-size:11px;color:#9ca3af;">0/150</span></div>
                                 </div>
                                 <div>
                                     <label style="font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;">Mensagem <span style="font-weight:400;text-transform:none;">(opcional)</span></label>
                                     <textarea id="customerMessage" rows="2" placeholder="Alguma observação para o entregador..."
+                                        maxlength="150"
+                                        oninput="document.getElementById('customerMessageCount').textContent=this.value.length+'/150';document.getElementById('customerMessageCount').style.color=this.value.length>130?'#ef4444':'';"
                                         style="width:100%;padding:11px 14px;font-size:14px;border-radius:11px;border:1.5px solid #e5e7eb;background:#fff;color:#111827;outline:none;resize:none;transition:border-color 0.2s;box-sizing:border-box;"
                                         class="dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-500"
                                         onfocus="this.style.borderColor='#5D5CDE'" onblur="this.style.borderColor=''"></textarea>
+                                    <div style="text-align:right;margin-top:4px;"><span id="customerMessageCount" style="font-size:11px;color:#9ca3af;">0/150</span></div>
                                 </div>
                             </div>
                         </div>
@@ -4831,6 +4843,31 @@
                 if (el) el.classList.toggle('hidden', !blocked);
             });
         }
+
+        // ── Limite diário de pedidos ────────────────────────────────────────
+        const ORDER_DAILY_LIMIT = 10;
+
+        function _orderLimitPath(uid) {
+            const today = new Date().toISOString().slice(0, 10);
+            return `orderLimits/${uid}/${today}`;
+        }
+
+        async function checkAndIncrementOrderLimit() {
+            if (!currentUser) throw new Error('not_authenticated');
+            const uid   = currentUser.uid;
+            const path  = _orderLimitPath(uid);
+            const dbRef = ref(database, path);
+
+            const snap  = await get(dbRef);
+            const count = snap.exists() ? (snap.val() || 0) : 0;
+
+            if (count >= ORDER_DAILY_LIMIT) {
+                throw new Error('order_limit_reached');
+            }
+
+            await set(dbRef, count + 1);
+        }
+        // ───────────────────────────────────────────────────────────────────
         // ───────────────────────────────────────────────────────────────────
 
         async function checkAndIncrementUploadLimit() {
@@ -5086,6 +5123,7 @@
         }
 
         let currentSection = 'home';
+        let _skipNextPushState = false;
         let currentPriceFilter = 'all';
         let productsVisibleLimit = 21;
         let browsingHistory = (function() {
@@ -7024,6 +7062,20 @@
             updateSearchVisibility();
             window.scrollTo(0, 0);
 
+            // ── Sincronizar URL ──────────────────────────────────────────
+            if (!_skipNextPushState) {
+                const _urlParams = new URLSearchParams(window.location.search);
+                if (section === 'home') {
+                    _urlParams.delete('p');
+                } else {
+                    _urlParams.set('p', section);
+                }
+                const _newSearch = _urlParams.toString();
+                history.pushState({ p: section }, '', window.location.pathname + (_newSearch ? '?' + _newSearch : ''));
+            }
+            _skipNextPushState = false;
+            // ─────────────────────────────────────────────────────────────
+
             const sections = ['homeSection', 'categoriesSection', 'favoritesSection', 'ordersSection', 'chatFullSection', 'profileSection', 'notificationsSection', 'aboutSection'];
             sections.forEach(id => {
                 document.getElementById(id).classList.add('hidden');
@@ -8195,7 +8247,6 @@
         window.addEventListener('popstate', function(e) {
             var modal = document.getElementById('productDetailModal');
             if (modal && !modal.classList.contains('hidden')) {
-                
                 modal.style.opacity = '0';
                 modal.style.transform = 'translateY(24px)';
                 setTimeout(function() {
@@ -8203,8 +8254,25 @@
                     modal.style.opacity = '';
                     modal.style.transform = '';
                 }, 300);
+                return;
             }
+
+            // Navegar para a página indicada no histórico ou na URL
+            var _p = (e.state && e.state.p)
+                ? e.state.p
+                : (new URLSearchParams(window.location.search).get('p') || 'home');
+            _skipNextPushState = true;
+            showSection(_p);
         });
+
+        // Deep-link: abrir página direto pela URL (?p=orders, etc.)
+        (function() {
+            var _p = new URLSearchParams(window.location.search).get('p');
+            var _validPages = ['home','categories','favorites','orders','notifications','about','profile'];
+            if (_p && _p !== 'home' && _validPages.includes(_p)) {
+                setTimeout(function() { showSection(_p); }, 400);
+            }
+        })();
 
         function openCheckout() {
             if (cart.length === 0) return;
@@ -8221,9 +8289,20 @@
                 loginRequiredMessage.classList.remove('hidden');
                 checkoutForm.classList.add('hidden');
             } else {
-                document.getElementById('customerName').value = currentUser.displayName || '';
-                document.getElementById('customerPhone').value = localStorage.getItem('kuia_delivery_phone') || '';
-                document.getElementById('customerLocation').value = localStorage.getItem('kuia_delivery_location') || '';
+                const nameVal = currentUser.displayName || '';
+                const phoneVal = localStorage.getItem('kuia_delivery_phone') || '';
+                const locationVal = localStorage.getItem('kuia_delivery_location') || '';
+
+                document.getElementById('customerName').value = nameVal;
+                document.getElementById('customerPhone').value = phoneVal;
+                document.getElementById('customerLocation').value = locationVal;
+
+                // Atualizar contadores
+                document.getElementById('customerNameCount').textContent = nameVal.length + '/15';
+                document.getElementById('customerPhoneCount').textContent = phoneVal.length + '/15';
+                document.getElementById('customerLocationCount').textContent = locationVal.length + '/150';
+                document.getElementById('customerMessageCount').textContent = '0/150';
+
                 loginRequiredMessage.classList.add('hidden');
                 checkoutForm.classList.remove('hidden');
             }
@@ -8286,18 +8365,20 @@
                 return;
             }
 
-            
-            const confirmBtn = document.getElementById('confirmOrderBtn');
-            const confirmIcon = document.getElementById('confirmOrderIcon');
-            const confirmText = document.getElementById('confirmOrderText');
+            const confirmBtn    = document.getElementById('confirmOrderBtn');
+            const confirmIcon   = document.getElementById('confirmOrderIcon');
+            const confirmText   = document.getElementById('confirmOrderText');
             const confirmLoader = document.getElementById('confirmOrderLoader');
-            if (confirmBtn) {
-                confirmBtn.disabled = true;
-                confirmBtn.style.opacity = '0.8';
-                if (confirmIcon) confirmIcon.classList.add('hidden');
-                if (confirmText) confirmText.textContent = 'A processar...';
-                if (confirmLoader) confirmLoader.classList.remove('hidden');
-            }
+
+            const setProcessing = () => {
+                if (confirmBtn) {
+                    confirmBtn.disabled = true;
+                    confirmBtn.style.opacity = '0.8';
+                    if (confirmIcon) confirmIcon.classList.add('hidden');
+                    if (confirmText) confirmText.textContent = 'A processar...';
+                    if (confirmLoader) confirmLoader.classList.remove('hidden');
+                }
+            };
 
             const resetBtn = () => {
                 if (confirmBtn) {
@@ -8308,6 +8389,22 @@
                     if (confirmLoader) confirmLoader.classList.add('hidden');
                 }
             };
+
+            setProcessing();
+
+            // ── Limite diário de pedidos ─────────────────────────────────
+            try {
+                await checkAndIncrementOrderLimit();
+            } catch (limitErr) {
+                if (limitErr.message === 'order_limit_reached') {
+                    showNotificationToast('Limite diário atingido', `Atingiu o limite de ${ORDER_DAILY_LIMIT} pedidos por dia. Tente novamente amanhã.`, 'error');
+                } else {
+                    showNotificationToast('Erro', 'Não foi possível verificar o limite de pedidos.', 'error');
+                }
+                resetBtn();
+                return;
+            }
+            // ─────────────────────────────────────────────────────────────
 
             try {
                 const _freshSnap = await get(_KP.getDbRef());
@@ -8383,6 +8480,7 @@
                 updateCartUI();
                 closeCheckout();
                 closeCart();
+                resetBtn();
 
                 showNotificationToast('Sucesso', 'Pedido realizado com sucesso! Em breve entraremos em contato.', 'success');
 
