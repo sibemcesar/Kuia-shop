@@ -308,6 +308,65 @@
             grid-template-columns: repeat(3, 1fr) !important;
         }
 
+        
+        @media (min-width: 768px) {
+            #productsGrid.grid-cols-mode-1,
+            #productsGrid.grid-cols-mode-2,
+            #productsGrid.grid-cols-mode-3 {
+                grid-template-columns: repeat(3, 1fr) !important;
+            }
+        }
+        @media (min-width: 1024px) {
+            #productsGrid.grid-cols-mode-1,
+            #productsGrid.grid-cols-mode-2,
+            #productsGrid.grid-cols-mode-3 {
+                grid-template-columns: repeat(4, 1fr) !important;
+            }
+        }
+        @media (min-width: 1280px) {
+            #productsGrid.grid-cols-mode-1,
+            #productsGrid.grid-cols-mode-2,
+            #productsGrid.grid-cols-mode-3 {
+                grid-template-columns: repeat(5, 1fr) !important;
+            }
+        }
+
+        
+        @media (min-width: 768px) {
+            #productsGrid.grid-cols-mode-1 > div {
+                display: block !important;
+                flex-direction: unset !important;
+            }
+            #productsGrid.grid-cols-mode-1 > div > div:first-child {
+                width: 100% !important;
+                min-width: unset !important;
+                height: auto !important;
+                aspect-ratio: unset;
+            }
+            #productsGrid.grid-cols-mode-1 > div > div:last-child {
+                flex: unset !important;
+                padding: unset !important;
+            }
+            #productsGrid.grid-cols-mode-1 > div h3,
+            #productsGrid.grid-cols-mode-1 > div p,
+            #productsGrid.grid-cols-mode-1 > div .gradient-text {
+                font-size: unset !important;
+            }
+            #productsGrid.grid-cols-mode-1 > div button[onclick*="addToCart"] {
+                padding-top: unset !important;
+                padding-bottom: unset !important;
+                font-size: unset !important;
+                margin-top: unset;
+            }
+        }
+
+        
+        @media (min-width: 768px) {
+            #gridToggleBtns {
+                display: none !important;
+            }
+        }
+
         #productsGrid.grid-cols-mode-1 > div {
             display: flex;
             flex-direction: row;
@@ -3525,6 +3584,46 @@
                     </button>
                 </div>
 
+                
+                <div id="adBannersSection" style="position:relative;overflow:hidden;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,0.10);background:#1a1a2e;cursor:pointer;">
+                    
+                    <img id="adBannerImg" src="banner1.jpg" alt="Anúncio 1"
+                         style="width:100%;height:auto;display:block;transition:opacity 0.35s ease;"
+                         onerror="this.style.minHeight='120px';this.style.background='linear-gradient(135deg,#5D5CDE,#7B7AE8)'">
+                    
+                    <div id="adBannersTrack" style="display:none;">
+                        <img src="banner1.jpg" data-index="1">
+                        <img src="banner2.jpg" data-index="2">
+                        <img src="banner3.jpg" data-index="3">
+                        <img src="banner4.jpg" data-index="4">
+                        <img src="banner5.jpg" data-index="5">
+                        <img src="banner6.jpg" data-index="6">
+                        <img src="banner7.jpg" data-index="7">
+                        <img src="banner8.jpg" data-index="8">
+                    </div>
+                    
+                    <div id="adBannerDots" style="position:absolute;bottom:8px;left:0;right:0;display:flex;justify-content:center;gap:5px;pointer-events:none;">
+                        <span class="ad-dot active" data-dot="0"></span>
+                        <span class="ad-dot" data-dot="1"></span>
+                        <span class="ad-dot" data-dot="2"></span>
+                        <span class="ad-dot" data-dot="3"></span>
+                        <span class="ad-dot" data-dot="4"></span>
+                        <span class="ad-dot" data-dot="5"></span>
+                        <span class="ad-dot" data-dot="6"></span>
+                        <span class="ad-dot" data-dot="7"></span>
+                    </div>
+                    
+                    <div style="position:absolute;top:8px;left:10px;background:rgba(0,0,0,0.45);backdrop-filter:blur(6px);color:#fff;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:0.06em;pointer-events:none;">PUBLICIDADE</div>
+                    
+                    <button id="adBannerLeft" aria-label="Anterior" style="position:absolute;left:8px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,0.4);backdrop-filter:blur(6px);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;opacity:0.75;transition:opacity 0.2s;" onmouseenter="this.style.opacity='1'" onmouseleave="this.style.opacity='0.75'">
+                        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+                    <button id="adBannerRight" aria-label="Próximo" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,0.4);backdrop-filter:blur(6px);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;opacity:0.75;transition:opacity 0.2s;" onmouseenter="this.style.opacity='1'" onmouseleave="this.style.opacity='0.75'">
+                        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+                
+
                 <div>
 
                     <div class="flex items-center justify-between mb-2">
@@ -6311,22 +6410,82 @@
             });
         }
 
+        
+        function _hiddenKey() { return 'hiddenMsgs_' + (currentChatId || 'none'); }
+        function _getHidden() { try { return JSON.parse(localStorage.getItem(_hiddenKey()) || '[]'); } catch(e){ return []; } }
+        function _saveHidden(arr) { localStorage.setItem(_hiddenKey(), JSON.stringify(arr)); }
+        function _hideMessage(msgId) {
+            var h = _getHidden(); if (!h.includes(msgId)) h.push(msgId); _saveHidden(h);
+        }
+        function _hideAllMessages(msgs) {
+            var ids = msgs.map(function(m){ return m.id; });
+            _saveHidden(ids);
+        }
+        window._chatHideMessage = function(msgId) {
+            _hideMessage(msgId);
+            if (window._lastChatMessages) displayChatMessages(window._lastChatMessages);
+            _closeChatMsgMenu();
+        };
+        window._chatHideAll = function() {
+            if (window._lastChatMessages) {
+                _hideAllMessages(window._lastChatMessages);
+                displayChatMessages(window._lastChatMessages);
+            }
+            _closeChatMsgMenu();
+        };
+        function _closeChatMsgMenu() {
+            var m = document.getElementById('chatMsgMenu');
+            if (m) m.remove();
+        }
+        var _svgTrash = '<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>';
+        var _svgBomb  = '<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="11" cy="13" r="7"/><path d="M14.35 7.65l2.3-2.3"/><line x1="16" y1="5" x2="19" y2="2"/><line x1="17.5" y1="3.5" x2="20" y2="6"/></svg>';
+        window._openChatMsgMenu = function _openChatMsgMenu(msgId, x, y) {
+            _closeChatMsgMenu();
+            var menu = document.createElement('div');
+            menu.id = 'chatMsgMenu';
+            menu.style.cssText = 'position:fixed;z-index:99999;background:#fff;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.18);padding:8px;min-width:220px;animation:fadeIn .15s ease;';
+            menu.style.left = Math.min(x, window.innerWidth - 240) + 'px';
+            menu.style.top  = Math.min(y, window.innerHeight - 120) + 'px';
+            menu.innerHTML = '<div style="padding:10px 14px 6px;font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:.06em;text-transform:uppercase;">Apagar para mim</div>'
+                + '<button onclick="window._chatHideMessage(\'' + msgId + '\')" style="width:100%;display:flex;align-items:center;gap:10px;padding:11px 14px;border:none;background:none;cursor:pointer;border-radius:10px;font-size:14px;color:#374151;text-align:left;" onmouseenter="this.style.background=\'#f3f4f6\'" onmouseleave="this.style.background=\'none\'">'
+                + '<span style="display:flex;align-items:center;color:#6b7280;">' + _svgTrash + '</span> Apagar esta mensagem</button>'
+                + '<button onclick="window._chatHideAll()" style="width:100%;display:flex;align-items:center;gap:10px;padding:11px 14px;border:none;background:none;cursor:pointer;border-radius:10px;font-size:14px;color:#ef4444;text-align:left;" onmouseenter="this.style.background=\'#fff1f1\'" onmouseleave="this.style.background=\'none\'">'
+                + '<span style="display:flex;align-items:center;color:#ef4444;">' + _svgBomb + '</span> Apagar toda a conversa</button>';
+            document.body.appendChild(menu);
+            setTimeout(function(){
+                document.addEventListener('click', function h(){ _closeChatMsgMenu(); document.removeEventListener('click', h); });
+            }, 50);
+        }
+        
+
         function displayChatMessages(messages) {
-            if (messages.length === 0) {
-                const initialMessage = `
-                    <div class="text-center text-gray-500 dark:text-gray-400 mb-4">
-                        <div class="bg-green-50 dark:bg-green-900 rounded-2xl p-6 border border-green-200 dark:border-green-700 animate-fade-in inline-block">
-                            <p class="text-green-700 dark:text-green-400 text-lg mb-2">✅ Chat iniciado pelo administrador</p>
-                            <p class="text-sm">Digite sua primeira mensagem abaixo</p>
-                        </div>
-                    </div>
-                `;
-                document.getElementById('chatFullMessages').innerHTML = initialMessage;
-                document.getElementById('chatOverlayMessages').innerHTML = initialMessage;
+            window._lastChatMessages = messages;
+            
+            var hidden = _getHidden();
+            var visible = messages.filter(function(m){ return !hidden.includes(m.id); });
+
+            if (visible.length === 0) {
+                var hasHidden = messages.length > 0 && hidden.length > 0;
+                var emptyHTML = hasHidden
+                    ? `<div class="text-center text-gray-500 dark:text-gray-400 mb-4">
+                           <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 animate-fade-in inline-block">
+                               <svg width="32" height="32" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="margin:0 auto 10px;display:block;"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                               <p class="text-gray-500 dark:text-gray-400 text-sm">Conversa apagada localmente</p>
+                               <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Novas mensagens aparecerão aqui</p>
+                           </div>
+                       </div>`
+                    : `<div class="text-center text-gray-500 dark:text-gray-400 mb-4">
+                           <div class="bg-green-50 dark:bg-green-900 rounded-2xl p-6 border border-green-200 dark:border-green-700 animate-fade-in inline-block">
+                               <p class="text-green-700 dark:text-green-400 text-lg mb-2">✅ Chat iniciado pelo administrador</p>
+                               <p class="text-sm">Digite sua primeira mensagem abaixo</p>
+                           </div>
+                       </div>`;
+                document.getElementById('chatFullMessages').innerHTML = emptyHTML;
+                document.getElementById('chatOverlayMessages').innerHTML = emptyHTML;
                 return;
             }
 
-            const messagesHTML = messages.map(msg => {
+            const messagesHTML = visible.map(msg => {
                 const isUser = msg.senderId === currentUser.uid;
                 let messageContent = '';
 
@@ -6343,9 +6502,15 @@
                 }
 
                 return `
-                    <div class="flex ${isUser ? 'justify-end' : 'justify-start'} mb-4 animate-fade-in">
+                    <div class="flex ${isUser ? 'justify-end' : 'justify-start'} mb-4 animate-fade-in"
+                         data-msg-id="${msg.id}"
+                         oncontextmenu="event.preventDefault();window._openChatMsgMenu('${msg.id}',event.clientX,event.clientY);"
+                         ontouchstart="window._chatTouchStart(event,'${msg.id}')"
+                         ontouchend="window._chatTouchEnd(event)"
+                         ontouchmove="window._chatTouchCancel()"
+                    >
                         <div class="${isUser ? 'bg-primary text-white' : 'card-bg border'}
-                                    rounded-2xl px-4 py-3 max-w-xs lg:max-w-md shadow-sm">
+                                    rounded-2xl px-4 py-3 max-w-xs lg:max-w-md shadow-sm" style="user-select:none;">
                             ${messageContent}
                             <p class="${isUser ? 'text-blue-100' : 'text-gray-500 dark:text-gray-400'} text-xs mt-2">
                                 ${new Date(msg.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
@@ -8562,8 +8727,14 @@
             }
         }
 
-        var currentGridCols = parseInt(localStorage.getItem('kuia_grid_cols') || '3', 10);
-        if (![1,2,3].includes(currentGridCols)) currentGridCols = 3;
+        var currentGridCols = 3;
+        if (window.innerWidth < 768) {
+            currentGridCols = parseInt(localStorage.getItem('kuia_grid_cols') || '3', 10);
+            if (![1,2,3].includes(currentGridCols)) currentGridCols = 3;
+        } else {
+            
+            localStorage.removeItem('kuia_grid_cols');
+        }
 
         function applyGridCols(cols) {
             var grid = document.getElementById('productsGrid');
@@ -8581,7 +8752,9 @@
 
         function setGridCols(cols) {
             currentGridCols = cols;
-            localStorage.setItem('kuia_grid_cols', cols);
+            if (window.innerWidth < 768) {
+                localStorage.setItem('kuia_grid_cols', cols);
+            }
             applyGridCols(cols);
         }
         window.setGridCols = setGridCols;
@@ -8749,7 +8922,7 @@
                 return `
                 <div class="card-bg rounded-xl border overflow-hidden hover-lift animate-fade-in group cursor-pointer"
                      onclick="showProductDetail('${product.id}')">
-                    <div class="relative h-28 sm:h-32 bg-gray-200 dark:bg-gray-700">
+                    <div class="relative bg-gray-200 dark:bg-gray-700 overflow-hidden" style="aspect-ratio:1/1;">
                         ${product.image ?
                             `<img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" onerror="handleImgError(this)">` :
                             `<div class="img-error-placeholder"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zM8.25 8.625a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z"/></svg></div>`
@@ -12423,6 +12596,227 @@ window.handleGuestGateBackdrop = function(e) {
         </div>
     </div>
 </div>
+
+<style>
+.ad-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.45);
+    display: inline-block;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+.ad-dot.active {
+    background: #fff;
+    width: 18px;
+    border-radius: 3px;
+}
+</style>
+
+<div id="adBannerModal" style="display:none;position:fixed;inset:0;z-index:10100;background:rgba(0,0,0,0.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);align-items:flex-end;justify-content:center;" onclick="if(event.target===this)window.closeAdBannerModal()">
+    <div id="adBannerSheet" style="background:#fff;border-radius:24px 24px 0 0;width:100%;max-width:480px;padding:0 0 calc(28px + env(safe-area-inset-bottom,0px));transform:translateY(100%);transition:transform 0.38s cubic-bezier(0.32,0.72,0,1);box-shadow:0 -8px 40px rgba(0,0,0,0.18);" class="dark:bg-gray-900">
+        
+        <div style="display:flex;justify-content:center;padding:12px 0 6px;">
+            <div style="width:38px;height:4px;border-radius:2px;background:#d1d5db;" class="dark:bg-gray-600"></div>
+        </div>
+        
+        <div style="padding:10px 22px 18px;border-bottom:1px solid #f3f4f6;" class="dark:border-gray-700">
+            <div style="display:flex;align-items:center;gap:12px;">
+                <div style="width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#5D5CDE,#7B7AE8);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <span style="font-size:22px;">📢</span>
+                </div>
+                <div>
+                    <p id="adBannerModalTitle" style="font-size:16px;font-weight:700;color:#111827;margin:0;" class="dark:text-gray-100">Anúncio 1</p>
+                    <p style="font-size:12px;color:#9ca3af;margin:3px 0 0;">Escolhe como entrar em contacto</p>
+                </div>
+            </div>
+        </div>
+        
+        <div style="padding:20px 22px;">
+            <p style="font-size:13px;color:#6b7280;margin:0 0 18px;line-height:1.6;" class="dark:text-gray-400">Tens interesse neste anúncio? Entra em contacto connosco pelo canal da tua preferência.</p>
+
+            
+            <button id="adBannerChatBtn" onclick="window.adBannerOpenChat()" style="width:100%;display:flex;align-items:center;gap:14px;padding:15px 18px;border-radius:16px;border:1.5px solid rgba(93,92,222,0.2);background:rgba(93,92,222,0.06);cursor:pointer;margin-bottom:12px;transition:all 0.2s;" onmouseenter="this.style.background='rgba(93,92,222,0.12)'" onmouseleave="this.style.background='rgba(93,92,222,0.06)'">
+                <div style="width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,#5D5CDE,#7B7AE8);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(93,92,222,0.3);">
+                    <svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                <div style="flex:1;text-align:left;">
+                    <p style="font-size:14px;font-weight:700;color:#5D5CDE;margin:0 0 2px;">Chat da Loja</p>
+                    <p style="font-size:12px;color:#9ca3af;margin:0;">Enviar mensagem diretamente</p>
+                </div>
+                <svg width="16" height="16" fill="none" stroke="#5D5CDE" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24" style="flex-shrink:0;opacity:0.6;"><path d="M9 5l7 7-7 7"/></svg>
+            </button>
+
+            
+            <button id="adBannerWhatsAppBtn" onclick="window.adBannerOpenWhatsApp()" style="width:100%;display:flex;align-items:center;gap:14px;padding:15px 18px;border-radius:16px;border:1.5px solid rgba(37,211,102,0.25);background:rgba(37,211,102,0.06);cursor:pointer;transition:all 0.2s;" onmouseenter="this.style.background='rgba(37,211,102,0.12)'" onmouseleave="this.style.background='rgba(37,211,102,0.06)'">
+                <div style="width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,#25d366,#128c7e);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(37,211,102,0.3);">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                </div>
+                <div style="flex:1;text-align:left;">
+                    <p style="font-size:14px;font-weight:700;color:#128c7e;margin:0 0 2px;">WhatsApp</p>
+                    <p style="font-size:12px;color:#9ca3af;margin:0;">Abrir conversa no WhatsApp</p>
+                </div>
+                <svg width="16" height="16" fill="none" stroke="#25d366" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24" style="flex-shrink:0;opacity:0.6;"><path d="M9 5l7 7-7 7"/></svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    var WHATSAPP_NUMBER = '244955597211';
+    var totalBanners = 8;
+    var currentAd = 0;
+    var adTimer = null;
+    var adCurrentIndex = 0;
+
+    var mainImg = document.getElementById('adBannerImg');
+    var dots    = document.querySelectorAll('.ad-dot');
+    var btnLeft = document.getElementById('adBannerLeft');
+    var btnRight= document.getElementById('adBannerRight');
+    var section = document.getElementById('adBannersSection');
+    var modal   = document.getElementById('adBannerModal');
+    var sheet   = document.getElementById('adBannerSheet');
+
+    function goToSlide(idx) {
+        if (idx < 0) idx = totalBanners - 1;
+        if (idx >= totalBanners) idx = 0;
+        adCurrentIndex = idx;
+        
+        mainImg.style.opacity = '0';
+        setTimeout(function() {
+            mainImg.src = 'banner' + (adCurrentIndex + 1) + '.jpg';
+            mainImg.alt = 'Anúncio ' + (adCurrentIndex + 1);
+            mainImg.style.opacity = '1';
+        }, 180);
+        dots.forEach(function(d, i) {
+            d.classList.toggle('active', i === idx);
+        });
+    }
+
+    function startAutoplay() {
+        stopAutoplay();
+        adTimer = setInterval(function() {
+            goToSlide(adCurrentIndex + 1);
+        }, 4500);
+    }
+
+    function stopAutoplay() {
+        if (adTimer) { clearInterval(adTimer); adTimer = null; }
+    }
+
+    btnLeft.addEventListener('click', function(e) {
+        e.stopPropagation();
+        goToSlide(adCurrentIndex - 1);
+        startAutoplay();
+    });
+
+    btnRight.addEventListener('click', function(e) {
+        e.stopPropagation();
+        goToSlide(adCurrentIndex + 1);
+        startAutoplay();
+    });
+
+    
+    section.addEventListener('click', function(e) {
+        if (e.target === btnLeft || btnLeft.contains(e.target)) return;
+        if (e.target === btnRight || btnRight.contains(e.target)) return;
+        currentAd = adCurrentIndex + 1;
+        var titleEl = document.getElementById('adBannerModalTitle');
+        if (titleEl) titleEl.textContent = 'Anúncio ' + currentAd;
+        modal.style.display = 'flex';
+        setTimeout(function() { sheet.style.transform = 'translateY(0)'; }, 10);
+        stopAutoplay();
+    });
+
+    window.closeAdBannerModal = function() {
+        sheet.style.transform = 'translateY(100%)';
+        setTimeout(function() { modal.style.display = 'none'; }, 380);
+        startAutoplay();
+    };
+
+    window.adBannerOpenChat = function() {
+        var msg = 'Olá! Estou interessado no Anúncio ' + currentAd + '. Podem me dar mais informações?';
+        window.closeAdBannerModal();
+        setTimeout(function() {
+            if (window.showSection) window.showSection('chatFull');
+            setTimeout(function() {
+                var ids = ['chatFullInput', 'chatOverlayInput'];
+                ids.forEach(function(id) {
+                    var el = document.getElementById(id);
+                    if (el) {
+                        el.value = msg;
+                        el.dispatchEvent(new Event('input', { bubbles: true }));
+                        el.focus();
+                    }
+                });
+            }, 700);
+        }, 420);
+    };
+
+    window.adBannerOpenWhatsApp = function() {
+        var msg = 'Olá! Estou interessado no Anúncio ' + currentAd + '. Podem me dar mais informações?';
+        var url = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg);
+        window.open(url, '_blank', 'noopener');
+        window.closeAdBannerModal();
+    };
+
+    
+    var touchX = 0;
+    section.addEventListener('touchstart', function(e) {
+        touchX = e.touches[0].clientX;
+    }, { passive: true });
+    section.addEventListener('touchend', function(e) {
+        var dx = e.changedTouches[0].clientX - touchX;
+        if (Math.abs(dx) > 40) {
+            if (dx < 0) goToSlide(adCurrentIndex + 1);
+            else goToSlide(adCurrentIndex - 1);
+            startAutoplay();
+        }
+    }, { passive: true });
+
+    
+    var sheetStartY = 0, sheetDragging = false;
+    sheet.addEventListener('touchstart', function(e) {
+        sheetStartY = e.touches[0].clientY; sheetDragging = true;
+    }, { passive: true });
+    sheet.addEventListener('touchmove', function(e) {
+        if (!sheetDragging) return;
+        var dy = e.touches[0].clientY - sheetStartY;
+        if (dy > 0) { sheet.style.transform = 'translateY(' + dy + 'px)'; sheet.style.transition = 'none'; }
+    }, { passive: true });
+    sheet.addEventListener('touchend', function() {
+        sheetDragging = false;
+        sheet.style.transition = '';
+        var dy = parseFloat(sheet.style.transform.replace('translateY(','')) || 0;
+        if (dy > 90) window.closeAdBannerModal();
+        else sheet.style.transform = 'translateY(0)';
+    }, { passive: true });
+
+    startAutoplay();
+})();
+</script>
+
+<script>
+
+(function(){
+    var _pressTimer = null;
+    var _pressId = null;
+    window._chatTouchStart = function(e, msgId) {
+        _pressId = msgId;
+        _pressTimer = setTimeout(function(){
+            var touch = e.touches ? e.touches[0] : e;
+            window._openChatMsgMenu(msgId, touch.clientX, touch.clientY);
+        }, 550);
+    };
+    window._chatTouchEnd = function(e) {
+        clearTimeout(_pressTimer); _pressTimer = null;
+    };
+    window._chatTouchCancel = function() {
+        clearTimeout(_pressTimer); _pressTimer = null;
+    };
+})();
+</script>
 
 <script>
 
